@@ -18,16 +18,16 @@ class AssignExprAST;
 class VisitorAST
 {
 public:
-    virtual void VisitValueExprAST(ValueExprAST&) = 0;
-    virtual void VisitVariableExprAST(VariableExprAST&) = 0;
-    virtual void VisitAddExprAST(AddExprAST&) = 0;
-    virtual void VisitSubExprAST(SubExprAST&) = 0;
-    virtual void VisitMulExprAST(MulExprAST&) = 0;
-    virtual void VisitDivExprAST(DivExprAST&) = 0;
-    virtual void VisitLtExprAST(LtExprAST&) = 0;
-    virtual void VisitGtExprAST(GtExprAST&) = 0;
-    virtual void VisitWhileExprAST(WhileExprAST&) = 0;
+    virtual double VisitValueExprAST(ValueExprAST&) = 0;
+    virtual double VisitVariableExprAST(VariableExprAST&) = 0;
+    virtual double VisitAddExprAST(AddExprAST&) = 0;
+    virtual double VisitSubExprAST(SubExprAST&) = 0;
+    virtual double VisitMulExprAST(MulExprAST&) = 0;
+    virtual double VisitDivExprAST(DivExprAST&) = 0;
+    virtual bool VisitLtExprAST(LtExprAST&) = 0;
+    virtual bool VisitGtExprAST(GtExprAST&) = 0;
     virtual void VisitIfExprAST(IfExprAST&) = 0;
+    virtual void VisitWhileExprAST(WhileExprAST&) = 0;
     virtual void VisitAssignExprAST(AssignExprAST&) = 0;
 
 
@@ -47,6 +47,7 @@ public:
         :value_(value)
     {}
     void AcceptVisit(VisitorAST& visitor);
+    double getValue() {return value_;}
 private:
     double value_;
 };
@@ -58,6 +59,7 @@ public:
         :name_(name)
     {}
     void AcceptVisit(VisitorAST& visitor);
+    string getName() {return name_;}
 private:
     string name_;
 };
@@ -71,6 +73,8 @@ public:
     ~BinaryExprAST();
     BinaryExprAST(const BinaryExprAST&);
     BinaryExprAST& operator= (const BinaryExprAST&);
+    virtual ExprAST* getLeft() {return left_;}
+    virtual ExprAST* getRight() {return right_;}
 protected:
     ExprAST *left_, *right_;
 };
@@ -139,6 +143,9 @@ public:
     ~IfExprAST();
     IfExprAST(const IfExprAST&);
     IfExprAST& operator= (const IfExprAST&);
+    ExprAST* getCond() {return cond_;}
+    ExprAST* getThen() {return then_;}
+    ExprAST* getElse() {return else_;}
 private:
     ExprAST *cond_, *then_, *else_;
 };
@@ -153,6 +160,8 @@ public:
     ~WhileExprAST();
     WhileExprAST(const WhileExprAST&);
     WhileExprAST& operator= (const WhileExprAST&);
+    ExprAST* getCond() {return cond_;}
+    ExprAST* getBody() {return body_;}
 private:
     ExprAST *cond_, *body_;
 };
@@ -167,6 +176,8 @@ public:
     ~AssignExprAST();
     AssignExprAST(const AssignExprAST&);
     AssignExprAST& operator= (const AssignExprAST);
+    string getName() {return name_;}
+    ExprAST* getExpr() {return expr_;}
 private:
     string name_;
     ExprAST* expr_;
@@ -176,6 +187,24 @@ private:
 
 class Interpret : public VisitorAST
 {
+public:
+    Interpret()
+    {}
+    Interpret(ExprAST* expr)
+    {
+        expr->AcceptVisit(*this);
+    }
 
+    double VisitValueExprAST(ValueExprAST&);
+    double VisitVariableExprAST(VariableExprAST&);
+    double VisitAddExprAST(AddExprAST&);
+    double VisitSubExprAST(SubExprAST&);
+    double VisitMulExprAST(MulExprAST&);
+    double VisitDivExprAST(DivExprAST&);
+    bool VisitLtExprAST(LtExprAST&);
+    bool VisitGtExprAST(GtExprAST&);
+    void VisitIfExprAST(IfExprAST&);
+    void VisitWhileExprAST(WhileExprAST&);
+    void VisitAssignExprAST(AssignExprAST&);
 };
 #endif // AST_H

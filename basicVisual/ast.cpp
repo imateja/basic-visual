@@ -55,3 +55,55 @@ WhileExprAST::~WhileExprAST(){
 AssignExprAST::~AssignExprAST(){
     delete expr_;
 }
+
+
+double Interpret::VisitValueExprAST(ValueExprAST& obj) {
+        return obj.getValue();
+}
+
+//TODO
+double Interpret::VisitVariableExprAST(VariableExprAST& obj) {
+    return 0;
+}
+
+double Interpret::VisitAddExprAST(AddExprAST& obj) {
+        return Interpret(obj.getLeft()) + Interpret(obj.getRight());
+}
+
+double Interpret::VisitSubExprAST(SubExprAST& obj) {
+        return Interpret(obj.getLeft()) - Interpret(obj.getRight());
+}
+
+double Interpret::VisitMulExprAST(MulExprAST& obj) {
+        return Interpret(obj.getLeft()) * Interpret(obj.getRight());
+}
+
+double Interpret::VisitDivExprAST(DivExprAST& obj) {
+        return Interpret(obj.getLeft()) / Interpret(obj.getRight());
+}
+
+bool Interpret::VisitLtExprAST(LtExprAST& obj) {
+        return Interpret(obj.getLeft()) < Interpret(obj.getRight());
+}
+
+bool Interpret::VisitGtExprAST(GtExprAST& obj) {
+        return Interpret(obj.getLeft()) > Interpret(obj.getRight());
+}
+
+void Interpret::VisitIfExprAST(IfExprAST& obj) {
+        if (Interpret(obj.getCond())) {
+                Interpret(obj.getThen());
+        } else {
+                Interpret(obj.getElse());
+        }
+}
+
+void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
+        while(Interpret(obj.getCond())) {
+                Interpret(obj.getBody());
+        }
+}
+
+//TODO
+void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
+}
