@@ -1,1 +1,6 @@
 README.md
+build-*
+*.user
+
+### ZA SADA NE IGNORISEMO GITIGNORE
+# .gitignore
