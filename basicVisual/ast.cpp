@@ -57,41 +57,41 @@ AssignExprAST::~AssignExprAST(){
 }
 
 
-double Interpret::VisitValueExprAST(ValueExprAST& obj) {
-        return obj.getValue();
+void Interpret::VisitValueExprAST(ValueExprAST& obj) {
+        dValue_= obj.getValue();
 }
 
 //TODO
-double Interpret::VisitVariableExprAST(VariableExprAST& obj) {
-    return 0;
+void Interpret::VisitVariableExprAST(VariableExprAST& obj) {
+    dValue_=  0;
 }
 
-double Interpret::VisitAddExprAST(AddExprAST& obj) {
-        return Interpret(obj.getLeft()) + Interpret(obj.getRight());
+void Interpret::VisitAddExprAST(AddExprAST& obj) {
+        dValue_ = Interpret(obj.getLeft()).dValue_ + Interpret(obj.getRight()).dValue_;
 }
 
-double Interpret::VisitSubExprAST(SubExprAST& obj) {
-        return Interpret(obj.getLeft()) - Interpret(obj.getRight());
+void Interpret::VisitSubExprAST(SubExprAST& obj) {
+        dValue_ = Interpret(obj.getLeft()).dValue_ - Interpret(obj.getRight()).dValue_;
 }
 
-double Interpret::VisitMulExprAST(MulExprAST& obj) {
-        return Interpret(obj.getLeft()) * Interpret(obj.getRight());
+void Interpret::VisitMulExprAST(MulExprAST& obj) {
+        dValue_ = Interpret(obj.getLeft()).dValue_ * Interpret(obj.getRight()).dValue_;
 }
 
-double Interpret::VisitDivExprAST(DivExprAST& obj) {
-        return Interpret(obj.getLeft()) / Interpret(obj.getRight());
+void Interpret::VisitDivExprAST(DivExprAST& obj) {
+        dValue_ = Interpret(obj.getLeft()).dValue_ / Interpret(obj.getRight()).dValue_;
 }
 
-bool Interpret::VisitLtExprAST(LtExprAST& obj) {
-        return Interpret(obj.getLeft()) < Interpret(obj.getRight());
+void Interpret::VisitLtExprAST(LtExprAST& obj) {
+        bValue_ =  Interpret(obj.getLeft()).dValue_ < Interpret(obj.getRight()).dValue_;
 }
 
-bool Interpret::VisitGtExprAST(GtExprAST& obj) {
-        return Interpret(obj.getLeft()) > Interpret(obj.getRight());
+void Interpret::VisitGtExprAST(GtExprAST& obj) {
+        bValue_ =  Interpret(obj.getLeft()).dValue_ > Interpret(obj.getRight()).dValue_;
 }
 
 void Interpret::VisitIfExprAST(IfExprAST& obj) {
-        if (Interpret(obj.getCond())) {
+        if (Interpret(obj.getCond()).bValue_) {
                 Interpret(obj.getThen());
         } else {
                 Interpret(obj.getElse());
@@ -99,7 +99,7 @@ void Interpret::VisitIfExprAST(IfExprAST& obj) {
 }
 
 void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
-        while(Interpret(obj.getCond())) {
+        while(Interpret(obj.getCond()).bValue_) {
                 Interpret(obj.getBody());
         }
 }

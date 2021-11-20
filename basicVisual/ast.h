@@ -18,14 +18,14 @@ class AssignExprAST;
 class VisitorAST
 {
 public:
-    virtual double VisitValueExprAST(ValueExprAST&) = 0;
-    virtual double VisitVariableExprAST(VariableExprAST&) = 0;
-    virtual double VisitAddExprAST(AddExprAST&) = 0;
-    virtual double VisitSubExprAST(SubExprAST&) = 0;
-    virtual double VisitMulExprAST(MulExprAST&) = 0;
-    virtual double VisitDivExprAST(DivExprAST&) = 0;
-    virtual bool VisitLtExprAST(LtExprAST&) = 0;
-    virtual bool VisitGtExprAST(GtExprAST&) = 0;
+    virtual void VisitValueExprAST(ValueExprAST&) = 0;
+    virtual void VisitVariableExprAST(VariableExprAST&) = 0;
+    virtual void VisitAddExprAST(AddExprAST&) = 0;
+    virtual void VisitSubExprAST(SubExprAST&) = 0;
+    virtual void VisitMulExprAST(MulExprAST&) = 0;
+    virtual void VisitDivExprAST(DivExprAST&) = 0;
+    virtual void VisitLtExprAST(LtExprAST&) = 0;
+    virtual void VisitGtExprAST(GtExprAST&) = 0;
     virtual void VisitIfExprAST(IfExprAST&) = 0;
     virtual void VisitWhileExprAST(WhileExprAST&) = 0;
     virtual void VisitAssignExprAST(AssignExprAST&) = 0;
@@ -195,16 +195,20 @@ public:
         expr->AcceptVisit(*this);
     }
 
-    double VisitValueExprAST(ValueExprAST&);
-    double VisitVariableExprAST(VariableExprAST&);
-    double VisitAddExprAST(AddExprAST&);
-    double VisitSubExprAST(SubExprAST&);
-    double VisitMulExprAST(MulExprAST&);
-    double VisitDivExprAST(DivExprAST&);
-    bool VisitLtExprAST(LtExprAST&);
-    bool VisitGtExprAST(GtExprAST&);
+    void VisitValueExprAST(ValueExprAST&);
+    void VisitVariableExprAST(VariableExprAST&);
+    void VisitAddExprAST(AddExprAST&);
+    void VisitSubExprAST(SubExprAST&);
+    void VisitMulExprAST(MulExprAST&);
+    void VisitDivExprAST(DivExprAST&);
+    void VisitLtExprAST(LtExprAST&);
+    void VisitGtExprAST(GtExprAST&);
     void VisitIfExprAST(IfExprAST&);
     void VisitWhileExprAST(WhileExprAST&);
     void VisitAssignExprAST(AssignExprAST&);
+
+private:
+    double dValue_;
+    bool bValue_;
 };
 #endif // AST_H
