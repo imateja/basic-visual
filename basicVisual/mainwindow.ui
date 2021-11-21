@@ -43,21 +43,21 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="WhileBtn">
               <property name="text">
                <string>While</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="IfBtn">
               <property name="text">
                <string>If</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="ForBtn">
               <property name="text">
                <string>For</string>
               </property>
@@ -102,7 +102,7 @@
      <x>0</x>
      <y>0</y>
      <width>1715</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

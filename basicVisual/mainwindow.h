@@ -26,7 +26,10 @@ signals:
     void newSquareOnGV(InstructionContainer *);
 
 private slots:
-    void addInstruction();
+    void addAssign();
+    void addWhile();
+    void addIf();
+    void addFor();
 
 private:
     Ui::MainWindow *ui;

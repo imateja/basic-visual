@@ -13,6 +13,12 @@ QString Instruction::TypeOfInstructionToString()
     switch(_typeOfInstruction){
         case TypeOfInstruction::ASSIGN:
             return QString("Assign");
+        case TypeOfInstruction::WHILE:
+            return QString("While");
+        case TypeOfInstruction::IF:
+            return QString("If");
+        case TypeOfInstruction::FOR:
+            return QString("For");
         default:
             throw QString("Uknown Instruction");
     }

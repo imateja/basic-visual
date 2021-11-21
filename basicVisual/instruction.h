@@ -5,11 +5,15 @@
 class Instruction
 {
 public:
-    //Add al the classes we need here although since every instruction will be the subclass of class instruction this implementation should be fixed
+    //Add all the classes we need here although since every instruction will be the subclass of class instruction this implementation should be fixed
     //we should check not Enum but if the instruction we are drawing is the instance of which class, this is just to check if something like this works;
     //FIX
     enum class TypeOfInstruction{
-        ASSIGN
+        ASSIGN,
+        WHILE,
+        IF,
+        FOR
+
     };
 
     Instruction(QString instructionText, TypeOfInstruction type);

@@ -17,6 +17,22 @@ void mainGraphicsView::addedSquareOnGV(InstructionContainer *node)
         _assignInstructionVector.append(node);
     }
 
+    else if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::WHILE)
+    {
+        _assignInstructionVector.append(node);
+    }
+
+    else if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::IF)
+    {
+        _assignInstructionVector.append(node);
+    }
+
+    else if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::FOR)
+    {
+        _assignInstructionVector.append(node);
+    }
+    //TODO:Check what to do in the case where node has a TypeOfInsctruction that doesn't exist (maybe throw error)
+
     PositionNewNode(node);
 }
 //Positions the new node so there is no overlap
@@ -30,6 +46,22 @@ void mainGraphicsView::PositionNewNode(InstructionContainer *node)
     {
         numNewNode = _assignInstructionVector.size()-1;
     }
+
+    else if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::WHILE)
+    {
+        numNewNode = _assignInstructionVector.size()-1;
+    }
+
+    else if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::IF)
+    {
+        numNewNode = _assignInstructionVector.size()-1;
+    }
+
+    else if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::FOR)
+    {
+        numNewNode = _assignInstructionVector.size()-1;
+    }
+
     const auto xPos = (node->getWidth() * numNewNode) % graphicsViewWidth;
     const auto yPos = node->getHeight() * ((node->getWidth() * numNewNode) / graphicsViewWidth);
     node->setPos(xPos,yPos);

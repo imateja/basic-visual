@@ -30,6 +30,35 @@ void InstructionContainer::paint(QPainter *painter, const QStyleOptionGraphicsIt
     const auto SquareText = QString("%1\n%2").arg(_instructions->getInstructionText(), _instructions->TypeOfInstructionToString());
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     }
+
+    else if (_instructions->getInstructionType() == Instruction::TypeOfInstruction::WHILE)
+    {
+        painter->fillRect(boundingRect(), QColor::fromRgb(48, 213, 200));
+        painter->setPen(Qt::white);
+
+    const auto SquareText = QString("%1\n%2").arg(_instructions->getInstructionText(), _instructions->TypeOfInstructionToString());
+    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    }
+
+    else if (_instructions->getInstructionType() == Instruction::TypeOfInstruction::IF)
+    {
+        painter->fillRect(boundingRect(), QColor::fromRgb(255, 191, 0));
+        painter->setPen(Qt::white);
+
+    const auto SquareText = QString("%1\n%2").arg(_instructions->getInstructionText(), _instructions->TypeOfInstructionToString());
+    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    }
+
+    else if (_instructions->getInstructionType() == Instruction::TypeOfInstruction::FOR)
+    {
+        painter->fillRect(boundingRect(), QColor::fromRgb(128, 128, 0));
+        painter->setPen(Qt::white);
+
+    const auto SquareText = QString("%1\n%2").arg(_instructions->getInstructionText(), _instructions->TypeOfInstructionToString());
+    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    }
+
+    //TODO:Default case (maybe throw error)
 }
 
 QPointF InstructionContainer::posCenterTop() const
