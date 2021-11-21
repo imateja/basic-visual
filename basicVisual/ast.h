@@ -38,6 +38,7 @@ class ExprAST
 public:
     virtual ~ExprAST(){}
     virtual void AcceptVisit(VisitorAST& v) = 0;
+    virtual ExprAST* copy() const = 0;
 };
 
 class ValueExprAST : public ExprAST
@@ -48,6 +49,7 @@ public:
     {}
     void AcceptVisit(VisitorAST& visitor);
     double getValue() {return value_;}
+    ExprAST* copy() const;
 private:
     double value_;
 };
@@ -60,6 +62,7 @@ public:
     {}
     void AcceptVisit(VisitorAST& visitor);
     string getName() {return name_;}
+    ExprAST* copy() const;
 private:
     string name_;
 };
@@ -86,6 +89,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST& visitor);
+    ExprAST* copy() const;
 };
 
 class DivExprAST : public BinaryExprAST
@@ -95,6 +99,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST& visitor);
+    ExprAST* copy() const;
 };
 
 class MulExprAST : public BinaryExprAST
@@ -104,6 +109,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST& v);
+    ExprAST* copy() const;
 };
 
 class SubExprAST : public BinaryExprAST
@@ -113,6 +119,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST& visitor);
+    ExprAST* copy() const;
 };
 
 class LtExprAST : public BinaryExprAST
@@ -122,6 +129,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST& visitor);
+    ExprAST* copy() const;
 };
 
 class GtExprAST : public BinaryExprAST
@@ -131,6 +139,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST& visitor);
+    ExprAST* copy() const;
 };
 
 class IfExprAST : public ExprAST
@@ -146,6 +155,7 @@ public:
     ExprAST* getCond() {return cond_;}
     ExprAST* getThen() {return then_;}
     ExprAST* getElse() {return else_;}
+    ExprAST* copy() const;
 private:
     ExprAST *cond_, *then_, *else_;
 };
@@ -162,6 +172,7 @@ public:
     WhileExprAST& operator= (const WhileExprAST&);
     ExprAST* getCond() {return cond_;}
     ExprAST* getBody() {return body_;}
+    ExprAST* copy() const;
 private:
     ExprAST *cond_, *body_;
 };
@@ -178,6 +189,7 @@ public:
     AssignExprAST& operator= (const AssignExprAST);
     string getName() {return name_;}
     ExprAST* getExpr() {return expr_;}
+    ExprAST* copy() const;
 private:
     string name_;
     ExprAST* expr_;
@@ -211,4 +223,5 @@ private:
     double dValue_;
     bool bValue_;
 };
+
 #endif // AST_H
