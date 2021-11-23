@@ -30,7 +30,6 @@ public:
     virtual void VisitWhileExprAST(WhileExprAST&) = 0;
     virtual void VisitAssignExprAST(AssignExprAST&) = 0;
 
-
 };
 
 class ExprAST
@@ -186,7 +185,7 @@ public:
     void AcceptVisit(VisitorAST& visitor);
     ~AssignExprAST();
     AssignExprAST(const AssignExprAST&);
-    AssignExprAST& operator= (const AssignExprAST);
+    AssignExprAST& operator= (const AssignExprAST&);
     string getName() {return name_;}
     ExprAST* getExpr() {return expr_;}
     ExprAST* copy() const;

@@ -36,6 +36,48 @@ void AssignExprAST::AcceptVisit(VisitorAST& v){
     v.VisitAssignExprAST(*this);
 }
 
+//--------------------OPERATOR=--------------------
+
+BinaryExprAST& BinaryExprAST::operator= (const BinaryExprAST& be){
+    if(&be != this){
+        delete left_;
+        delete right_;
+        left_ = be.left_->copy();
+        right_ = be.right_->copy();
+    }
+    return *this;
+}
+
+IfExprAST& IfExprAST::operator= (const IfExprAST& ie){
+    if(&ie != this){
+        delete cond_;
+        delete then_;
+        delete else_;
+        cond_ = ie.cond_->copy();
+        then_ = ie.then_->copy();
+        else_ = ie.else_->copy();
+    }
+    return *this;
+}
+
+WhileExprAST& WhileExprAST::operator= (const WhileExprAST& we){
+    if(&we != this){
+        delete cond_;
+        delete body_;
+        cond_ = we.cond_->copy();
+        body_ = we.body_->copy();
+    }
+    return *this;
+}
+
+AssignExprAST& AssignExprAST::operator= (const AssignExprAST& ae){
+    if(&ae != this){
+        delete expr_;
+        expr_ = ae.expr_->copy();
+    }
+    return *this;
+}
+
 //--------------------DESTRUCTORS--------------------
 
 BinaryExprAST::~BinaryExprAST(){
