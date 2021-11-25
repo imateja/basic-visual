@@ -21,6 +21,8 @@ set(PROJECT_SOURCES
         mainwindow.ui
         ast.h
         ast.cpp
+        state.h
+        state.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
