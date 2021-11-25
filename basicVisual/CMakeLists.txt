@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
         ast.cpp
         state.h
         state.cpp
+        interpret.h
+        interpret.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
