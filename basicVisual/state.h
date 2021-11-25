@@ -20,7 +20,7 @@ public:
     ValueExprAST* getValue(const std::string&);
     ~State();
 private:
-    State();
+    State() = default;
     std::stack<std::unordered_map<std::string, ValueExprAST*>*> domains_;
     State(const State&) = delete;
     State& operator=(const State&) = delete;
