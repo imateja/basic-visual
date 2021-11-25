@@ -1,13 +1,12 @@
 #include "interpret.h"
-
+#include "state.h"
 
 void Interpret::VisitValueExprAST(ValueExprAST& obj) {
         dValue_= obj.getValue();
 }
 
-//TODO
 void Interpret::VisitVariableExprAST(VariableExprAST& obj) {
-        dValue_=  0;
+        dValue_= Interpret(State::Domains().getValue(obj.getName())).dValue_;
 }
 
 void Interpret::VisitAddExprAST(AddExprAST& obj) {
@@ -48,6 +47,12 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
         }
 }
 
-//TODO
+/* FIX:
+ * Ne svidja mi se cast bez ikakve provere tipa.
+ * Za sada znamo da ne moze da bude nista osim ValueExprAST,
+ * ali kada budemo omogucili dodelu povratne vrednosti funkcije
+ * mozda se stvari promene (treba diskutovati o tome)
+ */
 void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
+    State::Domains().assignValue(obj.getName(), dynamic_cast<ValueExprAST*>(obj.getExpr()));
 }
