@@ -3,19 +3,12 @@
 
 std::unordered_map<std::string, ValueExprAST*>* State::getCurrentDomain()
 {
-    return domains_.top();
+    return domains_.back();
 }
 
 void State::createNewDomain()
 {
-    auto newDomain = new std::unordered_map<std::string, ValueExprAST*>;
-    if(!domains_.empty()){
-        auto currentDomain = getCurrentDomain();
-        for(auto &element : *currentDomain){
-            (*newDomain)[element.first] = element.second;
-        }
-    }
-    domains_.push(newDomain);
+    domains_.push_back(new std::unordered_map<std::string, ValueExprAST*>);
 }
 
 void State::removeCurrentDomain()
@@ -26,7 +19,7 @@ void State::removeCurrentDomain()
     }
 
     auto oldDomain = getCurrentDomain();
-    domains_.pop();
+    domains_.pop_back();
     if(domains_.empty()){
         delete oldDomain;
         return;
@@ -51,14 +44,16 @@ void State::assignValue(const std::string& variable, ValueExprAST* value)
 }
 
 ValueExprAST* State::getValue(const std::string& variable){
-    auto currentDomain = getCurrentDomain();
-    if(currentDomain->find(variable) == currentDomain->end()){
-        //TODO error handling
-        return nullptr;
+    auto rit = domains_.rbegin();
+    auto end = domains_.rend();
+    while(rit != end){
+        if((*rit)->find(variable) != (*rit)->end()){
+            return (*(*rit))[variable];
+        }
+        ++rit;
     }
-    else{
-        return (*currentDomain)[variable];
-    }
+    //TODO error handling
+    return nullptr;
 }
 
 State::~State()
@@ -69,6 +64,6 @@ State::~State()
             delete element.second;
         }
         delete currentDomain;
-        domains_.pop();
+        domains_.pop_back();
     }
 }

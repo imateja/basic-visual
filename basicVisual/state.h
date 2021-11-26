@@ -1,7 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <stack>
+#include <vector>
 #include <unordered_map>
 #include <string>
 #include "ast.h"
@@ -21,7 +21,7 @@ public:
     ~State();
 private:
     State() = default;
-    std::stack<std::unordered_map<std::string, ValueExprAST*>*> domains_;
+    std::vector<std::unordered_map<std::string, ValueExprAST*>*> domains_;
     State(const State&) = delete;
     State& operator=(const State&) = delete;
 };
