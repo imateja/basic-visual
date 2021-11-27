@@ -6,7 +6,7 @@ InstructionContainer::InstructionContainer(Instruction *instructions)
     :QGraphicsObject()
     ,_instructions(instructions)
 {
-     setFlags(GraphicsItemFlag::ItemIsSelectable);
+     setFlags(GraphicsItemFlag::ItemIsSelectable | GraphicsItemFlag::ItemIsMovable);
 }
 //TODO: This getWidth() and getHeight() shoud be the proporties of specific classes that are subclass of Instruction
 QRectF InstructionContainer::boundingRect() const
@@ -70,5 +70,11 @@ QPointF InstructionContainer::posCenterBottom() const
         return pos() + QPointF((getWidth()/2),getHeight());
     }
 
+void InstructionContainer::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsObject::mouseMoveEvent(event);
+
+    //TODO:Emit signal that the item is moved
 
 
+}

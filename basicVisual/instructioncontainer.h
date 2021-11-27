@@ -20,7 +20,7 @@ public:
        {
            return _instructions;
        }
-
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     QPointF posCenterTop() const;
     QPointF posCenterBottom() const;
    //This should be propagated from the subclases of the Instruction class
@@ -30,6 +30,7 @@ public:
 
 private:
     Instruction* _instructions;
+
 
 };
 

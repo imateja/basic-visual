@@ -1,3 +1,6 @@
+//Probably soon redundant class when we merge AST classes with the ui
+//Should do a major overhaul of this class with abstract methods for AST classes
+
 #include "instruction.h"
 
 Instruction::Instruction(QString instructionText, TypeOfInstruction type)
