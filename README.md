@@ -13,4 +13,6 @@ Prevođenje se može realizovati kompilacijom koristeći LLVM ili interpretacijo
 
 ## Wiki
 ### Nedeljni izvestaji
-- [Prva nedelja, 11.11.2021 - 21.11.2021](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/wikis/home/Nedeljni_izvestaji/Prva-nedelja) 
+- [Prva nedelja, 11.11.2021 - 21.11.2021](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/wikis/home/Nedeljni_izvestaji/Prva-nedelja)
+
+- [Druga nedelja, 22.11.2021 - 28.11.2021](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/wikis/home/Nedeljni_izvestaji/Druga-nedelja) 
