@@ -25,6 +25,7 @@ set(PROJECT_SOURCES
         state.cpp
         interpret.h
         interpret.cpp
+        tests/catch.hpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
