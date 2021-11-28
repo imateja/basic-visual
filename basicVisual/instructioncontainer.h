@@ -28,6 +28,10 @@ public:
     inline qint32 getWidth() const { return 150; }
     inline qint32 getHeight() const { return 50; }
 
+
+signals:
+    void Moved();
+
 private:
     Instruction* _instructions;
 

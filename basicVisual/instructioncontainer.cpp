@@ -75,6 +75,7 @@ void InstructionContainer::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsObject::mouseMoveEvent(event);
 
     //TODO:Emit signal that the item is moved
+    emit Moved();
 
 
 }

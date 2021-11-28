@@ -22,8 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ForBtn, &QPushButton::clicked, this, &MainWindow::addFor);
     connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsView *>(_mainGraphicsView), &mainGraphicsView::addedSquareOnGV);
 
-
-
 }
 
 MainWindow::~MainWindow()
