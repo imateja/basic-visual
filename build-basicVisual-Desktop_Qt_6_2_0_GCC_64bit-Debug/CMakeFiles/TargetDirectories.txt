@@ -1,5 +1,0 @@
-/home/jocacoca/Documents/Studije /03-basicVisual/build-basicVisual-Desktop_Qt_6_2_0_GCC_64bit-Debug/CMakeFiles/edit_cache.dir
-/home/jocacoca/Documents/Studije /03-basicVisual/build-basicVisual-Desktop_Qt_6_2_0_GCC_64bit-Debug/CMakeFiles/rebuild_cache.dir
-/home/jocacoca/Documents/Studije /03-basicVisual/build-basicVisual-Desktop_Qt_6_2_0_GCC_64bit-Debug/CMakeFiles/basicVisual.dir
-/home/jocacoca/Documents/Studije /03-basicVisual/build-basicVisual-Desktop_Qt_6_2_0_GCC_64bit-Debug/CMakeFiles/basicVisual_autogen_timestamp_deps.dir
-/home/jocacoca/Documents/Studije /03-basicVisual/build-basicVisual-Desktop_Qt_6_2_0_GCC_64bit-Debug/CMakeFiles/basicVisual_autogen.dir
