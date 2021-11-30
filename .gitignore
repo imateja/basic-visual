@@ -1,1 +1,68 @@
 README.md
+
+## IGNORISEMO .gitignore
+## .gitignore
+
+*.orig
+
+bin/
+lib/
+
+### CMake ###
+*.user
+build*
+cmake-build-*
+CMakeCache*
+CMakeFiles
+CMakeScripts
+Testing
+*.cmake
+*Makefile
+*.d
+_deps
+*-prefix/
+
+### Libraries ###
+*.a
+*.lib
+*.la
+*.lo
+
+### Object files ###
+*.o
+*.ko
+*.elf
+
+### Shared objects ###
+*.dll
+*.so
+*.so.*
+*.dylib
+
+### Executables ###
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+### Debug files ###
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+### Kernel Module Compile Results ###
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+### Compiled Object files and Static libraries ###
+*.slo
+*.lai
+
+
