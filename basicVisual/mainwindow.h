@@ -26,6 +26,10 @@ signals:
     void newSquareOnGV(InstructionContainer *);
 
 private slots:
+    void onActionOpen();
+    void onActionSave();
+    void onActionSaveAs();
+    void onActionExit();
     void addAssign();
     void addWhile();
     void addIf();
@@ -35,6 +39,8 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *_mainGraphicsView;
     QVector<Instruction*> _instructions;
+    void setupActions();
+
 };
 
 #endif // MAINWINDOW_H

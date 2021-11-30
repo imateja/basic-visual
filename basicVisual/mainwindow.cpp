@@ -3,6 +3,9 @@
 #include "maingraphicsview.hpp"
 #include "instruction.h"
 #include "instructioncontainer.h"
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     , _mainGraphicsView(new mainGraphicsView)
 {
     ui->setupUi(this);
+    setupActions(); //sets up the needed connections for the taskbar
+
     //mainGV is the name of out GraphicsView in .ui file
     _mainGraphicsView->setSceneRect(ui->mainGV->rect());
     ui->mainGV->setScene(_mainGraphicsView);
@@ -81,5 +86,51 @@ void MainWindow::addFor()
 
     emit newSquareOnGV(node);
 }
+
+void MainWindow::setupActions()
+{
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::onActionOpen);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onActionSave);
+    connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::onActionSaveAs);
+    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::onActionExit);
+}
+//TODO:other actions
+void MainWindow::onActionOpen()
+{
+    QString fileName = QFileDialog::getOpenFileName(
+         this,
+         tr("Open Visual"), ".",
+         tr("basicVisual Files (*.bv)"));
+    //TODO: if fileName is empty
+}
+
+void MainWindow::onActionSave()
+{
+// i have no idea what to do here
+}
+
+void MainWindow::onActionSaveAs()
+{
+    QString fileName = QFileDialog::getSaveFileName(
+            this,
+            tr("Save Visual"), ".",
+            tr("Visual (*.bv)"));
+
+   //TODO: if fileName is empty
+}
+
+void MainWindow::onActionExit()
+{
+    QMessageBox::StandardButton response = QMessageBox::question(
+           this, "Exit", "Force exit?", QMessageBox::Yes| QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes
+       );
+
+    if(response == QMessageBox::Yes)
+        MainWindow::close();
+    else
+        return;
+
+}
+
 
 
