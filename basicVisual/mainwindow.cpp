@@ -129,7 +129,6 @@ void MainWindow::onActionExit()
         MainWindow::close();
     else
         return;
-
 }
 
 

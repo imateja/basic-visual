@@ -26,7 +26,6 @@ signals:
     void newSquareOnGV(InstructionContainer *);
 
 private slots:
-
     void addAssign();
     void addWhile();
     void addIf();
