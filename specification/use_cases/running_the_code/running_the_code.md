@@ -1,35 +1,32 @@
-## Running the code
- 
+### Running the code
+
 **Description**: 
-User has written a code and can run it either with steps shown or not.
- 
+The User has written a code and can run it either with steps shown or not.
+
 **Actors**: 
-The User (Programmer)
- 
+
+- The User (Programmer)
+
 **Preconditions**: 
 The application is running and visual code elements are present on the scene.
- 
+
 **Postconditions**: 
 The code won't be changed compared to it's state before running it.
- 
+
 **Main scenario**: 
- 
-1. If User chooses "Run" option:
 
-    1.1. Program will run the code and display only the final result
+1. If User chooses *"Run"* option:
+   1. Program will run the code and display only the final result.
+2. If User chooses *"Run with steps"* option:
+   1. Until there is no more instructions to execute:
+      1. When the User clicks the *"Next"* button a single instruction is executed and an intermediate result is displayed.
+3. Use case is over.
 
-2. If User chooses "Run with steps" option:
-
-    2.1. Until there is no more instructions to execute:
-    
-        2.1.1. When the User clicks the "Next" button a single instruction is executed and an intermediate result is displayed.
-
-3. Usecase is over.
-  
 **Alternative scenarios**: None. 
- 
+
 **Subscenarios**: None. 
- 
+
 **Special requirements**: None. 
- 
+
 **Additional information**: None.
+
