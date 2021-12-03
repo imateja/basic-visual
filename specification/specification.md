@@ -4,9 +4,9 @@
 
 ## Diagrams:
 
-- [Use cases](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/use_cases_diagram.png)
-- [Components](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/component_diagram.png)
-- [Class](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/class_diagram.png)
+- [Use cases](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/master/specification/use_cases/use_cases_diagram.png)
+- [Components](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/master/specification/component_diagram.png)
+- [Classes](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/master/specification/class_diagram.png)
 
 >  ***Note:*** *Diagrams of specific use cases can be found at the end of the part about that use case.*
 
@@ -68,7 +68,7 @@ Application has access to the file system in order to save or load data.
 
 **Additional information**: None.
 
-[Using the application diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/using_the_application/using_the_application.png)
+[Using the application diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/master/specification/use_cases/using_the_application/using_the_application.png)
 
 
 
@@ -106,7 +106,7 @@ A new or and already existing file has been opened and is ready to be modified.
 
 **Additional information:** None.
 
-[Opening the file diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/open_file/open_file.png)
+[Opening the file diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/master/specification/use_cases/open_file/open_file.png)
 
 
 
@@ -147,7 +147,7 @@ Code is runnable.
 
 **Additional information**: None.
 
-[Coding diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/coding/coding.png)
+[Coding diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/master/specification/use_cases/coding/coding.png)
 
 
 
@@ -183,9 +183,9 @@ The code won't be changed compared to it's state before running it.
 
 **Additional information**: None.
 
-[Running the code without steps diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/running_the_code/running_the_code%20(without%20steps).png)
+[Running the code without steps diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/master/specification/use_cases/running_the_code/running_the_code%20(without%20steps).png)
 
-[Running the code with steps diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/running_the_code/running_the_code%20(with%20steps).png)
+[Running the code with steps diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/master/specification/use_cases/running_the_code/running_the_code%20(with%20steps).png)
 
 
 
@@ -225,5 +225,5 @@ Application has access to the file system in order to save or load data.
 
 **Additional information**: None.
 
-[Saving the code diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/saving_the_code/saving_the_code.png)
+[Saving the code diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/master/specification/use_cases/saving_the_code/saving_the_code.png)
 
