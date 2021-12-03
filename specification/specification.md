@@ -8,20 +8,22 @@
 - [Components](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/component_diagram.png)
 - [Class](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/class_diagram.png)
 
+>  ***Note:*** *Diagrams of specific use cases can be found at the end of the part about that use case.*
+
 
 
 ## Use cases:
 
-- **Using the application:**
-  - **Open file:**
+- [**Using the application:**](#using-the-application)
+  - [**Opening the file:**](#opening-the-file)
     - New file
     - Existing file
-  - **Coding:**
+  - [**Coding:**](#coding)
     - Import file as function
-  - **Running the code:**
+  - [**Running the code:**](#running-the-code)
     - Run without steps
     - Run with steps
-  - **Saving the code:**
+  - [**Saving the code:**](#saving-the-code)
     - Save / Save as (internal representation of code)
     - Export to object file (compile)
 
@@ -104,7 +106,7 @@ A new or and already existing file has been opened and is ready to be modified.
 
 **Additional information:** None.
 
-[Opening the file diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/open_file/open_file_sequence_diagram%20.png)
+[Opening the file diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/open_file/open_file.png)
 
 
 
@@ -145,7 +147,7 @@ Code is runnable.
 
 **Additional information**: None.
 
-[Coding diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/coding/coding_diagram_file.png)
+[Coding diagram](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/blob/specification/specification/use_cases/coding/coding.png)
 
 
 
