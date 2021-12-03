@@ -25,10 +25,10 @@ Main scenario:
       3.2. If the user chooses option "Open", he is prompted with a file dialogue box in which he can navigate through his computers file system and
            choose which file he wants to open.
  
-              3.2.1. If the file that is chosen exists, it is opened in the scene.
+            3.2.1. If the file that is chosen exists, it is opened in the scene.
  
-              3.2.2. If the file that is chosen has an invalid name or doesn't exist, the user is prompted with an error dialogue box that tells
-                     him that an error has occured and he needs to select a different file.
+            3.2.2. If the file that is chosen has an invalid name or doesn't exist, the user is prompted with an error dialogue box that tells
+                  him that an error has occured and he needs to select a different file.
   
 Alternative scenarios: None.
  
