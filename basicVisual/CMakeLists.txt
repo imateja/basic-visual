@@ -25,6 +25,9 @@ set(PROJECT_SOURCES
         instructioncontainer.cpp
         instruction.h
         instruction.cpp
+        instructiondialog.h
+        instructiondialog.cpp
+        instructiondialog.ui
 
 )
 

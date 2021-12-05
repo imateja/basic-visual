@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QFileDialog>
+#include "instructiondialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,7 +42,10 @@ MainWindow::~MainWindow()
 //These are just test functions, actual ones are gonna look completely different
 void MainWindow::addAssign()
 {
-    const auto instr= new Instruction("_ = _", Instruction::TypeOfInstruction::ASSIGN);
+    InstructionDialog* AssignDialog = new InstructionDialog(this);
+    if(AssignDialog->exec())
+    {
+    const auto instr= new Instruction(AssignDialog->getCondition(), Instruction::TypeOfInstruction::ASSIGN);
 
     _instructions.push_back(instr);
 
@@ -49,11 +53,15 @@ void MainWindow::addAssign()
     _mainGraphicsView->addItem(node);
 
     emit newSquareOnGV(node);
+    }
 }
 
 void MainWindow::addWhile()
 {
-    const auto instr= new Instruction("cond", Instruction::TypeOfInstruction::WHILE);
+    InstructionDialog* WhileDialog = new InstructionDialog(this);
+    if(WhileDialog->exec())
+    {
+    const auto instr= new Instruction(WhileDialog->getCondition(), Instruction::TypeOfInstruction::WHILE);
 
     _instructions.push_back(instr);
 
@@ -61,11 +69,14 @@ void MainWindow::addWhile()
     _mainGraphicsView->addItem(node);
 
     emit newSquareOnGV(node);
+    }
 }
 
 void MainWindow::addIf()
 {
-    const auto instr= new Instruction("cond", Instruction::TypeOfInstruction::IF);
+    InstructionDialog* IfDialog = new InstructionDialog(this);
+    if(IfDialog->exec()){
+    const auto instr= new Instruction(IfDialog->getCondition(), Instruction::TypeOfInstruction::IF);
 
     _instructions.push_back(instr);
 
@@ -73,11 +84,16 @@ void MainWindow::addIf()
     _mainGraphicsView->addItem(node);
 
     emit newSquareOnGV(node);
+    }
 }
 
 void MainWindow::addFor()
 {
-    const auto instr= new Instruction("text", Instruction::TypeOfInstruction::FOR);
+    InstructionDialog* ForDialog = new InstructionDialog(this);
+    if(ForDialog->exec())
+    {
+     //TODO: Add check if condition and all dialog boxes are filled right
+     const auto instr= new Instruction(ForDialog->getCondition(), Instruction::TypeOfInstruction::FOR);
 
     _instructions.push_back(instr);
 
@@ -85,6 +101,7 @@ void MainWindow::addFor()
     _mainGraphicsView->addItem(node);
 
     emit newSquareOnGV(node);
+    }
 }
 
 void MainWindow::setupActions()
