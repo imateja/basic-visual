@@ -20,7 +20,8 @@ public:
        {
            return _instructions;
        }
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override ;
     QPointF posCenterTop() const;
     QPointF posCenterBottom() const;
    //This should be propagated from the subclases of the Instruction class
@@ -31,6 +32,7 @@ public:
 
 signals:
     void Moved();
+    void signalSelected();
 
 private:
     Instruction* _instructions;

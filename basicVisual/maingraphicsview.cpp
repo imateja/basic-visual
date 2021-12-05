@@ -1,6 +1,7 @@
 #include "maingraphicsview.hpp"
 #include "instructioncontainer.h"
 #include "instruction.h"
+#include <QDebug>
 
 
 mainGraphicsView::mainGraphicsView(QObject *parent)
@@ -13,6 +14,9 @@ mainGraphicsView::mainGraphicsView(QObject *parent)
 void mainGraphicsView::addedSquareOnGV(InstructionContainer *node)
 {
     connect(node, &InstructionContainer::Moved, this, &mainGraphicsView::drawConnections);
+    connect(node,&InstructionContainer::signalSelected,this,[=](){
+        qDebug()<< node->instruction()->getInstructionText();
+    });
 
     if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::ASSIGN)
     {
@@ -70,6 +74,12 @@ void mainGraphicsView::PositionNewNode(InstructionContainer *node)
 
     node->setPos(xPos,yPos);
 }
+
+
+void mainGraphicsView::SquareIsSelected(){
+   qDebug() << "Selectovano je";
+}
+
 void mainGraphicsView::drawConnections()
 {
     //TODO: fix horrible complexity
