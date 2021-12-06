@@ -19,3 +19,7 @@ Prevođenje se može realizovati kompilacijom koristeći LLVM ili interpretacijo
 
 - [Treca nedelja, 29.11.2021 - 05.12.2021](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/wikis/home/Nedeljni_izvestaji/Treca-Nedelja)
 
+- [Cetvrta nedelja, 06.11.2021 - 12.12.2021](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/wikis/home/Nedeljni_izvestaji/Cetvrta-nedelja)
+
+
+
