@@ -25,6 +25,7 @@ public:
     void VisitWhileExprAST(WhileExprAST&);
     void VisitAssignExprAST(AssignExprAST&);
     void VisitBlockExprAST(BlockExprAST&);
+    void VisitFunctionExprAST(FunctionExprAST&);
 
 private:
     double dValue_;

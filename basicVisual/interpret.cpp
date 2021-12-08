@@ -58,7 +58,13 @@ void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
 }
 
 void Interpret::VisitBlockExprAST(BlockExprAST& obj){
-    for(auto e : obj.getBody()){
+    //???
+    auto body = obj.getBody();
+    for(auto e : body){
         Interpret{e};
     }
+}
+
+void Interpret::VisitFunctionExprAST(FunctionExprAST& obj){
+    Interpret(obj.getBody());
 }

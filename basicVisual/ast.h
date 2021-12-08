@@ -16,6 +16,7 @@ class WhileExprAST;
 class IfExprAST;
 class AssignExprAST;
 class BlockExprAST;
+class FunctionExprAST;
 
 class VisitorAST
 {
@@ -32,6 +33,7 @@ public:
     virtual void VisitWhileExprAST(WhileExprAST&) = 0;
     virtual void VisitAssignExprAST(AssignExprAST&) = 0;
     virtual void VisitBlockExprAST(BlockExprAST&) = 0;
+    virtual void VisitFunctionExprAST(FunctionExprAST&) = 0;
 
 };
 
@@ -39,7 +41,7 @@ class ExprAST
 {
 public:
     virtual ~ExprAST(){}
-    virtual void AcceptVisit(VisitorAST& v) = 0;
+    virtual void AcceptVisit(VisitorAST&) = 0;
     virtual ExprAST* copy() const = 0;
 };
 
@@ -49,7 +51,7 @@ public:
     ValueExprAST(double value)
         :value_(value)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     double getValue() {return value_;}
     ExprAST* copy() const;
 private:
@@ -62,7 +64,7 @@ public:
     VariableExprAST(string name)
         :name_(name)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     string getName() {return name_;}
     ExprAST* copy() const;
 private:
@@ -90,7 +92,7 @@ public:
     AddExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     ExprAST* copy() const;
 };
 
@@ -100,7 +102,7 @@ public:
     DivExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     ExprAST* copy() const;
 };
 
@@ -110,7 +112,7 @@ public:
     MulExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {}
-    void AcceptVisit(VisitorAST& v);
+    void AcceptVisit(VisitorAST&);
     ExprAST* copy() const;
 };
 
@@ -120,7 +122,7 @@ public:
     SubExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     ExprAST* copy() const;
 };
 
@@ -130,7 +132,7 @@ public:
     LtExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     ExprAST* copy() const;
 };
 
@@ -140,7 +142,7 @@ public:
     GtExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     ExprAST* copy() const;
 };
 
@@ -150,7 +152,7 @@ public:
     IfExprAST(ExprAST *cond, ExprAST *then, ExprAST *Else)
         :cond_(cond),then_(then),else_(Else)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     ~IfExprAST();
     IfExprAST(const IfExprAST&);
     IfExprAST& operator= (const IfExprAST&);
@@ -168,7 +170,7 @@ public:
     WhileExprAST(ExprAST *cond,ExprAST *body)
         :cond_(cond),body_(body)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     ~WhileExprAST();
     WhileExprAST(const WhileExprAST&);
     WhileExprAST& operator= (const WhileExprAST&);
@@ -185,7 +187,7 @@ public:
     AssignExprAST(string name, ExprAST *expr)
         :name_(name),expr_(expr)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     ~AssignExprAST();
     AssignExprAST(const AssignExprAST&);
     AssignExprAST& operator= (const AssignExprAST&);
@@ -203,7 +205,7 @@ public:
     BlockExprAST(vector<ExprAST*> body)
         :body_(body)
     {}
-    void AcceptVisit(VisitorAST& visitor);
+    void AcceptVisit(VisitorAST&);
     ~BlockExprAST();
     BlockExprAST(const BlockExprAST&);
     BlockExprAST& operator= (const BlockExprAST&);
@@ -213,6 +215,24 @@ public:
     void push_back(ExprAST*);
 private:
     vector<ExprAST*> body_;
+};
+
+class FunctionExprAST : public ExprAST
+{
+public:
+    FunctionExprAST(string name, BlockExprAST* body)
+        :name_(name), body_(body)
+    {}
+    void AcceptVisit(VisitorAST&);
+    ~FunctionExprAST();
+    FunctionExprAST(const FunctionExprAST&);
+    FunctionExprAST& operator= (const FunctionExprAST&);
+    string getName() {return name_;}
+    BlockExprAST* getBody() {return body_;}
+    ExprAST* copy() const;
+private:
+    string name_;
+    BlockExprAST* body_;
 };
 
 #endif // AST_H

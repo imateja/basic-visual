@@ -38,6 +38,9 @@ void AssignExprAST::AcceptVisit(VisitorAST& v){
 void BlockExprAST::AcceptVisit(VisitorAST& v){
     v.VisitBlockExprAST(*this);
 }
+void FunctionExprAST::AcceptVisit(VisitorAST &v){
+    v.VisitFunctionExprAST(*this);
+}
 //--------------------OPERATOR=--------------------
 
 BinaryExprAST& BinaryExprAST::operator= (const BinaryExprAST& be){
@@ -90,6 +93,17 @@ BlockExprAST& BlockExprAST::operator=(const BlockExprAST &be){
     return *this;
 }
 
+FunctionExprAST& FunctionExprAST::operator=(const FunctionExprAST& fe){
+    if(&fe != this){
+        delete body_;
+        body_ = dynamic_cast<BlockExprAST*>(fe.body_->copy());
+        if(!body_){
+            //TODO obrada greske
+        }
+    }
+    return *this;
+}
+
 //--------------------DESTRUCTORS--------------------
 
 BinaryExprAST::~BinaryExprAST(){
@@ -118,6 +132,9 @@ BlockExprAST::~BlockExprAST(){
     }
 }
 
+FunctionExprAST::~FunctionExprAST(){
+    delete body_;
+}
 //--------------------COPY CONSTRUCTORS--------------------
 
 BinaryExprAST::BinaryExprAST(const BinaryExprAST& be){
@@ -143,6 +160,14 @@ AssignExprAST::AssignExprAST(const AssignExprAST& ae){
 
 BlockExprAST::BlockExprAST(const BlockExprAST& be){
     body_ = be.body_;
+}
+
+FunctionExprAST::FunctionExprAST(const FunctionExprAST& fe){
+    name_ = fe.name_;
+    body_ = dynamic_cast<BlockExprAST*>(fe.body_->copy());
+    if(!body_){
+        //TODO obrada greske
+    }
 }
 
 //--------------------COPY--------------------
@@ -194,6 +219,12 @@ ExprAST* AssignExprAST::copy() const{
 ExprAST* BlockExprAST::copy() const{
     return new BlockExprAST(*this);
 }
+
+ExprAST* FunctionExprAST::copy() const{
+    return new FunctionExprAST(*this);
+}
+
+//--------------------------------------------
 
 void BlockExprAST::insert(ExprAST* expr, int index){
     body_.insert(body_.begin()+index,expr);
