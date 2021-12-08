@@ -24,6 +24,7 @@ public:
     void VisitIfExprAST(IfExprAST&);
     void VisitWhileExprAST(WhileExprAST&);
     void VisitAssignExprAST(AssignExprAST&);
+    void VisitBlockExprAST(BlockExprAST&);
 
 private:
     double dValue_;

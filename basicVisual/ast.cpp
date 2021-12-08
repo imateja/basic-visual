@@ -35,7 +35,9 @@ void IfExprAST::AcceptVisit(VisitorAST& v){
 void AssignExprAST::AcceptVisit(VisitorAST& v){
     v.VisitAssignExprAST(*this);
 }
-
+void BlockExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitBlockExprAST(*this);
+}
 //--------------------OPERATOR=--------------------
 
 BinaryExprAST& BinaryExprAST::operator= (const BinaryExprAST& be){
@@ -78,6 +80,16 @@ AssignExprAST& AssignExprAST::operator= (const AssignExprAST& ae){
     return *this;
 }
 
+BlockExprAST& BlockExprAST::operator=(const BlockExprAST &be){
+    if(&be != this){
+        for(auto &x : body_){
+            delete x;
+        }
+        body_ = be.body_;
+    }
+    return *this;
+}
+
 //--------------------DESTRUCTORS--------------------
 
 BinaryExprAST::~BinaryExprAST(){
@@ -98,6 +110,12 @@ WhileExprAST::~WhileExprAST(){
 
 AssignExprAST::~AssignExprAST(){
     delete expr_;
+}
+
+BlockExprAST::~BlockExprAST(){
+    for(auto x : body_){
+        delete x;
+    }
 }
 
 //--------------------COPY CONSTRUCTORS--------------------
@@ -121,6 +139,10 @@ WhileExprAST::WhileExprAST(const WhileExprAST& we){
 AssignExprAST::AssignExprAST(const AssignExprAST& ae){
     name_ = ae.name_;
     expr_ = ae.expr_->copy();
+}
+
+BlockExprAST::BlockExprAST(const BlockExprAST& be){
+    body_ = be.body_;
 }
 
 //--------------------COPY--------------------
@@ -167,4 +189,16 @@ ExprAST* WhileExprAST::copy() const{
 
 ExprAST* AssignExprAST::copy() const{
     return new AssignExprAST(*this);
+}
+
+ExprAST* BlockExprAST::copy() const{
+    return new BlockExprAST(*this);
+}
+
+void BlockExprAST::insert(ExprAST* expr, int index){
+    body_.insert(body_.begin()+index,expr);
+}
+
+void BlockExprAST::push_back(ExprAST* expr){
+    body_.push_back(expr);
 }

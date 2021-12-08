@@ -1,6 +1,7 @@
 #ifndef AST_H
 #define AST_H
 #include <string>
+#include <vector>
 using namespace std;
 
 class ValueExprAST;
@@ -14,6 +15,7 @@ class GtExprAST;
 class WhileExprAST;
 class IfExprAST;
 class AssignExprAST;
+class BlockExprAST;
 
 class VisitorAST
 {
@@ -29,6 +31,7 @@ public:
     virtual void VisitIfExprAST(IfExprAST&) = 0;
     virtual void VisitWhileExprAST(WhileExprAST&) = 0;
     virtual void VisitAssignExprAST(AssignExprAST&) = 0;
+    virtual void VisitBlockExprAST(BlockExprAST&) = 0;
 
 };
 
@@ -192,6 +195,24 @@ public:
 private:
     string name_;
     ExprAST* expr_;
+};
+
+class BlockExprAST : public ExprAST
+{
+public:
+    BlockExprAST(vector<ExprAST*> body)
+        :body_(body)
+    {}
+    void AcceptVisit(VisitorAST& visitor);
+    ~BlockExprAST();
+    BlockExprAST(const BlockExprAST&);
+    BlockExprAST& operator= (const BlockExprAST&);
+    vector<ExprAST*> getBody() {return body_;}
+    ExprAST* copy() const;
+    void insert(ExprAST*, int);
+    void push_back(ExprAST*);
+private:
+    vector<ExprAST*> body_;
 };
 
 #endif // AST_H

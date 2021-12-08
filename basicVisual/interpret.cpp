@@ -56,3 +56,9 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
 void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
     State::Domains().assignValue(obj.getName(), dynamic_cast<ValueExprAST*>(obj.getExpr()));
 }
+
+void Interpret::VisitBlockExprAST(BlockExprAST& obj){
+    for(auto e : obj.getBody()){
+        Interpret{e};
+    }
+}
