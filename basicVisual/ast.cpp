@@ -59,8 +59,8 @@ IfExprAST& IfExprAST::operator= (const IfExprAST& ie){
         delete then_;
         delete else_;
         cond_ = ie.cond_->copy();
-        then_ = ie.then_->copy();
-        else_ = ie.else_->copy();
+        then_ = static_cast<BlockExprAST*>(ie.then_->copy());
+        else_ = static_cast<BlockExprAST*>(ie.else_->copy());
     }
     return *this;
 }
@@ -70,7 +70,7 @@ WhileExprAST& WhileExprAST::operator= (const WhileExprAST& we){
         delete cond_;
         delete body_;
         cond_ = we.cond_->copy();
-        body_ = we.body_->copy();
+        body_ = static_cast<BlockExprAST*>(we.body_->copy());
     }
     return *this;
 }
@@ -96,10 +96,7 @@ BlockExprAST& BlockExprAST::operator=(const BlockExprAST &be){
 FunctionExprAST& FunctionExprAST::operator=(const FunctionExprAST& fe){
     if(&fe != this){
         delete body_;
-        body_ = dynamic_cast<BlockExprAST*>(fe.body_->copy());
-        if(!body_){
-            //TODO obrada greske
-        }
+        body_ = static_cast<BlockExprAST*>(fe.body_->copy());
     }
     return *this;
 }
@@ -144,13 +141,13 @@ BinaryExprAST::BinaryExprAST(const BinaryExprAST& be){
 
 IfExprAST::IfExprAST(const IfExprAST& ie){
     cond_ = ie.cond_->copy();
-    then_ = ie.then_->copy();
-    else_ = ie.else_->copy();
+    then_ = static_cast<BlockExprAST*>(ie.then_->copy());
+    else_ = static_cast<BlockExprAST*>(ie.else_->copy());
 }
 
 WhileExprAST::WhileExprAST(const WhileExprAST& we){
     cond_ = we.cond_->copy();
-    body_ = we.body_->copy();
+    body_ = static_cast<BlockExprAST*>(we.body_->copy());
 }
 
 AssignExprAST::AssignExprAST(const AssignExprAST& ae){
@@ -164,10 +161,7 @@ BlockExprAST::BlockExprAST(const BlockExprAST& be){
 
 FunctionExprAST::FunctionExprAST(const FunctionExprAST& fe){
     name_ = fe.name_;
-    body_ = dynamic_cast<BlockExprAST*>(fe.body_->copy());
-    if(!body_){
-        //TODO obrada greske
-    }
+    body_ = static_cast<BlockExprAST*>(fe.body_->copy());
 }
 
 //--------------------COPY--------------------

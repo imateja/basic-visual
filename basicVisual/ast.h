@@ -146,39 +146,69 @@ public:
     ExprAST* copy() const;
 };
 
+class BlockExprAST : public ExprAST
+{
+public:
+    BlockExprAST(vector<ExprAST*> body)
+        :body_(body)
+    {}
+    BlockExprAST()
+        :body_(vector<ExprAST*>())
+    {}
+    void AcceptVisit(VisitorAST&);
+    ~BlockExprAST();
+    BlockExprAST(const BlockExprAST&);
+    BlockExprAST& operator= (const BlockExprAST&);
+    vector<ExprAST*> getBody() {return body_;}
+    ExprAST* copy() const;
+    void insert(ExprAST*, int);
+    void push_back(ExprAST*);
+private:
+    vector<ExprAST*> body_;
+};
+
 class IfExprAST : public ExprAST
 {
 public:
-    IfExprAST(ExprAST *cond, ExprAST *then, ExprAST *Else)
+    IfExprAST(ExprAST *cond, BlockExprAST *then, BlockExprAST *Else)
         :cond_(cond),then_(then),else_(Else)
+    {}
+    IfExprAST(ExprAST *cond)
+        :cond_(cond),then_(new BlockExprAST),else_(new BlockExprAST)
     {}
     void AcceptVisit(VisitorAST&);
     ~IfExprAST();
     IfExprAST(const IfExprAST&);
     IfExprAST& operator= (const IfExprAST&);
     ExprAST* getCond() {return cond_;}
-    ExprAST* getThen() {return then_;}
-    ExprAST* getElse() {return else_;}
+    BlockExprAST* getThen() {return then_;}
+    BlockExprAST* getElse() {return else_;}
     ExprAST* copy() const;
 private:
-    ExprAST *cond_, *then_, *else_;
+    ExprAST *cond_;
+    BlockExprAST *then_;
+    BlockExprAST *else_;
 };
 
 class WhileExprAST : public ExprAST
 {
 public:
-    WhileExprAST(ExprAST *cond,ExprAST *body)
+    WhileExprAST(ExprAST *cond, BlockExprAST *body)
         :cond_(cond),body_(body)
+    {}
+    WhileExprAST(ExprAST *cond)
+        :cond_(cond),body_(new BlockExprAST())
     {}
     void AcceptVisit(VisitorAST&);
     ~WhileExprAST();
     WhileExprAST(const WhileExprAST&);
     WhileExprAST& operator= (const WhileExprAST&);
     ExprAST* getCond() {return cond_;}
-    ExprAST* getBody() {return body_;}
+    BlockExprAST* getBody() {return body_;}
     ExprAST* copy() const;
 private:
-    ExprAST *cond_, *body_;
+    ExprAST *cond_;
+    BlockExprAST *body_;
 };
 
 class AssignExprAST : public ExprAST
@@ -199,29 +229,16 @@ private:
     ExprAST* expr_;
 };
 
-class BlockExprAST : public ExprAST
-{
-public:
-    BlockExprAST(vector<ExprAST*> body)
-        :body_(body)
-    {}
-    void AcceptVisit(VisitorAST&);
-    ~BlockExprAST();
-    BlockExprAST(const BlockExprAST&);
-    BlockExprAST& operator= (const BlockExprAST&);
-    vector<ExprAST*> getBody() {return body_;}
-    ExprAST* copy() const;
-    void insert(ExprAST*, int);
-    void push_back(ExprAST*);
-private:
-    vector<ExprAST*> body_;
-};
+
 
 class FunctionExprAST : public ExprAST
 {
 public:
     FunctionExprAST(string name, BlockExprAST* body)
         :name_(name), body_(body)
+    {}
+    FunctionExprAST(string name)
+        :FunctionExprAST(name, new BlockExprAST())
     {}
     void AcceptVisit(VisitorAST&);
     ~FunctionExprAST();
