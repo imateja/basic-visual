@@ -13,19 +13,19 @@ public:
         expr->AcceptVisit(*this);
     }
 
-    void VisitValueExprAST(ValueExprAST&);
-    void VisitVariableExprAST(VariableExprAST&);
-    void VisitAddExprAST(AddExprAST&);
-    void VisitSubExprAST(SubExprAST&);
-    void VisitMulExprAST(MulExprAST&);
-    void VisitDivExprAST(DivExprAST&);
-    void VisitLtExprAST(LtExprAST&);
-    void VisitGtExprAST(GtExprAST&);
-    void VisitIfExprAST(IfExprAST&);
-    void VisitWhileExprAST(WhileExprAST&);
-    void VisitAssignExprAST(AssignExprAST&);
-    void VisitBlockExprAST(BlockExprAST&);
-    void VisitFunctionExprAST(FunctionExprAST&);
+    void VisitValueExprAST(ValueExprAST&) override;
+    void VisitVariableExprAST(VariableExprAST&) override;
+    void VisitAddExprAST(AddExprAST&) override;
+    void VisitSubExprAST(SubExprAST&) override;
+    void VisitMulExprAST(MulExprAST&) override;
+    void VisitDivExprAST(DivExprAST&) override;
+    void VisitLtExprAST(LtExprAST&) override;
+    void VisitGtExprAST(GtExprAST&) override;
+    void VisitIfExprAST(IfExprAST&) override;
+    void VisitWhileExprAST(WhileExprAST&) override;
+    void VisitAssignExprAST(AssignExprAST&) override;
+    void VisitBlockExprAST(BlockExprAST&) override;
+    void VisitFunctionExprAST(FunctionExprAST&) override;
 
 private:
     double dValue_;
