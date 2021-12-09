@@ -38,7 +38,7 @@ void AssignExprAST::AcceptVisit(VisitorAST& v){
 void BlockExprAST::AcceptVisit(VisitorAST& v){
     v.VisitBlockExprAST(*this);
 }
-void FunctionExprAST::AcceptVisit(VisitorAST &v){
+void FunctionExprAST::AcceptVisit(VisitorAST& v){
     v.VisitFunctionExprAST(*this);
 }
 //--------------------OPERATOR=--------------------
@@ -83,7 +83,7 @@ AssignExprAST& AssignExprAST::operator= (const AssignExprAST& ae){
     return *this;
 }
 
-BlockExprAST& BlockExprAST::operator=(const BlockExprAST &be){
+BlockExprAST& BlockExprAST::operator= (const BlockExprAST& be){
     if(&be != this){
         for(auto &x : body_){
             delete x;
@@ -93,7 +93,7 @@ BlockExprAST& BlockExprAST::operator=(const BlockExprAST &be){
     return *this;
 }
 
-FunctionExprAST& FunctionExprAST::operator=(const FunctionExprAST& fe){
+FunctionExprAST& FunctionExprAST::operator= (const FunctionExprAST& fe){
     if(&fe != this){
         delete body_;
         body_ = static_cast<BlockExprAST*>(fe.body_->copy());
@@ -221,7 +221,7 @@ ExprAST* FunctionExprAST::copy() const{
 //--------------------------------------------
 
 void BlockExprAST::insert(ExprAST* expr, int index){
-    body_.insert(body_.begin()+index,expr);
+    body_.insert(body_.begin() + index, expr);
 }
 
 void BlockExprAST::push_back(ExprAST* expr){

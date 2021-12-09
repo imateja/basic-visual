@@ -1,9 +1,9 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <vector>
-#include <unordered_map>
-#include <string>
+#include <QVector>
+#include <QHash>
+#include <QString>
 #include "ast.h"
 
 class State
@@ -13,15 +13,15 @@ public:
         static State state {};
         return state;
     }
-    std::unordered_map<std::string, ValueExprAST*>* getCurrentDomain();
+    QHash<QString, ValueExprAST*>* getCurrentDomain();
     void createNewDomain();
     void removeCurrentDomain();
-    void assignValue(const std::string&,ValueExprAST*);
-    ValueExprAST* getValue(const std::string&);
+    void assignValue(const QString&,ValueExprAST*);
+    ValueExprAST* getValue(const QString&);
     ~State();
 private:
     State() = default;
-    std::vector<std::unordered_map<std::string, ValueExprAST*>*> domains_;
+    QVector<QHash<QString, ValueExprAST*>*> domains_;
     State(const State&) = delete;
     State& operator=(const State&) = delete;
 };

@@ -12,7 +12,7 @@ public:
     }
     ~ExprTree();
 private:
-    ExprTree(string name = "main"){
+    ExprTree(QString name = "main"){
         function_ = new FunctionExprAST(name);
     }
     FunctionExprAST* function_;

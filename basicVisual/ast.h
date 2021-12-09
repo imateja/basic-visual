@@ -1,8 +1,7 @@
 #ifndef AST_H
 #define AST_H
-#include <string>
-#include <vector>
-using namespace std;
+#include <QString>
+#include <QVector>
 
 class ValueExprAST;
 class VariableExprAST;
@@ -61,14 +60,14 @@ private:
 class VariableExprAST : public ExprAST
 {
 public:
-    VariableExprAST(string name)
+    VariableExprAST(QString name)
         :name_(name)
     {}
     void AcceptVisit(VisitorAST&);
-    string getName() {return name_;}
+    QString getName() {return name_;}
     ExprAST* copy() const;
 private:
-    string name_;
+    QString name_;
 };
 
 class BinaryExprAST : public ExprAST
@@ -149,22 +148,22 @@ public:
 class BlockExprAST : public ExprAST
 {
 public:
-    BlockExprAST(vector<ExprAST*> body)
+    BlockExprAST(QVector<ExprAST*> body)
         :body_(body)
     {}
     BlockExprAST()
-        :body_(vector<ExprAST*>())
+        :body_(QVector<ExprAST*>())
     {}
     void AcceptVisit(VisitorAST&);
     ~BlockExprAST();
     BlockExprAST(const BlockExprAST&);
     BlockExprAST& operator= (const BlockExprAST&);
-    vector<ExprAST*> getBody() {return body_;}
+    QVector<ExprAST*> getBody() {return body_;}
     ExprAST* copy() const;
     void insert(ExprAST*, int);
     void push_back(ExprAST*);
 private:
-    vector<ExprAST*> body_;
+    QVector<ExprAST*> body_;
 };
 
 class IfExprAST : public ExprAST
@@ -214,18 +213,18 @@ private:
 class AssignExprAST : public ExprAST
 {
 public:
-    AssignExprAST(string name, ExprAST *expr)
+    AssignExprAST(QString name, ExprAST *expr)
         :name_(name),expr_(expr)
     {}
     void AcceptVisit(VisitorAST&);
     ~AssignExprAST();
     AssignExprAST(const AssignExprAST&);
     AssignExprAST& operator= (const AssignExprAST&);
-    string getName() {return name_;}
+    QString getName() {return name_;}
     ExprAST* getExpr() {return expr_;}
     ExprAST* copy() const;
 private:
-    string name_;
+    QString name_;
     ExprAST* expr_;
 };
 
@@ -234,21 +233,21 @@ private:
 class FunctionExprAST : public ExprAST
 {
 public:
-    FunctionExprAST(string name, BlockExprAST* body)
+    FunctionExprAST(QString name, BlockExprAST* body)
         :name_(name), body_(body)
     {}
-    FunctionExprAST(string name)
+    FunctionExprAST(QString name)
         :FunctionExprAST(name, new BlockExprAST())
     {}
     void AcceptVisit(VisitorAST&);
     ~FunctionExprAST();
     FunctionExprAST(const FunctionExprAST&);
     FunctionExprAST& operator= (const FunctionExprAST&);
-    string getName() {return name_;}
+    QString getName() {return name_;}
     BlockExprAST* getBody() {return body_;}
     ExprAST* copy() const;
 private:
-    string name_;
+    QString name_;
     BlockExprAST* body_;
 };
 

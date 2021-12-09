@@ -1,14 +1,14 @@
 #include "state.h"
 
 
-std::unordered_map<std::string, ValueExprAST*>* State::getCurrentDomain()
+QHash<QString, ValueExprAST*>* State::getCurrentDomain()
 {
     return domains_.back();
 }
 
 void State::createNewDomain()
 {
-    domains_.push_back(new std::unordered_map<std::string, ValueExprAST*>);
+    domains_.push_back(new QHash<QString, ValueExprAST*>);
 }
 
 void State::removeCurrentDomain()
@@ -25,16 +25,21 @@ void State::removeCurrentDomain()
         return;
     }
     auto currentDomain = getCurrentDomain();
-    for(auto &element : *oldDomain){
-        if(currentDomain->find(element.first) != currentDomain->end()){
-            (*currentDomain)[element.first] = element.second;
+
+    auto begin = oldDomain->begin();
+    auto end = oldDomain->end();
+    while(begin != end){
+        if(currentDomain->contains(begin.key())){
+            currentDomain->key(begin.value());
         }
+
+        begin++;
     }
 
     delete oldDomain;
 }
 
-void State::assignValue(const std::string& variable, ValueExprAST* value)
+void State::assignValue(const QString& variable, ValueExprAST* value)
 {
     auto currentDomain = getCurrentDomain();
     if(currentDomain->find(variable) != currentDomain->end()){
@@ -43,7 +48,7 @@ void State::assignValue(const std::string& variable, ValueExprAST* value)
     (*currentDomain)[variable] = value;
 }
 
-ValueExprAST* State::getValue(const std::string& variable){
+ValueExprAST* State::getValue(const QString& variable){
     auto rit = domains_.rbegin();
     auto end = domains_.rend();
     while(rit != end){
@@ -60,9 +65,15 @@ State::~State()
 {
     while(!domains_.empty()){
         auto currentDomain = getCurrentDomain();
-        for(auto &element : *currentDomain){
-            delete element.second;
+
+        auto begin = currentDomain->begin();
+        auto end = currentDomain->end();
+        while(begin != end){
+            delete begin.value();
+
+            begin++;
         }
+
         delete currentDomain;
         domains_.pop_back();
     }
