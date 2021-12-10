@@ -19,7 +19,6 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-<<<<<<< HEAD
         maingraphicsview.hpp
         maingraphicsview.cpp
         instructioncontainer.h
@@ -29,8 +28,6 @@ set(PROJECT_SOURCES
         instructiondialog.h
         instructiondialog.cpp
         instructiondialog.ui
-
-=======
         ast.h
         ast.cpp
         state.h
@@ -40,7 +37,6 @@ set(PROJECT_SOURCES
         tests/catch.hpp
         exprtree.h
         exprtree.cpp
->>>>>>> origin/feature/ast
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
