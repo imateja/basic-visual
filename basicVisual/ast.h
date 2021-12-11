@@ -51,7 +51,7 @@ public:
         :value_(value)
     {}
     void AcceptVisit(VisitorAST&) override;
-    double getValue() {return value_;}
+    inline double getValue() {return value_;}
     ExprAST* copy() const override;
 private:
     double value_;
@@ -64,7 +64,7 @@ public:
         :name_(name)
     {}
     void AcceptVisit(VisitorAST&) override;
-    QString getName() {return name_;}
+    inline QString getName() {return name_;}
     ExprAST* copy() const override;
 private:
     QString name_;
@@ -158,7 +158,7 @@ public:
     ~BlockExprAST();
     BlockExprAST(const BlockExprAST&);
     BlockExprAST& operator= (const BlockExprAST&);
-    QVector<ExprAST*> getBody() {return body_;}
+    inline QVector<ExprAST*> getBody() {return body_;}
     ExprAST* copy() const override;
     void insert(ExprAST*, int);
     void push_back(ExprAST*);
@@ -179,9 +179,9 @@ public:
     ~IfExprAST();
     IfExprAST(const IfExprAST&);
     IfExprAST& operator= (const IfExprAST&);
-    ExprAST* getCond() {return cond_;}
-    BlockExprAST* getThen() {return then_;}
-    BlockExprAST* getElse() {return else_;}
+    inline ExprAST* getCond() {return cond_;}
+    inline BlockExprAST* getThen() {return then_;}
+    inline BlockExprAST* getElse() {return else_;}
     ExprAST* copy() const override;
 private:
     ExprAST *cond_;
@@ -202,8 +202,8 @@ public:
     ~WhileExprAST();
     WhileExprAST(const WhileExprAST&);
     WhileExprAST& operator= (const WhileExprAST&);
-    ExprAST* getCond() {return cond_;}
-    BlockExprAST* getBody() {return body_;}
+    inline ExprAST* getCond() {return cond_;}
+    inline BlockExprAST* getBody() {return body_;}
     ExprAST* copy() const override;
 private:
     ExprAST *cond_;
@@ -220,8 +220,8 @@ public:
     ~AssignExprAST();
     AssignExprAST(const AssignExprAST&);
     AssignExprAST& operator= (const AssignExprAST&);
-    QString getName() {return name_;}
-    ExprAST* getExpr() {return expr_;}
+    inline QString getName() {return name_;}
+    inline ExprAST* getExpr() {return expr_;}
     ExprAST* copy() const override;
 private:
     QString name_;
@@ -241,8 +241,8 @@ public:
     ~FunctionExprAST();
     FunctionExprAST(const FunctionExprAST&);
     FunctionExprAST& operator= (const FunctionExprAST&);
-    QString getName() {return name_;}
-    BlockExprAST* getBody() {return body_;}
+    inline QString getName() {return name_;}
+    inline BlockExprAST* getBody() {return body_;}
     ExprAST* copy() const override;
 private:
     QString name_;
