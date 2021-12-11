@@ -1,12 +1,12 @@
-#include "mainwindow.h"
+#include "inc/mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "maingraphicsview.hpp"
-#include "instruction.h"
-#include "instructioncontainer.h"
+#include "inc/maingraphicsview.hpp"
+#include "inc/instruction.h"
+#include "inc/instructioncontainer.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QFileDialog>
-#include "instructiondialog.h"
+#include "inc/instructiondialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

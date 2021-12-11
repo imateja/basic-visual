@@ -15,34 +15,38 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        maingraphicsview.hpp
-        maingraphicsview.cpp
-        instructioncontainer.h
-        instructioncontainer.cpp
-        instruction.h
-        instruction.cpp
-        instructiondialog.h
-        instructiondialog.cpp
-        instructiondialog.ui
-        ast.h
-        ast.cpp
-        state.h
-        state.cpp
-        interpret.h
-        interpret.cpp
+        src/mainwindow.ui
+        src/instructiondialog.ui
+        src/main.cpp
+        src/mainwindow.cpp
+        src/maingraphicsview.cpp
+        src/instructioncontainer.cpp
+        src/instruction.cpp
+        src/instructiondialog.cpp
+        src/ast.cpp
+        src/state.cpp
+        src/interpret.cpp
+        src/exprtree.cpp
+)
+
+set(PROJECT_HEADERS
+        inc/mainwindow.h
+        inc/maingraphicsview.hpp
+        inc/instructioncontainer.h
+        inc/instruction.h
+        inc/instructiondialog.h
+        inc/ast.h
+        inc/state.h
+        inc/interpret.h
+        inc/exprtree.h
         tests/catch.hpp
-        exprtree.h
-        exprtree.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(basicVisual
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        ${PROJECT_HEADERS}
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET basicVisual APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -52,12 +56,14 @@ else()
     if(ANDROID)
         add_library(basicVisual SHARED
             ${PROJECT_SOURCES}
+            ${PROJECT_HEADERS}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(basicVisual
             ${PROJECT_SOURCES}
+            ${PROJECT_HEADERS}
         )
     endif()
 endif()

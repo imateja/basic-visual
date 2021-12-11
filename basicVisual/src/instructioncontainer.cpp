@@ -1,6 +1,6 @@
-#include "instructioncontainer.h"
+#include "inc/instructioncontainer.h"
 #include <QPainter>
-#include "instruction.h"
+#include "inc/instruction.h"
 
 InstructionContainer::InstructionContainer(Instruction *instructions)
     :QGraphicsObject()

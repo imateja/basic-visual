@@ -1,4 +1,4 @@
-#include "ast.h"
+#include "inc/ast.h"
 
 //--------------------ACCEPT VISIT--------------------
 

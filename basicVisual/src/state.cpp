@@ -1,4 +1,4 @@
-#include "state.h"
+#include "inc/state.h"
 
 
 QHash<QString, ValueExprAST*>* State::getCurrentDomain()

@@ -1,5 +1,5 @@
-#include "interpret.h"
-#include "state.h"
+#include "inc/interpret.h"
+#include "inc/state.h"
 
 void Interpret::VisitValueExprAST(ValueExprAST& obj) {
         dValue_= obj.getValue();

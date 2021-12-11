@@ -1,6 +1,6 @@
-#include "maingraphicsview.hpp"
-#include "instructioncontainer.h"
-#include "instruction.h"
+#include "inc/maingraphicsview.hpp"
+#include "inc/instructioncontainer.h"
+#include "inc/instruction.h"
 #include <QDebug>
 
 
