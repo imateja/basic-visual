@@ -27,6 +27,7 @@ set(PROJECT_SOURCES
         src/state.cpp
         src/interpret.cpp
         src/exprtree.cpp
+        #tests/test_ast.cpp
 )
 
 set(PROJECT_HEADERS
