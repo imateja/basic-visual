@@ -221,7 +221,7 @@ ExprAST* FunctionExprAST::copy() const{
 //--------------------------------------------
 
 void BlockExprAST::insert(ExprAST* expr, int index){
-    body_.insert(body_.begin() + index, expr);
+    body_.insert(index, expr);
 }
 
 void BlockExprAST::push_back(ExprAST* expr){

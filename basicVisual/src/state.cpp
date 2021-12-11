@@ -30,7 +30,7 @@ void State::removeCurrentDomain()
     auto end = oldDomain->end();
     while(begin != end){
         if(currentDomain->contains(begin.key())){
-            currentDomain->key(begin.value());
+            (*currentDomain)[begin.key()]=begin.value();
         }
 
         begin++;
