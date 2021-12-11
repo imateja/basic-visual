@@ -3,7 +3,7 @@
 
 #include "ast.h"
 
-class ExprTree
+class ExprTree final
 {
 public:
     static ExprTree& Tree(){

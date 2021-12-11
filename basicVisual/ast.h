@@ -44,7 +44,7 @@ public:
     virtual ExprAST* copy() const = 0;
 };
 
-class ValueExprAST : public ExprAST
+class ValueExprAST final : public ExprAST
 {
 public:
     ValueExprAST(double value)
@@ -57,7 +57,7 @@ private:
     double value_;
 };
 
-class VariableExprAST : public ExprAST
+class VariableExprAST final : public ExprAST
 {
 public:
     VariableExprAST(QString name)
@@ -85,7 +85,7 @@ protected:
     ExprAST *left_, *right_;
 };
 
-class AddExprAST : public BinaryExprAST
+class AddExprAST final : public BinaryExprAST
 {
 public:
     AddExprAST(ExprAST *left, ExprAST *right)
@@ -95,7 +95,7 @@ public:
     ExprAST* copy() const override;
 };
 
-class DivExprAST : public BinaryExprAST
+class DivExprAST final : public BinaryExprAST
 {
 public:
     DivExprAST(ExprAST *left, ExprAST *right)
@@ -105,7 +105,7 @@ public:
     ExprAST* copy() const override;
 };
 
-class MulExprAST : public BinaryExprAST
+class MulExprAST final : public BinaryExprAST
 {
 public:
     MulExprAST(ExprAST *left, ExprAST *right)
@@ -115,7 +115,7 @@ public:
     ExprAST* copy() const override;
 };
 
-class SubExprAST : public BinaryExprAST
+class SubExprAST final : public BinaryExprAST
 {
 public:
     SubExprAST(ExprAST *left, ExprAST *right)
@@ -125,7 +125,7 @@ public:
     ExprAST* copy() const override;
 };
 
-class LtExprAST : public BinaryExprAST
+class LtExprAST final : public BinaryExprAST
 {
 public:
     LtExprAST(ExprAST *left, ExprAST *right)
@@ -135,7 +135,7 @@ public:
     ExprAST* copy() const override;
 };
 
-class GtExprAST : public BinaryExprAST
+class GtExprAST final : public BinaryExprAST
 {
 public:
     GtExprAST(ExprAST *left, ExprAST *right)
@@ -145,7 +145,7 @@ public:
     ExprAST* copy() const override;
 };
 
-class BlockExprAST : public ExprAST
+class BlockExprAST final : public ExprAST
 {
 public:
     BlockExprAST(QVector<ExprAST*> body)
@@ -166,7 +166,7 @@ private:
     QVector<ExprAST*> body_;
 };
 
-class IfExprAST : public ExprAST
+class IfExprAST final : public ExprAST
 {
 public:
     IfExprAST(ExprAST *cond, BlockExprAST *then, BlockExprAST *Else)
@@ -189,7 +189,7 @@ private:
     BlockExprAST *else_;
 };
 
-class WhileExprAST : public ExprAST
+class WhileExprAST final : public ExprAST
 {
 public:
     WhileExprAST(ExprAST *cond, BlockExprAST *body)
@@ -210,7 +210,7 @@ private:
     BlockExprAST *body_;
 };
 
-class AssignExprAST : public ExprAST
+class AssignExprAST final : public ExprAST
 {
 public:
     AssignExprAST(QString name, ExprAST *expr)
@@ -228,9 +228,7 @@ private:
     ExprAST* expr_;
 };
 
-
-
-class FunctionExprAST : public ExprAST
+class FunctionExprAST final : public ExprAST
 {
 public:
     FunctionExprAST(QString name, BlockExprAST* body)

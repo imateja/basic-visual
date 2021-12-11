@@ -6,7 +6,7 @@
 #include <QString>
 #include "ast.h"
 
-class State
+class State final
 {
 public:
     static State& Domains(){

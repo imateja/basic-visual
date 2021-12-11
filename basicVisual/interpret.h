@@ -3,7 +3,7 @@
 
 #include "ast.h"
 
-class Interpret : public VisitorAST
+class Interpret final : public VisitorAST
 {
 public:
     Interpret()
