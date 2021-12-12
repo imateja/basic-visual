@@ -3,6 +3,9 @@
 
 QHash<QString, ValueExprAST*>* State::getCurrentDomain()
 {
+    if (domains_.size() == 0) {
+        State::Domains().createNewDomain();
+    }
     return domains_.back();
 }
 

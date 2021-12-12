@@ -3,6 +3,7 @@
 
 #include "inc/ast.h"
 #include "inc/interpret.h"
+#include "inc/state.h"
 
 /* TODO: double comparison */
 TEST_CASE("ValueExprAST", "[class]")
@@ -17,19 +18,76 @@ TEST_CASE("ValueExprAST", "[class]")
         REQUIRE(output == expectedOutput);
     }
 
-   SECTION("Deep copy of ValueExprAST instance will have different address compared to the original")
-   {
+    SECTION("Deep copy of ValueExprAST instance will have different address compared to the original")
+    {
         ValueExprAST* expr1 = new ValueExprAST(5.24);
 
         ValueExprAST* expr2 = static_cast<ValueExprAST*>(expr1->copy());
 
         REQUIRE_FALSE(expr1 == expr2);
-   }
+    }
+
+    SECTION("Interpreting a ValueExprAST instance will result in getting the value stored in that instance")
+    {
+        Interpret i;
+        ValueExprAST* expr = new ValueExprAST(4.4);
+        double expectedResult = 4.4;
+
+        i.VisitValueExprAST(*expr);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
 }
 
-TEST_CASE("AddExprAST", "[class][ValueExprAST]")
+TEST_CASE("VariableExprAST", "[class][State]")
 {
-    SECTION("For two type 'double' values, AddExprAST will add them and Interpret will return their sum")
+    SECTION("Instance of VariableExprAST constructed with argument type 'string' will return that value when getValue() is called")
+    {
+        VariableExprAST input{"testing"};
+        QString expectedOutput = "testing";
+
+        QString output = input.getName();
+
+        REQUIRE(output == expectedOutput);
+    }
+
+   SECTION("Deep copy of VariableExprAST instance will have different address compared to the original")
+   {
+        VariableExprAST* expr1 = new VariableExprAST("testing");
+
+        VariableExprAST* expr2 = static_cast<VariableExprAST*>(expr1->copy());
+
+        REQUIRE_FALSE(expr1 == expr2);
+   }
+
+    SECTION("Interpreting a VariableExprAST instance will result in getting the value stored by that name if that variable exists in scope")
+    {
+        Interpret i;
+        VariableExprAST* variable = new VariableExprAST("testing");
+        ValueExprAST* value = new ValueExprAST(4.4);
+        State::Domains().assignValue(variable->getName(), value);
+        double expectedResult = 4.4;
+
+        i.VisitVariableExprAST(*variable);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
+
+    /*  TODO: error handling in State class
+
+    SECTION("Interpreting VariableExprAST instance will result in getting nullptr if that variable does not exist in scope")
+    {
+        Interpret i;
+        VariableExprAST* variable = new VariableExprAST("testing");
+
+        REQUIRE_THROWS(i.VisitVariableExprAST(*variable));
+    }
+    */
+}
+
+TEST_CASE("AddExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+{
+    SECTION("For two ValueExprAST* operands, AddExprAST will add them and Interpret will hold their sum")
     {
         Interpret i;
         ValueExprAST* expr1 = new ValueExprAST(4.4);
@@ -41,11 +99,40 @@ TEST_CASE("AddExprAST", "[class][ValueExprAST]")
 
         REQUIRE((double)i == expectedResult);
     }
+
+    SECTION("For two VariableExprAST* operands, AddExprAST will add them and Interpret will hold their sum")
+    {
+        Interpret i;
+        VariableExprAST* expr1 = new VariableExprAST("first");
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr1->getName(), new ValueExprAST(4.4));
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(5.6));
+        AddExprAST* result = new AddExprAST(expr1, expr2);
+        double expectedResult = 10.0;
+
+        i.VisitAddExprAST(*result);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
+
+    SECTION("For one ValueExprAST* and one VariableExprAST* operands, AddExprAST will add them and Interpret will hold their sum")
+    {
+        Interpret i;
+        ValueExprAST* expr1 = new ValueExprAST(4.4);
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(5.6));
+        AddExprAST* result = new AddExprAST(expr1, expr2);
+        double expectedResult = 10.0;
+
+        i.VisitAddExprAST(*result);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
 }
 
-TEST_CASE("SubExprAST", "[class][ValueExprAST]")
+TEST_CASE("SubExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 {
-    SECTION("For two type 'double' values, SubExprAST will subtract them and Interpret will return their difference")
+    SECTION("For two ValueExprAST* operands, SubExprAST will subtract them and Interpret will hold their difference")
     {
         Interpret i;
         ValueExprAST* expr1 = new ValueExprAST(7.7);
@@ -57,11 +144,40 @@ TEST_CASE("SubExprAST", "[class][ValueExprAST]")
 
         REQUIRE((double)i == expectedResult);
     }
+
+    SECTION("For two VariableExprAST* operands, SubExprAST will substract them and Interpret will hold their difference")
+    {
+        Interpret i;
+        VariableExprAST* expr1 = new VariableExprAST("first");
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr1->getName(), new ValueExprAST(7.7));
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(5.5));
+        SubExprAST* result = new SubExprAST(expr1, expr2);
+        double expectedResult = 2.2;
+
+        i.VisitSubExprAST(*result);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
+
+    SECTION("For one ValueExprAST* and one VariableExprAST* operands, SubExprAST will substract them and Interpret will hold their difference")
+    {
+        Interpret i;
+        ValueExprAST* expr1 = new ValueExprAST(7.7);
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(5.5));
+        SubExprAST* result = new SubExprAST(expr1, expr2);
+        double expectedResult = 2.2;
+
+        i.VisitSubExprAST(*result);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
 }
 
-TEST_CASE("MulExprAST", "[class][ValueExprAST]")
+TEST_CASE("MulExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 {
-    SECTION("For two type 'double' values, MulExprAST will multiply them and Interpret will return their product")
+    SECTION("For two type ValueExprAST operands, MulExprAST will multiply them and Interpret will hold their product")
     {
         Interpret i;
         ValueExprAST* expr1 = new ValueExprAST(2.5);
@@ -73,11 +189,40 @@ TEST_CASE("MulExprAST", "[class][ValueExprAST]")
 
         REQUIRE((double)i == expectedResult);
     }
+
+    SECTION("For two VariableExprAST* operands, MulExprAST will multiply them and Interpret will hold their product")
+    {
+        Interpret i;
+        VariableExprAST* expr1 = new VariableExprAST("first");
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr1->getName(), new ValueExprAST(2.5));
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(2.5));
+        MulExprAST* result = new MulExprAST(expr1, expr2);
+        double expectedResult = 6.25;
+
+        i.VisitMulExprAST(*result);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
+
+    SECTION("For one ValueExprAST* and one VariableExprAST* operands, MulExprAST will multiply them and Interpret will hold their product")
+    {
+        Interpret i;
+        ValueExprAST* expr1 = new ValueExprAST(2.5);
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(2.5));
+        MulExprAST* result = new MulExprAST(expr1, expr2);
+        double expectedResult = 6.25;
+
+        i.VisitMulExprAST(*result);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
 }
 
-TEST_CASE("DivExprAST", "[class][ValueExprAST]")
+TEST_CASE("DivExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 {
-    SECTION("For two type 'double' values, DivExprAST will divide them and Interpret will return their quotient")
+    SECTION("For two type ValueExprAST operands, DivExprAST will divide them and Interpret will hold their quotient")
     {
         Interpret i;
         ValueExprAST* expr1 = new ValueExprAST(6.7);
@@ -89,11 +234,40 @@ TEST_CASE("DivExprAST", "[class][ValueExprAST]")
 
         REQUIRE((double)i == expectedResult);
     }
+
+    SECTION("For two VariableExprAST* operands, DivExprAST will divide them and Interpret will hold their quotient")
+    {
+        Interpret i;
+        VariableExprAST* expr1 = new VariableExprAST("first");
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr1->getName(), new ValueExprAST(6.7));
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(3.2));
+        DivExprAST* result = new DivExprAST(expr1, expr2);
+        double expectedResult = 2.09375;
+
+        i.VisitDivExprAST(*result);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
+
+    SECTION("For one ValueExprAST* and one VariableExprAST* operands, DivExprAST will divide them and Interpret will hold their quotient")
+    {
+        Interpret i;
+        ValueExprAST* expr1 = new ValueExprAST(6.7);
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(3.2));
+        DivExprAST* result = new DivExprAST(expr1, expr2);
+        double expectedResult = 2.09375;
+
+        i.VisitDivExprAST(*result);
+
+        REQUIRE(static_cast<double>(i) == expectedResult);
+    }
 }
 
-TEST_CASE("LtExprAST", "[class][ValueExprAST]")
+TEST_CASE("LtExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 {
-    SECTION("For two type 'double' values, LtExprAST will compare them and Interpret will return true if first is lower than second")
+    SECTION("For two type ValueExprAST operands, LtExprAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
     {
         Interpret i;
         ValueExprAST* expr1 = new ValueExprAST(3.2);
@@ -105,11 +279,40 @@ TEST_CASE("LtExprAST", "[class][ValueExprAST]")
 
         REQUIRE((bool)i);
     }
+
+    SECTION("For two VariableExprAST* operands, LtExprAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
+    {
+        Interpret i;
+        VariableExprAST* expr1 = new VariableExprAST("first");
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr1->getName(), new ValueExprAST(3.2));
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(3.3));
+        LtExprAST* result = new LtExprAST(expr1, expr2);
+        bool expectedResult = true;
+
+        i.VisitLtExprAST(*result);
+
+        REQUIRE(static_cast<bool>(i) == expectedResult);
+    }
+
+    SECTION("For one ValueExprAST* and one VariableExprAST* operands, LtExprAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
+    {
+        Interpret i;
+        ValueExprAST* expr1 = new ValueExprAST(3.2);
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(3.3));
+        LtExprAST* result = new LtExprAST(expr1, expr2);
+        bool expectedResult = true;
+
+        i.VisitLtExprAST(*result);
+
+        REQUIRE(static_cast<bool>(i) == expectedResult);
+    }
 }
 
-TEST_CASE("GtExprAST", "[class][ValueExprAST]")
+TEST_CASE("GtExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 {
-    SECTION("For two type 'double' values, GtExprAST will compare them and Interpret will return true if first is greater than second")
+    SECTION("For two type ValueExprAST operands, GtExprAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
     {
         Interpret i;
         ValueExprAST* expr1 = new ValueExprAST(7.7);
@@ -120,6 +323,35 @@ TEST_CASE("GtExprAST", "[class][ValueExprAST]")
         i.VisitGtExprAST(*result);
 
         REQUIRE((bool)i);
+    }
+
+    SECTION("For two VariableExprAST* operands, GtExprAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
+    {
+        Interpret i;
+        VariableExprAST* expr1 = new VariableExprAST("first");
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr1->getName(), new ValueExprAST(7.7));
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(5.5));
+        GtExprAST* result = new GtExprAST(expr1, expr2);
+        bool expectedResult = true;
+
+        i.VisitGtExprAST(*result);
+
+        REQUIRE(static_cast<bool>(i) == expectedResult);
+    }
+
+    SECTION("For one ValueExprAST* and one VariableExprAST* operands, GtExprAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
+    {
+        Interpret i;
+        ValueExprAST* expr1 = new ValueExprAST(7.7);
+        VariableExprAST* expr2 = new VariableExprAST("second");
+        State::Domains().assignValue(expr2->getName(), new ValueExprAST(5.5));
+        GtExprAST* result = new GtExprAST(expr1, expr2);
+        bool expectedResult = true;
+
+        i.VisitGtExprAST(*result);
+
+        REQUIRE(static_cast<bool>(i) == expectedResult);
     }
 }
 
