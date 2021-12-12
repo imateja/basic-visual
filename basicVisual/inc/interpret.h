@@ -13,6 +13,10 @@ public:
         expr->AcceptVisit(*this);
     }
 
+    //TEMP
+    operator double() { return dValue_; }
+    operator bool() { return bValue_; }
+
     void VisitValueExprAST(ValueExprAST&) override;
     void VisitVariableExprAST(VariableExprAST&) override;
     void VisitAddExprAST(AddExprAST&) override;

@@ -162,6 +162,9 @@ public:
     ExprAST* copy() const override;
     void insert(ExprAST*, int);
     void push_back(ExprAST*);
+    //TEMP
+    unsigned size();
+    ExprAST* at(unsigned);
 private:
     QVector<ExprAST*> body_;
 };

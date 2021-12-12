@@ -227,3 +227,12 @@ void BlockExprAST::insert(ExprAST* expr, int index){
 void BlockExprAST::push_back(ExprAST* expr){
     body_.push_back(expr);
 }
+
+//TEMP
+unsigned BlockExprAST::size(){
+   return body_.size();
+}
+
+ExprAST* BlockExprAST::at(unsigned i){
+    return body_.at(i);
+}
