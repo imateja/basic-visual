@@ -50,6 +50,7 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
 /* FIX:
  * Ne svidja mi se cast bez ikakve provere tipa.
  * Za sada znamo da ne moze da bude nista osim ValueExprAST,
+    * EDIT: Moze da bude i VariableExprAST!
  * ali kada budemo omogucili dodelu povratne vrednosti funkcije
  * mozda se stvari promene (treba diskutovati o tome)
  */
