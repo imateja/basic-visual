@@ -355,8 +355,67 @@ TEST_CASE("GtExprAST", "[class][ValueExprAST][VariableExprAST][State]")
     }
 }
 
-TEST_CASE("BlockExprAST", "[class][ValueExprAST]")
+TEST_CASE("AssignExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 {
+    /* FIX: DOUBLE FREE */
+    /*
+    SECTION("Interpreting a valid AssignExprAST created with a non-existing name and a ValueExprAST will result in creating a variable in scope")
+    {
+        QString name = "testing";
+        AssignExprAST expr {name, new ValueExprAST(10.0)};
+        double expectedResult = 10.0;
+
+        Interpret {&expr};
+        double result = static_cast<double>(Interpret {State::Domains().getValue(name)});
+
+        REQUIRE(result == expectedResult);
+    }
+    */
+
+
+    /* FIX: DOUBLE FREE */
+    /*
+    SECTION("Interpreting a valid AssignExprAST created with an existing name and ValueExprAST will result in updating an existing variable in scope")
+    {
+        QString oldName = "testing";
+        State::Domains().assignValue(oldName, new ValueExprAST(5.0));
+        AssignExprAST expr {oldName, new ValueExprAST(10.0)};
+        double expectedResult = 10.0;
+
+        Interpret {&expr};
+        double result = static_cast<double>(Interpret {State::Domains().getValue(oldName)});
+
+        REQUIRE(result == expectedResult);
+    }
+    */
+
+
+    /* TODO:
+       idea: Implement getValue() method in VariableExprAST class
+       The method would try and get ValueExprAST linked with the name_ from State object
+
+       Then fix visitVariableExprAST:
+       State::Domains().assignValue(obj.getName(), obj.getExpr()->getValue());
+    */
+
+    /*
+    SECTION("Interpreting a valid AssignExprAST created with VariableExprAST will result in creating a variable in scope")
+    {
+        QString newVarName = "testing";
+        VariableExprAST* varExpr = new VariableExprAST("oldVarName");
+        State::Domains().assignValue(varExpr->getName(), new ValueExprAST(10.0));
+        AssignExprAST assignExpr {newVarName, varExpr};
+        double expectedResult = 10.0;
+
+        Interpret {&assignExpr};
+        double result = static_cast<double>(Interpret {State::Domains().getValue(newVarName)});
+
+        REQUIRE(result == expectedResult);
+    }
+    */
+}
+
+TEST_CASE("BlockExprAST", "[class][ValueExprAST]"){
     SECTION("Given empty BlockExprAST instance, push_back will append an ExprAST at the end of the collection")
     {
         ValueExprAST* expr1 = new ValueExprAST(5.0);
@@ -380,5 +439,23 @@ TEST_CASE("BlockExprAST", "[class][ValueExprAST]")
         outputBlock.insert(expr4, 0);
 
         REQUIRE(outputBlock.at(0) == expr4);
+        REQUIRE(outputBlock.at(1) == expr1);
+        REQUIRE(outputBlock.at(2) == expr2);
+        REQUIRE(outputBlock.at(3) == expr3);
     }
+
+    /* TODO
+    SECTION("Given BlockExprAST instance with one AssignExprAST inside, interpreting that block will result in creating of variable in scope")
+    {
+
+    }
+    */
+
+
+    /* TODO
+    SECTION("Given BlockExprAST instance with more than one instruction, interpreting that block will result in completing every instruction inside")
+    {
+
+    }
+    */
 }
