@@ -97,7 +97,7 @@ TEST_CASE("AddExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 
         i.VisitAddExprAST(*result);
 
-        REQUIRE((double)i == expectedResult);
+        REQUIRE(static_cast<double>(i) == expectedResult);
     }
 
     SECTION("For two VariableExprAST* operands, AddExprAST will add them and Interpret will hold their sum")
@@ -142,7 +142,7 @@ TEST_CASE("SubExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 
         i.VisitSubExprAST(*result);
 
-        REQUIRE((double)i == expectedResult);
+        REQUIRE(static_cast<double>(i) == expectedResult);
     }
 
     SECTION("For two VariableExprAST* operands, SubExprAST will substract them and Interpret will hold their difference")
@@ -187,7 +187,7 @@ TEST_CASE("MulExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 
         i.VisitMulExprAST(*result);
 
-        REQUIRE((double)i == expectedResult);
+        REQUIRE(static_cast<double>(i) == expectedResult);
     }
 
     SECTION("For two VariableExprAST* operands, MulExprAST will multiply them and Interpret will hold their product")
@@ -232,7 +232,7 @@ TEST_CASE("DivExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 
         i.VisitDivExprAST(*result);
 
-        REQUIRE((double)i == expectedResult);
+        REQUIRE(static_cast<double>(i) == expectedResult);
     }
 
     SECTION("For two VariableExprAST* operands, DivExprAST will divide them and Interpret will hold their quotient")
@@ -273,11 +273,11 @@ TEST_CASE("LtExprAST", "[class][ValueExprAST][VariableExprAST][State]")
         ValueExprAST* expr1 = new ValueExprAST(3.2);
         ValueExprAST* expr2 = new ValueExprAST(3.3);
         LtExprAST* result = new LtExprAST(expr1, expr2);
-        double expectedResult = 2.2;
+        bool expectedResult = true;
 
         i.VisitLtExprAST(*result);
 
-        REQUIRE((bool)i);
+        REQUIRE(static_cast<bool>(i) == expectedResult);
     }
 
     SECTION("For two VariableExprAST* operands, LtExprAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
@@ -318,11 +318,11 @@ TEST_CASE("GtExprAST", "[class][ValueExprAST][VariableExprAST][State]")
         ValueExprAST* expr1 = new ValueExprAST(7.7);
         ValueExprAST* expr2 = new ValueExprAST(5.5);
         GtExprAST* result = new GtExprAST(expr1, expr2);
-        double expectedResult = 2.2;
+        bool expectedResult = true;
 
         i.VisitGtExprAST(*result);
 
-        REQUIRE((bool)i);
+        REQUIRE(static_cast<bool>(i) == expectedResult);
     }
 
     SECTION("For two VariableExprAST* operands, GtExprAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
