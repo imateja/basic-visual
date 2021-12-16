@@ -55,17 +55,22 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
  * mozda se stvari promene (treba diskutovati o tome)
  */
 void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
-    State::Domains().assignValue(obj.getName(), dynamic_cast<ValueExprAST*>(obj.getExpr()));
+    State::Domains().assignValue(obj.getName(), new ValueExprAST((Interpret(obj.getExpr()).dValue_)));
 }
 
 void Interpret::VisitBlockExprAST(BlockExprAST& obj){
-    //???
-    auto body = obj.getBody();
-    for(auto e : body){
-        Interpret{e};
+    auto elem = obj.body_;
+    while(elem && !dynamic_cast<EndExprAST*>(elem)){
+        Interpret{elem};
+        elem = obj.body_->next_;
     }
+
 }
 
 void Interpret::VisitFunctionExprAST(FunctionExprAST& obj){
     Interpret(obj.getBody());
 }
+
+void Interpret::VisitEndExprAST(EndExprAST&){}
+
+void Interpret::VisitStartExprAST(StartExprAST&){}

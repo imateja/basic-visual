@@ -2,6 +2,7 @@
 #define AST_H
 #include <QString>
 #include <QVector>
+#include <QColor>
 
 class ValueExprAST;
 class VariableExprAST;
@@ -16,6 +17,8 @@ class IfExprAST;
 class AssignExprAST;
 class BlockExprAST;
 class FunctionExprAST;
+class EndExprAST;
+class StartExprAST;
 
 class VisitorAST
 {
@@ -33,6 +36,8 @@ public:
     virtual void VisitAssignExprAST(AssignExprAST&) = 0;
     virtual void VisitBlockExprAST(BlockExprAST&) = 0;
     virtual void VisitFunctionExprAST(FunctionExprAST&) = 0;
+    virtual void VisitEndExprAST(EndExprAST&) = 0;
+    virtual void VisitStartExprAST(StartExprAST&) = 0;
 
 };
 
@@ -41,7 +46,7 @@ class ExprAST
 public:
     virtual ~ExprAST(){}
     virtual void AcceptVisit(VisitorAST&) = 0;
-    virtual ExprAST* copy() const = 0;
+    //virtual ExprAST* copy() const = 0;
 };
 
 class ValueExprAST final : public ExprAST
@@ -52,7 +57,7 @@ public:
     {}
     void AcceptVisit(VisitorAST&) override;
     inline double getValue() {return value_;}
-    ExprAST* copy() const override;
+    //ExprAST* copy() const override;
 private:
     double value_;
 };
@@ -65,7 +70,7 @@ public:
     {}
     void AcceptVisit(VisitorAST&) override;
     inline QString getName() {return name_;}
-    ExprAST* copy() const override;
+    //ExprAST* copy() const override;
 private:
     QString name_;
 };
@@ -92,7 +97,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
-    ExprAST* copy() const override;
+    //ExprAST* copy() const override;
 };
 
 class DivExprAST final : public BinaryExprAST
@@ -102,7 +107,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
-    ExprAST* copy() const override;
+    //ExprAST* copy() const override;
 };
 
 class MulExprAST final : public BinaryExprAST
@@ -112,7 +117,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
-    ExprAST* copy() const override;
+    //ExprAST* copy() const override;
 };
 
 class SubExprAST final : public BinaryExprAST
@@ -122,7 +127,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
-    ExprAST* copy() const override;
+    //ExprAST* copy() const override;
 };
 
 class LtExprAST final : public BinaryExprAST
@@ -132,7 +137,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
-    ExprAST* copy() const override;
+    //ExprAST* copy() const override;
 };
 
 class GtExprAST final : public BinaryExprAST
@@ -142,114 +147,9 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
-    ExprAST* copy() const override;
+    //ExprAST* copy() const override;
 };
 
-class BlockExprAST final : public ExprAST
-{
-public:
-    BlockExprAST(QVector<ExprAST*> body)
-        :body_(body)
-    {}
-    BlockExprAST()
-        :body_(QVector<ExprAST*>())
-    {}
-    void AcceptVisit(VisitorAST&) override;
-    ~BlockExprAST();
-    BlockExprAST(const BlockExprAST&);
-    BlockExprAST& operator= (const BlockExprAST&);
-    inline QVector<ExprAST*> getBody() {return body_;}
-    ExprAST* copy() const override;
-    void insert(ExprAST*, int);
-    void push_back(ExprAST*);
-    //TEMP
-    unsigned size();
-    ExprAST* at(unsigned);
-private:
-    QVector<ExprAST*> body_;
-};
 
-class IfExprAST final : public ExprAST
-{
-public:
-    IfExprAST(ExprAST *cond, BlockExprAST *then, BlockExprAST *Else)
-        :cond_(cond),then_(then),else_(Else)
-    {}
-    IfExprAST(ExprAST *cond)
-        :cond_(cond),then_(new BlockExprAST),else_(new BlockExprAST)
-    {}
-    void AcceptVisit(VisitorAST&) override;
-    ~IfExprAST();
-    IfExprAST(const IfExprAST&);
-    IfExprAST& operator= (const IfExprAST&);
-    inline ExprAST* getCond() {return cond_;}
-    inline BlockExprAST* getThen() {return then_;}
-    inline BlockExprAST* getElse() {return else_;}
-    ExprAST* copy() const override;
-private:
-    ExprAST *cond_;
-    BlockExprAST *then_;
-    BlockExprAST *else_;
-};
-
-class WhileExprAST final : public ExprAST
-{
-public:
-    WhileExprAST(ExprAST *cond, BlockExprAST *body)
-        :cond_(cond),body_(body)
-    {}
-    WhileExprAST(ExprAST *cond)
-        :cond_(cond),body_(new BlockExprAST())
-    {}
-    void AcceptVisit(VisitorAST&) override;
-    ~WhileExprAST();
-    WhileExprAST(const WhileExprAST&);
-    WhileExprAST& operator= (const WhileExprAST&);
-    inline ExprAST* getCond() {return cond_;}
-    inline BlockExprAST* getBody() {return body_;}
-    ExprAST* copy() const override;
-private:
-    ExprAST *cond_;
-    BlockExprAST *body_;
-};
-
-class AssignExprAST final : public ExprAST
-{
-public:
-    AssignExprAST(QString name, ExprAST *expr)
-        :name_(name),expr_(expr)
-    {}
-    void AcceptVisit(VisitorAST&) override;
-    ~AssignExprAST();
-    AssignExprAST(const AssignExprAST&);
-    AssignExprAST& operator= (const AssignExprAST&);
-    inline QString getName() {return name_;}
-    inline ExprAST* getExpr() {return expr_;}
-    ExprAST* copy() const override;
-private:
-    QString name_;
-    ExprAST* expr_;
-};
-
-class FunctionExprAST final : public ExprAST
-{
-public:
-    FunctionExprAST(QString name, BlockExprAST* body)
-        :name_(name), body_(body)
-    {}
-    FunctionExprAST(QString name)
-        :FunctionExprAST(name, new BlockExprAST())
-    {}
-    void AcceptVisit(VisitorAST&) override;
-    ~FunctionExprAST();
-    FunctionExprAST(const FunctionExprAST&);
-    FunctionExprAST& operator= (const FunctionExprAST&);
-    inline QString getName() {return name_;}
-    inline BlockExprAST* getBody() {return body_;}
-    ExprAST* copy() const override;
-private:
-    QString name_;
-    BlockExprAST* body_;
-};
 
 #endif // AST_H

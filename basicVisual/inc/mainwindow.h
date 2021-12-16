@@ -4,12 +4,11 @@
 #include <QMainWindow>
 #include <QWidget>
 #include <QGraphicsScene>
-#include "instruction.h"
-#include "instructioncontainer.h"
+#include "exprtree.h"
 
 class QGraphicsScene;
 class Instruction;
-class InstructionContainer;
+//class InstructionContainer;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,14 +22,13 @@ public:
     ~MainWindow();
 
 signals:
-    void newSquareOnGV(InstructionContainer *);
+    void newSquareOnGV(InstructionExprAST *);
 
 private slots:
 
     void addAssign();
     void addWhile();
     void addIf();
-    void addFor();
 
 private:
     void onActionOpen();

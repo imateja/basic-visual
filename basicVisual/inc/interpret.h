@@ -2,6 +2,7 @@
 #define INTERPRET_H
 
 #include "ast.h"
+#include "exprtree.h"
 
 class Interpret final : public VisitorAST
 {
@@ -30,6 +31,8 @@ public:
     void VisitAssignExprAST(AssignExprAST&) override;
     void VisitBlockExprAST(BlockExprAST&) override;
     void VisitFunctionExprAST(FunctionExprAST&) override;
+    void VisitEndExprAST(EndExprAST&) override;
+    void VisitStartExprAST(StartExprAST&) override;
 
 private:
     double dValue_;
