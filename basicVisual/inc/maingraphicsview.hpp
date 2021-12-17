@@ -19,6 +19,7 @@ public slots:
 
 private:
     void PositionNewNode(InstructionExprAST *node);
+    void PositionNewNode(ThenElseExprAST* thenblock,ThenElseExprAST* elseblock, QPointF pos);
     void drawConnections();
     void SquareIsSelected();
     //Here we make vectors of all the statments that we have

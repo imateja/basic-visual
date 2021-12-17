@@ -33,6 +33,7 @@ public:
     void VisitFunctionExprAST(FunctionExprAST&) override;
     void VisitEndExprAST(EndExprAST&) override;
     void VisitStartExprAST(StartExprAST&) override;
+    void VisitThenElseExprAST(ThenElseExprAST&) override;
 
 private:
     double dValue_;

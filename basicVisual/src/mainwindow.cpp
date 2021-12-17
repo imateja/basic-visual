@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , _mainGraphicsView(new mainGraphicsView)
+
 {
     ui->setupUi(this);
     setupActions(); //sets up the needed connections for the taskbar
@@ -92,6 +93,7 @@ void MainWindow::addWhile()
         }
         _mainGraphicsView->addItem(selected->next_);
         emit newSquareOnGV(selected->next_);
+
     }
 
     }
@@ -118,13 +120,26 @@ void MainWindow::addIf()
         }
 
         _mainGraphicsView->addItem(selected->next_);
-        emit newSquareOnGV(selected->next_);
+
         auto position=selected->next_->scenePos();
+
+        emit newSquareOnGV(selected->next_);
+
+        position=selected->next_->scenePos();
+         qDebug()<<"outside emit"<<position<<"\n";
         auto h= selected->next_->getHeight();
         auto w= selected->next_->getWidth();
+        //QGraphicsItemGroup *group = _mainGraphicsView->createItemGroup({selected->next_});
+        auto thenblock= new ThenElseExprAST("then");
+        auto elseblock= new ThenElseExprAST("else");
+        thenblock->setPos(position.x()-50,position.y()+100);
+        qDebug()<<"then emit"<<position.x() -50<<"\n";
+        elseblock->setPos(position.x()+50,position.y() + 100);
+        qDebug()<<"else emit"<<position.x() +50<<"\n";
+        _mainGraphicsView->addItem(thenblock);
 
-        _mainGraphicsView->addRect(QRectF(position.x()-w/2,position.y()+80,150,70));
-        _mainGraphicsView->addRect(QRectF(position.x()+w/2,position.y()+80,150,70));
+        _mainGraphicsView->addItem(elseblock);
+
 
     }
 

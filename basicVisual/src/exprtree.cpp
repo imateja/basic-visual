@@ -26,7 +26,9 @@ void EndExprAST::AcceptVisit(VisitorAST& v){
 void StartExprAST::AcceptVisit(VisitorAST& v){
     v.VisitStartExprAST(*this);
 }
-
+void ThenElseExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitThenElseExprAST(*this);
+}
 
     IfExprAST::~IfExprAST(){
         delete cond_;
@@ -185,6 +187,27 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     //TODO:Default case (maybe throw error)
 }
+void ThenElseExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+
+   //TODO: check what i can do with this options
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+   //TODO: Pen and colour should also be properties of subclasses
+   //FIX: Colour and pen shouldnt be hardcoded
+
+    painter->fillRect(boundingRect(), QColor::fromRgb(128,128,0));
+    painter->setPen(Qt::white);
+    const auto SquareText = QString("%1").arg(name_);
+    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+
+    //TODO:Default case (maybe throw error)
+}
+QRectF ThenElseExprAST::boundingRect() const
+{
+    return QRectF(250, 0, 100, 70);
+}
+
 QRectF AssignExprAST::boundingRect() const
 {
     return QRectF(250, 0, 150, 200);

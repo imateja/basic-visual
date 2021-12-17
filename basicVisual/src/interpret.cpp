@@ -74,3 +74,6 @@ void Interpret::VisitFunctionExprAST(FunctionExprAST& obj){
 void Interpret::VisitEndExprAST(EndExprAST&){}
 
 void Interpret::VisitStartExprAST(StartExprAST&){}
+
+void Interpret::VisitThenElseExprAST(ThenElseExprAST&){}
+

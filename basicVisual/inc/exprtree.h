@@ -35,7 +35,7 @@ public:
     ~StartExprAST();
 };
 
-class BlockExprAST final : public ExprAST
+class BlockExprAST : public ExprAST
 {
 public:
     BlockExprAST(InstructionExprAST* body)
@@ -74,25 +74,46 @@ public:
     ~EndExprAST();
 };
 
+class ThenElseExprAST: public InstructionExprAST
+{
+public:
+    ThenElseExprAST(const QString name, BlockExprAST* block)
+        :name_(name), block_(block)
+    {}
+    ThenElseExprAST(const QString name)
+        :name_(name), block_(new BlockExprAST())
+    {}
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    inline qint32 getWidth() const { return 100; }
+    inline qint32 getHeight() const { return 70; }
+    void AcceptVisit(VisitorAST&) override;
+    BlockExprAST* block_;
+private:
+
+    QString name_;
+
+};
+
 class IfExprAST final : public InstructionExprAST
 {
 public:
-    IfExprAST(ExprAST *cond, BlockExprAST *then, BlockExprAST *Else)
+    IfExprAST(ExprAST *cond, ThenElseExprAST *then, ThenElseExprAST *Else)
         :cond_(cond),then_(then),else_(Else)
     {}
     IfExprAST(ExprAST *cond)
-        :IfExprAST(cond,new BlockExprAST() ,new BlockExprAST())
+        :IfExprAST(cond,new ThenElseExprAST("then") ,new ThenElseExprAST("else"))
     {
-        then_->body_ =  new EndExprAST(this);
-        else_->body_ =  new EndExprAST(this);
+        then_->block_->body_ =  new EndExprAST(this);
+        else_->block_->body_ =  new EndExprAST(this);
     }
     void AcceptVisit(VisitorAST&) override;
     ~IfExprAST();
     IfExprAST(const IfExprAST&);
     IfExprAST& operator= (const IfExprAST&);
     inline ExprAST* getCond() {return cond_;}
-    inline BlockExprAST* getThen() {return then_;}
-    inline BlockExprAST* getElse() {return else_;}
+    inline ThenElseExprAST* getThen() {return then_;}
+    inline ThenElseExprAST* getElse() {return else_;}
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(128,128,0);
     QString instructionName_ = QString("If");
@@ -100,8 +121,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 private:
     ExprAST *cond_;
-    BlockExprAST *then_;
-    BlockExprAST *else_;
+    ThenElseExprAST *then_;
+    ThenElseExprAST *else_;
 };
 
 class WhileExprAST final : public InstructionExprAST
