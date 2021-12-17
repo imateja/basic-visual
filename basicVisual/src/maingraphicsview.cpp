@@ -21,45 +21,25 @@ void mainGraphicsView::addedSquareOnGV(InstructionExprAST *node)
         ExprTree::Tree().selected = node;
     });
 
-//    if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::ASSIGN)
-//    {
-//        _assignInstructionVector.append(node);
-//    }
+    instructionVector_.append(node);
+    PositionNewNode(node);
 
-//    else if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::WHILE)
-//    {
-//        _assignInstructionVector.append(node);
-//    }
-
-//    else if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::IF)
-//    {
-//        _assignInstructionVector.append(node);
-//    }
-
-//    else if(node->instruction()->getInstructionType() == Instruction::TypeOfInstruction::FOR)
-//    {
-//        _assignInstructionVector.append(node);
-//    }
-
-    //TODO:Check what to do in the case where node has a TypeOfInsctruction that doesn't exist (maybe throw error)
-
-//    PositionNewNode(node);
 //    drawConnections();
 }
 //Positions the new node so there is no overlap
 //TODO:make squares be close together under eachother
-//void mainGraphicsView::PositionNewNode(InstructionExprAST *node)
-//{
-//    const auto graphicsViewWidth = static_cast<int>(this->width());
-//    auto numNewNode = 0;
-//    //TODO:add conditions for other instructions
-//    numNewNode = _assignInstructionVector.size()-1;
+void mainGraphicsView::PositionNewNode(InstructionExprAST *node)
+{
+    const auto graphicsViewWidth = static_cast<int>(this->width());
+    auto numNewNode = 0;
 
-//    const auto xPos = (node->getWidth() * numNewNode) % graphicsViewWidth;
-//    const auto yPos = node->getHeight() * ((node->getWidth() * numNewNode) / graphicsViewWidth);
+    numNewNode =instructionVector_.size()-1;
 
-//    node->setPos(xPos,yPos);
-//}
+    //const auto xPos = (node->getWidth() * numNewNode) % graphicsViewWidth;
+    const auto yPos = node->getHeight() * ((node->getWidth() * numNewNode) / graphicsViewWidth);
+
+    node->setPos(graphicsViewWidth/2+300,yPos);
+}
 
 
 void mainGraphicsView::SquareIsSelected(){

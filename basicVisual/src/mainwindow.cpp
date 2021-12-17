@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
     connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
     connect(ui->IfBtn, &QPushButton::clicked, this, &MainWindow::addIf);
+    connect(ui->startBtn, &QPushButton::clicked, this, &MainWindow::addStart);
     connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsView *>(_mainGraphicsView), &mainGraphicsView::addedSquareOnGV);
 
 }
@@ -37,6 +38,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 //These are just test functions, actual ones are gonna look completely different
+void MainWindow::addStart()
+{
+    auto selected = new StartExprAST();
+    _mainGraphicsView->addItem(selected);
+    emit newSquareOnGV(selected);
+}
 void MainWindow::addAssign()
 {
     //InstructionDialog* WhileDialog = new InstructionDialog(this);
@@ -112,6 +119,13 @@ void MainWindow::addIf()
 
         _mainGraphicsView->addItem(selected->next_);
         emit newSquareOnGV(selected->next_);
+        auto position=selected->next_->scenePos();
+        auto h= selected->next_->getHeight();
+        auto w= selected->next_->getWidth();
+
+        _mainGraphicsView->addRect(QRectF(position.x()-w/2,position.y()+80,150,70));
+        _mainGraphicsView->addRect(QRectF(position.x()+w/2,position.y()+80,150,70));
+
     }
 
     }

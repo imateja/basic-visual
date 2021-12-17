@@ -29,6 +29,7 @@ private slots:
     void addAssign();
     void addWhile();
     void addIf();
+    void addStart();
 
 private:
     void onActionOpen();

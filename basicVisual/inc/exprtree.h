@@ -13,6 +13,9 @@ public:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override ;
     const QColor color_;
     const QString instructionName_;
+    inline qint32 getWidth() const { return 200; }
+    inline qint32 getHeight() const { return 70; }
+
     ~InstructionExprAST(){
 
     }

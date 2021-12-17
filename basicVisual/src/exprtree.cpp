@@ -130,6 +130,7 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
    //FIX: Colour and pen shouldnt be hardcoded
 
     painter->fillRect(boundingRect(), color_);
+    painter->drawEllipse(20,30,20,20);
     painter->setPen(Qt::white);
     const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
@@ -186,7 +187,7 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 }
 QRectF AssignExprAST::boundingRect() const
 {
-    return QRectF(0, 0, 150, 200);
+    return QRectF(250, 0, 150, 200);
 }
 
 QRectF WhileExprAST::boundingRect() const
@@ -196,7 +197,7 @@ QRectF WhileExprAST::boundingRect() const
 
 QRectF IfExprAST::boundingRect() const
 {
-    return QRectF(0, 0, 150, 200);
+    return QRectF(0, 0, getWidth(), getHeight());
 }
 
 QRectF StartExprAST::boundingRect() const
