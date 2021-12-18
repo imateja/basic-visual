@@ -44,11 +44,8 @@ void StartExprAST::AcceptVisit(VisitorAST& v){
     }
 
     BlockExprAST::~BlockExprAST(){
-        while(auto next = body_->next_){
-            delete body_;
-            body_ = next;
-        }
-        delete body_;
+       for(auto& next : body_)
+            delete next;
     }
     StartExprAST::~StartExprAST(){
 
@@ -71,10 +68,13 @@ void InstructionExprAST::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 }
 void InstructionExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
 
+    emit signalSelected();
+
     QGraphicsObject::mouseDoubleClickEvent(event);
     QGraphicsObject::setSelected(true);
+    qDebug()<<"blaaaa"<<"\n";
 
-    emit signalSelected();
+
 }
 //-----------------------COPY---------------------
 //ExprAST* IfExprAST::copy() const{
@@ -185,20 +185,41 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     //TODO:Default case (maybe throw error)
 }
+void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
 
+   //TODO: check what i can do with this options
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+   //TODO: Pen and colour should also be properties of subclasses
+   //FIX: Colour and pen shouldnt be hardcoded
 
+    painter->fillRect(boundingRect(), color_);
+    painter->setPen(Qt::white);
+    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
+    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+
+    //TODO:Default case (maybe throw error)
+}
 QRectF AssignExprAST::boundingRect() const
 {
     float w=160;
     float h=80;
-    return QRectF(-w/2, -h/2, w, h);
+    return QRectF(-w/2, 0, w, h);
 }
 
 QRectF WhileExprAST::boundingRect() const
 {
-    return QRectF(0, 0, 150, 200);
+    float w=160;
+    float h=80;
+    return QRectF(-w/2, 0, w, h);
 }
-
+QRectF BlockExprAST::boundingRect() const
+{
+    float w=160;
+    float h=body_.size()*40;
+    return QRectF(-w/2, 0, w, h);
+}
 QRectF IfExprAST::boundingRect() const
 {
     return QRectF(0, 0, getWidth(), getHeight());
@@ -213,7 +234,9 @@ QRectF StartExprAST::boundingRect() const
 
 QRectF EndExprAST::boundingRect() const
 {
-    return QRectF(0, 0, 150, 200);
+    float w=90;
+    float h=30;
+    return QRectF(-w/2, 0, w, h);
 }
 
 void BlockExprAST::insert(InstructionExprAST* expr, int index){
@@ -221,5 +244,5 @@ void BlockExprAST::insert(InstructionExprAST* expr, int index){
 }
 
 void BlockExprAST::push_back(InstructionExprAST* expr){
-    body_.insert(body_.size()-2,expr);
+    body_.insert(body_.size()-1,expr);
 }

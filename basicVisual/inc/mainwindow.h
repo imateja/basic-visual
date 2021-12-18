@@ -20,6 +20,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    BlockExprAST* mainBlock;
+    qint32 factor;
 
 signals:
     void newSquareOnGV(InstructionExprAST *);
@@ -40,6 +42,8 @@ private:
     QGraphicsScene *_mainGraphicsView;
     QVector<Instruction*> _instructions;
     void setupActions();
+    QGraphicsItem* getSelectedItem();
+    void positionElement(InstructionExprAST* elem, qint32 factor);
 
 };
 

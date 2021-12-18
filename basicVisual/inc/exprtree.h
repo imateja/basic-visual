@@ -13,13 +13,16 @@ class InstructionExprAST : public QGraphicsObject, public ExprAST
 public:
     InstructionExprAST(QGraphicsItem* parent = nullptr)
         :QGraphicsObject(parent)
-    {}
+    {
+        setFlags(GraphicsItemFlag::ItemIsSelectable);
+    }
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override ;
     const QColor color_;
     const QString instructionName_;
     inline qint32 getWidth() const { return 200; }
     inline qint32 getHeight() const { return 70; }
+
 
     ~InstructionExprAST(){
 
@@ -50,6 +53,7 @@ public:
     {}
     void AcceptVisit(VisitorAST&) override;
     //ExprAST* copy() const override;
+    QColor color_= QColor::fromRgb(128,0,0);
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     ~EndExprAST();
@@ -74,6 +78,7 @@ public:
     //TEMP
 //    unsigned size();
 //    InstructionContainer* at(unsigned);
+    QColor color_= QColor::fromRgb(0,0,128);
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QVector<InstructionExprAST*> body_;
@@ -139,7 +144,7 @@ public:
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getBody() {return body_;}
     //ExprAST* copy() const override;
-    QColor color_= QColor::fromRgb(0,128,128);
+    QColor color_= QColor::fromRgb(0,128,0);
     QString instructionName_ = QString("While");
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

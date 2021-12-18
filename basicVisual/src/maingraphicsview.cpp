@@ -13,13 +13,11 @@ mainGraphicsView::mainGraphicsView(QObject *parent)
 }
 //Adds square to the vector and draws it on the main graphics view
 //TODO:Make squares movable and connected
+
 void mainGraphicsView::addedSquareOnGV(InstructionExprAST *node)
 {
     //connect(node, &InstructionExprAST::Moved, this, &mainGraphicsView::drawConnections);
-    connect(node,&InstructionExprAST::signalSelected,this,[=](){
-        qDebug()<< node->instructionName_;
-        ExprTree::Tree().selected = node;
-    });
+
 
     instructionVector_.append(node);
     PositionNewNode(node);
@@ -48,20 +46,6 @@ void mainGraphicsView::PositionNewNode(InstructionExprAST *node)
 
     qDebug()<<node->pos()<<" inside emit"<<"\n";
 }
-
-void mainGraphicsView::PositionNewNode(ThenElseExprAST *thenblock,ThenElseExprAST* elseblock, QPointF pos)
-{
-    const auto graphicsViewWidth = static_cast<int>(this->width());
-    auto numNewNode = 0;
-
-    numNewNode =instructionVector_.size()-1;
-
-
-
-    thenblock->setPos(pos.x()-50, pos.y() + 100);
-    elseblock->setPos(pos.x()+50, pos.y()+100);
-}
-
 
 void mainGraphicsView::SquareIsSelected(){
    qDebug() << "Selectovano je";

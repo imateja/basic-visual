@@ -11,6 +11,7 @@
 #include "inc/exprtree.h"
 #include <QString>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -19,12 +20,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setupActions(); //sets up the needed connections for the taskbar
+    factor=0;
 
     //mainGV is the name of out GraphicsView in .ui file
     _mainGraphicsView->setSceneRect(ui->mainGV->rect());
     ui->mainGV->setScene(_mainGraphicsView);
     ui->mainGV->setRenderHint(QPainter::Antialiasing);
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    auto selected=_mainGraphicsView->selectedItems();
+    mainBlock= new BlockExprAST();
 
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
     connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
@@ -38,6 +42,11 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
+{
+    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+    elem->setPos(sceneCenter.x(), factor*90);
+}
 //These are just test functions, actual ones are gonna look completely different
 void MainWindow::addStart()
 {
@@ -46,6 +55,14 @@ void MainWindow::addStart()
     //emit newSquareOnGV(selected);
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
     selected->setPos(sceneCenter.x(), 0);
+    qDebug()<<_mainGraphicsView->selectedItems()<<"\n";
+
+
+}
+
+QGraphicsItem* MainWindow::getSelectedItem()
+{
+       return _mainGraphicsView->selectedItems()[0];
 }
 void MainWindow::addAssign()
 {
@@ -53,101 +70,120 @@ void MainWindow::addAssign()
     if(1)//WhileDialog->exec())
     {
     //WhileDialog->getCondition()
-    auto selected = ExprTree::Tree().selected;
-    if (auto end = dynamic_cast<EndExprAST*>(selected)){
-        selected = end->start_;
-    }
-    if (selected){
+
+//    if (auto end = dynamic_cast<EndExprAST*>(selected)){
+//        selected = end->start_;
+//    }
         auto newElement = new AssignExprAST(QString("x"),new ValueExprAST(5));
-        if(selected->next_){
-            auto tmp = selected->next_;
-            selected->next_= newElement;
-            selected->next_->next_ = tmp;
-        }else{
-            selected->next_ = newElement;
+        if(_mainGraphicsView->selectedItems().size()==0) {
+            qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
+            mainBlock->push_back(newElement);
         }
-
-        _mainGraphicsView->addItem(selected->next_);
-        //emit newSquareOnGV(selected->next_);
-        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-        //UI->MAINGV JE GV, MAINGRAPHICSVIEW PROMENLJIVA JE SCENA, !!!!!!!!!!!! BEZ OVOGA NISTA NE RADI
-        selected->next_->setPos(sceneCenter.x(), sceneCenter.y());
-        qDebug()<<sceneCenter<<"sceneCenter"<<"\n";
+        else{
+            qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
+            auto parent=dynamic_cast<BlockExprAST*>(_mainGraphicsView->selectedItems()[0]->parentItem());
+            parent->push_back(newElement);
+        }
+        _mainGraphicsView->addItem(newElement);
+//        //emit newSquareOnGV(selected->next_);
+//        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+//        //UI->MAINGV JE GV, MAINGRAPHICSVIEW PROMENLJIVA JE SCENA, !!!!!!!!!!!! BEZ OVOGA NISTA NE RADI
+//        newElement->setPos(sceneCenter.x(), sceneCenter.y());
+//        qDebug()<<sceneCenter<<"sceneCenter"<<"\n";
+        positionElement(newElement, factor);
+        factor++;
+        connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
+                &mainGraphicsView::clearSelection);
+    }
     }
 
-    }
-}
-
+//connect(newElement,&InstructionExprAST::signalSelected,_mainGraphicsView,[=](){
+//    qDebug()<< node->instructionName_;
+//    clearSelection();
+//    node->setSelected(true);
+//    qDebug()<<"selektovano je"<<"\n";
+//});
 void MainWindow::addWhile()
 {
     //InstructionDialog* WhileDialog = new InstructionDialog(this);
     if(1)//WhileDialog->exec())
     {
     //WhileDialog->getCondition()
-    auto selected = ExprTree::Tree().selected;
-    if (auto end = dynamic_cast<EndExprAST*>(selected)){
-        selected = end->start_;
-    }
-    if (selected){
+
+//    if (auto end = dynamic_cast<EndExprAST*>(selected)){
+//        selected = end->start_;
+//    }
         auto newElement = new WhileExprAST(new ValueExprAST(5));
-        if(selected->next_){
-            auto tmp = selected->next_;
-            selected->next_= newElement;
-            selected->next_->next_ = tmp;
-        }else{
-            selected->next_ = newElement;
+        if(_mainGraphicsView->selectedItems().size()==0) {
+            qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
+            mainBlock->push_back(newElement);
         }
-        _mainGraphicsView->addItem(selected->next_);
-        emit newSquareOnGV(selected->next_);
+        else{
+            qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
+            auto parent=dynamic_cast<BlockExprAST*>(_mainGraphicsView->selectedItems()[0]->parentItem());
+            parent->push_back(newElement);
+        }
+        _mainGraphicsView->addItem(newElement);
+//        //emit newSquareOnGV(selected->next_);
+//        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+//        //UI->MAINGV JE GV, MAINGRAPHICSVIEW PROMENLJIVA JE SCENA, !!!!!!!!!!!! BEZ OVOGA NISTA NE RADI
+//        newElement->setPos(sceneCenter.x(), sceneCenter.y());
+//        qDebug()<<sceneCenter<<"sceneCenter"<<"\n";
+        positionElement(newElement, factor);
+        factor++;
 
-    }
-
+        //newElement->getBody()->setPos(newElement->x(), newElement->y() + factor*90);
+        positionElement(newElement->getBody(), factor);
+        factor+=newElement->getBody()->body_.size();
+        qDebug()<<newElement->getBody()->body_.size()<<"\n";
+        connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
+                &mainGraphicsView::clearSelection);
     }
 }
 
 void MainWindow::addIf()
 {
-    //InstructionDialog* WhileDialog = new InstructionDialog(this);
-    if(1)//WhileDialog->exec())
-    {
-    //WhileDialog->getCondition()
-    auto selected = ExprTree::Tree().selected;
-    if (auto end = dynamic_cast<EndExprAST*>(selected)){
-        selected = end->start_;
-    }
-    if (selected){
-        auto newElement = new IfExprAST(new ValueExprAST(5));
-        if(selected->next_){
-            auto tmp = selected->next_;
-            selected->next_= newElement;
-            selected->next_->next_ = tmp;
-        }else{
-            selected->next_ = newElement;
-        }
+//    //InstructionDialog* WhileDialog = new InstructionDialog(this);
+//    if(1)//WhileDialog->exec())
+//    {
+//    //WhileDialog->getCondition()
+//    auto selected = ExprTree::Tree().selected;
+//    if (auto end = dynamic_cast<EndExprAST*>(selected)){
+//        selected = end->start_;
+//    }
+//    if (selected){
+//        auto newElement = new IfExprAST(new ValueExprAST(5));
+//        if(selected->next_){
+//            auto tmp = selected->next_;
+//            selected->next_= newElement;
+//            selected->next_->next_ = tmp;
+//        }else{
+//            selected->next_ = newElement;
+//        }
 
-        _mainGraphicsView->addItem(selected->next_);
+//        _mainGraphicsView->addItem(selected->next_);
 
-        auto position=selected->next_->scenePos();
+//        auto position=selected->next_->scenePos();
 
-        emit newSquareOnGV(selected->next_);
+//        emit newSquareOnGV(selected->next_);
 
-        position=selected->next_->scenePos();
-         qDebug()<<"outside emit"<<position<<"\n";
-        auto h= selected->next_->getHeight();
-        auto w= selected->next_->getWidth();
-        //QGraphicsItemGroup *group = _mainGraphicsView->createItemGroup({selected->next_});
-        thenblock->setPos(position.x()-50,position.y()+100);
-        qDebug()<<"then emit"<<position.x() -50<<"\n";
-        elseblock->setPos(position.x()+50,position.y() + 100);
-        qDebug()<<"else emit"<<position.x() +50<<"\n";
-        _mainGraphicsView->addItem(thenblock);
+//        position=selected->next_->scenePos();
+//         qDebug()<<"outside emit"<<position<<"\n";
+//        auto h= selected->next_->getHeight();
+//        auto w= selected->next_->getWidth();
+//        //QGraphicsItemGroup *group = _mainGraphicsView->createItemGroup({selected->next_});
+//        thenblock->setPos(position.x()-50,position.y()+100);
+//        qDebug()<<"then emit"<<position.x() -50<<"\n";
+//        elseblock->setPos(position.x()+50,position.y() + 100);
+//        qDebug()<<"else emit"<<position.x() +50<<"\n";
+//        _mainGraphicsView->addItem(thenblock);
 
-        _mainGraphicsView->addItem(elseblock);
+//        _mainGraphicsView->addItem(elseblock);
 
 
-    }
+//    }
 
-    }
+   // }
 }
 
 //void MainWindow::addFor()
