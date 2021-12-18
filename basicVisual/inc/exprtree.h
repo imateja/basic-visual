@@ -31,7 +31,9 @@ public:
     void AcceptVisit(VisitorAST&) override;
     //ExprAST* copy() const override;
     QRectF boundingRect() const override;
+    QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
     ~StartExprAST();
 };
 

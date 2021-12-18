@@ -17,21 +17,34 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Instruction construction menu</string>
+      <string>Assign construction window</string>
      </property>
     </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="rightMargin">
+      <number>50</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>cond</string>
+        <string>var</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="condField"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>value</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit"/>
      </item>
     </layout>
    </item>

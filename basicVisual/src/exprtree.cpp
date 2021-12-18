@@ -182,7 +182,7 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
-    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
+    const auto SquareText = QString("%1\n").arg("start");
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
     //TODO:Default case (maybe throw error)
@@ -210,7 +210,9 @@ QRectF ThenElseExprAST::boundingRect() const
 
 QRectF AssignExprAST::boundingRect() const
 {
-    return QRectF(250, 0, 150, 200);
+    float w=160;
+    float h=80;
+    return QRectF(-w/2, -h/2, w, h);
 }
 
 QRectF WhileExprAST::boundingRect() const
@@ -225,7 +227,9 @@ QRectF IfExprAST::boundingRect() const
 
 QRectF StartExprAST::boundingRect() const
 {
-    return QRectF(0, 0, 150, 200);
+    float w=160;
+    float h=80;
+    return QRectF(-w/2, 0, w, h);
 }
 
 QRectF EndExprAST::boundingRect() const

@@ -39,8 +39,12 @@ void mainGraphicsView::PositionNewNode(InstructionExprAST *node)
 
     //const auto xPos = (node->getWidth() * numNewNode) % graphicsViewWidth;
     const auto yPos = node->getHeight() * ((node->getWidth() * numNewNode) / graphicsViewWidth);
+    QRectF rect = sceneRect();
+    QPointF center = rect.center();
 
-    node->setPos(graphicsViewWidth/2 +300,yPos);
+    //QPointF sceneCenter = _mainGraphicsView->mapToScene( view->viewport()->rect().center() );
+
+    node->setPos(center.x(),center.y());
 
     qDebug()<<node->pos()<<" inside emit"<<"\n";
 }

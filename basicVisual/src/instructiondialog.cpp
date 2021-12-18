@@ -1,16 +1,14 @@
 //#include "inc/instructiondialog.h"
-////TODO: Find a way to dinamicly create dialogs for every instruction class
-////TODO: Make dialogs pass parametars only able to do that after merge with AST
 //InstructionDialog::InstructionDialog(QWidget *parent) :
 //    QDialog(parent),
 //    ui(new Ui::InstructionDialog)
 //{
-//    ui->setupUi(this);
+
 //}
 
 //InstructionDialog::~InstructionDialog()
 //{
-//    delete ui;
+
 //}
 
 //void InstructionDialog::on_pushButton_clicked()
@@ -29,4 +27,9 @@
 //{
 //    return condition;
 //}
+//void InstructionDialog::open() {}
+//int InstructionDialog::exec(){return 0;}
+//void InstructionDialog::done(int){}
+//void InstructionDialog::accept() {}
+//void InstructionDialog::reject() {}
 

@@ -43,7 +43,9 @@ void MainWindow::addStart()
 {
     auto selected = new StartExprAST();
     _mainGraphicsView->addItem(selected);
-    emit newSquareOnGV(selected);
+    //emit newSquareOnGV(selected);
+    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+    selected->setPos(sceneCenter.x(), 0);
 }
 void MainWindow::addAssign()
 {
@@ -66,7 +68,11 @@ void MainWindow::addAssign()
         }
 
         _mainGraphicsView->addItem(selected->next_);
-        emit newSquareOnGV(selected->next_);
+        //emit newSquareOnGV(selected->next_);
+        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+        //UI->MAINGV JE GV, MAINGRAPHICSVIEW PROMENLJIVA JE SCENA, !!!!!!!!!!!! BEZ OVOGA NISTA NE RADI
+        selected->next_->setPos(sceneCenter.x(), sceneCenter.y());
+        qDebug()<<sceneCenter<<"sceneCenter"<<"\n";
     }
 
     }
