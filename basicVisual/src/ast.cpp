@@ -166,13 +166,7 @@ BinaryExprAST::~BinaryExprAST(){
 
 //--------------------------------------------
 
-//void BlockExprAST::insert(InstructionContainer* expr, int index){
-//    body_.insert(index, expr);
-//}
 
-//void BlockExprAST::push_back(InstructionContainer* expr){
-//    body_.push_back(expr);
-//}
 
 //TEMP
 //unsigned BlockExprAST::size(){

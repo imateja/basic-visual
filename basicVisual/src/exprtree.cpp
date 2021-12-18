@@ -1,8 +1,8 @@
 #include "inc/exprtree.h"
 
-ExprTree::~ExprTree(){
-    delete program_;
-}
+//ExprTree::~ExprTree(){
+//    delete program_;
+//}
 
 void WhileExprAST::AcceptVisit(VisitorAST& v){
     v.VisitWhileExprAST(*this);
@@ -26,9 +26,7 @@ void EndExprAST::AcceptVisit(VisitorAST& v){
 void StartExprAST::AcceptVisit(VisitorAST& v){
     v.VisitStartExprAST(*this);
 }
-void ThenElseExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitThenElseExprAST(*this);
-}
+
 
     IfExprAST::~IfExprAST(){
         delete cond_;
@@ -187,26 +185,7 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     //TODO:Default case (maybe throw error)
 }
-void ThenElseExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
 
-   //TODO: check what i can do with this options
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
-
-    painter->fillRect(boundingRect(), QColor::fromRgb(128,128,0));
-    painter->setPen(Qt::white);
-    const auto SquareText = QString("%1").arg(name_);
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-
-    //TODO:Default case (maybe throw error)
-}
-QRectF ThenElseExprAST::boundingRect() const
-{
-    return QRectF(250, 0, 100, 70);
-}
 
 QRectF AssignExprAST::boundingRect() const
 {
@@ -235,4 +214,12 @@ QRectF StartExprAST::boundingRect() const
 QRectF EndExprAST::boundingRect() const
 {
     return QRectF(0, 0, 150, 200);
+}
+
+void BlockExprAST::insert(InstructionExprAST* expr, int index){
+    body_.insert(index, expr);
+}
+
+void BlockExprAST::push_back(InstructionExprAST* expr){
+    body_.insert(body_.size()-2,expr);
 }

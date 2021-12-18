@@ -1,70 +1,121 @@
 #include "inc/interpret.h"
 #include "inc/state.h"
 
+int Interpret::doubleTypeId = QVariant(static_cast<double>(0)).typeId();
+int Interpret::boolTypeId = QVariant(static_cast<bool>(true)).typeId();
+
 void Interpret::VisitValueExprAST(ValueExprAST& obj) {
-        dValue_= obj.getValue();
+        value_ = obj.getValue();
 }
 
 void Interpret::VisitVariableExprAST(VariableExprAST& obj) {
-        dValue_= Interpret(State::Domains().getValue(obj.getName())).dValue_;
+        value_ = Interpret(State::Domains().getValue(obj.getName())).value_;
 }
 
 void Interpret::VisitAddExprAST(AddExprAST& obj) {
-        dValue_ = Interpret(obj.getLeft()).dValue_ + Interpret(obj.getRight()).dValue_;
+        auto l = Interpret(obj.getLeft()).value_;
+        auto r = Interpret(obj.getRight()).value_;
+        if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
+            value_ = l.toDouble() + r.toDouble();
+        }else {
+            //TODO error handling
+        }
+
 }
 
 void Interpret::VisitSubExprAST(SubExprAST& obj) {
-        dValue_ = Interpret(obj.getLeft()).dValue_ - Interpret(obj.getRight()).dValue_;
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
+        value_ = l.toDouble() - r.toDouble();
+    }else {
+        //TODO error handling
+    }
 }
 
 void Interpret::VisitMulExprAST(MulExprAST& obj) {
-        dValue_ = Interpret(obj.getLeft()).dValue_ * Interpret(obj.getRight()).dValue_;
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
+        value_ = l.toDouble() * r.toDouble();
+    }else {
+        //TODO error handling
+    }
 }
 
 void Interpret::VisitDivExprAST(DivExprAST& obj) {
-        dValue_ = Interpret(obj.getLeft()).dValue_ / Interpret(obj.getRight()).dValue_;
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId && r.toDouble() != 0){
+        value_ = l.toDouble() / r.toDouble();
+    }else {
+        //TODO error handling
+    }
 }
 
 void Interpret::VisitLtExprAST(LtExprAST& obj) {
-        bValue_ =  Interpret(obj.getLeft()).dValue_ < Interpret(obj.getRight()).dValue_;
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
+        value_ = static_cast<bool>(l.toDouble() < r.toDouble());
+    }else {
+        //TODO error handling
+    }
 }
 
 void Interpret::VisitGtExprAST(GtExprAST& obj) {
-        bValue_ =  Interpret(obj.getLeft()).dValue_ > Interpret(obj.getRight()).dValue_;
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
+        value_ = static_cast<bool>(l.toDouble() > r.toDouble());
+    }else {
+        //TODO error handling
+    }
 }
 
 void Interpret::VisitIfExprAST(IfExprAST& obj) {
-        if (Interpret(obj.getCond()).bValue_) {
-                Interpret(obj.getThen());
+    auto cond = Interpret(obj.getCond()).value_;
+    if (cond.typeId() == boolTypeId){
+        if (cond.toBool()) {
+            Interpret(obj.getThen());
         } else {
-                Interpret(obj.getElse());
+            Interpret(obj.getElse());
         }
+        value_ = QVariant();
+    }else{
+        //TODO error handling
+    }
 }
 
 void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
-        while(Interpret(obj.getCond()).bValue_) {
-                Interpret(obj.getBody());
+    auto cond = Interpret(obj.getCond()).value_;
+    if (cond.typeId() == boolTypeId){
+        while(cond.toBool()) {
+            Interpret(obj.getBody());
         }
+        value_ = QVariant();
+    }else{
+        //TODO error handling
+    }
 }
 
-/* FIX:
- * Ne svidja mi se cast bez ikakve provere tipa.
- * Za sada znamo da ne moze da bude nista osim ValueExprAST,
-    * EDIT: Moze da bude i VariableExprAST!
- * ali kada budemo omogucili dodelu povratne vrednosti funkcije
- * mozda se stvari promene (treba diskutovati o tome)
- */
+
 void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
-    State::Domains().assignValue(obj.getName(), new ValueExprAST((Interpret(obj.getExpr()).dValue_)));
+    auto value = Interpret(obj.getExpr()).value_;
+    if (value.typeId() == doubleTypeId){
+        State::Domains().assignValue(obj.getName(), new ValueExprAST(Interpret(obj.getExpr()).value_.toDouble()));
+    }else{
+        //TODO error handling
+    }
 }
 
 void Interpret::VisitBlockExprAST(BlockExprAST& obj){
-    auto elem = obj.body_;
-    while(elem && !dynamic_cast<EndExprAST*>(elem)){
-        Interpret{elem};
-        elem = obj.body_->next_;
+    State::Domains().createNewDomain();
+    for(auto &instr : obj.body_){
+        Interpret{instr};
     }
-
+    value_ = QVariant();
+    State::Domains().removeCurrentDomain();
 }
 
 void Interpret::VisitFunctionExprAST(FunctionExprAST& obj){
@@ -75,5 +126,4 @@ void Interpret::VisitEndExprAST(EndExprAST&){}
 
 void Interpret::VisitStartExprAST(StartExprAST&){}
 
-void Interpret::VisitThenElseExprAST(ThenElseExprAST&){}
 

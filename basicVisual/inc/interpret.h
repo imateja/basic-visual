@@ -3,6 +3,7 @@
 
 #include "ast.h"
 #include "exprtree.h"
+#include <QVariant>
 
 class Interpret final : public VisitorAST
 {
@@ -14,9 +15,6 @@ public:
         expr->AcceptVisit(*this);
     }
 
-    //TEMP
-    operator double() { return dValue_; }
-    operator bool() { return bValue_; }
 
     void VisitValueExprAST(ValueExprAST&) override;
     void VisitVariableExprAST(VariableExprAST&) override;
@@ -33,11 +31,10 @@ public:
     void VisitFunctionExprAST(FunctionExprAST&) override;
     void VisitEndExprAST(EndExprAST&) override;
     void VisitStartExprAST(StartExprAST&) override;
-    void VisitThenElseExprAST(ThenElseExprAST&) override;
-
+    static int doubleTypeId;
+    static int boolTypeId;
 private:
-    double dValue_;
-    bool bValue_;
+    QVariant value_;
 };
 
 #endif // INTERPRET_H

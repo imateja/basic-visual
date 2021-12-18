@@ -136,8 +136,6 @@ void MainWindow::addIf()
         auto h= selected->next_->getHeight();
         auto w= selected->next_->getWidth();
         //QGraphicsItemGroup *group = _mainGraphicsView->createItemGroup({selected->next_});
-        auto thenblock= new ThenElseExprAST("then");
-        auto elseblock= new ThenElseExprAST("else");
         thenblock->setPos(position.x()-50,position.y()+100);
         qDebug()<<"then emit"<<position.x() -50<<"\n";
         elseblock->setPos(position.x()+50,position.y() + 100);

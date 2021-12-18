@@ -19,7 +19,6 @@ class BlockExprAST;
 class FunctionExprAST;
 class EndExprAST;
 class StartExprAST;
-class ThenElseExprAST;
 
 class VisitorAST
 {
@@ -39,7 +38,6 @@ public:
     virtual void VisitFunctionExprAST(FunctionExprAST&) = 0;
     virtual void VisitEndExprAST(EndExprAST&) = 0;
     virtual void VisitStartExprAST(StartExprAST&) = 0;
-    virtual void VisitThenElseExprAST(ThenElseExprAST&) = 0;
 
 };
 
