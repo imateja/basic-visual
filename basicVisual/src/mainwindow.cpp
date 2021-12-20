@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     auto selected=_mainGraphicsView->selectedItems();
     mainBlock= new BlockExprAST();
+    _mainGraphicsView->addItem(mainBlock);
 
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
     connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
@@ -74,24 +75,24 @@ void MainWindow::addAssign()
 //    if (auto end = dynamic_cast<EndExprAST*>(selected)){
 //        selected = end->start_;
 //    }
-        auto newElement = new AssignExprAST(QString("x"),new ValueExprAST(5));
-        if(_mainGraphicsView->selectedItems().size()==0) {
+        AssignExprAST* newElement;
+        if(_mainGraphicsView->selectedItems().empty()) {
             qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
-            mainBlock->push_back(newElement);
+            newElement = new AssignExprAST(QString("x"),new ValueExprAST(5), mainBlock);
+            mainBlock->insert(newElement);
         }
         else{
-            qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
-            auto parent=dynamic_cast<BlockExprAST*>(_mainGraphicsView->selectedItems()[0]->parentItem());
-            parent->push_back(newElement);
+            auto parent = static_cast<BlockExprAST*>((_mainGraphicsView->selectedItems()[0])->parentItem());
+            newElement = new AssignExprAST(QString("x"),new ValueExprAST(5), parent);
+            parent->insert(newElement);
         }
-        _mainGraphicsView->addItem(newElement);
+
 //        //emit newSquareOnGV(selected->next_);
 //        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
 //        //UI->MAINGV JE GV, MAINGRAPHICSVIEW PROMENLJIVA JE SCENA, !!!!!!!!!!!! BEZ OVOGA NISTA NE RADI
 //        newElement->setPos(sceneCenter.x(), sceneCenter.y());
 //        qDebug()<<sceneCenter<<"sceneCenter"<<"\n";
-        positionElement(newElement, factor);
-        factor++;
+
         connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
                 &mainGraphicsView::clearSelection);
     }
@@ -113,29 +114,23 @@ void MainWindow::addWhile()
 //    if (auto end = dynamic_cast<EndExprAST*>(selected)){
 //        selected = end->start_;
 //    }
-        auto newElement = new WhileExprAST(new ValueExprAST(5));
-        if(_mainGraphicsView->selectedItems().size()==0) {
+        WhileExprAST* newElement;
+        if(_mainGraphicsView->selectedItems().empty()) {
             qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
-            mainBlock->push_back(newElement);
+            auto newElement = new WhileExprAST(new ValueExprAST(5), nullptr ,mainBlock);
+            mainBlock->insert(newElement);
         }
         else{
-            qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
-            auto parent=dynamic_cast<BlockExprAST*>(_mainGraphicsView->selectedItems()[0]->parentItem());
-            parent->push_back(newElement);
+            auto parent = (_mainGraphicsView->selectedItems()[0])->parentItem();
+            auto newElement = new WhileExprAST(new ValueExprAST(5),nullptr, parent);
         }
-        _mainGraphicsView->addItem(newElement);
+
 //        //emit newSquareOnGV(selected->next_);
 //        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
 //        //UI->MAINGV JE GV, MAINGRAPHICSVIEW PROMENLJIVA JE SCENA, !!!!!!!!!!!! BEZ OVOGA NISTA NE RADI
 //        newElement->setPos(sceneCenter.x(), sceneCenter.y());
 //        qDebug()<<sceneCenter<<"sceneCenter"<<"\n";
-        positionElement(newElement, factor);
-        factor++;
 
-        //newElement->getBody()->setPos(newElement->x(), newElement->y() + factor*90);
-        positionElement(newElement->getBody(), factor);
-        factor+=newElement->getBody()->body_.size();
-        qDebug()<<newElement->getBody()->body_.size()<<"\n";
         connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
                 &mainGraphicsView::clearSelection);
     }

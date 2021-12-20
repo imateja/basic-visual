@@ -36,6 +36,9 @@ signals:
 class StartExprAST : public InstructionExprAST
 {
 public:
+    StartExprAST(QGraphicsItem* parent = nullptr)
+        :InstructionExprAST(parent)
+    {}
     void AcceptVisit(VisitorAST&) override;
     //ExprAST* copy() const override;
     QRectF boundingRect() const override;
@@ -65,7 +68,7 @@ public:
     BlockExprAST( QGraphicsItem* parent = nullptr)
         : InstructionExprAST(parent)
     {
-        body_.push_back(new EndExprAST(this));
+        body_.push_back(new StartExprAST(this));
     }
     void AcceptVisit(VisitorAST&) override;
     ~BlockExprAST();
@@ -73,8 +76,7 @@ public:
     //BlockExprAST& operator= (const BlockExprAST&) = default;
     inline QVector<InstructionExprAST*> getBody() {return body_;}
     //ExprAST* copy() const override;
-    void insert(InstructionExprAST*, int);
-    void push_back(InstructionExprAST*);
+    void insert(InstructionExprAST*,InstructionExprAST* = nullptr);
     //TEMP
 //    unsigned size();
 //    InstructionContainer* at(unsigned);
@@ -148,9 +150,10 @@ public:
     QString instructionName_ = QString("While");
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    BlockExprAST *body_;
 private:
     ExprAST *cond_;
-    BlockExprAST *body_;
+
 };
 
 class AssignExprAST final : public InstructionExprAST

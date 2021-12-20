@@ -239,10 +239,17 @@ QRectF EndExprAST::boundingRect() const
     return QRectF(-w/2, 0, w, h);
 }
 
-void BlockExprAST::insert(InstructionExprAST* expr, int index){
-    body_.insert(index, expr);
+void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posinstr){
+    if (posinstr == nullptr){
+        body_.push_back(newinstr);
+    }else {
+        auto pos = body_.indexOf(posinstr);
+        if (pos != -1){
+            body_.insert(pos+1, newinstr);
+        }else {
+            //TODO error handling
+        }
+    }
 }
 
-void BlockExprAST::push_back(InstructionExprAST* expr){
-    body_.insert(body_.size()-1,expr);
-}
+
