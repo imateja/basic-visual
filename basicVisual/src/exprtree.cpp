@@ -178,7 +178,7 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
    //TODO: Pen and colour should also be properties of subclasses
    //FIX: Colour and pen shouldnt be hardcoded
 
-    painter->fillRect(boundingRect(), color_);
+    painter->fillRect(boundingRect(), QColor::fromRgb(0,128,0));
     painter->setPen(Qt::white);
     const auto SquareText = QString("%1\n").arg("start");
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
@@ -203,15 +203,21 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         h+=gap;
     }
     h-=gap;
-    painter->fillRect(QRect(-w/2,-h/2,w,h), color_);
-    painter->setPen(Qt::white);
-    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    w += 30;
+    h+= 30;
+    painter->fillRect(boundingRect(), color_);
+    //painter->setPen(Qt::white);
+    //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
+    //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     qint32 factor=0;
     for(auto &elem : body_) {
         elem->setPos(0,factor*(80.0+gap));
+        elem->update();
         factor++;
     }
+
+
+    qDebug()<<"jel si usao: "<<body_.size()<<"\n";
     //TODO:Default case (maybe throw error)
 }
 QRectF InstructionExprAST::boundingRect() const

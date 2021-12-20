@@ -27,11 +27,19 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainGV->setScene(_mainGraphicsView);
     ui->mainGV->setRenderHint(QPainter::Antialiasing);
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-
     mainBlock= new BlockExprAST();
     _mainGraphicsView->addItem(mainBlock);
+    mainBlock->setParent(_mainGraphicsView);
+    qDebug()<<mainBlock->parent()<<"/n";
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-    mainBlock->setPos(sceneCenter.x(), 0);
+    mainBlock->setPos(sceneCenter.x(), sceneCenter.y());
+
+//    mainBlock= new BlockExprAST();
+//    _mainGraphicsView->addItem(mainBlock);
+//    mainBlock->setParent(_mainGraphicsView);
+//    qDebug()<<mainBlock->parent()<<"/n";
+//    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+//    mainBlock->setPos(sceneCenter.x(), 0);
 
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
     connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
@@ -53,12 +61,7 @@ void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
 //These are just test functions, actual ones are gonna look completely different
 void MainWindow::addStart()
 {
-    auto selected = new StartExprAST();
-    _mainGraphicsView->addItem(selected);
-    //emit newSquareOnGV(selected);
-    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-    selected->setPos(sceneCenter.x(), 0);
-    qDebug()<<_mainGraphicsView->selectedItems()<<"\n";
+
 
 
 }
@@ -69,10 +72,21 @@ inline BlockExprAST* MainWindow::getInsertionBlock(){
             : static_cast<BlockExprAST*>(_mainGraphicsView->selectedItems().at(0)->parentItem());
 }
 void MainWindow::addInstruction(InstructionExprAST* newElement){
-    auto parent = getInsertionBlock();
-    newElement->setParent(parent);
+    if (_mainGraphicsView->selectedItems().empty()){
+        newElement->setParent(mainBlock);
+        mainBlock->insert(newElement);
+    }else {
+        auto parent = static_cast<BlockExprAST*>(_mainGraphicsView->selectedItems().at(0)->parentItem());
+        newElement->setParent(parent);
+        parent->insert(newElement);
+    }
+
     connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
             &mainGraphicsView::clearSelection);
+
+    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+    mainBlock->setPos(sceneCenter.x(), sceneCenter.y());
+    _mainGraphicsView->update();
 }
 void MainWindow::addAssign()
 {
