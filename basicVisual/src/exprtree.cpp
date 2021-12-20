@@ -193,51 +193,37 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(widget)
    //TODO: Pen and colour should also be properties of subclasses
    //FIX: Colour and pen shouldnt be hardcoded
-
-    painter->fillRect(boundingRect(), color_);
+    const float gap=10.0f;
+    w=0.0f;
+    h=0.0f;
+    for(auto &elem : body_) {
+        if(elem->getWidth()>w)
+            w=elem->getWidth();
+        h+=elem->getHeight();
+        h+=gap;
+    }
+    h-=gap;
+    painter->fillRect(QRect(-w/2,-h/2,w,h), color_);
     painter->setPen(Qt::white);
     const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-
+    qint32 factor=0;
+    for(auto &elem : body_) {
+        elem->setPos(0,factor*(80.0+gap));
+        factor++;
+    }
     //TODO:Default case (maybe throw error)
 }
-QRectF AssignExprAST::boundingRect() const
+QRectF InstructionExprAST::boundingRect() const
 {
-    float w=160;
-    float h=80;
-    return QRectF(-w/2, 0, w, h);
+    return QRect(-w/2,-h/2,w,h);
 }
-
-QRectF WhileExprAST::boundingRect() const
-{
-    float w=160;
-    float h=80;
-    return QRectF(-w/2, 0, w, h);
-}
-QRectF BlockExprAST::boundingRect() const
-{
-    float w=160;
-    float h=body_.size()*40;
-    return QRectF(-w/2, 0, w, h);
-}
-QRectF IfExprAST::boundingRect() const
-{
-    return QRectF(0, 0, getWidth(), getHeight());
-}
-
-QRectF StartExprAST::boundingRect() const
-{
-    float w=160;
-    float h=80;
-    return QRectF(-w/2, 0, w, h);
-}
-
-QRectF EndExprAST::boundingRect() const
-{
-    float w=90;
-    float h=30;
-    return QRectF(-w/2, 0, w, h);
-}
+//QRectF AssignExprAST::boundingRect() const
+//{
+//    float w=160;
+//    float h=80;
+//    return QRectF(-w/2, 0, w, h);
+//}
 
 void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posinstr){
     if (posinstr == nullptr){

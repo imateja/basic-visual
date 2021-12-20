@@ -6,6 +6,7 @@
 #include <QGraphicsObject>
 #include <QVector>
 #include "state.h"
+#include<algorithm>
 
 class InstructionExprAST : public QGraphicsObject, public ExprAST
 {
@@ -20,14 +21,18 @@ public:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override ;
     const QColor color_;
     const QString instructionName_;
-    inline qint32 getWidth() const { return 200; }
-    inline qint32 getHeight() const { return 70; }
+    QRectF boundingRect() const final;
+    inline float getWidth() const { return w; }
+    inline float getHeight() const { return h; }
 
 
     ~InstructionExprAST(){
 
     }
     InstructionExprAST* next_;
+protected:
+    float w=150.0f;
+    float h=80.0f;
 signals:
     void Moved();
     void signalSelected();
@@ -41,7 +46,7 @@ public:
     {}
     void AcceptVisit(VisitorAST&) override;
     //ExprAST* copy() const override;
-    QRectF boundingRect() const override;
+    //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
@@ -57,7 +62,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(128,0,0);
-    QRectF boundingRect() const override;
+   // QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     ~EndExprAST();
 };
@@ -81,7 +86,7 @@ public:
 //    unsigned size();
 //    InstructionContainer* at(unsigned);
     QColor color_= QColor::fromRgb(0,0,128);
-    QRectF boundingRect() const override;
+    //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QVector<InstructionExprAST*> body_;
 };
@@ -125,7 +130,7 @@ public:
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(128,128,0);
     QString instructionName_ = QString("If");
-    QRectF boundingRect() const override;
+    //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 private:
     ExprAST *cond_;
@@ -148,7 +153,7 @@ public:
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(0,128,0);
     QString instructionName_ = QString("While");
-    QRectF boundingRect() const override;
+    //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     BlockExprAST *body_;
 private:
@@ -171,7 +176,7 @@ public:
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(128,0,128);
     QString instructionName_ = QString("Assign");
-    QRectF boundingRect() const override;
+    //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 private:
     QString name_;
