@@ -117,7 +117,7 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setPen(Qt::white);
     const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-
+    qDebug()<< "hewwo" <<"\n";
     //TODO:Default case (maybe throw error)
 }
 void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -203,21 +203,20 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         h+=gap;
     }
     h-=gap;
-    w += 30;
-    h+= 30;
     painter->fillRect(boundingRect(), color_);
     //painter->setPen(Qt::white);
     //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    qint32 factor=0;
+    float currenth = -h/2;
+
     for(auto &elem : body_) {
-        elem->setPos(0,factor*(80.0+gap));
-        elem->update();
-        factor++;
+        elem->setPos(0,currenth + elem->getHeight()/2);
+        //elem->update();
+        currenth += elem->getHeight()+gap;
     }
 
 
-    qDebug()<<"jel si usao: "<<body_.size()<<"\n";
+    //qDebug()<<"jel si usao: "<<body_.size()<<"\n";
     //TODO:Default case (maybe throw error)
 }
 QRectF InstructionExprAST::boundingRect() const
