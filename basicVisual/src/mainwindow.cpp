@@ -27,9 +27,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainGV->setScene(_mainGraphicsView);
     ui->mainGV->setRenderHint(QPainter::Antialiasing);
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-    auto selected=_mainGraphicsView->selectedItems();
+
     mainBlock= new BlockExprAST();
     _mainGraphicsView->addItem(mainBlock);
+    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+    mainBlock->setPos(sceneCenter.x(), 0);
 
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
     connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
@@ -61,42 +63,22 @@ void MainWindow::addStart()
 
 }
 
-QGraphicsItem* MainWindow::getSelectedItem()
-{
-       return _mainGraphicsView->selectedItems()[0];
+inline BlockExprAST* MainWindow::getInsertionBlock(){
+     return _mainGraphicsView->selectedItems().empty()
+            ? mainBlock
+            : static_cast<BlockExprAST*>(_mainGraphicsView->selectedItems().at(0)->parentItem());
+}
+void MainWindow::addInstruction(InstructionExprAST* newElement){
+    auto parent = getInsertionBlock();
+    newElement->setParent(parent);
+    connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
+            &mainGraphicsView::clearSelection);
 }
 void MainWindow::addAssign()
 {
-    //InstructionDialog* WhileDialog = new InstructionDialog(this);
-    if(1)//WhileDialog->exec())
-    {
-    //WhileDialog->getCondition()
-
-//    if (auto end = dynamic_cast<EndExprAST*>(selected)){
-//        selected = end->start_;
-//    }
-        AssignExprAST* newElement;
-        if(_mainGraphicsView->selectedItems().empty()) {
-            qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
-            newElement = new AssignExprAST(QString("x"),new ValueExprAST(5), mainBlock);
-            mainBlock->insert(newElement);
-        }
-        else{
-            auto parent = static_cast<BlockExprAST*>((_mainGraphicsView->selectedItems()[0])->parentItem());
-            newElement = new AssignExprAST(QString("x"),new ValueExprAST(5), parent);
-            parent->insert(newElement);
-        }
-
-//        //emit newSquareOnGV(selected->next_);
-//        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-//        //UI->MAINGV JE GV, MAINGRAPHICSVIEW PROMENLJIVA JE SCENA, !!!!!!!!!!!! BEZ OVOGA NISTA NE RADI
-//        newElement->setPos(sceneCenter.x(), sceneCenter.y());
-//        qDebug()<<sceneCenter<<"sceneCenter"<<"\n";
-
-        connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
-                &mainGraphicsView::clearSelection);
-    }
-    }
+    auto newElement = new AssignExprAST(QString("x"),new ValueExprAST(5));
+    addInstruction(newElement);
+}
 
 //connect(newElement,&InstructionExprAST::signalSelected,_mainGraphicsView,[=](){
 //    qDebug()<< node->instructionName_;
@@ -106,79 +88,14 @@ void MainWindow::addAssign()
 //});
 void MainWindow::addWhile()
 {
-    //InstructionDialog* WhileDialog = new InstructionDialog(this);
-    if(1)//WhileDialog->exec())
-    {
-    //WhileDialog->getCondition()
-
-//    if (auto end = dynamic_cast<EndExprAST*>(selected)){
-//        selected = end->start_;
-//    }
-        WhileExprAST* newElement;
-        if(_mainGraphicsView->selectedItems().empty()) {
-            qDebug()<<_mainGraphicsView->selectedItems().size()<<"\n";
-            auto newElement = new WhileExprAST(new ValueExprAST(5), nullptr ,mainBlock);
-            mainBlock->insert(newElement);
-        }
-        else{
-            auto parent = (_mainGraphicsView->selectedItems()[0])->parentItem();
-            auto newElement = new WhileExprAST(new ValueExprAST(5),nullptr, parent);
-        }
-
-//        //emit newSquareOnGV(selected->next_);
-//        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-//        //UI->MAINGV JE GV, MAINGRAPHICSVIEW PROMENLJIVA JE SCENA, !!!!!!!!!!!! BEZ OVOGA NISTA NE RADI
-//        newElement->setPos(sceneCenter.x(), sceneCenter.y());
-//        qDebug()<<sceneCenter<<"sceneCenter"<<"\n";
-
-        connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
-                &mainGraphicsView::clearSelection);
-    }
+   auto newElement =new WhileExprAST(new ValueExprAST(5));
+   addInstruction(newElement);
 }
 
 void MainWindow::addIf()
 {
-//    //InstructionDialog* WhileDialog = new InstructionDialog(this);
-//    if(1)//WhileDialog->exec())
-//    {
-//    //WhileDialog->getCondition()
-//    auto selected = ExprTree::Tree().selected;
-//    if (auto end = dynamic_cast<EndExprAST*>(selected)){
-//        selected = end->start_;
-//    }
-//    if (selected){
-//        auto newElement = new IfExprAST(new ValueExprAST(5));
-//        if(selected->next_){
-//            auto tmp = selected->next_;
-//            selected->next_= newElement;
-//            selected->next_->next_ = tmp;
-//        }else{
-//            selected->next_ = newElement;
-//        }
-
-//        _mainGraphicsView->addItem(selected->next_);
-
-//        auto position=selected->next_->scenePos();
-
-//        emit newSquareOnGV(selected->next_);
-
-//        position=selected->next_->scenePos();
-//         qDebug()<<"outside emit"<<position<<"\n";
-//        auto h= selected->next_->getHeight();
-//        auto w= selected->next_->getWidth();
-//        //QGraphicsItemGroup *group = _mainGraphicsView->createItemGroup({selected->next_});
-//        thenblock->setPos(position.x()-50,position.y()+100);
-//        qDebug()<<"then emit"<<position.x() -50<<"\n";
-//        elseblock->setPos(position.x()+50,position.y() + 100);
-//        qDebug()<<"else emit"<<position.x() +50<<"\n";
-//        _mainGraphicsView->addItem(thenblock);
-
-//        _mainGraphicsView->addItem(elseblock);
-
-
-//    }
-
-   // }
+    auto newElement =new IfExprAST(new ValueExprAST(5));
+    addInstruction(newElement);
 }
 
 //void MainWindow::addFor()

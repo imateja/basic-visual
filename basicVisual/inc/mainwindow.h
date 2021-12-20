@@ -34,6 +34,7 @@ private slots:
     void addStart();
 
 private:
+    void addInstruction(InstructionExprAST*);
     void onActionOpen();
     void onActionSave();
     void onActionSaveAs();
@@ -42,7 +43,7 @@ private:
     QGraphicsScene *_mainGraphicsView;
     QVector<Instruction*> _instructions;
     void setupActions();
-    QGraphicsItem* getSelectedItem();
+    inline BlockExprAST* getInsertionBlock();
     void positionElement(InstructionExprAST* elem, qint32 factor);
 
 };
