@@ -132,7 +132,7 @@ public:
     QString instructionName_ = QString("If");
     //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-private:
+
     ExprAST *cond_;
     BlockExprAST *then_;
     BlockExprAST *else_;
@@ -151,7 +151,7 @@ public:
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getBody() {return body_;}
     //ExprAST* copy() const override;
-    QColor color_= QColor::fromRgb(0,128,0);
+    QColor color_= QColor::fromRgb(60,60,0);
     QString instructionName_ = QString("While");
     //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

@@ -135,6 +135,9 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
+    then_->setPos(-w/2 - 5.0f,y()+ 10.0f);
+    else_->setPos(w/2 + 5.0f,y()+ 10.0f);
+
     //TODO:Default case (maybe throw error)
 }
 void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -145,12 +148,21 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(widget)
    //TODO: Pen and colour should also be properties of subclasses
    //FIX: Colour and pen shouldnt be hardcoded
+    auto whileh = 60;
+    w=0.0f;
+    h=0.0f;
+    const float gap=10.0f;
+    h += body_->getHeight() + whileh+ gap*2;
+    w += body_->getWidth();
+
 
     painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
-    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-
+    QRectF rectangle = QRectF(-w/2,-h/2 + gap,w,whileh);
+    painter->fillRect(rectangle,QColor::fromRgb(128,0,0));
+    //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
+    //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    body_->setPos(0,whileh/2 + gap);
     //TODO:Default case (maybe throw error)
 }
 void EndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -164,6 +176,7 @@ void EndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
     painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
+
     const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
@@ -197,8 +210,22 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     w=0.0f;
     h=0.0f;
     for(auto &elem : body_) {
-        if(elem->getWidth()>w)
+        if(elem->getWidth()>w) {
             w=elem->getWidth();
+        }
+//        if(auto adds=dynamic_cast<IfExprAST*>(elem)) {
+//            w= adds->then_->getWidth()+ adds->else_->getWidth() + elem->getWidth()/2;
+//        }
+
+//        h+=elem->getHeight();
+//        if(auto adds= dynamic_cast<WhileExprAST*>(elem)) {
+//            h+=gap;
+//            h+=adds->body_->getHeight();
+//        }
+//        if(auto adds=dynamic_cast<IfExprAST*>(elem)){
+//            h+=gap;
+//            h+=adds->then_->getHeight();
+//        }
         h+=elem->getHeight();
         h+=gap;
     }
@@ -211,8 +238,23 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     for(auto &elem : body_) {
         elem->setPos(0,currenth + elem->getHeight()/2);
+//        if(auto adds = dynamic_cast<WhileExprAST*>(elem)) {
+//            adds->body_->setPos(0.0f, elem->y() + 10.0f);
+//            currenth += elem->getHeight()+gap;
+//            currenth+=adds->body_->getHeight()+gap;
+
+//        }
+//        else if(auto adds = dynamic_cast<IfExprAST*>(elem)) {
+//            adds->then_->setPos(-getWidth()/2 - 5.0f,elem->y()+ 10.0f);
+//            adds->else_->setPos(getWidth()/2 + 5.0f,elem->y()+ 10.0f);
+//            currenth += elem->getHeight()+gap;
+//            currenth+=adds->then_->getHeight()+gap;
+//        }
+//        else {
+//            currenth += elem->getHeight()+gap;
+//        }
         //elem->update();
-        currenth += elem->getHeight()+gap;
+       currenth += elem->getHeight()+gap;
     }
 
 
