@@ -122,21 +122,43 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 }
 void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
-   //TODO: check what i can do with this options
     Q_UNUSED(option)
     Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
+
+    auto ifh=60;
+    w=0.0f;
+    h=0.0f;
+    const float gap=10.0f;
+    h+= then_->getHeight() > else_->getHeight() ? then_->getHeight() : else_->getHeight();
+    h+=ifh*2 +gap;
+    h+=gap*2;
+
+    w+= then_->getWidth() + else_->getWidth() + 100.0f;
 
     painter->fillRect(boundingRect(), color_);
     painter->drawEllipse(20,30,20,20);
     painter->setPen(Qt::white);
-    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
-    then_->setPos(-w/2 - 5.0f,y()+ 10.0f);
-    else_->setPos(w/2 + 5.0f,y()+ 10.0f);
+    QRectF ifrectangle = QRectF(-w/2,-h/2 + gap,w,ifh);
+    painter->fillRect(ifrectangle,QColor::fromRgb(128,0,0));
+    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
+    painter->drawText(ifrectangle, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+
+
+    QRectF thenrect=QRectF(-ifrectangle.width()/2,-h/2 +ifh+gap*2,then_->getWidth(),ifh);
+    painter->fillRect(thenrect, QColor::fromRgb(128,0,0));
+    painter->drawText(thenrect, Qt::AlignHCenter | Qt::AlignVCenter, "then" );
+
+
+    QRectF elserect=QRectF(ifrectangle.width()/2 -thenrect.width() ,-h/2 +ifh+gap*2,else_->getWidth(),ifh);
+    painter->fillRect(elserect, QColor::fromRgb(128,0,0));
+    painter->drawText(elserect, Qt::AlignHCenter | Qt::AlignVCenter, "else" );
+
+
+
+    then_->setPos(-ifrectangle.width()/2 + then_->getWidth()/2,-h/2 +ifh+gap*2 + thenrect.height() + gap + else_->getHeight()/2);
+    else_->setPos(ifrectangle.width()/2 - else_->getWidth()/2, -h/2 +ifh+gap*2 + elserect.height() + gap + else_->getHeight()/2);
+
 
     //TODO:Default case (maybe throw error)
 }
