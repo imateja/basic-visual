@@ -9,35 +9,17 @@
 #include <algorithm>
 #include <QDebug>
 
-class InstructionExprAST : public QGraphicsObject, public ExprAST
+class InstructionExprAST : public ExprAST
 {
-    Q_OBJECT
 public:
     InstructionExprAST(QGraphicsItem* parent = nullptr)
-        :QGraphicsObject(parent)
-    {
-        setFlags(GraphicsItemFlag::ItemIsSelectable);
-    }
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override ;
-    const QColor color_;
-    const QString instructionName_;
-    QRectF boundingRect() const final;
-    inline float getWidth() const { return w; }
-    inline float getHeight() const { return h; }
-
+      :ExprAST(parent)
+    {}
 
     ~InstructionExprAST(){
 
     }
     InstructionExprAST* next_;
-protected:
-    float w=150.0f;
-    float h=80.0f;
-signals:
-    void Moved();
-    void signalSelected();
-    void ShouldUpdateScene();
 };
 
 class StartExprAST : public InstructionExprAST
@@ -201,6 +183,7 @@ public:
     inline QString getName() {return name_;}
     inline BlockExprAST* getBody() {return body_;}
     //ExprAST* copy() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 private:
     QString name_;
     BlockExprAST* body_;

@@ -57,25 +57,6 @@ FunctionExprAST::~FunctionExprAST(){
     delete body_;
 }
 
-void InstructionExprAST::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsObject::mouseMoveEvent(event);
-
-    //TODO:Emit signal that the item is moved
-    emit Moved();
-
-
-}
-void InstructionExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
-
-    emit signalSelected();
-
-    QGraphicsObject::mouseDoubleClickEvent(event);
-    QGraphicsObject::setSelected(true);
-    qDebug()<<"blaaaa"<<"\n";
-
-
-}
 //-----------------------COPY---------------------
 //ExprAST* IfExprAST::copy() const{
 //    return new IfExprAST(*this);
@@ -285,10 +266,11 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     //qDebug()<<"jel si usao: "<<body_.size()<<"\n";
     //TODO:Default case (maybe throw error)
 }
-QRectF InstructionExprAST::boundingRect() const
-{
-    return QRect(-w/2,-h/2,w,h);
+
+void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
 }
+
 //QRectF AssignExprAST::boundingRect() const
 //{
 //    float w=160;

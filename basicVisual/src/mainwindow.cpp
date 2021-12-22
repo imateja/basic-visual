@@ -87,8 +87,8 @@ void MainWindow::addInstruction(InstructionExprAST* newElement){
         newElement->setParentItem(parent);
         parent->insert(newElement,static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0)));
     }
-    connect(newElement,&InstructionExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsView*>(_mainGraphicsScene),&mainGraphicsView::updateScene);
-    connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsScene),
+    connect(newElement,&ExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsView*>(_mainGraphicsScene),&mainGraphicsView::updateScene);
+    connect(newElement,&ExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsScene),
             &mainGraphicsView::clearSelection);
 
     //_mainGraphicsView->addItem(newElement);

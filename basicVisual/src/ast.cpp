@@ -177,5 +177,67 @@ BinaryExprAST::~BinaryExprAST(){
 //    return body_.at(i);
 //}
 
+//--------------------------------------------
+
+void ExprAST::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsObject::mouseMoveEvent(event);
+
+    //TODO:Emit signal that the item is moved
+    emit Moved();
 
 
+}
+void ExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
+
+    emit signalSelected();
+
+    QGraphicsObject::mouseDoubleClickEvent(event);
+    QGraphicsObject::setSelected(true);
+    qDebug()<<"blaaaa"<<"\n";
+
+
+}
+
+QRectF ExprAST::boundingRect() const
+{
+    return QRect(-w/2,-h/2,w,h);
+}
+
+//--------------------
+
+void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void AddExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void SubExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void MulExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void DivExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void LtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void GtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
