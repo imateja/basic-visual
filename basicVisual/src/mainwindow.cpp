@@ -11,7 +11,6 @@
 #include "inc/exprtree.h"
 #include <QString>
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -61,16 +60,28 @@ void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
 //These are just test functions, actual ones are gonna look completely different
 void MainWindow::addStart()
 {
+/*
     auto instructionMode = mainBlock->isVisible();
     if(instructionMode){
-        mainBlock->setVisible(false);
-        //TODO: posao za izraze
+        auto editableExpr = static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0))->getEditableExpr();
+
+        if (editableExpr) {
+            _mainGraphicsScene->addItem(editableExpr);
+            qDebug() << "############################## dodato #############################\n";
+        }
+        else {
+            // TODO error handling
+        }
+        mainBlock->hide();
     }
     else{
-        //TODO: posao za izraze
-        mainBlock->setVisible(true);
-    }
+        mainBlock->show();
 
+//        _mainGraphicsScene->removeItem(static_cast<InstructionExprAST*>(_mainGraphicsScene->children().back()));
+
+        qDebug() << "############################## izbaceno #############################\n";
+    }
+*/
 }
 
 inline BlockExprAST* MainWindow::getInsertionBlock(){
