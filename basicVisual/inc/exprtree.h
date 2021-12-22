@@ -20,6 +20,8 @@ public:
 
     }
     InstructionExprAST* next_;
+
+    virtual ExprAST* getEditableExpr() = 0;
 };
 
 class StartExprAST : public InstructionExprAST
@@ -33,6 +35,8 @@ public:
     //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+    ExprAST* getEditableExpr() override { return nullptr; }
 
     ~StartExprAST();
 };
@@ -48,6 +52,9 @@ public:
     QColor color_= QColor::fromRgb(128,0,0);
    // QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+    ExprAST* getEditableExpr() override { return nullptr; }
+
     ~EndExprAST();
 };
 
@@ -66,6 +73,9 @@ public:
     inline QVector<InstructionExprAST*> getBody() {return body_;}
     //ExprAST* copy() const override;
     void insert(InstructionExprAST*,InstructionExprAST* = nullptr);
+
+    ExprAST* getEditableExpr() override { return nullptr; }
+
     //TEMP
 //    unsigned size();
 //    InstructionContainer* at(unsigned);
@@ -117,6 +127,8 @@ public:
     //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    ExprAST* getEditableExpr() override { return cond_; }
+
     ExprAST *cond_;
     BlockExprAST *then_;
     BlockExprAST *else_;
@@ -134,6 +146,9 @@ public:
     WhileExprAST& operator= (const WhileExprAST&);
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getBody() {return body_;}
+
+    ExprAST* getEditableExpr() override { return cond_; }
+
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(60,60,0);
     QString instructionName_ = QString("While");
@@ -157,6 +172,9 @@ public:
     AssignExprAST& operator= (const AssignExprAST&);
     inline QString getName() {return name_;}
     inline ExprAST* getExpr() {return expr_;}
+
+    ExprAST* getEditableExpr() override { return expr_; }
+
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(128,0,128);
     QString instructionName_ = QString("Assign");
