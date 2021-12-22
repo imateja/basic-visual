@@ -25,6 +25,12 @@ void mainGraphicsView::addedSquareOnGV(InstructionExprAST *node)
 
 //    drawConnections();
 }
+
+void mainGraphicsView::updateScene(){
+    this->update();
+    qDebug()<<"Scena se updatovala";
+}
+
 //Positions the new node so there is no overlap
 //TODO:make squares be close together under eachother
 void mainGraphicsView::PositionNewNode(InstructionExprAST *node)

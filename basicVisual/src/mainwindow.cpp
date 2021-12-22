@@ -15,7 +15,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , _mainGraphicsView(new mainGraphicsView)
+    , _mainGraphicsView(new mainGraphicsView())
 
 {
     ui->setupUi(this);
@@ -80,14 +80,13 @@ void MainWindow::addInstruction(InstructionExprAST* newElement){
         newElement->setParentItem(parent);
         parent->insert(newElement);
     }
-
+    connect(newElement,&InstructionExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsView*>(_mainGraphicsView),&mainGraphicsView::updateScene);
     connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
             &mainGraphicsView::clearSelection);
 
     //_mainGraphicsView->addItem(newElement);
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
     mainBlock->setPos(sceneCenter.x(), sceneCenter.y());
-    _mainGraphicsView->update();
 }
 void MainWindow::addAssign()
 {

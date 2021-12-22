@@ -4,6 +4,7 @@
 #include "ast.h"
 #include "exprtree.h"
 #include <QVariant>
+#include <QDebug>
 
 class Interpret final : public VisitorAST
 {

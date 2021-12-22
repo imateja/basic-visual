@@ -6,7 +6,8 @@
 #include <QGraphicsObject>
 #include <QVector>
 #include "state.h"
-#include<algorithm>
+#include <algorithm>
+#include <QDebug>
 
 class InstructionExprAST : public QGraphicsObject, public ExprAST
 {
@@ -36,6 +37,7 @@ protected:
 signals:
     void Moved();
     void signalSelected();
+    void ShouldUpdateScene();
 };
 
 class StartExprAST : public InstructionExprAST

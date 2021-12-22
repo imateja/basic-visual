@@ -2,6 +2,7 @@
 #define MAINGRAPHICSVIEW_HPP
 #include <QGraphicsScene>
 #include "exprtree.h"
+#include <QDebug>
 
 class InstructionContainer;
 class Instruction;
@@ -12,10 +13,12 @@ public:
     explicit mainGraphicsView(QObject *parent = nullptr);
 
 
+
 public slots:
     //This should work for all the instruction we will overide shape and colour for specific instructions
     void addedSquareOnGV(InstructionExprAST *node);
     void SquareSelectedOnGV(InstructionExprAST *node);
+    void updateScene();
 
 
 private:

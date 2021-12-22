@@ -5,6 +5,7 @@
 #include <QHash>
 #include <QString>
 #include "ast.h"
+#include <QDebug>
 
 class State final
 {

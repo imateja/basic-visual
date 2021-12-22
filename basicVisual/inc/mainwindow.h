@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include "exprtree.h"
+#include <QDebug>
 
 class QGraphicsScene;
 class Instruction;

@@ -119,6 +119,7 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     qDebug()<< "hewwo" <<"\n";
     //TODO:Default case (maybe throw error)
+    //emit ShouldUpdateScene();
 }
 void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -159,7 +160,7 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     then_->setPos(-ifrectangle.width()/2 + then_->getWidth()/2,-h/2 +ifh+gap*2 + thenrect.height() + gap + else_->getHeight()/2);
     else_->setPos(ifrectangle.width()/2 - else_->getWidth()/2, -h/2 +ifh+gap*2 + elserect.height() + gap + else_->getHeight()/2);
 
-
+    emit ShouldUpdateScene();
     //TODO:Default case (maybe throw error)
 }
 void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -185,6 +186,7 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     body_->setPos(0,whileh/2 + gap);
+    emit ShouldUpdateScene();
     //TODO:Default case (maybe throw error)
 }
 void EndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -201,7 +203,7 @@ void EndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
     const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-
+    emit ShouldUpdateScene();
     //TODO:Default case (maybe throw error)
 }
 void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -217,7 +219,7 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->setPen(Qt::white);
     const auto SquareText = QString("%1\n").arg("start");
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-
+    //emit ShouldUpdateScene();
     //TODO:Default case (maybe throw error)
 }
 void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -275,9 +277,9 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 //        else {
 //            currenth += elem->getHeight()+gap;
 //        }
-        //elem->update();
        currenth += elem->getHeight()+gap;
     }
+    emit ShouldUpdateScene();
 
 
     //qDebug()<<"jel si usao: "<<body_.size()<<"\n";
