@@ -78,7 +78,7 @@ void MainWindow::addInstruction(InstructionExprAST* newElement){
     }else {
         auto parent = static_cast<BlockExprAST*>(_mainGraphicsView->selectedItems().at(0)->parentItem());
         newElement->setParentItem(parent);
-        parent->insert(newElement);
+        parent->insert(newElement,static_cast<InstructionExprAST*>(_mainGraphicsView->selectedItems().at(0)));
     }
     connect(newElement,&InstructionExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsView*>(_mainGraphicsView),&mainGraphicsView::updateScene);
     connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
