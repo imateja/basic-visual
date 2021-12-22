@@ -93,8 +93,11 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(widget)
    //TODO: Pen and colour should also be properties of subclasses
    //FIX: Colour and pen shouldnt be hardcoded
-
-    painter->fillRect(boundingRect(), color_);
+    if(this->isSelected()){
+        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+        painter->fillRect(boundingRect(),selectedBrush);
+    }else
+        painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
     const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
@@ -122,17 +125,26 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setPen(Qt::white);
 
     QRectF ifrectangle = QRectF(-w/2,-h/2 + gap,w,ifh);
+
     painter->fillRect(ifrectangle,QColor::fromRgb(128,0,0));
     const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     painter->drawText(ifrectangle, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
 
     QRectF thenrect=QRectF(-ifrectangle.width()/2,-h/2 +ifh+gap*2,then_->getWidth(),ifh);
+    //if(this->isSelected()){
+       // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+    //painter->fillRect(thenrect,selectedBrush);
+    //}else
     painter->fillRect(thenrect, QColor::fromRgb(128,0,0));
     painter->drawText(thenrect, Qt::AlignHCenter | Qt::AlignVCenter, "then" );
 
 
     QRectF elserect=QRectF(ifrectangle.width()/2 -thenrect.width() ,-h/2 +ifh+gap*2,else_->getWidth(),ifh);
+    //if(this->isSelected()){
+        //QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+    //painter->fillRect(elserect,selectedBrush);
+    //}else
     painter->fillRect(elserect, QColor::fromRgb(128,0,0));
     painter->drawText(elserect, Qt::AlignHCenter | Qt::AlignVCenter, "else" );
 
@@ -163,7 +175,11 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
     QRectF rectangle = QRectF(-w/2,-h/2 + gap,w,whileh);
-    painter->fillRect(rectangle,QColor::fromRgb(128,0,0));
+    //if(this->isSelected()){
+       // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+    //painter->fillRect(rectangle,selectedBrush);
+    //}else
+        painter->fillRect(rectangle,QColor::fromRgb(128,0,0));
     //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     body_->setPos(0,whileh/2 + gap);
