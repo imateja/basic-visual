@@ -15,7 +15,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , _mainGraphicsView(new mainGraphicsView())
+    , _mainGraphicsScene(new mainGraphicsView())
 
 {
     ui->setupUi(this);
@@ -23,13 +23,13 @@ MainWindow::MainWindow(QWidget *parent)
     factor=0;
 
     //mainGV is the name of out GraphicsView in .ui file
-    _mainGraphicsView->setSceneRect(ui->mainGV->rect());
-    ui->mainGV->setScene(_mainGraphicsView);
+    _mainGraphicsScene->setSceneRect(ui->mainGV->rect());
+    ui->mainGV->setScene(_mainGraphicsScene);
     ui->mainGV->setRenderHint(QPainter::Antialiasing);
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     mainBlock= new BlockExprAST();
-    _mainGraphicsView->addItem(mainBlock);
-    mainBlock->setParent(_mainGraphicsView);
+    _mainGraphicsScene->addItem(mainBlock);
+    mainBlock->setParent(_mainGraphicsScene);
     qDebug()<<mainBlock->parent()<<"/n";
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
     mainBlock->setPos(sceneCenter.x(), sceneCenter.y());
@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
     connect(ui->IfBtn, &QPushButton::clicked, this, &MainWindow::addIf);
     connect(ui->startBtn, &QPushButton::clicked, this, &MainWindow::addStart);
-    connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsView *>(_mainGraphicsView), &mainGraphicsView::addedSquareOnGV);
+    connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsView *>(_mainGraphicsScene), &mainGraphicsView::addedSquareOnGV);
 
 }
 
@@ -74,21 +74,21 @@ void MainWindow::addStart()
 }
 
 inline BlockExprAST* MainWindow::getInsertionBlock(){
-     return _mainGraphicsView->selectedItems().empty()
+     return _mainGraphicsScene->selectedItems().empty()
             ? mainBlock
-            : static_cast<BlockExprAST*>(_mainGraphicsView->selectedItems().at(0)->parentItem());
+            : static_cast<BlockExprAST*>(_mainGraphicsScene->selectedItems().at(0)->parentItem());
 }
 void MainWindow::addInstruction(InstructionExprAST* newElement){
-    if (_mainGraphicsView->selectedItems().empty()){
+    if (_mainGraphicsScene->selectedItems().empty()){
         newElement->setParentItem(mainBlock);
         mainBlock->insert(newElement);
     }else {
-        auto parent = static_cast<BlockExprAST*>(_mainGraphicsView->selectedItems().at(0)->parentItem());
+        auto parent = static_cast<BlockExprAST*>(_mainGraphicsScene->selectedItems().at(0)->parentItem());
         newElement->setParentItem(parent);
-        parent->insert(newElement,static_cast<InstructionExprAST*>(_mainGraphicsView->selectedItems().at(0)));
+        parent->insert(newElement,static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0)));
     }
-    connect(newElement,&InstructionExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsView*>(_mainGraphicsView),&mainGraphicsView::updateScene);
-    connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsView),
+    connect(newElement,&InstructionExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsView*>(_mainGraphicsScene),&mainGraphicsView::updateScene);
+    connect(newElement,&InstructionExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsScene),
             &mainGraphicsView::clearSelection);
 
     //_mainGraphicsView->addItem(newElement);

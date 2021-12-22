@@ -41,7 +41,7 @@ private:
     void onActionSaveAs();
     void onActionExit();
     Ui::MainWindow *ui;
-    QGraphicsScene *_mainGraphicsView;
+    QGraphicsScene *_mainGraphicsScene;
     QVector<Instruction*> _instructions;
     void setupActions();
     inline BlockExprAST* getInsertionBlock();
