@@ -61,8 +61,15 @@ void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
 //These are just test functions, actual ones are gonna look completely different
 void MainWindow::addStart()
 {
-
-
+    auto instructionMode = mainBlock->isVisible();
+    if(instructionMode){
+        mainBlock->setVisible(false);
+        //TODO: posao za izraze
+    }
+    else{
+        //TODO: posao za izraze
+        mainBlock->setVisible(true);
+    }
 
 }
 
