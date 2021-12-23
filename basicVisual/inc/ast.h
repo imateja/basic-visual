@@ -19,6 +19,7 @@ class IfExprAST;
 class AssignExprAST;
 class BlockExprAST;
 class FunctionExprAST;
+class PlaceholderExprAST;
 class EndExprAST;
 class StartExprAST;
 
@@ -38,6 +39,7 @@ public:
     virtual void VisitAssignExprAST(AssignExprAST&) = 0;
     virtual void VisitBlockExprAST(BlockExprAST&) = 0;
     virtual void VisitFunctionExprAST(FunctionExprAST&) = 0;
+    virtual void VisitPlaceholderExprAST(PlaceholderExprAST&) = 0;
     virtual void VisitEndExprAST(EndExprAST&) = 0;
     virtual void VisitStartExprAST(StartExprAST&) = 0;
 
@@ -200,6 +202,14 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
+class PlaceholderExprAST final : public ExprAST
+{
+    PlaceholderExprAST(){}
 
+    void AcceptVisit(VisitorAST&) override;
+
+    QColor color_= QColor::fromRgb(128,0,128);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+};
 
 #endif // AST_H

@@ -26,7 +26,9 @@ void LtExprAST::AcceptVisit(VisitorAST& v){
 void GtExprAST::AcceptVisit(VisitorAST& v){
     v.VisitGtExprAST(*this);
 }
-
+void PlaceholderExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitPlaceholderExprAST(*this);
+}
 
 //--------------------OPERATOR=--------------------
 
