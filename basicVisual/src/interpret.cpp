@@ -122,6 +122,8 @@ void Interpret::VisitFunctionExprAST(FunctionExprAST& obj){
     Interpret(obj.getBody());
 }
 
+void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST&){}
+
 void Interpret::VisitEndExprAST(EndExprAST&){}
 
 void Interpret::VisitStartExprAST(StartExprAST&){}

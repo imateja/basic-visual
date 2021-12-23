@@ -207,6 +207,7 @@ QRectF ExprAST::boundingRect() const
 }
 
 //--------------------
+//TODO: implement paint
 
 void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
@@ -241,5 +242,9 @@ void LtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 }
 
 void GtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
 }
