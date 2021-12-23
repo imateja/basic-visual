@@ -19,7 +19,7 @@ set(PROJECT_SOURCES
         src/instructiondialog.ui
         src/main.cpp
         src/mainwindow.cpp
-        src/maingraphicsview.cpp
+        src/maingraphicsscene.cpp
         src/instructioncontainer.cpp
         src/instruction.cpp
         src/instructiondialog.cpp
@@ -32,7 +32,7 @@ set(PROJECT_SOURCES
 
 set(PROJECT_HEADERS
         inc/mainwindow.h
-        inc/maingraphicsview.hpp
+        inc/maingraphicsscene.hpp
         inc/instructioncontainer.h
         inc/instruction.h
         inc/instructiondialog.h

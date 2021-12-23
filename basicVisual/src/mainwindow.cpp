@@ -1,6 +1,6 @@
 #include "inc/mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "inc/maingraphicsview.hpp"
+#include "inc/maingraphicsscene.hpp"
 #include "inc/instruction.h"
 #include "inc/instructioncontainer.h"
 #include <QMessageBox>
@@ -14,7 +14,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , _mainGraphicsScene(new mainGraphicsView())
+    , _mainGraphicsScene(new mainGraphicsScene())
 
 {
     ui->setupUi(this);
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
     connect(ui->IfBtn, &QPushButton::clicked, this, &MainWindow::addIf);
     connect(ui->startBtn, &QPushButton::clicked, this, &MainWindow::addStart);
-    connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsView *>(_mainGraphicsScene), &mainGraphicsView::addedSquareOnGV);
+    connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsScene *>(_mainGraphicsScene), &mainGraphicsScene::addedSquareOnGV);
 
 }
 
@@ -98,9 +98,9 @@ void MainWindow::addInstruction(InstructionExprAST* newElement){
         newElement->setParentItem(parent);
         parent->insert(newElement,static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0)));
     }
-    connect(newElement,&ExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsView*>(_mainGraphicsScene),&mainGraphicsView::updateScene);
-    connect(newElement,&ExprAST::signalSelected,dynamic_cast<mainGraphicsView *>(_mainGraphicsScene),
-            &mainGraphicsView::clearSelection);
+    connect(newElement,&ExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsScene*>(_mainGraphicsScene),&mainGraphicsScene::updateScene);
+    connect(newElement,&ExprAST::signalSelected,dynamic_cast<mainGraphicsScene *>(_mainGraphicsScene),
+            &mainGraphicsScene::clearSelection);
 
     //_mainGraphicsView->addItem(newElement);
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());

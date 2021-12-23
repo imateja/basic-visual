@@ -1,5 +1,5 @@
-#ifndef MAINGRAPHICSVIEW_HPP
-#define MAINGRAPHICSVIEW_HPP
+#ifndef MAINGRAPHICSSCENE_H
+#define MAINGRAPHICSSCENE_H
 #include <QGraphicsScene>
 #include "exprtree.h"
 #include <QDebug>
@@ -7,10 +7,10 @@
 class InstructionContainer;
 class Instruction;
 
-class mainGraphicsView : public QGraphicsScene
+class mainGraphicsScene : public QGraphicsScene
 {
 public:
-    explicit mainGraphicsView(QObject *parent = nullptr);
+    explicit mainGraphicsScene(QObject *parent = nullptr);
 
 
 
@@ -36,4 +36,4 @@ private:
 
 
 
-#endif // MAINGRAPHICSVIEW_HPP
+#endif // MAINGRAPHICSSCENE_H

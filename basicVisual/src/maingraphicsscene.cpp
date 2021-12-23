@@ -1,4 +1,4 @@
-#include "inc/maingraphicsview.hpp"
+#include "inc/maingraphicsscene.hpp"
 #include "inc/instructioncontainer.h"
 #include "inc/instruction.h"
 #include <QDebug>
@@ -6,7 +6,7 @@
 #include "inc/exprtree.h"
 
 
-mainGraphicsView::mainGraphicsView(QObject *parent)
+mainGraphicsScene::mainGraphicsScene(QObject *parent)
     :QGraphicsScene(parent)
 {
 
@@ -14,7 +14,7 @@ mainGraphicsView::mainGraphicsView(QObject *parent)
 //Adds square to the vector and draws it on the main graphics view
 //TODO:Make squares movable and connected
 
-void mainGraphicsView::addedSquareOnGV(InstructionExprAST *node)
+void mainGraphicsScene::addedSquareOnGV(InstructionExprAST *node)
 {
     //connect(node, &InstructionExprAST::Moved, this, &mainGraphicsView::drawConnections);
 
@@ -26,16 +26,16 @@ void mainGraphicsView::addedSquareOnGV(InstructionExprAST *node)
 //    drawConnections();
 }
 
-void mainGraphicsView::updateScene(){
+void mainGraphicsScene::updateScene(){
     this->update();
     qDebug()<<"Scena se updatovala";
 }
 
 //Positions the new node so there is no overlap
 //TODO:make squares be close together under eachother
-void mainGraphicsView::PositionNewNode(InstructionExprAST *node)
+void mainGraphicsScene::PositionNewNode(InstructionExprAST *node)
 {
-    const auto graphicsViewWidth = mainGraphicsView::width();
+    const auto graphicsViewWidth = mainGraphicsScene::width();
     qDebug()<<graphicsViewWidth<<"\n";
     auto numNewNode = 0;
 
@@ -53,7 +53,7 @@ void mainGraphicsView::PositionNewNode(InstructionExprAST *node)
     qDebug()<<node->pos()<<" inside emit"<<"\n";
 }
 
-void mainGraphicsView::SquareIsSelected(){
+void mainGraphicsScene::SquareIsSelected(){
    qDebug() << "Selectovano je";
 }
 
