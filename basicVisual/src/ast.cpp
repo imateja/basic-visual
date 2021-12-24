@@ -20,11 +20,23 @@ void MulExprAST::AcceptVisit(VisitorAST& v){
 void DivExprAST::AcceptVisit(VisitorAST& v){
     v.VisitDivExprAST(*this);
 }
+void EqExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitEqExprAST(*this);
+}
+void NeqExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitNeqExprAST(*this);
+}
 void LtExprAST::AcceptVisit(VisitorAST& v){
     v.VisitLtExprAST(*this);
 }
+void LeqExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitLeqExprAST(*this);
+}
 void GtExprAST::AcceptVisit(VisitorAST& v){
     v.VisitGtExprAST(*this);
+}
+void GeqExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitGeqExprAST(*this);
 }
 void PlaceholderExprAST::AcceptVisit(VisitorAST& v){
     v.VisitPlaceholderExprAST(*this);
@@ -237,11 +249,27 @@ void DivExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
 }
 
+void EqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void NeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
 void LtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
 }
 
+void LeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
 void GtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void GeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
 }
 

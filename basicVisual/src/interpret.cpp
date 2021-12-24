@@ -56,6 +56,26 @@ void Interpret::VisitDivExprAST(DivExprAST& obj) {
     }
 }
 
+void Interpret::VisitEqExprAST(EqExprAST& obj) {
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
+        value_ = static_cast<bool>(l.toDouble() == r.toDouble());
+    }else {
+        //TODO error handling
+    }
+}
+
+void Interpret::VisitNeqExprAST(NeqExprAST& obj) {
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
+        value_ = static_cast<bool>(l.toDouble() != r.toDouble());
+    }else {
+        //TODO error handling
+    }
+}
+
 void Interpret::VisitLtExprAST(LtExprAST& obj) {
     auto l = Interpret(obj.getLeft()).value_;
     auto r = Interpret(obj.getRight()).value_;
@@ -66,11 +86,31 @@ void Interpret::VisitLtExprAST(LtExprAST& obj) {
     }
 }
 
+void Interpret::VisitLeqExprAST(LeqExprAST& obj) {
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
+        value_ = static_cast<bool>(l.toDouble() <= r.toDouble());
+    }else {
+        //TODO error handling
+    }
+}
+
 void Interpret::VisitGtExprAST(GtExprAST& obj) {
     auto l = Interpret(obj.getLeft()).value_;
     auto r = Interpret(obj.getRight()).value_;
     if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
         value_ = static_cast<bool>(l.toDouble() > r.toDouble());
+    }else {
+        //TODO error handling
+    }
+}
+
+void Interpret::VisitGeqExprAST(GeqExprAST& obj) {
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
+        value_ = static_cast<bool>(l.toDouble() >= r.toDouble());
     }else {
         //TODO error handling
     }
