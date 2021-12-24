@@ -8,6 +8,15 @@ void ValueExprAST::AcceptVisit(VisitorAST& v){
 void VariableExprAST::AcceptVisit(VisitorAST& v){
     v.VisitVariableExprAST(*this);
 }
+void AndExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitAndExprAST(*this);
+}
+void OrExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitOrExprAST(*this);
+}
+void NotExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitNotExprAST(*this);
+}
 void AddExprAST::AcceptVisit(VisitorAST& v){
     v.VisitAddExprAST(*this);
 }
@@ -230,6 +239,18 @@ void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 }
 
 void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void AndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void OrExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+}
+
+void NotExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
 }
 

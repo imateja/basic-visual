@@ -12,6 +12,9 @@ class AddExprAST;
 class SubExprAST;
 class MulExprAST;
 class DivExprAST;
+class AndExprAST;
+class OrExprAST;
+class NotExprAST;
 class EqExprAST;
 class NeqExprAST;
 class LtExprAST;
@@ -37,6 +40,10 @@ public:
     virtual void VisitSubExprAST(SubExprAST&) = 0;
     virtual void VisitMulExprAST(MulExprAST&) = 0;
     virtual void VisitDivExprAST(DivExprAST&) = 0;
+
+    virtual void VisitAndExprAST(AndExprAST&) = 0;
+    virtual void VisitOrExprAST(OrExprAST&) = 0;
+    virtual void VisitNotExprAST(NotExprAST&) = 0;
 
     virtual void VisitEqExprAST(EqExprAST&) = 0;
     virtual void VisitNeqExprAST(NeqExprAST&) = 0;
@@ -154,6 +161,55 @@ protected:
     ExprAST *left_, *right_;
 };
 
+//--------------------LOGIC--------------------
+
+class AndExprAST final : public BinaryExprAST
+{
+public:
+    AndExprAST(ExprAST *left, ExprAST *right)
+        :BinaryExprAST(left,right)
+    {}
+    void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 5u;}
+    //ExprAST* copy() const override;
+
+    QColor color_= QColor::fromRgb(128,0,128);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+};
+
+class OrExprAST final : public BinaryExprAST
+{
+public:
+    OrExprAST(ExprAST *left, ExprAST *right)
+        :BinaryExprAST(left,right)
+    {}
+    void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 5u;}
+    //ExprAST* copy() const override;
+
+    QColor color_= QColor::fromRgb(128,0,128);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+};
+
+class NotExprAST final : public ExprAST
+{
+public:
+    NotExprAST(ExprAST *operand = nullptr)
+        :operand_(operand!=nullptr?operand:new PlaceholderExprAST())
+    {}
+    void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 5u;}
+    //ExprAST* copy() const override;
+    inline ExprAST* getOperand() {return operand_;}
+
+    QColor color_= QColor::fromRgb(128,0,128);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+private:
+    ExprAST* operand_;
+};
+
+//--------------------ARITHMETIC--------------------
+
 class AddExprAST final : public BinaryExprAST
 {
 public:
@@ -209,6 +265,8 @@ public:
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
+
+//--------------------RELATIONAL--------------------
 
 class EqExprAST final : public BinaryExprAST
 {

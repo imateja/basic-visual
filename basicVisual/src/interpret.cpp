@@ -1,8 +1,10 @@
 #include "inc/interpret.h"
 #include "inc/state.h"
+#include <QtMath>
 
 int Interpret::doubleTypeId = QVariant(static_cast<double>(0)).typeId();
 int Interpret::boolTypeId = QVariant(static_cast<bool>(true)).typeId();
+double Interpret::eps = 0.000001;
 
 void Interpret::VisitValueExprAST(ValueExprAST& obj) {
         value_ = obj.getValue();
@@ -15,6 +17,35 @@ void Interpret::VisitVariableExprAST(VariableExprAST& obj) {
         }
 }
 
+void Interpret::VisitAndExprAST(AndExprAST& obj) {
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == boolTypeId && r.typeId() == boolTypeId){
+        value_ = l.toBool() && r.toBool();
+    }else {
+        //TODO error handling
+    }
+}
+
+void Interpret::VisitOrExprAST(OrExprAST& obj) {
+    auto l = Interpret(obj.getLeft()).value_;
+    auto r = Interpret(obj.getRight()).value_;
+    if (l.typeId() == boolTypeId && r.typeId() == boolTypeId){
+        value_ = l.toBool() || r.toBool();
+    }else {
+        //TODO error handling
+    }
+}
+
+void Interpret::VisitNotExprAST(NotExprAST& obj) {
+    auto op = Interpret(obj.getOperand()).value_;
+    if (op.typeId() == boolTypeId){
+        value_ = !op.toBool();
+    }else {
+        //TODO error handling
+    }
+}
+
 void Interpret::VisitAddExprAST(AddExprAST& obj) {
         auto l = Interpret(obj.getLeft()).value_;
         auto r = Interpret(obj.getRight()).value_;
@@ -23,7 +54,6 @@ void Interpret::VisitAddExprAST(AddExprAST& obj) {
         }else {
             //TODO error handling
         }
-
 }
 
 void Interpret::VisitSubExprAST(SubExprAST& obj) {
@@ -60,7 +90,9 @@ void Interpret::VisitEqExprAST(EqExprAST& obj) {
     auto l = Interpret(obj.getLeft()).value_;
     auto r = Interpret(obj.getRight()).value_;
     if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
-        value_ = static_cast<bool>(l.toDouble() == r.toDouble());
+        value_ = static_cast<bool>(qFabs((l.toDouble() - r.toDouble())) < eps);
+    }else if (l.typeId() == boolTypeId && r.typeId() == boolTypeId) {
+        value_ = static_cast<bool>(l.toBool() == r.toBool());
     }else {
         //TODO error handling
     }
@@ -70,7 +102,9 @@ void Interpret::VisitNeqExprAST(NeqExprAST& obj) {
     auto l = Interpret(obj.getLeft()).value_;
     auto r = Interpret(obj.getRight()).value_;
     if (l.typeId() == doubleTypeId && r.typeId() == doubleTypeId){
-        value_ = static_cast<bool>(l.toDouble() != r.toDouble());
+        value_ = static_cast<bool>(qFabs((l.toDouble() - r.toDouble())) > eps);
+    }else if (l.typeId() == boolTypeId && r.typeId() == boolTypeId) {
+        value_ = static_cast<bool>(l.toBool() != r.toBool());
     }else {
         //TODO error handling
     }

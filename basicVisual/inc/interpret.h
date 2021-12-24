@@ -22,6 +22,10 @@ public:
     void VisitAssignExprAST(AssignExprAST&) override;
     void VisitBlockExprAST(BlockExprAST&) override;
 
+    void VisitAndExprAST(AndExprAST&) override;
+    void VisitOrExprAST(OrExprAST&) override;
+    void VisitNotExprAST(NotExprAST&) override;
+
     void VisitAddExprAST(AddExprAST&) override;
     void VisitSubExprAST(SubExprAST&) override;
     void VisitMulExprAST(MulExprAST&) override;
@@ -41,8 +45,10 @@ public:
     void VisitPlaceholderExprAST(PlaceholderExprAST&) override;
     void VisitEndExprAST(EndExprAST&) override;
     void VisitStartExprAST(StartExprAST&) override;
+
     static int doubleTypeId;
     static int boolTypeId;
+    static double eps;
 private:
     QVariant value_;
 };
