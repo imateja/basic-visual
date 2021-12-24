@@ -3,12 +3,11 @@
 //ExprTree::~ExprTree(){
 //    delete program_;
 //}
-
-void WhileExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitWhileExprAST(*this);
+void StartExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitStartExprAST(*this);
 }
-void IfExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitIfExprAST(*this);
+void EndExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitEndExprAST(*this);
 }
 void AssignExprAST::AcceptVisit(VisitorAST& v){
     v.VisitAssignExprAST(*this);
@@ -16,66 +15,73 @@ void AssignExprAST::AcceptVisit(VisitorAST& v){
 void BlockExprAST::AcceptVisit(VisitorAST& v){
     v.VisitBlockExprAST(*this);
 }
+void WhileExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitWhileExprAST(*this);
+}
+void IfExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitIfExprAST(*this);
+}
 void FunctionExprAST::AcceptVisit(VisitorAST& v){
     v.VisitFunctionExprAST(*this);
 }
-void EndExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitEndExprAST(*this);
+
+AssignExprAST::~AssignExprAST(){
+    delete expr_;
 }
 
-void StartExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitStartExprAST(*this);
+BlockExprAST::~BlockExprAST(){
+   for(auto& next : body_)
+       delete next;
 }
 
-
-    IfExprAST::~IfExprAST(){
-        delete cond_;
-        delete then_;
-        delete else_;
+void BlockExprAST::updateChildren()
+{
+    for(auto elem : body_){
+        elem->setParentItem(this);
+        elem->updateChildren();
     }
+}
 
-    void IfExprAST::updateChildren()
-    {
-        then_->setParentItem(this);
-        else_->setParentItem(this);
-        then_->updateChildren();
-        else_->updateChildren();
-    }
-
-    WhileExprAST::~WhileExprAST(){
-        delete cond_;
-        delete body_;
-    }
-
-    void WhileExprAST::updateChildren()
-    {
-        body_->setParentItem(this);
-        body_->updateChildren();
-    }
-
-    AssignExprAST::~AssignExprAST(){
-        delete expr_;
-    }
-
-    BlockExprAST::~BlockExprAST(){
-       for(auto& next : body_)
-           delete next;
-    }
-
-    void BlockExprAST::updateChildren()
-    {
-        for(auto elem : body_){
-            elem->setParentItem(this);
-            elem->updateChildren();
+void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posinstr){
+    if (posinstr == nullptr){
+        body_.push_back(newinstr);
+    }else {
+        auto pos = body_.indexOf(posinstr);
+        if (pos != -1){
+            body_.insert(pos+1, newinstr);
+        }else {
+            //TODO error handling
         }
     }
 
-    StartExprAST::~StartExprAST(){
+    newinstr->setParentItem(this);
+}
 
-    }
-    EndExprAST::~EndExprAST(){
+IfExprAST::~IfExprAST(){
+    delete cond_;
+    delete then_;
+    delete else_;
+}
 
-    }
+void IfExprAST::updateChildren()
+{
+    then_->setParentItem(this);
+    else_->setParentItem(this);
+    then_->updateChildren();
+    else_->updateChildren();
+}
+
+WhileExprAST::~WhileExprAST(){
+    delete cond_;
+    delete body_;
+}
+
+void WhileExprAST::updateChildren()
+{
+    body_->setParentItem(this);
+    body_->updateChildren();
+}
+
 FunctionExprAST::~FunctionExprAST(){
     delete body_;
 }
@@ -108,6 +114,42 @@ FunctionExprAST::~FunctionExprAST(){
 //ExprAST* StartExprAST::copy() const{
 //    return new EndExprAST(*this);
 //}
+
+void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+
+   //TODO: check what i can do with this options
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+   //TODO: Pen and colour should also be properties of subclasses
+   //FIX: Colour and pen shouldnt be hardcoded
+
+    painter->fillRect(boundingRect(), QColor::fromRgb(0,128,0));
+    painter->setPen(Qt::white);
+    const auto SquareText = QString("%1\n").arg("start");
+    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    //emit ShouldUpdateScene();
+    //TODO:Default case (maybe throw error)
+}
+
+void EndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+
+   //TODO: check what i can do with this options
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+   //TODO: Pen and colour should also be properties of subclasses
+   //FIX: Colour and pen shouldnt be hardcoded
+
+    painter->fillRect(boundingRect(), color_);
+    painter->setPen(Qt::white);
+
+    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
+    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    emit ShouldUpdateScene();
+    //TODO:Default case (maybe throw error)
+}
+
 void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
@@ -128,120 +170,7 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     //TODO:Default case (maybe throw error)
     //emit ShouldUpdateScene();
 }
-void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
 
-    auto ifh=60;
-    w=0.0f;
-    h=0.0f;
-    const float gap=10.0f;
-    h+= then_->getHeight() > else_->getHeight() ? then_->getHeight() : else_->getHeight();
-    h+=ifh*2 +gap;
-    h+=gap*2;
-
-    w+= then_->getWidth() + else_->getWidth() + 100.0f;
-
-    painter->fillRect(boundingRect(), color_);
-    painter->drawEllipse(20,30,20,20);
-    painter->setPen(Qt::white);
-
-    QRectF ifrectangle = QRectF(-w/2,-h/2 + gap,w,ifh);
-
-    painter->fillRect(ifrectangle,QColor::fromRgb(128,0,0));
-    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
-    painter->drawText(ifrectangle, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-
-
-    QRectF thenrect=QRectF(-ifrectangle.width()/2,-h/2 +ifh+gap*2,then_->getWidth(),ifh);
-    //if(this->isSelected()){
-       // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-    //painter->fillRect(thenrect,selectedBrush);
-    //}else
-    painter->fillRect(thenrect, QColor::fromRgb(128,0,0));
-    painter->drawText(thenrect, Qt::AlignHCenter | Qt::AlignVCenter, "then" );
-
-
-    QRectF elserect=QRectF(ifrectangle.width()/2 -thenrect.width() ,-h/2 +ifh+gap*2,else_->getWidth(),ifh);
-    //if(this->isSelected()){
-        //QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-    //painter->fillRect(elserect,selectedBrush);
-    //}else
-    painter->fillRect(elserect, QColor::fromRgb(128,0,0));
-    painter->drawText(elserect, Qt::AlignHCenter | Qt::AlignVCenter, "else" );
-
-
-
-    then_->setPos(-ifrectangle.width()/2 + then_->getWidth()/2,-h/2 +ifh+gap*2 + thenrect.height() + gap + then_->getHeight()/2);
-    else_->setPos(ifrectangle.width()/2 - else_->getWidth()/2, -h/2 +ifh+gap*2 + elserect.height() + gap + else_->getHeight()/2);
-
-    emit ShouldUpdateScene();
-    //TODO:Default case (maybe throw error)
-}
-void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-
-   //TODO: check what i can do with this options
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
-    auto whileh = 60;
-    w=0.0f;
-    h=0.0f;
-    const float gap=10.0f;
-    h += body_->getHeight() + whileh+ gap*2;
-    w += body_->getWidth();
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-    QRectF rectangle = QRectF(-w/2,-h/2 + gap,w,whileh);
-    //if(this->isSelected()){
-       // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-    //painter->fillRect(rectangle,selectedBrush);
-    //}else
-        painter->fillRect(rectangle,QColor::fromRgb(128,0,0));
-    //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
-    //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    body_->setPos(0,whileh/2 + gap);
-    emit ShouldUpdateScene();
-    //TODO:Default case (maybe throw error)
-}
-void EndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-
-   //TODO: check what i can do with this options
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    emit ShouldUpdateScene();
-    //TODO:Default case (maybe throw error)
-}
-void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-
-   //TODO: check what i can do with this options
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
-
-    painter->fillRect(boundingRect(), QColor::fromRgb(0,128,0));
-    painter->setPen(Qt::white);
-    const auto SquareText = QString("%1\n").arg("start");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //emit ShouldUpdateScene();
-    //TODO:Default case (maybe throw error)
-}
 void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
@@ -306,9 +235,91 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     //TODO:Default case (maybe throw error)
 }
 
-void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 
+    auto ifh=60;
+    w=0.0f;
+    h=0.0f;
+    const float gap=10.0f;
+    h+= then_->getHeight() > else_->getHeight() ? then_->getHeight() : else_->getHeight();
+    h+=ifh*2 +gap;
+    h+=gap*2;
+
+    w+= then_->getWidth() + else_->getWidth() + 100.0f;
+
+    painter->fillRect(boundingRect(), color_);
+    painter->drawEllipse(20,30,20,20);
+    painter->setPen(Qt::white);
+
+    QRectF ifrectangle = QRectF(-w/2,-h/2 + gap,w,ifh);
+
+    painter->fillRect(ifrectangle,QColor::fromRgb(128,0,0));
+    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
+    painter->drawText(ifrectangle, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+
+
+    QRectF thenrect=QRectF(-ifrectangle.width()/2,-h/2 +ifh+gap*2,then_->getWidth(),ifh);
+    //if(this->isSelected()){
+       // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+    //painter->fillRect(thenrect,selectedBrush);
+    //}else
+    painter->fillRect(thenrect, QColor::fromRgb(128,0,0));
+    painter->drawText(thenrect, Qt::AlignHCenter | Qt::AlignVCenter, "then" );
+
+
+    QRectF elserect=QRectF(ifrectangle.width()/2 -thenrect.width() ,-h/2 +ifh+gap*2,else_->getWidth(),ifh);
+    //if(this->isSelected()){
+        //QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+    //painter->fillRect(elserect,selectedBrush);
+    //}else
+    painter->fillRect(elserect, QColor::fromRgb(128,0,0));
+    painter->drawText(elserect, Qt::AlignHCenter | Qt::AlignVCenter, "else" );
+
+
+
+    then_->setPos(-ifrectangle.width()/2 + then_->getWidth()/2,-h/2 +ifh+gap*2 + thenrect.height() + gap + then_->getHeight()/2);
+    else_->setPos(ifrectangle.width()/2 - else_->getWidth()/2, -h/2 +ifh+gap*2 + elserect.height() + gap + else_->getHeight()/2);
+
+    emit ShouldUpdateScene();
+    //TODO:Default case (maybe throw error)
 }
+
+void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+
+   //TODO: check what i can do with this options
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+   //TODO: Pen and colour should also be properties of subclasses
+   //FIX: Colour and pen shouldnt be hardcoded
+    auto whileh = 60;
+    w=0.0f;
+    h=0.0f;
+    const float gap=10.0f;
+    h += body_->getHeight() + whileh+ gap*2;
+    w += body_->getWidth();
+
+
+    painter->fillRect(boundingRect(), color_);
+    painter->setPen(Qt::white);
+    QRectF rectangle = QRectF(-w/2,-h/2 + gap,w,whileh);
+    //if(this->isSelected()){
+       // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+    //painter->fillRect(rectangle,selectedBrush);
+    //}else
+        painter->fillRect(rectangle,QColor::fromRgb(128,0,0));
+    //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
+    //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    body_->setPos(0,whileh/2 + gap);
+    emit ShouldUpdateScene();
+    //TODO:Default case (maybe throw error)
+}
+
+//TODO implement paint
+void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
 
 //QRectF AssignExprAST::boundingRect() const
 //{
@@ -316,20 +327,3 @@ void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 //    float h=80;
 //    return QRectF(-w/2, 0, w, h);
 //}
-
-void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posinstr){
-    if (posinstr == nullptr){
-        body_.push_back(newinstr);
-    }else {
-        auto pos = body_.indexOf(posinstr);
-        if (pos != -1){
-            body_.insert(pos+1, newinstr);
-        }else {
-            //TODO error handling
-        }
-    }
-
-    newinstr->setParentItem(this);
-}
-
-

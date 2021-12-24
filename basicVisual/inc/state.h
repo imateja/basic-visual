@@ -5,8 +5,8 @@
 #include <QHash>
 #include <QString>
 #include <QVariant>
-#include "ast.h"
 #include <QDebug>
+#include "ast.h"
 
 class State final
 {
@@ -15,16 +15,18 @@ public:
         static State state {};
         return state;
     }
-    QHash<QString, QVariant> getCurrentDomain();
     void createNewDomain();
     void removeCurrentDomain();
     void assignValue(const QString&, QVariant&);
+    QHash<QString, QVariant> getCurrentDomain();
     QVariant getValue(const QString&);
+
 private:
     State() = default;
-    QVector<QHash<QString, QVariant>> domains_;
     State(const State&) = delete;
     State& operator=(const State&) = delete;
+
+    QVector<QHash<QString, QVariant>> domains_;
 };
 
 #endif // STATE_H

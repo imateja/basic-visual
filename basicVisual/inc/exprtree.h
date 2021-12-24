@@ -1,13 +1,13 @@
 #ifndef EXPRTREE_H
 #define EXPRTREE_H
 
-#include "ast.h"
 #include <QPainter>
 #include <QGraphicsObject>
 #include <QVector>
-#include "state.h"
-#include <algorithm>
 #include <QDebug>
+#include <algorithm>
+#include "ast.h"
+#include "state.h"
 
 class InstructionExprAST : public ExprAST
 {
@@ -15,17 +15,13 @@ public:
     InstructionExprAST(QGraphicsItem* parent = nullptr)
       :ExprAST(parent)
     {}
-
-    virtual void updateChildren() = 0;
-
-    inline unsigned getPriority() final {return 0u;}
-
-    ~InstructionExprAST(){
-
-    }
-    InstructionExprAST* next_; //TODO: remove
+    ~InstructionExprAST(){}
 
     virtual ExprAST* getEditableExpr() = 0;
+    virtual void updateChildren() = 0;
+    inline unsigned getPriority() final {return 0u;}
+
+    InstructionExprAST* next_; //TODO: remove
 };
 
 class StartExprAST : public InstructionExprAST
@@ -34,16 +30,16 @@ public:
     StartExprAST(QGraphicsItem* parent = nullptr)
         :InstructionExprAST(parent)
     {}
+    ~StartExprAST(){};
+
     void AcceptVisit(VisitorAST&) override;
+    void updateChildren() final {}
+    ExprAST* getEditableExpr() override { return nullptr; }
     //ExprAST* copy() const override;
+
     //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
-    ExprAST* getEditableExpr() override { return nullptr; }
-
-    ~StartExprAST();
-    void updateChildren() final {}
 };
 
 class EndExprAST : public InstructionExprAST
@@ -52,16 +48,44 @@ public:
     EndExprAST(QGraphicsItem* parent = nullptr)
         :InstructionExprAST(parent)
     {}
+    ~EndExprAST(){};
+
     void AcceptVisit(VisitorAST&) override;
+    void updateChildren() final {}
+    ExprAST* getEditableExpr() override { return nullptr; }
     //ExprAST* copy() const override;
+
+    //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(128,0,0);
-   // QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+};
+
+class AssignExprAST final : public InstructionExprAST
+{
+public:
+    AssignExprAST(QString name, ExprAST *expr = nullptr,QGraphicsItem* parent = nullptr)
+        :InstructionExprAST(parent), name_(name)
+        ,expr_(expr!=nullptr?expr:new PlaceholderExprAST)
+    {}
+    ~AssignExprAST();
+    AssignExprAST(const AssignExprAST&);
+    AssignExprAST& operator= (const AssignExprAST&);
+
+    void AcceptVisit(VisitorAST&) override;
+    void updateChildren() final {}
+    ExprAST* getEditableExpr() override { return expr_; }
+    inline QString getName() {return name_;}
+    inline ExprAST* getExpr() {return expr_;}
+    //ExprAST* copy() const override;
+
+    //QRectF boundingRect() const override;
+    QColor color_= QColor::fromRgb(128,0,128);
+    QString instructionName_ = QString("Assign");
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
-    ExprAST* getEditableExpr() override { return nullptr; }
-
-    ~EndExprAST();
-    void updateChildren() final {}
+private:
+    QString name_;
+    ExprAST* expr_;
 };
 
 class BlockExprAST : public InstructionExprAST
@@ -72,29 +96,25 @@ public:
     {
         body_.push_back(new StartExprAST(this));
     }
-    void AcceptVisit(VisitorAST&) override;
     ~BlockExprAST();
-    void updateChildren() final;
     BlockExprAST(const BlockExprAST&);
     //BlockExprAST& operator= (const BlockExprAST&) = default;
+
+    void AcceptVisit(VisitorAST&) override;
+    void updateChildren() final;
+    void insert(InstructionExprAST*,InstructionExprAST* = nullptr);
+    //unsigned size();
+    //InstructionContainer* at(unsigned);
+    ExprAST* getEditableExpr() override { return nullptr; }
     inline QVector<InstructionExprAST*> getBody() {return body_;}
     //ExprAST* copy() const override;
-    void insert(InstructionExprAST*,InstructionExprAST* = nullptr);
 
-    ExprAST* getEditableExpr() override { return nullptr; }
-
-    //TEMP
-//    unsigned size();
-//    InstructionContainer* at(unsigned);
-    QColor color_= QColor::fromRgb(0,0,128);
     //QRectF boundingRect() const override;
+    QColor color_= QColor::fromRgb(0,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
     QVector<InstructionExprAST*> body_;
 };
-
-
-
-
 
 //class ThenElseExprAST: public InstructionExprAST
 //{
@@ -123,22 +143,22 @@ public:
         ,else_(elseblock!=nullptr?elseblock:new BlockExprAST(this))
         ,InstructionExprAST(parent)
     {}
-
-    void AcceptVisit(VisitorAST&) override;
     ~IfExprAST();
     IfExprAST(const IfExprAST&);
     IfExprAST& operator= (const IfExprAST&);
+
+    void AcceptVisit(VisitorAST&) override;
+    void updateChildren() final;
+    ExprAST* getEditableExpr() override { return cond_; }
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getThen() {return then_;}
     inline BlockExprAST* getElse() {return else_;}
-    void updateChildren() final;
     //ExprAST* copy() const override;
+
+    //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(128,128,0);
     QString instructionName_ = QString("If");
-    //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
-    ExprAST* getEditableExpr() override { return cond_; }
 
     ExprAST *cond_;
     BlockExprAST *then_;
@@ -153,52 +173,27 @@ public:
         ,body_(body!=nullptr?body:new BlockExprAST(this))
         ,InstructionExprAST(parent)
     {}
-    void AcceptVisit(VisitorAST&) override;
     ~WhileExprAST();
     WhileExprAST(const WhileExprAST&);
     WhileExprAST& operator= (const WhileExprAST&);
+
+    void AcceptVisit(VisitorAST&) override;
+    void updateChildren() final;
+    ExprAST* getEditableExpr() override { return cond_; }
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getBody() {return body_;}
-
-    ExprAST* getEditableExpr() override { return cond_; }
-    void updateChildren() final;
-
     //ExprAST* copy() const override;
+
+    //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(60,60,0);
     QString instructionName_ = QString("While");
-    //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
     BlockExprAST *body_;
+
 private:
     ExprAST *cond_;
 
-};
-
-class AssignExprAST final : public InstructionExprAST
-{
-public:
-    AssignExprAST(QString name, ExprAST *expr = nullptr,QGraphicsItem* parent = nullptr)
-        :InstructionExprAST(parent), name_(name)
-        ,expr_(expr!=nullptr?expr:new PlaceholderExprAST)
-    {}
-    void AcceptVisit(VisitorAST&) override;
-    ~AssignExprAST();
-    AssignExprAST(const AssignExprAST&);
-    AssignExprAST& operator= (const AssignExprAST&);
-    inline QString getName() {return name_;}
-    inline ExprAST* getExpr() {return expr_;}
-
-    ExprAST* getEditableExpr() override { return expr_; }
-    void updateChildren() final {}
-
-    //ExprAST* copy() const override;
-    QColor color_= QColor::fromRgb(128,0,128);
-    QString instructionName_ = QString("Assign");
-    //QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-private:
-    QString name_;
-    ExprAST* expr_;
 };
 
 class FunctionExprAST final : public ExprAST
@@ -210,15 +205,18 @@ public:
     FunctionExprAST(QString name)
         :FunctionExprAST(name, new BlockExprAST())
     {}
-    void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 0u;}
     ~FunctionExprAST();
     FunctionExprAST(const FunctionExprAST&);
     FunctionExprAST& operator= (const FunctionExprAST&);
+
+    void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 0u;}
     inline QString getName() {return name_;}
     inline BlockExprAST* getBody() {return body_;}
     //ExprAST* copy() const override;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
 private:
     QString name_;
     BlockExprAST* body_;

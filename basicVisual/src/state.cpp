@@ -1,13 +1,5 @@
 #include "inc/state.h"
 
-QHash<QString, QVariant> State::getCurrentDomain()
-{
-    if (domains_.empty()) {
-        State::Domains().createNewDomain();
-    }
-    return domains_.back();
-}
-
 void State::createNewDomain()
 {
     domains_.push_back(QHash<QString, QVariant> ());
@@ -33,6 +25,14 @@ void State::assignValue(const QString& variable, QVariant& value)
     }
 
     domains_.back().insert(variable, value);
+}
+
+QHash<QString, QVariant> State::getCurrentDomain()
+{
+    if (domains_.empty()) {
+        State::Domains().createNewDomain();
+    }
+    return domains_.back();
 }
 
 QVariant State::getValue(const QString& variable)

@@ -2,26 +2,17 @@
 
 //--------------------ACCEPT VISIT--------------------
 
+void PlaceholderExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitPlaceholderExprAST(*this);
+}
 void ValueExprAST::AcceptVisit(VisitorAST& v){
     v.VisitValueExprAST(*this);
 }
 void VariableExprAST::AcceptVisit(VisitorAST& v){
     v.VisitVariableExprAST(*this);
 }
-void AndExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitAndExprAST(*this);
-}
-void OrExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitOrExprAST(*this);
-}
 void NotExprAST::AcceptVisit(VisitorAST& v){
     v.VisitNotExprAST(*this);
-}
-void AddExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitAddExprAST(*this);
-}
-void SubExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitSubExprAST(*this);
 }
 void MulExprAST::AcceptVisit(VisitorAST& v){
     v.VisitMulExprAST(*this);
@@ -29,11 +20,11 @@ void MulExprAST::AcceptVisit(VisitorAST& v){
 void DivExprAST::AcceptVisit(VisitorAST& v){
     v.VisitDivExprAST(*this);
 }
-void EqExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitEqExprAST(*this);
+void AddExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitAddExprAST(*this);
 }
-void NeqExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitNeqExprAST(*this);
+void SubExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitSubExprAST(*this);
 }
 void LtExprAST::AcceptVisit(VisitorAST& v){
     v.VisitLtExprAST(*this);
@@ -47,8 +38,17 @@ void GtExprAST::AcceptVisit(VisitorAST& v){
 void GeqExprAST::AcceptVisit(VisitorAST& v){
     v.VisitGeqExprAST(*this);
 }
-void PlaceholderExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitPlaceholderExprAST(*this);
+void EqExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitEqExprAST(*this);
+}
+void NeqExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitNeqExprAST(*this);
+}
+void AndExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitAndExprAST(*this);
+}
+void OrExprAST::AcceptVisit(VisitorAST& v){
+    v.VisitOrExprAST(*this);
 }
 
 //--------------------OPERATOR=--------------------
@@ -227,73 +227,6 @@ QRectF ExprAST::boundingRect() const
     return QRect(-w/2,-h/2,w,h);
 }
 
-//--------------------
-//TODO: implement paint
-
-void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void AndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void OrExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void NotExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void AddExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void SubExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void MulExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void DivExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void EqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void NeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void LtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void LeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void GtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
-void GeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-}
-
 void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -302,11 +235,31 @@ void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem
     if(this->isSelected()){
         QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
         painter->fillRect(boundingRect(),selectedBrush);
-    }else
+    }else {
         painter->fillRect(boundingRect(), color_);
+    }
     painter->setPen(Qt::white);
     const auto SquareText = QString("[ ]");
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     //TODO:Default case (maybe throw error)
     //emit ShouldUpdateScene();
 }
+
+//TODO implement paint functions
+
+void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void NotExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void MulExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void DivExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void AddExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void SubExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void LtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void LeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void GtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void GeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void EqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void NeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void AndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void OrExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
