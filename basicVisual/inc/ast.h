@@ -56,6 +56,7 @@ public:
     }
     virtual ~ExprAST(){}
     virtual void AcceptVisit(VisitorAST&) = 0;
+    virtual unsigned getPriority() = 0;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override ;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override {}
@@ -81,6 +82,7 @@ class PlaceholderExprAST final : public ExprAST
 {
 public:
     PlaceholderExprAST(){}
+    inline unsigned getPriority() final {return 0u;}
 
     void AcceptVisit(VisitorAST&) override;
 
@@ -95,6 +97,7 @@ public:
         :value_(value)
     {}
     void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 0u;}
     inline double getValue() {return value_;}
     //ExprAST* copy() const override;
 
@@ -111,6 +114,7 @@ public:
         :name_(name)
     {}
     void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 0u;}
     inline QString getName() {return name_;}
     //ExprAST* copy() const override;
 
@@ -146,6 +150,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 2u;}
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -159,6 +164,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 1u;}
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -172,6 +178,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 1u;}
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -185,6 +192,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 2u;}
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -198,6 +206,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 3u;}
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -211,6 +220,7 @@ public:
         :BinaryExprAST(left,right)
     {}
     void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 3u;}
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);

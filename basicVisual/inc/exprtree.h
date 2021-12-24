@@ -18,6 +18,8 @@ public:
 
     virtual void updateChildren() = 0;
 
+    inline unsigned getPriority() final {return 0u;}
+
     ~InstructionExprAST(){
 
     }
@@ -209,6 +211,7 @@ public:
         :FunctionExprAST(name, new BlockExprAST())
     {}
     void AcceptVisit(VisitorAST&) override;
+    inline unsigned getPriority() final {return 0u;}
     ~FunctionExprAST();
     FunctionExprAST(const FunctionExprAST&);
     FunctionExprAST& operator= (const FunctionExprAST&);
