@@ -77,6 +77,17 @@ signals:
 
 };
 
+class PlaceholderExprAST final : public ExprAST
+{
+public:
+    PlaceholderExprAST(){}
+
+    void AcceptVisit(VisitorAST&) override;
+
+    QColor color_= QColor::fromRgb(128,0,128);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+};
+
 class ValueExprAST final : public ExprAST
 {
 public:
@@ -112,8 +123,9 @@ private:
 class BinaryExprAST : public ExprAST
 {
 public:
-    BinaryExprAST(ExprAST *left, ExprAST *right)
-        :left_(left),right_(right)
+    BinaryExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :left_(left!=nullptr?left:new PlaceholderExprAST())
+        ,right_(right!=nullptr?right:new PlaceholderExprAST())
     {}
     ~BinaryExprAST();
     BinaryExprAST(const BinaryExprAST&);
@@ -200,16 +212,6 @@ public:
     {}
     void AcceptVisit(VisitorAST&) override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-};
-
-class PlaceholderExprAST final : public ExprAST
-{
-    PlaceholderExprAST(){}
-
-    void AcceptVisit(VisitorAST&) override;
 
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

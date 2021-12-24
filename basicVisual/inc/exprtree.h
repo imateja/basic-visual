@@ -21,7 +21,7 @@ public:
     ~InstructionExprAST(){
 
     }
-    InstructionExprAST* next_;
+    InstructionExprAST* next_; //TODO: remove
 
     virtual ExprAST* getEditableExpr() = 0;
 };
@@ -115,8 +115,11 @@ public:
 class IfExprAST final : public InstructionExprAST
 {
 public:
-    IfExprAST(ExprAST *cond, BlockExprAST *thenblock = nullptr, BlockExprAST *elseblock = nullptr, QGraphicsItem* parent = nullptr)
-        :cond_(cond),then_(thenblock!=nullptr?thenblock:new BlockExprAST(this)),else_(elseblock!=nullptr?elseblock:new BlockExprAST(this)), InstructionExprAST(parent)
+    IfExprAST(ExprAST *cond = nullptr, BlockExprAST *thenblock = nullptr, BlockExprAST *elseblock = nullptr, QGraphicsItem* parent = nullptr)
+        :cond_(cond!=nullptr?cond:new PlaceholderExprAST)
+        ,then_(thenblock!=nullptr?thenblock:new BlockExprAST(this))
+        ,else_(elseblock!=nullptr?elseblock:new BlockExprAST(this))
+        ,InstructionExprAST(parent)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -143,8 +146,10 @@ public:
 class WhileExprAST final : public InstructionExprAST
 {
 public:
-    WhileExprAST(ExprAST *cond, BlockExprAST *body = nullptr, QGraphicsItem* parent = nullptr)
-        :cond_(cond),body_(body!=nullptr?body:new BlockExprAST(this)), InstructionExprAST(parent)
+    WhileExprAST(ExprAST *cond = nullptr, BlockExprAST *body = nullptr, QGraphicsItem* parent = nullptr)
+        :cond_(cond!=nullptr?cond:new PlaceholderExprAST)
+        ,body_(body!=nullptr?body:new BlockExprAST(this))
+        ,InstructionExprAST(parent)
     {}
     void AcceptVisit(VisitorAST&) override;
     ~WhileExprAST();
@@ -170,8 +175,9 @@ private:
 class AssignExprAST final : public InstructionExprAST
 {
 public:
-    AssignExprAST(QString name, ExprAST *expr,QGraphicsItem* parent = nullptr)
-        :name_(name),expr_(expr),InstructionExprAST(parent)
+    AssignExprAST(QString name, ExprAST *expr = nullptr,QGraphicsItem* parent = nullptr)
+        :InstructionExprAST(parent), name_(name)
+        ,expr_(expr!=nullptr?expr:new PlaceholderExprAST)
     {}
     void AcceptVisit(VisitorAST&) override;
     ~AssignExprAST();

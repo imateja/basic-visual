@@ -246,5 +246,18 @@ void GtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 }
 
 void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+   //TODO: Pen and colour should also be properties of subclasses
+   //FIX: Colour and pen shouldnt be hardcoded
+    if(this->isSelected()){
+        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+        painter->fillRect(boundingRect(),selectedBrush);
+    }else
+        painter->fillRect(boundingRect(), color_);
+    painter->setPen(Qt::white);
+    const auto SquareText = QString("[ ]");
+    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    //TODO:Default case (maybe throw error)
+    //emit ShouldUpdateScene();
 }

@@ -78,6 +78,9 @@ void MainWindow::addStart()
 
         _mainGraphicsScene->addItem(editableExpr);
 
+        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+        editableExpr->setPos(sceneCenter.x(), sceneCenter.y());
+
         mainBlock->hide();
     }
     else{
@@ -113,7 +116,7 @@ void MainWindow::addInstruction(InstructionExprAST* newElement){
 }
 void MainWindow::addAssign()
 {
-    auto newElement = new AssignExprAST(QString("x"),new ValueExprAST(5));
+    auto newElement = new AssignExprAST(QString("x"));
     addInstruction(newElement);
 }
 
@@ -125,13 +128,13 @@ void MainWindow::addAssign()
 //});
 void MainWindow::addWhile()
 {
-   auto newElement =new WhileExprAST(new ValueExprAST(5));
+   auto newElement =new WhileExprAST();
    addInstruction(newElement);
 }
 
 void MainWindow::addIf()
 {
-    auto newElement =new IfExprAST(new ValueExprAST(5));
+    auto newElement =new IfExprAST();
     addInstruction(newElement);
 }
 
