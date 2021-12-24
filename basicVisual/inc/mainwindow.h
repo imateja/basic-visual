@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include "exprtree.h"
+#include "maingraphicsscene.hpp"
 #include <QDebug>
 
 class QGraphicsScene;
@@ -41,7 +42,7 @@ private:
     void onActionSaveAs();
     void onActionExit();
     Ui::MainWindow *ui;
-    QGraphicsScene *_mainGraphicsScene;
+    mainGraphicsScene *_mainGraphicsScene;
     QVector<Instruction*> _instructions;
     void setupActions();
     inline BlockExprAST* getInsertionBlock();

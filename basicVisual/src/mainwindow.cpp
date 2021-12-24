@@ -1,6 +1,5 @@
 #include "inc/mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "inc/maingraphicsscene.hpp"
 #include "inc/instruction.h"
 #include "inc/instructioncontainer.h"
 #include <QMessageBox>
@@ -60,28 +59,36 @@ void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
 //These are just test functions, actual ones are gonna look completely different
 void MainWindow::addStart()
 {
-/*
     auto instructionMode = mainBlock->isVisible();
     if(instructionMode){
+        if(_mainGraphicsScene->selectedItems().empty()){
+            //TODO error handling
+
+            return;
+        }
         auto editableExpr = static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0))->getEditableExpr();
 
-        if (editableExpr) {
-            _mainGraphicsScene->addItem(editableExpr);
-            qDebug() << "############################## dodato #############################\n";
+        if(editableExpr == nullptr){
+            //TODO error handling
+
+            return;
         }
-        else {
-            // TODO error handling
-        }
+
+        _mainGraphicsScene->clearItems();
+
+        _mainGraphicsScene->addItem(editableExpr);
+
         mainBlock->hide();
     }
     else{
+        _mainGraphicsScene->clearItems();
+
+        _mainGraphicsScene->addItem(mainBlock);
+
+
         mainBlock->show();
-
-//        _mainGraphicsScene->removeItem(static_cast<InstructionExprAST*>(_mainGraphicsScene->children().back()));
-
-        qDebug() << "############################## izbaceno #############################\n";
+        mainBlock->updateChildren();
     }
-*/
 }
 
 inline BlockExprAST* MainWindow::getInsertionBlock(){
@@ -91,11 +98,9 @@ inline BlockExprAST* MainWindow::getInsertionBlock(){
 }
 void MainWindow::addInstruction(InstructionExprAST* newElement){
     if (_mainGraphicsScene->selectedItems().empty()){
-        newElement->setParentItem(mainBlock);
         mainBlock->insert(newElement);
     }else {
         auto parent = static_cast<BlockExprAST*>(_mainGraphicsScene->selectedItems().at(0)->parentItem());
-        newElement->setParentItem(parent);
         parent->insert(newElement,static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0)));
     }
     connect(newElement,&ExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsScene*>(_mainGraphicsScene),&mainGraphicsScene::updateScene);

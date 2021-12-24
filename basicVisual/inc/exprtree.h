@@ -16,6 +16,8 @@ public:
       :ExprAST(parent)
     {}
 
+    virtual void updateChildren() = 0;
+
     ~InstructionExprAST(){
 
     }
@@ -39,6 +41,7 @@ public:
     ExprAST* getEditableExpr() override { return nullptr; }
 
     ~StartExprAST();
+    void updateChildren() final {}
 };
 
 class EndExprAST : public InstructionExprAST
@@ -56,6 +59,7 @@ public:
     ExprAST* getEditableExpr() override { return nullptr; }
 
     ~EndExprAST();
+    void updateChildren() final {}
 };
 
 class BlockExprAST : public InstructionExprAST
@@ -68,6 +72,7 @@ public:
     }
     void AcceptVisit(VisitorAST&) override;
     ~BlockExprAST();
+    void updateChildren() final;
     BlockExprAST(const BlockExprAST&);
     //BlockExprAST& operator= (const BlockExprAST&) = default;
     inline QVector<InstructionExprAST*> getBody() {return body_;}
@@ -121,6 +126,7 @@ public:
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getThen() {return then_;}
     inline BlockExprAST* getElse() {return else_;}
+    void updateChildren() final;
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(128,128,0);
     QString instructionName_ = QString("If");
@@ -148,6 +154,7 @@ public:
     inline BlockExprAST* getBody() {return body_;}
 
     ExprAST* getEditableExpr() override { return cond_; }
+    void updateChildren() final;
 
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(60,60,0);
@@ -174,6 +181,7 @@ public:
     inline ExprAST* getExpr() {return expr_;}
 
     ExprAST* getEditableExpr() override { return expr_; }
+    void updateChildren() final {}
 
     //ExprAST* copy() const override;
     QColor color_= QColor::fromRgb(128,0,128);

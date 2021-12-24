@@ -34,9 +34,23 @@ void StartExprAST::AcceptVisit(VisitorAST& v){
         delete else_;
     }
 
+    void IfExprAST::updateChildren()
+    {
+        then_->setParentItem(this);
+        else_->setParentItem(this);
+        then_->updateChildren();
+        else_->updateChildren();
+    }
+
     WhileExprAST::~WhileExprAST(){
         delete cond_;
         delete body_;
+    }
+
+    void WhileExprAST::updateChildren()
+    {
+        body_->setParentItem(this);
+        body_->updateChildren();
     }
 
     AssignExprAST::~AssignExprAST(){
@@ -45,8 +59,17 @@ void StartExprAST::AcceptVisit(VisitorAST& v){
 
     BlockExprAST::~BlockExprAST(){
        for(auto& next : body_)
-            delete next;
+           delete next;
     }
+
+    void BlockExprAST::updateChildren()
+    {
+        for(auto elem : body_){
+            elem->setParentItem(this);
+            elem->updateChildren();
+        }
+    }
+
     StartExprAST::~StartExprAST(){
 
     }
@@ -257,7 +280,7 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     float currenth = -h/2;
 
-    for(auto &elem : body_) {
+    for(auto elem : body_) {
         elem->setPos(0,currenth + elem->getHeight()/2);
 //        if(auto adds = dynamic_cast<WhileExprAST*>(elem)) {
 //            adds->body_->setPos(0.0f, elem->y() + 10.0f);
@@ -305,6 +328,8 @@ void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posi
             //TODO error handling
         }
     }
+
+    newinstr->setParentItem(this);
 }
 
 

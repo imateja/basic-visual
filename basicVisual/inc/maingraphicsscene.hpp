@@ -12,7 +12,7 @@ class mainGraphicsScene : public QGraphicsScene
 public:
     explicit mainGraphicsScene(QObject *parent = nullptr);
 
-
+    void clearItems();
 
 public slots:
     //This should work for all the instruction we will overide shape and colour for specific instructions

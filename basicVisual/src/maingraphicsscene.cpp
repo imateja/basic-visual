@@ -11,6 +11,13 @@ mainGraphicsScene::mainGraphicsScene(QObject *parent)
 {
 
 }
+
+void mainGraphicsScene::clearItems()
+{
+    for (auto elem : items()) {
+        removeItem(elem);
+    }
+}
 //Adds square to the vector and draws it on the main graphics view
 //TODO:Make squares movable and connected
 
