@@ -9,7 +9,10 @@ void Interpret::VisitValueExprAST(ValueExprAST& obj) {
 }
 
 void Interpret::VisitVariableExprAST(VariableExprAST& obj) {
-        value_ = Interpret(State::Domains().getValue(obj.getName())).value_;
+        value_ = State::Domains().getValue(obj.getName());
+        if(value_.isNull()){
+            //TODO error handling
+        }
 }
 
 void Interpret::VisitAddExprAST(AddExprAST& obj) {
@@ -103,7 +106,7 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
 void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
     auto value = Interpret(obj.getExpr()).value_;
     if (value.typeId() == doubleTypeId){
-        State::Domains().assignValue(obj.getName(), new ValueExprAST(Interpret(obj.getExpr()).value_.toDouble()));
+        State::Domains().assignValue(obj.getName(), value);
     }else{
         //TODO error handling
     }

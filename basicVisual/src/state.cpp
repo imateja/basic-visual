@@ -1,7 +1,7 @@
 #include "inc/state.h"
 
 
-QHash<QString, ValueExprAST*>* State::getCurrentDomain()
+QHash<QString, QVariant>* State::getCurrentDomain()
 {
     if (domains_.size() == 0) {
         State::Domains().createNewDomain();
@@ -11,7 +11,7 @@ QHash<QString, ValueExprAST*>* State::getCurrentDomain()
 
 void State::createNewDomain()
 {
-    domains_.push_back(new QHash<QString, ValueExprAST*>);
+    domains_.push_back(new QHash<QString, QVariant>);
 }
 
 void State::removeCurrentDomain()
@@ -42,16 +42,16 @@ void State::removeCurrentDomain()
     delete oldDomain;
 }
 
-void State::assignValue(const QString& variable, ValueExprAST* value)
+void State::assignValue(const QString& variable,QVariant& value)
 {
     auto currentDomain = getCurrentDomain();
     if(currentDomain->find(variable) != currentDomain->end()){
-        delete (*currentDomain)[variable];
+        //TODO error handling
     }
     (*currentDomain)[variable] = value;
 }
 
-ValueExprAST* State::getValue(const QString& variable){
+QVariant State::getValue(const QString& variable){
     auto rit = domains_.rbegin();
     auto end = domains_.rend();
     while(rit != end){
@@ -61,23 +61,12 @@ ValueExprAST* State::getValue(const QString& variable){
         ++rit;
     }
     //TODO error handling
-    return nullptr;
+    return {};
 }
 
 State::~State()
 {
-    while(!domains_.empty()){
-        auto currentDomain = getCurrentDomain();
-
-        auto begin = currentDomain->begin();
-        auto end = currentDomain->end();
-        while(begin != end){
-            delete begin.value();
-
-            begin++;
-        }
-
-        delete currentDomain;
-        domains_.pop_back();
+    for(auto domain : domains_){
+        delete domain;
     }
 }

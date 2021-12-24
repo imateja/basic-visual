@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QHash>
 #include <QString>
+#include <QVariant>
 #include "ast.h"
 #include <QDebug>
 
@@ -14,15 +15,15 @@ public:
         static State state {};
         return state;
     }
-    QHash<QString, ValueExprAST*>* getCurrentDomain();
+    QHash<QString, QVariant>* getCurrentDomain();
     void createNewDomain();
     void removeCurrentDomain();
-    void assignValue(const QString&,ValueExprAST*);
-    ValueExprAST* getValue(const QString&);
+    void assignValue(const QString&, QVariant&);
+    QVariant getValue(const QString&);
     ~State();
 private:
     State() = default;
-    QVector<QHash<QString, ValueExprAST*>*> domains_;
+    QVector<QHash<QString, QVariant>*> domains_;
     State(const State&) = delete;
     State& operator=(const State&) = delete;
 };
