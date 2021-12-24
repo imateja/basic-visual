@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
     connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
     connect(ui->IfBtn, &QPushButton::clicked, this, &MainWindow::addIf);
-    connect(ui->startBtn, &QPushButton::clicked, this, &MainWindow::addStart);
+    connect(ui->editBtn, &QPushButton::clicked, this, &MainWindow::Edit);
     connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsScene *>(_mainGraphicsScene), &mainGraphicsScene::addedSquareOnGV);
 
 }
@@ -57,7 +57,7 @@ void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
     elem->setPos(sceneCenter.x(), factor*90);
 }
 //These are just test functions, actual ones are gonna look completely different
-void MainWindow::addStart()
+void MainWindow::Edit()
 {
     auto instructionMode = mainBlock->isVisible();
     if(instructionMode){

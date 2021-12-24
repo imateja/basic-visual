@@ -85,9 +85,9 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="startBtn">
+             <widget class="QPushButton" name="editBtn">
               <property name="text">
-               <string>Start</string>
+               <string>Edit</string>
               </property>
              </widget>
             </item>
@@ -120,7 +120,7 @@
      <x>0</x>
      <y>0</y>
      <width>1715</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

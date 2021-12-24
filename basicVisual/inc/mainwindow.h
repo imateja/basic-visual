@@ -33,7 +33,7 @@ private slots:
     void addAssign();
     void addWhile();
     void addIf();
-    void addStart();
+    void Edit();
 
 private:
     void addInstruction(InstructionExprAST*);
