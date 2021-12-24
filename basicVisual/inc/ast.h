@@ -78,7 +78,6 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override ;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override {}
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override {}
     const QColor color_;
     const QString instructionName_;
     QRectF boundingRect() const final;

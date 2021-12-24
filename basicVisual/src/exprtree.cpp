@@ -173,7 +173,7 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 
 
-    then_->setPos(-ifrectangle.width()/2 + then_->getWidth()/2,-h/2 +ifh+gap*2 + thenrect.height() + gap + else_->getHeight()/2);
+    then_->setPos(-ifrectangle.width()/2 + then_->getWidth()/2,-h/2 +ifh+gap*2 + thenrect.height() + gap + then_->getHeight()/2);
     else_->setPos(ifrectangle.width()/2 - else_->getWidth()/2, -h/2 +ifh+gap*2 + elserect.height() + gap + else_->getHeight()/2);
 
     emit ShouldUpdateScene();
