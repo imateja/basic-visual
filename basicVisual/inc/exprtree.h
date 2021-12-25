@@ -19,7 +19,7 @@ public:
 
     virtual ExprAST* getEditableExpr() = 0;
     virtual void updateChildren() = 0;
-    inline unsigned getPriority() final {return 0u;}
+    inline Priority getPriority() final {return Priority::INSTRUCTION;}
 
     InstructionExprAST* next_; //TODO: remove
 };
@@ -216,7 +216,7 @@ public:
     FunctionExprAST& operator= (const FunctionExprAST&);
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 0u;}
+    inline Priority getPriority() final {return Priority::INSTRUCTION;}
     inline QString getName() {return name_;}
     inline BlockExprAST* getBody() {return body_;}
     QString stringify() final;

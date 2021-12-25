@@ -63,6 +63,17 @@ public:
 
 };
 
+enum class Priority
+{
+    INSTRUCTION = 0,
+    UNARY = 1,
+    ARITHMETIC_HIGHER = 2,
+    ARITHMETIC_LOWER = 3,
+    RELATIONAL_HIGHER = 4,
+    RELATIONAL_LOWER = 5,
+    LOGICAL = 6
+};
+
 class ExprAST : public QGraphicsObject
 {
     Q_OBJECT
@@ -75,7 +86,7 @@ public:
     virtual ~ExprAST(){}
 
     virtual void AcceptVisit(VisitorAST&) = 0;
-    virtual unsigned getPriority() = 0;
+    virtual Priority getPriority() = 0;
     virtual QString stringify() = 0;
     inline float getWidth() const { return w; }
     inline float getHeight() const { return h; }
@@ -104,7 +115,7 @@ public:
     PlaceholderExprAST(){}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 0u;}
+    inline Priority getPriority() final {return Priority::INSTRUCTION;}
     QString stringify() final;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -119,7 +130,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 0u;}
+    inline Priority getPriority() final {return Priority::INSTRUCTION;}
     inline double getValue() {return value_;}
     QString stringify() final;
     //ExprAST* copy() const override;
@@ -139,7 +150,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 0u;}
+    inline Priority getPriority() final {return Priority::INSTRUCTION;}
     inline QString getName() {return name_;}
     QString stringify() final;  //the same as getName
     //ExprAST* copy() const override;
@@ -159,7 +170,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 1u;}
+    inline Priority getPriority() final {return Priority::UNARY;}
     inline ExprAST* getOperand() {return operand_;}
     QString stringify() final;
     //ExprAST* copy() const override;
@@ -201,7 +212,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 2u;}
+    inline Priority getPriority() final {return Priority::ARITHMETIC_HIGHER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -217,7 +228,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 2u;}
+    inline Priority getPriority() final {return Priority::ARITHMETIC_HIGHER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -233,7 +244,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 3u;}
+    inline Priority getPriority() final {return Priority::ARITHMETIC_LOWER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -249,7 +260,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 3u;}
+    inline Priority getPriority() final {return Priority::ARITHMETIC_LOWER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -265,7 +276,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 4u;}
+    inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -281,7 +292,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 4u;}
+    inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -297,7 +308,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 4u;}
+    inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -313,7 +324,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 4u;}
+    inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -329,7 +340,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 5u;}
+    inline Priority getPriority() final {return Priority::RELATIONAL_LOWER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -345,7 +356,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 5u;}
+    inline Priority getPriority() final {return Priority::RELATIONAL_LOWER;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -361,7 +372,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 6u;}
+    inline Priority getPriority() final {return Priority::LOGICAL;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
@@ -377,7 +388,7 @@ public:
     {}
 
     void AcceptVisit(VisitorAST&) override;
-    inline unsigned getPriority() final {return 6u;}
+    inline Priority getPriority() final {return Priority::LOGICAL;}
     QString stringify() final;
     //ExprAST* copy() const override;
 
