@@ -227,13 +227,12 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     w+= then_->getWidth() + else_->getWidth() + 100.0f;
 
     painter->fillRect(boundingRect(), color_);
-    painter->drawEllipse(20,30,20,20);
     painter->setPen(Qt::white);
 
     QRectF ifrectangle = QRectF(-w/2,-h/2 + gap,w,ifh);
 
     painter->fillRect(ifrectangle,QColor::fromRgb(128,0,0));
-    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
+    const auto SquareText = QString("%1").arg(instructionName_);
     painter->drawText(ifrectangle, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
 
@@ -246,7 +245,7 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawText(thenrect, Qt::AlignHCenter | Qt::AlignVCenter, "then" );
 
 
-    QRectF elserect=QRectF(ifrectangle.width()/2 -thenrect.width() ,-h/2 +ifh+gap*2,else_->getWidth(),ifh);
+    QRectF elserect=QRectF(ifrectangle.width()/2 -else_->getWidth() ,-h/2 +ifh+gap*2,else_->getWidth(),ifh);
     //if(this->isSelected()){
         //QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
     //painter->fillRect(elserect,selectedBrush);
