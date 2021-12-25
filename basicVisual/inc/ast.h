@@ -189,7 +189,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 protected:
-    ExprAST *left_, *right_;
+    ExprAST *left_, *right_; 
+    QString stringify(QString op);
 };
 
 class MulExprAST final : public BinaryExprAST

@@ -227,24 +227,6 @@ QRectF ExprAST::boundingRect() const
     return QRect(-w/2,-h/2,w,h);
 }
 
-void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
-    if(this->isSelected()){
-        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-        painter->fillRect(boundingRect(),selectedBrush);
-    }else {
-        painter->fillRect(boundingRect(), color_);
-    }
-    painter->setPen(Qt::white);
-    const auto SquareText = QString("[ ]");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //TODO:Default case (maybe throw error)
-    //emit ShouldUpdateScene();
-}
-
 //------------ STRINGIFY ------------
 QString PlaceholderExprAST::stringify() {
     // TODO error handling
@@ -264,139 +246,82 @@ QString NotExprAST::stringify() {
     return operand_->getPriority() > getPriority() ? "!(" + op + ")" : "!" + op;
 }
 
-QString MulExprAST::stringify() {
+QString BinaryExprAST::stringify(QString op) {
     QString l = left_->stringify();
     QString r = right_->stringify();
     QString retVal;
     retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " * ";
+    retVal += op;
     retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
 
     return retVal;
+}
+
+QString MulExprAST::stringify() {
+    return BinaryExprAST::stringify(QString(" * "));
 }
 
 QString DivExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " / ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" / "));
 }
 
 QString AddExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " + ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" + "));
 }
 
 QString SubExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " - ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" - "));
 }
 
 QString LtExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " < ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" < "));
 }
 
 QString LeqExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " <= ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" <= "));
 }
 
 QString GtExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " > ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" > "));
 }
 
 QString GeqExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " >= ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" >= "));
 }
 
 QString EqExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " == ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" == "));
 }
 
 QString NeqExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " != ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" != "));
 }
 
 QString AndExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " && ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" && "));
 }
 
 QString OrExprAST::stringify() {
-    QString l = left_->stringify();
-    QString r = right_->stringify();
-    QString retVal;
-    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " || ";
-    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-
-    return retVal;
+    return BinaryExprAST::stringify(QString(" || "));
 }
 
-
+void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+   //TODO: Pen and colour should also be properties of subclasses
+   //FIX: Colour and pen shouldnt be hardcoded
+    if(this->isSelected()){
+        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+        painter->fillRect(boundingRect(),selectedBrush);
+    }else {
+        painter->fillRect(boundingRect(), color_);
+    }
+    painter->setPen(Qt::white);
+    const auto SquareText = QString("[ ]");
+    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    //TODO:Default case (maybe throw error)
+    //emit ShouldUpdateScene();
+}
 
 //TODO implement paint functions
 
