@@ -43,25 +43,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
-class EndExprAST : public InstructionExprAST
-{
-public:
-    EndExprAST(QGraphicsItem* parent = nullptr)
-        :InstructionExprAST(parent)
-    {}
-    ~EndExprAST(){};
-
-    void AcceptVisit(VisitorAST&) override;
-    void updateChildren() final {}
-    ExprAST* getEditableExpr() override { return nullptr; }
-    QString stringify() final;
-    //ExprAST* copy() const override;
-
-    //QRectF boundingRect() const override;
-    QColor color_= QColor::fromRgb(128,0,0);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-};
-
 class AssignExprAST final : public InstructionExprAST
 {
 public:
@@ -119,24 +100,6 @@ public:
 
     QVector<InstructionExprAST*> body_;
 };
-
-//class ThenElseExprAST: public InstructionExprAST
-//{
-//public:
-//    ThenElseExprAST(const QString name, BlockExprAST* block = new BlockExprAST(), QObject* parent = nullptr)
-//        :name_(name), block_(block), InstructionExprAST(parent)
-//    {}
-//    QRectF boundingRect() const override;
-//    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-//    inline qint32 getWidth() const { return 100; }
-//    inline qint32 getHeight() const { return 70; }
-//    void AcceptVisit(VisitorAST&) override;
-//    BlockExprAST* block_;
-//private:
-
-//    QString name_;
-
-//};
 
 class IfExprAST final : public InstructionExprAST
 {
@@ -228,25 +191,5 @@ private:
     QString name_;
     BlockExprAST* body_;
 };
-
-//class ExprTree final
-//{
-//public:
-//    static ExprTree& Tree(){
-//        static ExprTree function {};
-//        return function;
-//    }
-//    ~ExprTree();
-//    InstructionExprAST* selected;
-//private:
-//    ExprTree(){
-//        program_ = new BlockExprAST();
-//        program_->body_ = new StartExprAST();
-//        selected = program_->body_;
-//    }
-//    BlockExprAST* program_;
-//    ExprTree(const ExprTree&) = delete;
-//    ExprTree& operator=(const ExprTree&) = delete;
-//};
 
 #endif // EXPRTREE_H

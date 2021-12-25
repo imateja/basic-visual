@@ -1,13 +1,7 @@
 #include "inc/exprtree.h"
 
-//ExprTree::~ExprTree(){
-//    delete program_;
-//}
 void StartExprAST::AcceptVisit(VisitorAST& v){
     v.VisitStartExprAST(*this);
-}
-void EndExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitEndExprAST(*this);
 }
 void AssignExprAST::AcceptVisit(VisitorAST& v){
     v.VisitAssignExprAST(*this);
@@ -129,24 +123,6 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     const auto SquareText = QString("%1\n").arg("start");
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     //emit ShouldUpdateScene();
-    //TODO:Default case (maybe throw error)
-}
-
-void EndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-
-   //TODO: check what i can do with this options
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    emit ShouldUpdateScene();
     //TODO:Default case (maybe throw error)
 }
 
@@ -334,11 +310,6 @@ void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 //------------ STRINGIFY ------------
 
 QString StartExprAST::stringify() {
-    //TODO error handling
-    return {};
-}
-
-QString EndExprAST::stringify() {
     //TODO error handling
     return {};
 }
