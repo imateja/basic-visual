@@ -114,11 +114,14 @@ void OrExprAST::AcceptVisit(VisitorAST& v){
 
 //--------------------DESTRUCTORS--------------------
 
+NotExprAST::~NotExprAST() {
+    delete operand_;
+}
+
 BinaryExprAST::~BinaryExprAST(){
     delete left_;
     delete right_;
 }
-
 
 //--------------------COPY CONSTRUCTORS--------------------
 

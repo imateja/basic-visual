@@ -20,8 +20,6 @@ public:
     virtual ExprAST* getEditableExpr() = 0;
     virtual void updateChildren() = 0;
     inline Priority getPriority() final {return Priority::INSTRUCTION;}
-
-    InstructionExprAST* next_; //TODO: remove
 };
 
 class StartExprAST : public InstructionExprAST
@@ -64,8 +62,9 @@ public:
 
     //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(128,0,128);
-    QString instructionName_ = QString("Assign");
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+    QString instructionName_ = QString("Assign");
 
 private:
     QString name_;
@@ -86,9 +85,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     void updateChildren() final;
-    void insert(InstructionExprAST*,InstructionExprAST* = nullptr);
-    //unsigned size();
-    //InstructionContainer* at(unsigned);
+    void insert(InstructionExprAST*, InstructionExprAST* = nullptr);
     ExprAST* getEditableExpr() override { return nullptr; }
     inline QVector<InstructionExprAST*> getBody() {return body_;}
     QString stringify() final;
@@ -125,9 +122,9 @@ public:
 
     //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(128,128,0);
-    QString instructionName_ = QString("If");
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    QString instructionName_ = QString("If");
     ExprAST *cond_;
     BlockExprAST *then_;
     BlockExprAST *else_;
@@ -155,9 +152,9 @@ public:
 
     //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(60,60,0);
-    QString instructionName_ = QString("While");
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    QString instructionName_ = QString("While");
     BlockExprAST *body_;
 
 private:

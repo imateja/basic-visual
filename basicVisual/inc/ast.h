@@ -169,6 +169,7 @@ public:
     NotExprAST(ExprAST *operand = nullptr)
         :operand_(operand!=nullptr?operand:new PlaceholderExprAST())
     {}
+    ~NotExprAST();
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::UNARY;}
