@@ -306,11 +306,13 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
     QRectF rectangle = QRectF(-w/2,-h/2 + gap,w,whileh);
+
     //if(this->isSelected()){
        // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
     //painter->fillRect(rectangle,selectedBrush);
     //}else
         painter->fillRect(rectangle,QColor::fromRgb(128,0,0));
+        painter->drawText(rectangle, Qt::AlignHCenter | Qt::AlignVCenter, "While");
     //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     body_->setPos(0,whileh/2 + gap);
