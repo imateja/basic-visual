@@ -60,9 +60,12 @@ void MainWindow::Edit()
     if(instructionMode){
         if(_mainGraphicsScene->selectedItems().empty()){
             //TODO error handling
-
             return;
         }
+
+        ui->ExprEdit->setDisabled(false);
+        ui->tabWidget->setCurrentIndex(1);
+        ui->tab->setDisabled(true);
         auto editableExpr = static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0))->getEditableExpr();
 
         if(editableExpr == nullptr){
@@ -79,16 +82,32 @@ void MainWindow::Edit()
         editableExpr->setPos(sceneCenter.x(), sceneCenter.y());
 
         mainBlock->hide();
+
     }
     else{
-        _mainGraphicsScene->clearItems();
+        //ui->tabWidget->setCurrentIndex(0);
+        //_mainGraphicsScene->clearItems();
 
-        _mainGraphicsScene->addItem(mainBlock);
+        //_mainGraphicsScene->addItem(mainBlock);
 
 
-        mainBlock->show();
-        mainBlock->updateChildren();
+        //mainBlock->show();
+        //mainBlock->updateChildren();
     }
+}
+
+void MainWindow::backPushed()
+{
+    ui->tab->setDisabled(false);
+    ui->tabWidget->setCurrentIndex(0);
+    ui->ExprEdit->setDisabled(true);
+    _mainGraphicsScene->clearItems();
+
+    _mainGraphicsScene->addItem(mainBlock);
+
+
+    mainBlock->show();
+    mainBlock->updateChildren();
 }
 
 inline BlockExprAST* MainWindow::getInsertionBlock(){
@@ -204,7 +223,10 @@ void MainWindow::setupConnections()
     connect(ui->notBtn, &QPushButton::clicked, this, &MainWindow::addNot);
     connect(ui->varBtn, &QPushButton::clicked, this, &MainWindow::addVar);
     connect(ui->constBtn, &QPushButton::clicked, this, &MainWindow::addConst);
+    connect(ui->backBtn, &QPushButton::clicked, this, &MainWindow::backPushed);
+
 }
+
 void MainWindow::setupActions()
 {
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::onActionOpen);

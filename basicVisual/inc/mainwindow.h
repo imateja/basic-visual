@@ -49,6 +49,7 @@ private slots:
     void addNeq();
     void addVar();
     void addConst();
+    void backPushed();
 
 private:
     void addInstruction(InstructionExprAST*);
