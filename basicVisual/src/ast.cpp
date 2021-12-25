@@ -250,63 +250,15 @@ QString NotExprAST::stringify() {
     return operand_->getPriority() > getPriority() ? "!(" + op + ")" : "!" + op;
 }
 
-QString BinaryExprAST::stringify(QString op) {
+QString BinaryExprAST::stringify() {
     QString l = left_->stringify();
     QString r = right_->stringify();
     QString retVal;
     retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += op;
+    retVal += " " + op_ + " ";
     retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
 
     return retVal;
-}
-
-QString MulExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" * "));
-}
-
-QString DivExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" / "));
-}
-
-QString AddExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" + "));
-}
-
-QString SubExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" - "));
-}
-
-QString LtExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" < "));
-}
-
-QString LeqExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" <= "));
-}
-
-QString GtExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" > "));
-}
-
-QString GeqExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" >= "));
-}
-
-QString EqExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" == "));
-}
-
-QString NeqExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" != "));
-}
-
-QString AndExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" && "));
-}
-
-QString OrExprAST::stringify() {
-    return BinaryExprAST::stringify(QString(" || "));
 }
 
 void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){

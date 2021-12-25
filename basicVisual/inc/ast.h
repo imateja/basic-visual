@@ -6,31 +6,31 @@
 #include <QPainter>
 #include <QGraphicsObject>
 
-class PlaceholderExprAST;//0
-class ValueExprAST;//0
-class VariableExprAST;//0
+class PlaceholderExprAST;
+class ValueExprAST;
+class VariableExprAST;
 
-class NotExprAST;//1
-class MulExprAST;//2
-class DivExprAST;//2
-class AddExprAST;//3
-class SubExprAST;//3
-class LtExprAST;//4
-class LeqExprAST;//4
-class GtExprAST;//4
-class GeqExprAST;//4
-class EqExprAST;//5
-class NeqExprAST;//5
-class AndExprAST;//6
-class OrExprAST;//6
+class NotExprAST;
+class MulExprAST;
+class DivExprAST;
+class AddExprAST;
+class SubExprAST;
+class LtExprAST;
+class LeqExprAST;
+class GtExprAST;
+class GeqExprAST;
+class EqExprAST;
+class NeqExprAST;
+class AndExprAST;
+class OrExprAST;
 
-class StartExprAST;//0
-class EndExprAST;//0
-class AssignExprAST;//0
-class BlockExprAST;//0
-class IfExprAST;//0
-class WhileExprAST;//0
-class FunctionExprAST;//0
+class StartExprAST;
+class EndExprAST;
+class AssignExprAST;
+class BlockExprAST;
+class IfExprAST;
+class WhileExprAST;
+class FunctionExprAST;
 
 class VisitorAST
 {
@@ -102,6 +102,7 @@ public:
 protected:
     float w=150.0f;
     float h=80.0f;
+
 signals:
     void Moved();
     void signalSelected();
@@ -195,13 +196,14 @@ public:
 
     virtual ExprAST* getLeft() {return left_;}
     virtual ExprAST* getRight() {return right_;}
+    QString stringify() final;
 
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 protected:
-    ExprAST *left_, *right_; 
-    QString stringify(QString op);
+    ExprAST *left_, *right_;
+    QString op_;
 };
 
 class MulExprAST final : public BinaryExprAST
@@ -209,15 +211,17 @@ class MulExprAST final : public BinaryExprAST
 public:
     MulExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::ARITHMETIC_HIGHER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
 };
 
 class DivExprAST final : public BinaryExprAST
@@ -225,11 +229,12 @@ class DivExprAST final : public BinaryExprAST
 public:
     DivExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::ARITHMETIC_HIGHER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -241,11 +246,12 @@ class AddExprAST final : public BinaryExprAST
 public:
     AddExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::ARITHMETIC_LOWER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -257,11 +263,12 @@ class SubExprAST final : public BinaryExprAST
 public:
     SubExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::ARITHMETIC_LOWER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -273,11 +280,12 @@ class LtExprAST final : public BinaryExprAST
 public:
     LtExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -289,11 +297,12 @@ class LeqExprAST final : public BinaryExprAST
 public:
     LeqExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -305,11 +314,12 @@ class GtExprAST final : public BinaryExprAST
 public:
     GtExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -321,11 +331,12 @@ class GeqExprAST final : public BinaryExprAST
 public:
     GeqExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -337,11 +348,12 @@ class EqExprAST final : public BinaryExprAST
 public:
     EqExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_LOWER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -353,11 +365,12 @@ class NeqExprAST final : public BinaryExprAST
 public:
     NeqExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_LOWER;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -369,11 +382,12 @@ class AndExprAST final : public BinaryExprAST
 public:
     AndExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::LOGICAL;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -385,11 +399,12 @@ class OrExprAST final : public BinaryExprAST
 public:
     OrExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
-    {}
+    {
+        op_ = QString("*");
+    }
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::LOGICAL;}
-    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
