@@ -327,3 +327,38 @@ void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 //    float h=80;
 //    return QRectF(-w/2, 0, w, h);
 //}
+
+
+//------------ STRINGIFY ------------
+
+QString StartExprAST::stringify() {
+    //TODO error handling
+    return {};
+}
+
+QString EndExprAST::stringify() {
+    //TODO error handling
+    return {};
+}
+
+QString AssignExprAST::stringify() {
+    return expr_->stringify();
+}
+
+QString BlockExprAST::stringify() {
+    //TODO error handling
+    return {};
+}
+
+QString IfExprAST::stringify() {
+    return cond_->stringify();
+}
+
+QString WhileExprAST::stringify() {
+    return cond_->stringify();
+}
+
+QString FunctionExprAST::stringify() {
+    //TODO error handling
+    return {};
+}

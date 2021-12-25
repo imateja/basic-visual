@@ -76,6 +76,7 @@ public:
 
     virtual void AcceptVisit(VisitorAST&) = 0;
     virtual unsigned getPriority() = 0;
+    virtual QString stringify() = 0;
     inline float getWidth() const { return w; }
     inline float getHeight() const { return h; }
     //virtual ExprAST* copy() const = 0;
@@ -104,6 +105,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 0u;}
+    QString stringify() final;
 
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -119,6 +121,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 0u;}
     inline double getValue() {return value_;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -138,6 +141,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 0u;}
     inline QString getName() {return name_;}
+    QString stringify() final;  //the same as getName
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -157,6 +161,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 1u;}
     inline ExprAST* getOperand() {return operand_;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -196,6 +201,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 2u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -211,6 +217,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 2u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -226,6 +233,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 3u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -241,6 +249,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 3u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -256,6 +265,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 4u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -271,6 +281,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 4u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -286,6 +297,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 4u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -301,6 +313,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 4u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -316,6 +329,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 5u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -331,6 +345,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 5u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -346,6 +361,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 6u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
@@ -361,6 +377,7 @@ public:
 
     void AcceptVisit(VisitorAST&) override;
     inline unsigned getPriority() final {return 6u;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);

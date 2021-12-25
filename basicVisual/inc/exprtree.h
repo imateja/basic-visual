@@ -35,6 +35,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     void updateChildren() final {}
     ExprAST* getEditableExpr() override { return nullptr; }
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     //QRectF boundingRect() const override;
@@ -53,6 +54,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     void updateChildren() final {}
     ExprAST* getEditableExpr() override { return nullptr; }
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     //QRectF boundingRect() const override;
@@ -76,6 +78,7 @@ public:
     ExprAST* getEditableExpr() override { return expr_; }
     inline QString getName() {return name_;}
     inline ExprAST* getExpr() {return expr_;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     //QRectF boundingRect() const override;
@@ -107,6 +110,7 @@ public:
     //InstructionContainer* at(unsigned);
     ExprAST* getEditableExpr() override { return nullptr; }
     inline QVector<InstructionExprAST*> getBody() {return body_;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     //QRectF boundingRect() const override;
@@ -153,6 +157,7 @@ public:
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getThen() {return then_;}
     inline BlockExprAST* getElse() {return else_;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     //QRectF boundingRect() const override;
@@ -182,6 +187,7 @@ public:
     ExprAST* getEditableExpr() override { return cond_; }
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getBody() {return body_;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     //QRectF boundingRect() const override;
@@ -213,6 +219,7 @@ public:
     inline unsigned getPriority() final {return 0u;}
     inline QString getName() {return name_;}
     inline BlockExprAST* getBody() {return body_;}
+    QString stringify() final;
     //ExprAST* copy() const override;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

@@ -245,6 +245,159 @@ void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem
     //emit ShouldUpdateScene();
 }
 
+//------------ STRINGIFY ------------
+QString PlaceholderExprAST::stringify() {
+    // TODO error handling
+    return {};
+}
+
+QString ValueExprAST::stringify() {
+    return QString::number(value_);
+}
+
+QString VariableExprAST::stringify() {
+    return name_;
+}
+
+QString NotExprAST::stringify() {
+    QString op = operand_->stringify();
+    return operand_->getPriority() > getPriority() ? "!(" + op + ")" : "!" + op;
+}
+
+QString MulExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " * ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString DivExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " / ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString AddExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " + ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString SubExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " - ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString LtExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " < ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString LeqExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " <= ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString GtExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " > ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString GeqExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " >= ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString EqExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " == ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString NeqExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " != ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString AndExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " && ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+QString OrExprAST::stringify() {
+    QString l = left_->stringify();
+    QString r = right_->stringify();
+    QString retVal;
+    retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
+    retVal += " || ";
+    retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+
+    return retVal;
+}
+
+
+
 //TODO implement paint functions
 
 void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
