@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 {
     ui->setupUi(this);
-    setupActions(); //sets up the needed connections for the taskbar
+    //sets up the needed connections for the taskbar
     factor=0;
 
     //mainGV is the name of out GraphicsView in .ui file
@@ -38,12 +38,9 @@ MainWindow::MainWindow(QWidget *parent)
 //    qDebug()<<mainBlock->parent()<<"/n";
 //    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
 //    mainBlock->setPos(sceneCenter.x(), 0);
+    setupActions();
+    setupConnections();
 
-    connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
-    connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
-    connect(ui->IfBtn, &QPushButton::clicked, this, &MainWindow::addIf);
-    connect(ui->editBtn, &QPushButton::clicked, this, &MainWindow::Edit);
-    connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsScene *>(_mainGraphicsScene), &mainGraphicsScene::addedSquareOnGV);
 
 }
 
@@ -155,6 +152,59 @@ void MainWindow::addIf()
 //    }
 //}
 
+void MainWindow::addPlus()
+{}
+void MainWindow::addMinus()
+{}
+void MainWindow::addMul()
+{}
+void MainWindow::addDiv()
+{}
+void MainWindow::addLs()
+{}
+void MainWindow::addGt()
+{}
+void MainWindow::addLseq()
+{}
+void MainWindow::addGteq()
+{}
+void MainWindow::addAnd()
+{}
+void MainWindow::addOr()
+{}
+void MainWindow::addNot()
+{}
+void MainWindow::addEq()
+{}
+void MainWindow::addNeq()
+{}
+void MainWindow::addVar()
+{}
+void MainWindow::addConst()
+{}
+void MainWindow::setupConnections()
+{
+    connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
+    connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
+    connect(ui->IfBtn, &QPushButton::clicked, this, &MainWindow::addIf);
+    connect(ui->editBtn, &QPushButton::clicked, this, &MainWindow::Edit);
+    connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsScene *>(_mainGraphicsScene), &mainGraphicsScene::addedSquareOnGV);
+    connect(ui->plusBtn, &QPushButton::clicked, this, &MainWindow::addPlus);
+    connect(ui->minusBtn, &QPushButton::clicked, this, &MainWindow::addMinus);
+    connect(ui->mulBtn, &QPushButton::clicked, this, &MainWindow::addMul);
+    connect(ui->divBtn, &QPushButton::clicked, this, &MainWindow::addDiv);
+    connect(ui->lsBtn, &QPushButton::clicked, this, &MainWindow::addLs);
+    connect(ui->lseqBtn, &QPushButton::clicked, this, &MainWindow::addLseq);
+    connect(ui->gtBtn, &QPushButton::clicked, this, &MainWindow::addGt);
+    connect(ui->gteqBtn, &QPushButton::clicked, this, &MainWindow::addGteq);
+    connect(ui->eqBtn, &QPushButton::clicked, this, &MainWindow::addEq);
+    connect(ui->neqBtn, &QPushButton::clicked, this, &MainWindow::addNeq);
+    connect(ui->orBtn, &QPushButton::clicked, this, &MainWindow::addOr);
+    connect(ui->andBtn, &QPushButton::clicked, this, &MainWindow::addAnd);
+    connect(ui->notBtn, &QPushButton::clicked, this, &MainWindow::addNot);
+    connect(ui->varBtn, &QPushButton::clicked, this, &MainWindow::addVar);
+    connect(ui->constBtn, &QPushButton::clicked, this, &MainWindow::addConst);
+}
 void MainWindow::setupActions()
 {
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::onActionOpen);

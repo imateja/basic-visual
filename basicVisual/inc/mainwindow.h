@@ -34,6 +34,21 @@ private slots:
     void addWhile();
     void addIf();
     void Edit();
+    void addPlus();
+    void addMinus();
+    void addMul();
+    void addDiv();
+    void addLs();
+    void addGt();
+    void addLseq();
+    void addGteq();
+    void addAnd();
+    void addOr();
+    void addNot();
+    void addEq();
+    void addNeq();
+    void addVar();
+    void addConst();
 
 private:
     void addInstruction(InstructionExprAST*);
@@ -45,6 +60,7 @@ private:
     mainGraphicsScene *_mainGraphicsScene;
     QVector<Instruction*> _instructions;
     void setupActions();
+    void setupConnections();
     inline BlockExprAST* getInsertionBlock();
     void positionElement(InstructionExprAST* elem, qint32 factor);
 
