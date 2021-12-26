@@ -51,6 +51,8 @@ void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posi
     newinstr->setParentItem(this);
     connect(newinstr, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
     connect(newinstr, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+    connect(newinstr, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+
 }
 
 IfExprAST::~IfExprAST(){

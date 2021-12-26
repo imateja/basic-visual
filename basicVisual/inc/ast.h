@@ -103,10 +103,12 @@ public:
 signals:
     void selectItem(ExprAST* item);
     void updateSelection();
+    void ShouldUpdateScene();
 
 public slots:
     void propagateSelectItem(ExprAST* item);
     void propagateUpdateSelection();
+    void propagateShouldUpdateScene();
 
 protected:
     float w=150.0f;
@@ -115,7 +117,7 @@ protected:
 signals:
     void Moved();
     void signalSelected();
-    void ShouldUpdateScene();
+
 
 
 };

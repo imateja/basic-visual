@@ -110,7 +110,6 @@ void MainWindow::addInstruction(InstructionExprAST* newElement){
         auto parent = static_cast<BlockExprAST*>(selected->parentItem());
         parent->insert(newElement,static_cast<InstructionExprAST*>(selected));
     }
-    connect(newElement,&ExprAST::ShouldUpdateScene,_mainGraphicsScene,&mainGraphicsScene::updateScene);
 
     //_mainGraphicsView->addItem(newElement);
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
