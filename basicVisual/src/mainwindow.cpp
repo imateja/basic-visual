@@ -48,34 +48,33 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
 {
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
     elem->setPos(sceneCenter.x(), factor*90);
 }
-//These are just test functions, actual ones are gonna look completely different
+
 void MainWindow::Edit()
 {
-    auto instructionMode = mainBlock->isVisible();
-    if(instructionMode){
+    if(mainBlock->isVisible()){
         if(_mainGraphicsScene->selectedItems().empty()){
             //TODO error handling
             return;
         }
 
-        ui->ExprEdit->setDisabled(false);
-        ui->tabWidget->setCurrentIndex(1);
-        ui->tab->setDisabled(true);
         auto editableExpr = static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0))->getEditableExpr();
-
         if(editableExpr == nullptr){
             //TODO error handling
 
             return;
         }
 
-        _mainGraphicsScene->clearItems();
+        ui->ExprEdit->setDisabled(false);
+        ui->tabWidget->setCurrentIndex(1);
+        ui->tab->setDisabled(true);
 
+        _mainGraphicsScene->clearItems();
         _mainGraphicsScene->addItem(editableExpr);
 
         QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
@@ -84,30 +83,21 @@ void MainWindow::Edit()
         mainBlock->hide();
 
     }
-    else{
-        //ui->tabWidget->setCurrentIndex(0);
-        //_mainGraphicsScene->clearItems();
-
-        //_mainGraphicsScene->addItem(mainBlock);
-
-
-        //mainBlock->show();
-        //mainBlock->updateChildren();
-    }
 }
 
 void MainWindow::backPushed()
 {
-    ui->tab->setDisabled(false);
-    ui->tabWidget->setCurrentIndex(0);
-    ui->ExprEdit->setDisabled(true);
-    _mainGraphicsScene->clearItems();
+    if(!mainBlock->isVisible()){
+        ui->tab->setDisabled(false);
+        ui->tabWidget->setCurrentIndex(0);
+        ui->ExprEdit->setDisabled(true);
 
-    _mainGraphicsScene->addItem(mainBlock);
+        _mainGraphicsScene->clearItems();
+        _mainGraphicsScene->addItem(mainBlock);
 
-
-    mainBlock->show();
-    mainBlock->updateChildren();
+        mainBlock->show();
+        mainBlock->updateChildren();
+    }
 }
 
 inline BlockExprAST* MainWindow::getInsertionBlock(){
