@@ -5,6 +5,7 @@
 #include <QGraphicsObject>
 #include <QVector>
 #include <QDebug>
+#include <QGraphicsSceneMouseEvent>
 #include <algorithm>
 #include "ast.h"
 #include "state.h"
@@ -77,7 +78,7 @@ public:
     BlockExprAST( QGraphicsItem* parent = nullptr)
         : InstructionExprAST(parent)
     {
-        body_.push_back(new StartExprAST(this));
+        insert(new StartExprAST(this));
     }
     ~BlockExprAST();
     BlockExprAST(const BlockExprAST&);
@@ -96,6 +97,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     QVector<InstructionExprAST*> body_;
+
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 class IfExprAST final : public InstructionExprAST
@@ -106,13 +109,19 @@ public:
         ,then_(thenblock!=nullptr?thenblock:new BlockExprAST(this))
         ,else_(elseblock!=nullptr?elseblock:new BlockExprAST(this))
         ,InstructionExprAST(parent)
-    {}
+    {
+        connect(then_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
+        connect(then_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+        connect(else_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
+        connect(else_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+    }
     ~IfExprAST();
     IfExprAST(const IfExprAST&);
     IfExprAST& operator= (const IfExprAST&);
 
     void AcceptVisit(VisitorAST&) override;
     void updateChildren() final;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
     ExprAST* getEditableExpr() override { return cond_; }
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getThen() {return then_;}
@@ -128,6 +137,7 @@ public:
     ExprAST *cond_;
     BlockExprAST *then_;
     BlockExprAST *else_;
+    QRectF ifrectangle_;
 };
 
 class WhileExprAST final : public InstructionExprAST
@@ -137,7 +147,10 @@ public:
         :cond_(cond!=nullptr?cond:new PlaceholderExprAST)
         ,body_(body!=nullptr?body:new BlockExprAST(this))
         ,InstructionExprAST(parent)
-    {}
+    {
+        connect(body_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
+        connect(body_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+    }
     ~WhileExprAST();
     WhileExprAST(const WhileExprAST&);
     WhileExprAST& operator= (const WhileExprAST&);
@@ -156,10 +169,11 @@ public:
 
     QString instructionName_ = QString("While");
     BlockExprAST *body_;
+    QRectF whilerectangle_;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
     ExprAST *cond_;
-
 };
 
 class FunctionExprAST final : public ExprAST

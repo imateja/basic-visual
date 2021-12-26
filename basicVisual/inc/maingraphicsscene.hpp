@@ -13,12 +13,15 @@ public:
     explicit mainGraphicsScene(QObject *parent = nullptr);
 
     void clearItems();
+    inline ExprAST* getSelectedItem(){return selectedItem_;}
 
 public slots:
     //This should work for all the instruction we will overide shape and colour for specific instructions
     void addedSquareOnGV(InstructionExprAST *node);
     void SquareSelectedOnGV(InstructionExprAST *node);
     void updateScene();
+    void setSelectedItem(ExprAST* item);
+    void selectItem();
 
 
 private:
@@ -32,6 +35,7 @@ private:
     QVector<InstructionExprAST*> instructionVector_;
     QVector<QGraphicsLineItem *> lines_;
 
+    ExprAST* selectedItem_;
 };
 
 

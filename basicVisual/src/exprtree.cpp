@@ -49,6 +49,8 @@ void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posi
     }
 
     newinstr->setParentItem(this);
+    connect(newinstr, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
+    connect(newinstr, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
 }
 
 IfExprAST::~IfExprAST(){
@@ -63,6 +65,13 @@ void IfExprAST::updateChildren()
     else_->setParentItem(this);
     then_->updateChildren();
     else_->updateChildren();
+}
+
+void IfExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    auto mousePosition = event->pos();
+    emit selectItem(ifrectangle_.contains(mousePosition)?this:nullptr);
+    QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
 WhileExprAST::~WhileExprAST(){
@@ -142,7 +151,6 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setPen(Qt::white);
     const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    qDebug()<< "hewwo" <<"\n";
     //TODO:Default case (maybe throw error)
     //emit ShouldUpdateScene();
 }
@@ -211,6 +219,12 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     //TODO:Default case (maybe throw error)
 }
 
+void BlockExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    emit selectItem(nullptr);
+    QGraphicsItem::mouseDoubleClickEvent(event);
+}
+
 void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
@@ -229,14 +243,14 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
 
-    QRectF ifrectangle = QRectF(-w/2,-h/2 + gap,w,ifh);
+    ifrectangle_ = QRectF(-w/2,-h/2 + gap,w,ifh);
 
-    painter->fillRect(ifrectangle,QColor::fromRgb(128,0,0));
+    painter->fillRect(ifrectangle_,QColor::fromRgb(128,0,0));
     const auto SquareText = QString("%1").arg(instructionName_);
-    painter->drawText(ifrectangle, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    painter->drawText(ifrectangle_, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
 
-    QRectF thenrect=QRectF(-ifrectangle.width()/2,-h/2 +ifh+gap*2,then_->getWidth(),ifh);
+    QRectF thenrect=QRectF(-ifrectangle_.width()/2,-h/2 +ifh+gap*2,then_->getWidth(),ifh);
     //if(this->isSelected()){
        // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
     //painter->fillRect(thenrect,selectedBrush);
@@ -245,7 +259,7 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawText(thenrect, Qt::AlignHCenter | Qt::AlignVCenter, "then" );
 
 
-    QRectF elserect=QRectF(ifrectangle.width()/2 -else_->getWidth() ,-h/2 +ifh+gap*2,else_->getWidth(),ifh);
+    QRectF elserect=QRectF(ifrectangle_.width()/2 -else_->getWidth() ,-h/2 +ifh+gap*2,else_->getWidth(),ifh);
     //if(this->isSelected()){
         //QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
     //painter->fillRect(elserect,selectedBrush);
@@ -255,8 +269,8 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 
 
-    then_->setPos(-ifrectangle.width()/2 + then_->getWidth()/2,-h/2 +ifh+gap*2 + thenrect.height() + gap + then_->getHeight()/2);
-    else_->setPos(ifrectangle.width()/2 - else_->getWidth()/2, -h/2 +ifh+gap*2 + elserect.height() + gap + else_->getHeight()/2);
+    then_->setPos(-ifrectangle_.width()/2 + then_->getWidth()/2,-h/2 +ifh+gap*2 + thenrect.height() + gap + then_->getHeight()/2);
+    else_->setPos(ifrectangle_.width()/2 - else_->getWidth()/2, -h/2 +ifh+gap*2 + elserect.height() + gap + else_->getHeight()/2);
 
     emit ShouldUpdateScene();
     //TODO:Default case (maybe throw error)
@@ -280,19 +294,26 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
-    QRectF rectangle = QRectF(-w/2,-h/2 + gap,w,whileh);
+    whilerectangle_ = QRectF(-w/2,-h/2 + gap,w,whileh);
 
     //if(this->isSelected()){
        // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
     //painter->fillRect(rectangle,selectedBrush);
     //}else
-        painter->fillRect(rectangle,QColor::fromRgb(128,0,0));
-        painter->drawText(rectangle, Qt::AlignHCenter | Qt::AlignVCenter, "While");
+        painter->fillRect(whilerectangle_,QColor::fromRgb(128,0,0));
+        painter->drawText(whilerectangle_, Qt::AlignHCenter | Qt::AlignVCenter, "While");
     //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     body_->setPos(0,whileh/2 + gap);
     emit ShouldUpdateScene();
     //TODO:Default case (maybe throw error)
+}
+
+void WhileExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    auto mousePosition = event->pos();
+    emit selectItem(whilerectangle_.contains(mousePosition)?this:nullptr);
+    QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
 //TODO implement paint

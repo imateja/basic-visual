@@ -28,7 +28,9 @@ MainWindow::MainWindow(QWidget *parent)
     mainBlock= new BlockExprAST();
     _mainGraphicsScene->addItem(mainBlock);
     mainBlock->setParent(_mainGraphicsScene);
-    qDebug()<<mainBlock->parent()<<"/n";
+    connect(mainBlock,&ExprAST::ShouldUpdateScene,_mainGraphicsScene,&mainGraphicsScene::updateScene);
+    connect(mainBlock,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
+    connect(mainBlock,&ExprAST::updateSelection,_mainGraphicsScene,&mainGraphicsScene::selectItem);
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
     mainBlock->setPos(sceneCenter.x(), sceneCenter.y());
 
@@ -100,21 +102,15 @@ void MainWindow::backPushed()
     }
 }
 
-inline BlockExprAST* MainWindow::getInsertionBlock(){
-     return _mainGraphicsScene->selectedItems().empty()
-            ? mainBlock
-            : static_cast<BlockExprAST*>(_mainGraphicsScene->selectedItems().at(0)->parentItem());
-}
 void MainWindow::addInstruction(InstructionExprAST* newElement){
-    if (_mainGraphicsScene->selectedItems().empty()){
+    auto selected = _mainGraphicsScene->getSelectedItem();
+    if (selected == nullptr){
         mainBlock->insert(newElement);
     }else {
-        auto parent = static_cast<BlockExprAST*>(_mainGraphicsScene->selectedItems().at(0)->parentItem());
-        parent->insert(newElement,static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0)));
+        auto parent = static_cast<BlockExprAST*>(selected->parentItem());
+        parent->insert(newElement,static_cast<InstructionExprAST*>(selected));
     }
-    connect(newElement,&ExprAST::ShouldUpdateScene,dynamic_cast<mainGraphicsScene*>(_mainGraphicsScene),&mainGraphicsScene::updateScene);
-    connect(newElement,&ExprAST::signalSelected,dynamic_cast<mainGraphicsScene *>(_mainGraphicsScene),
-            &mainGraphicsScene::clearSelection);
+    connect(newElement,&ExprAST::ShouldUpdateScene,_mainGraphicsScene,&mainGraphicsScene::updateScene);
 
     //_mainGraphicsView->addItem(newElement);
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());

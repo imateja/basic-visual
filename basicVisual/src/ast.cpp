@@ -219,6 +219,14 @@ void BinaryExprAST::setRight(ExprAST* expr)
 
 //--------------------------------------------
 
+
+void ExprAST::propagateSelectItem(ExprAST* item){
+    emit selectItem(item);
+}
+void ExprAST::propagateUpdateSelection(){
+    emit updateSelection();
+}
+
 void ExprAST::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsObject::mouseMoveEvent(event);
@@ -229,14 +237,15 @@ void ExprAST::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 }
 void ExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
-
-    emit signalSelected();
+    emit selectItem(this);
 
     QGraphicsObject::mouseDoubleClickEvent(event);
-    QGraphicsObject::setSelected(true);
-    qDebug()<<"blaaaa"<<"\n";
+}
 
-
+void ExprAST::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseReleaseEvent(event);
+    emit updateSelection();
 }
 
 QRectF ExprAST::boundingRect() const

@@ -7,7 +7,7 @@
 
 
 mainGraphicsScene::mainGraphicsScene(QObject *parent)
-    :QGraphicsScene(parent)
+    :QGraphicsScene(parent), selectedItem_(nullptr)
 {
 
 }
@@ -36,6 +36,20 @@ void mainGraphicsScene::addedSquareOnGV(InstructionExprAST *node)
 void mainGraphicsScene::updateScene(){
     this->update();
     //qDebug()<<"Scena se updatovala";
+}
+
+void mainGraphicsScene::setSelectedItem(ExprAST *item)
+{
+    selectedItem_ = item;
+}
+
+void mainGraphicsScene::selectItem()
+{
+    qDebug() << "Selektovan item je: " << selectedItem_ << "\n";
+    clearSelection();
+    if(selectedItem_ != nullptr){
+        selectedItem_->setSelected(true);
+    }
 }
 
 //Positions the new node so there is no overlap

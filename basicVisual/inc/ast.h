@@ -5,6 +5,7 @@
 #include <QColor>
 #include <QPainter>
 #include <QGraphicsObject>
+#include <QGraphicsSceneMouseEvent>
 
 class PlaceholderExprAST;
 class ValueExprAST;
@@ -95,9 +96,17 @@ public:
     const QColor color_;
     const QString instructionName_;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override ;
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override {}
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     QRectF boundingRect() const final;
+
+signals:
+    void selectItem(ExprAST* item);
+    void updateSelection();
+
+public slots:
+    void propagateSelectItem(ExprAST* item);
+    void propagateUpdateSelection();
 
 protected:
     float w=150.0f;
@@ -107,6 +116,7 @@ signals:
     void Moved();
     void signalSelected();
     void ShouldUpdateScene();
+
 
 };
 
