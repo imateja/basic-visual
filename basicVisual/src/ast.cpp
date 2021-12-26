@@ -203,6 +203,20 @@ BinaryExprAST::~BinaryExprAST(){
 //    return body_.at(i);
 //}
 
+//--------------------SETTERS--------------------
+
+void BinaryExprAST::setLeft(ExprAST* expr)
+{
+    delete left_;
+    left_ = expr;
+}
+
+void BinaryExprAST::setRight(ExprAST* expr)
+{
+    delete right_;
+    right_ = expr;
+}
+
 //--------------------------------------------
 
 void ExprAST::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -273,7 +287,7 @@ void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem
         QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
         painter->fillRect(boundingRect(),selectedBrush);
     }else {
-        painter->fillRect(boundingRect(), color_);
+        painter->fillRect(boundingRect(), QColor::fromRgb(128, 0, 0));
     }
     painter->setPen(Qt::white);
     const auto SquareText = QString("[ ]");
@@ -330,14 +344,17 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-
+    w = h;
     painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
 
-    const auto SquareText = QString("%1").arg("+");
+    const auto SquareText = QString("%1").arg(op_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
+    left_->setPos(-w/2, -h/2 + left_->getHeight()/2+100);
+    right_->setPos(w/2, -h/2 + right_->getHeight()/2+100);
+    emit ShouldUpdateScene();
 }
+/*
 void MulExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -482,3 +499,4 @@ void OrExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     //idk da l treba ovo ovde | emit ShouldUpdateScene();
 }
+*/

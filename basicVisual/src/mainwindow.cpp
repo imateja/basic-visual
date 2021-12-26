@@ -161,8 +161,39 @@ void MainWindow::addIf()
 //    }
 //}
 
+void MainWindow::addBinary(ExprAST* elem)
+{
+    if(_mainGraphicsScene->selectedItems().empty()){
+        //TODO error handling
+        return;
+    }
+
+    auto selectedItem = static_cast<ExprAST*>(_mainGraphicsScene->selectedItems().at(0));
+
+    _mainGraphicsScene->removeItem(selectedItem);
+    auto parent = static_cast<BinaryExprAST*>(selectedItem->parentItem());
+    //qDebug() << parent << "\n";
+
+    _mainGraphicsScene->addItem(elem);
+    //QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+
+    //auto coords = ui->mainGV->mapFromScene(selectedItem->pos());
+    auto coords = selectedItem->pos();
+    elem->setPos(coords.x(), coords.y());
+    if (parent) {
+        selectedItem->x() < parent->x() ? parent->setLeft(elem) : parent->setRight(elem);
+    }
+}
+
 void MainWindow::addPlus()
-{}
+{
+    auto elem = new AddExprAST();
+    elem->getRight()->setParentItem(elem);
+    elem->getLeft()->setParentItem(elem);
+    //qDebug() << elem->getLeft() << " " << elem->getRight() << "\n";
+    addBinary(elem);
+}
+
 void MainWindow::addMinus()
 {}
 void MainWindow::addMul()

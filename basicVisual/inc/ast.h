@@ -197,10 +197,12 @@ public:
 
     virtual ExprAST* getLeft() {return left_;}
     virtual ExprAST* getRight() {return right_;}
+    void setLeft(ExprAST*);
+    void setRight(ExprAST*);
     QString stringify() final;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
 
 protected:
     ExprAST *left_, *right_;
@@ -221,7 +223,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 };
 
@@ -231,7 +233,7 @@ public:
     DivExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString("/");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -239,16 +241,16 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class AddExprAST final : public BinaryExprAST
 {
 public:
-    AddExprAST(ExprAST *left, ExprAST *right)
+    AddExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString("+");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -256,7 +258,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class SubExprAST final : public BinaryExprAST
@@ -265,7 +267,7 @@ public:
     SubExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString("-");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -273,7 +275,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class LtExprAST final : public BinaryExprAST
@@ -282,7 +284,7 @@ public:
     LtExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString("<");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -290,7 +292,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class LeqExprAST final : public BinaryExprAST
@@ -299,7 +301,7 @@ public:
     LeqExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString("<=");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -307,7 +309,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class GtExprAST final : public BinaryExprAST
@@ -316,7 +318,7 @@ public:
     GtExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString(">");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -324,7 +326,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class GeqExprAST final : public BinaryExprAST
@@ -333,7 +335,7 @@ public:
     GeqExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString(">=");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -341,7 +343,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class EqExprAST final : public BinaryExprAST
@@ -350,7 +352,7 @@ public:
     EqExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString("==");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -358,7 +360,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class NeqExprAST final : public BinaryExprAST
@@ -367,7 +369,7 @@ public:
     NeqExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString("!=");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -375,7 +377,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class AndExprAST final : public BinaryExprAST
@@ -384,7 +386,7 @@ public:
     AndExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString("&&");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -392,7 +394,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class OrExprAST final : public BinaryExprAST
@@ -401,7 +403,7 @@ public:
     OrExprAST(ExprAST *left, ExprAST *right)
         :BinaryExprAST(left,right)
     {
-        op_ = QString("*");
+        op_ = QString("||");
     }
 
     void AcceptVisit(VisitorAST&) override;
@@ -409,7 +411,7 @@ public:
     //ExprAST* copy() const override;
 
     QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 #endif // AST_H

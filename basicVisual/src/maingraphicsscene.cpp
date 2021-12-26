@@ -35,7 +35,7 @@ void mainGraphicsScene::addedSquareOnGV(InstructionExprAST *node)
 
 void mainGraphicsScene::updateScene(){
     this->update();
-    qDebug()<<"Scena se updatovala";
+    //qDebug()<<"Scena se updatovala";
 }
 
 //Positions the new node so there is no overlap

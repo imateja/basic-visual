@@ -34,6 +34,7 @@ private slots:
     void addWhile();
     void addIf();
     void Edit();
+    void addBinary(ExprAST*);
     void addPlus();
     void addMinus();
     void addMul();
