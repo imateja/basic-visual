@@ -128,8 +128,11 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(widget)
    //TODO: Pen and colour should also be properties of subclasses
    //FIX: Colour and pen shouldnt be hardcoded
-
-    painter->fillRect(boundingRect(), QColor::fromRgb(0,128,0));
+    if(this->isSelected()){
+        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+        painter->fillRect(boundingRect(),selectedBrush);
+    }else
+        painter->fillRect(boundingRect(), color_);
     painter->setPen(Qt::white);
     const auto SquareText = QString("%1\n").arg("start");
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
@@ -246,8 +249,11 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setPen(Qt::white);
 
     ifrectangle_ = QRectF(-w/2,-h/2 + gap,w,ifh);
-
-    painter->fillRect(ifrectangle_,QColor::fromRgb(128,0,0));
+    if(this->isSelected()){
+        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+        painter->fillRect(ifrectangle_,selectedBrush);
+    }else
+        painter->fillRect(ifrectangle_, QColor::fromRgb(128,0,0));
     const auto SquareText = QString("%1").arg(instructionName_);
     painter->drawText(ifrectangle_, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
@@ -302,8 +308,12 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
        // QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
     //painter->fillRect(rectangle,selectedBrush);
     //}else
-        painter->fillRect(whilerectangle_,QColor::fromRgb(128,0,0));
-        painter->drawText(whilerectangle_, Qt::AlignHCenter | Qt::AlignVCenter, "While");
+    if(this->isSelected()){
+        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+        painter->fillRect(whilerectangle_,selectedBrush);
+    }else
+        painter->fillRect(whilerectangle_, QColor::fromRgb(128,58,0));
+    painter->drawText(whilerectangle_, Qt::AlignHCenter | Qt::AlignVCenter, "While");
     //const auto SquareText = QString("%1\n%2").arg(instructionName_, instructionName_);
     //painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     body_->setPos(0,whileh/2 + gap);

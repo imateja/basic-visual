@@ -252,6 +252,12 @@ void ExprAST::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     emit updateSelection();
 }
 
+void ExprAST::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mousePressEvent(event);
+    emit updateSelection();
+}
+
 QRectF ExprAST::boundingRect() const
 {
     return QRect(-w/2,-h/2,w,h);

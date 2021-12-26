@@ -98,6 +98,8 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     QRectF boundingRect() const final;
 
 signals:
@@ -117,8 +119,6 @@ protected:
 signals:
     void Moved();
     void signalSelected();
-
-
 
 };
 

@@ -38,7 +38,7 @@ public:
     //ExprAST* copy() const override;
 
     //QRectF boundingRect() const override;
-    QColor color_= QColor::fromRgb(128,0,128);
+    QColor color_= QColor::fromRgb(0,128,0);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
