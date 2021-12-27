@@ -38,7 +38,7 @@ public:
     //ExprAST* copy() const override;
 
     //QRectF boundingRect() const override;
-    QColor color_= QColor::fromRgb(128,0,128);
+    QColor color_= QColor::fromRgb(0,128,0);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
@@ -112,8 +112,11 @@ public:
     {
         connect(then_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
         connect(then_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+        connect(then_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+
         connect(else_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
         connect(else_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+        connect(else_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
     }
     ~IfExprAST();
     IfExprAST(const IfExprAST&);
@@ -150,6 +153,7 @@ public:
     {
         connect(body_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
         connect(body_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+        connect(body_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
     }
     ~WhileExprAST();
     WhileExprAST(const WhileExprAST&);

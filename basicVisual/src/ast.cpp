@@ -227,6 +227,10 @@ void ExprAST::propagateUpdateSelection(){
     emit updateSelection();
 }
 
+void ExprAST::propagateShouldUpdateScene(){
+    emit ShouldUpdateScene();
+}
+
 void ExprAST::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsObject::mouseMoveEvent(event);
@@ -245,6 +249,12 @@ void ExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
 void ExprAST::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseReleaseEvent(event);
+    emit updateSelection();
+}
+
+void ExprAST::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mousePressEvent(event);
     emit updateSelection();
 }
 

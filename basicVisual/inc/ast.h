@@ -97,15 +97,19 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     QRectF boundingRect() const final;
 
 signals:
     void selectItem(ExprAST* item);
     void updateSelection();
+    void ShouldUpdateScene();
 
 public slots:
     void propagateSelectItem(ExprAST* item);
     void propagateUpdateSelection();
+    void propagateShouldUpdateScene();
 
 protected:
     float w=150.0f;
@@ -114,8 +118,6 @@ protected:
 signals:
     void Moved();
     void signalSelected();
-    void ShouldUpdateScene();
-
 
 };
 

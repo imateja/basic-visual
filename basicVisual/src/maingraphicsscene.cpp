@@ -45,7 +45,6 @@ void mainGraphicsScene::setSelectedItem(ExprAST *item)
 
 void mainGraphicsScene::selectItem()
 {
-    qDebug() << "Selektovan item je: " << selectedItem_ << "\n";
     clearSelection();
     if(selectedItem_ != nullptr){
         selectedItem_->setSelected(true);
