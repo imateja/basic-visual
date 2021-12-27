@@ -60,7 +60,6 @@ public:
     virtual void VisitWhileExprAST(WhileExprAST&) = 0;
     virtual void VisitFunctionExprAST(FunctionExprAST&) = 0;
     virtual void VisitStartExprAST(StartExprAST&) = 0;
-    virtual void VisitEndExprAST(EndExprAST&) = 0;
 
 };
 

@@ -43,6 +43,5 @@ QVariant State::getValue(const QString& variable)
         }
     }
 
-   //TODO error handling
-    return {};
+    return QString("Expression not finished :: Variable " + variable + " does not exist");
 }
