@@ -100,6 +100,7 @@ public:
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     QRectF boundingRect() const override;
+    virtual void updateChildren() {};
 
 signals:
     void selectItem(ExprAST* item);
@@ -120,14 +121,26 @@ signals:
 class PlaceholderExprAST final : public ExprAST
 {
 public:
-    PlaceholderExprAST(){}
-
+    PlaceholderExprAST(){
+        expr_ = nullptr;
+    }
+    void setExpr(ExprAST* expr){
+        expr_ = expr;
+        expr_->setParentItem(this);
+        connect(expr_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
+        connect(expr_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+        connect(expr_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+    }
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::INSTRUCTION;}
     QString stringify() final;
 
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    QRectF boundingRect() const override;
+    void updateChildren() final;
+private:
+    ExprAST* expr_;
 };
 
 class ValueExprAST final : public ExprAST
@@ -145,7 +158,7 @@ public:
 
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
+    QRectF boundingRect() const override;
 private:
     double value_;
 };
@@ -165,30 +178,54 @@ public:
 
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
+    QRectF boundingRect() const override;
 private:
     QString name_;
 };
 
-class NotExprAST final : public ExprAST
+
+
+class UnaryExprAST : public ExprAST
 {
 public:
-    NotExprAST(ExprAST *operand = nullptr)
+    UnaryExprAST(ExprAST *operand = nullptr)
         :operand_(operand!=nullptr?operand:new PlaceholderExprAST())
-    {}
-    ~NotExprAST();
+    {
+        operand_->setParentItem(this);
+        connect(operand_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
+        connect(operand_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+        connect(operand_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 
-    void AcceptVisit(VisitorAST&) override;
+    }
     inline Priority getPriority() final {return Priority::UNARY;}
     inline ExprAST* getOperand() {return operand_;}
     QString stringify() final;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
+    QRectF boundingRect() const override;
+    QRectF opcircle_;
+    ~UnaryExprAST();
+    void updateChildren() final;
+    //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+
+protected:
+    ExprAST* operand_;
+    QString op_;
+};
+
+class NotExprAST final : public UnaryExprAST
+{
+public:
+    NotExprAST(ExprAST *operand = nullptr)
+        :UnaryExprAST(operand)
+    {
+        op_ = QString("-");
+    }
+
+    void AcceptVisit(VisitorAST&) override;
+
+
     //ExprAST* copy() const override;
 
-    QColor color_= QColor::fromRgb(128,0,128);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
-private:
-    ExprAST* operand_;
 };
 
 class BinaryExprAST : public ExprAST
@@ -197,7 +234,19 @@ public:
     BinaryExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :left_(left!=nullptr?left:new PlaceholderExprAST())
         ,right_(right!=nullptr?right:new PlaceholderExprAST())
-    {}
+    {
+        left_->setParentItem(this);
+        connect(left_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
+        connect(left_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+        connect(left_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+
+        right_->setParentItem(this);
+        connect(right_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
+        connect(right_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+        connect(right_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+
+
+    }
     ~BinaryExprAST();
     BinaryExprAST(const BinaryExprAST&);
     BinaryExprAST& operator= (const BinaryExprAST&);
@@ -211,6 +260,9 @@ public:
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
     QRectF boundingRect() const override;
+    QRectF opcircle_;
+    void updateChildren() final;
+    //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 
 protected:
     ExprAST *left_, *right_;
@@ -220,7 +272,7 @@ protected:
 class MulExprAST final : public BinaryExprAST
 {
 public:
-    MulExprAST(ExprAST *left, ExprAST *right)
+    MulExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString("*");
@@ -238,7 +290,7 @@ public:
 class DivExprAST final : public BinaryExprAST
 {
 public:
-    DivExprAST(ExprAST *left, ExprAST *right)
+    DivExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString("/");
@@ -272,7 +324,7 @@ public:
 class SubExprAST final : public BinaryExprAST
 {
 public:
-    SubExprAST(ExprAST *left, ExprAST *right)
+    SubExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString("-");
@@ -289,7 +341,7 @@ public:
 class LtExprAST final : public BinaryExprAST
 {
 public:
-    LtExprAST(ExprAST *left, ExprAST *right)
+    LtExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString("<");
@@ -306,7 +358,7 @@ public:
 class LeqExprAST final : public BinaryExprAST
 {
 public:
-    LeqExprAST(ExprAST *left, ExprAST *right)
+    LeqExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString("<=");
@@ -323,7 +375,7 @@ public:
 class GtExprAST final : public BinaryExprAST
 {
 public:
-    GtExprAST(ExprAST *left, ExprAST *right)
+    GtExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString(">");
@@ -340,7 +392,7 @@ public:
 class GeqExprAST final : public BinaryExprAST
 {
 public:
-    GeqExprAST(ExprAST *left, ExprAST *right)
+    GeqExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString(">=");
@@ -357,7 +409,7 @@ public:
 class EqExprAST final : public BinaryExprAST
 {
 public:
-    EqExprAST(ExprAST *left, ExprAST *right)
+    EqExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString("==");
@@ -374,7 +426,7 @@ public:
 class NeqExprAST final : public BinaryExprAST
 {
 public:
-    NeqExprAST(ExprAST *left, ExprAST *right)
+    NeqExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString("!=");
@@ -391,7 +443,7 @@ public:
 class AndExprAST final : public BinaryExprAST
 {
 public:
-    AndExprAST(ExprAST *left, ExprAST *right)
+    AndExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString("&&");
@@ -408,7 +460,7 @@ public:
 class OrExprAST final : public BinaryExprAST
 {
 public:
-    OrExprAST(ExprAST *left, ExprAST *right)
+    OrExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryExprAST(left,right)
     {
         op_ = QString("||");

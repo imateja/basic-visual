@@ -27,7 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainGV->setScene(_mainGraphicsScene);
     ui->mainGV->setRenderHint(QPainter::Antialiasing);
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    ui->tabWidget->setCurrentIndex(0);
     mainBlock= new BlockExprAST();
+    exprItem=nullptr;
     _mainGraphicsScene->addItem(mainBlock);
     position();
     connect(mainBlock,&ExprAST::ShouldUpdateScene,this,&MainWindow::updateScene);
@@ -59,7 +61,7 @@ void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
 }
 
 void MainWindow::updateScene(){
-    ExprAST* centerItem = mainBlock;
+    ExprAST* centerItem = stagedItem();
     centerItem->update();
     ui->mainGV->setSceneRect(centerItem->boundingRect());
     _mainGraphicsScene->update();
@@ -68,11 +70,15 @@ void MainWindow::updateScene(){
 
 void MainWindow::position()
 {
-    ExprAST* centerItem = mainBlock;
-    qDebug() << centerItem->boundingRect()<< "\n";
-    ui->mainGV->centerOn(mainBlock);
+    ExprAST* centerItem = stagedItem();
+    //qDebug() << centerItem->boundingRect()<< "\n";
+    ui->mainGV->centerOn(centerItem);
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-    mainBlock->setPos(sceneCenter.x(), sceneCenter.y());
+    centerItem->setPos(sceneCenter.x(), sceneCenter.y());
+}
+
+ExprAST* MainWindow::stagedItem(){
+    return exprItem == nullptr ? mainBlock : exprItem;
 }
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
@@ -88,29 +94,38 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 void MainWindow::Edit()
 {
     if(mainBlock->isVisible()){
-        if(_mainGraphicsScene->selectedItems().empty()){
+        if(_mainGraphicsScene->getSelectedItem() == nullptr){
             //TODO error handling
             return;
         }
 
-        auto editableExpr = static_cast<InstructionExprAST*>(_mainGraphicsScene->selectedItems().at(0))->getEditableExpr();
-        if(editableExpr == nullptr){
+        exprItem = static_cast<InstructionExprAST*>(_mainGraphicsScene->getSelectedItem())->getEditableExpr();
+        if(exprItem == nullptr){
             //TODO error handling
-
             return;
         }
+
 
         ui->ExprEdit->setDisabled(false);
         ui->tabWidget->setCurrentIndex(1);
         ui->tab->setDisabled(true);
 
         _mainGraphicsScene->clearItems();
-        _mainGraphicsScene->addItem(editableExpr);
+        _mainGraphicsScene->addItem(exprItem);
 
-        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-        editableExpr->setPos(sceneCenter.x(), sceneCenter.y());
+        connect(exprItem,&ExprAST::ShouldUpdateScene,this,&MainWindow::updateScene);
+        connect(exprItem,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
+        connect(exprItem,&ExprAST::updateSelection,_mainGraphicsScene,&mainGraphicsScene::selectItem);
 
+
+//        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+//        exprItem->setPos(sceneCenter.x(), sceneCenter.y());
+        _mainGraphicsScene->setSelectedItem(nullptr);
         mainBlock->hide();
+        exprItem->updateChildren();
+        updateScene();
+        _mainGraphicsScene->selectItem();
+        position();
 
     }
 }
@@ -122,11 +137,19 @@ void MainWindow::backPushed()
         ui->tabWidget->setCurrentIndex(0);
         ui->ExprEdit->setDisabled(true);
 
+        disconnect(exprItem,&ExprAST::ShouldUpdateScene,this,&MainWindow::updateScene);
+        disconnect(exprItem,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
+        disconnect(exprItem,&ExprAST::updateSelection,_mainGraphicsScene,&mainGraphicsScene::selectItem);
         _mainGraphicsScene->clearItems();
         _mainGraphicsScene->addItem(mainBlock);
+        exprItem = nullptr;
 
+        _mainGraphicsScene->setSelectedItem(nullptr);
         mainBlock->show();
         mainBlock->updateChildren();
+        updateScene();
+        _mainGraphicsScene->selectItem();
+        position();
     }
 }
 
@@ -182,67 +205,103 @@ void MainWindow::addIf()
 //    }
 //}
 
-void MainWindow::addBinary(ExprAST* elem)
+void MainWindow::addExpr(ExprAST* elem)
 {
-    if(_mainGraphicsScene->selectedItems().empty()){
+    if(_mainGraphicsScene->getSelectedItem() == nullptr){
         //TODO error handling
         return;
     }
-
-    auto selectedItem = static_cast<ExprAST*>(_mainGraphicsScene->selectedItems().at(0));
-
-    _mainGraphicsScene->removeItem(selectedItem);
-    auto parent = static_cast<BinaryExprAST*>(selectedItem->parentItem());
-    //qDebug() << parent << "\n";
-
-    _mainGraphicsScene->addItem(elem);
-    //QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-
-    //auto coords = ui->mainGV->mapFromScene(selectedItem->pos());
-    auto coords = selectedItem->pos();
-    elem->setPos(coords.x(), coords.y());
-    if (parent) {
-        selectedItem->x() < parent->x() ? parent->setLeft(elem) : parent->setRight(elem);
+    auto selected = dynamic_cast<PlaceholderExprAST*>(_mainGraphicsScene->getSelectedItem());
+    if(selected){
+        selected->setExpr(elem);
     }
+    updateScene();
+    position();
+
 }
 
 void MainWindow::addPlus()
 {
     auto elem = new AddExprAST();
-    elem->getRight()->setParentItem(elem);
-    elem->getLeft()->setParentItem(elem);
-    //qDebug() << elem->getLeft() << " " << elem->getRight() << "\n";
-    addBinary(elem);
+    addExpr(elem);
 }
 
 void MainWindow::addMinus()
-{}
+{
+    auto elem = new SubExprAST();
+    addExpr(elem);
+}
 void MainWindow::addMul()
-{}
+{
+    auto elem = new MulExprAST();
+    addExpr(elem);
+}
 void MainWindow::addDiv()
-{}
+{
+    auto elem = new DivExprAST();
+    addExpr(elem);
+}
 void MainWindow::addLs()
-{}
+{
+    auto elem = new LtExprAST();
+    addExpr(elem);
+}
 void MainWindow::addGt()
-{}
+{
+    auto elem = new GtExprAST();
+    addExpr(elem);
+}
 void MainWindow::addLseq()
-{}
+{
+    auto elem = new LeqExprAST();
+    addExpr(elem);
+}
 void MainWindow::addGteq()
-{}
+{
+    auto elem = new GeqExprAST();
+    addExpr(elem);
+}
 void MainWindow::addAnd()
-{}
+{
+    auto elem = new AndExprAST();
+    addExpr(elem);
+}
 void MainWindow::addOr()
-{}
+{
+    auto elem = new OrExprAST();
+    addExpr(elem);
+}
 void MainWindow::addNot()
-{}
+{
+    auto elem = new NotExprAST();
+    addExpr(elem);
+}
 void MainWindow::addEq()
-{}
+{
+    auto elem = new EqExprAST();
+    addExpr(elem);
+}
 void MainWindow::addNeq()
-{}
+{
+    auto elem = new NeqExprAST();
+    addExpr(elem);
+}
 void MainWindow::addVar()
-{}
+{
+    auto var = ui->varTF->toPlainText();
+    //TODO provera unosa
+    auto elem = new VariableExprAST(var);
+    addExpr(elem);
+    ui->varTF->clear();
+}
 void MainWindow::addConst()
-{}
+{
+    auto val = ui->constTF->toPlainText().toDouble();
+    //TODO provra unosa
+    auto elem = new ValueExprAST(val);
+    addExpr(elem);
+    ui->constTF->clear();
+}
 void MainWindow::setupConnections()
 {
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);

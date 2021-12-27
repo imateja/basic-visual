@@ -23,6 +23,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     BlockExprAST* mainBlock;
+    ExprAST* exprItem;
     qint32 factor;
 
 signals:
@@ -34,7 +35,7 @@ private slots:
     void addWhile();
     void addIf();
     void Edit();
-    void addBinary(ExprAST*);
+    void addExpr(ExprAST*);
     void addPlus();
     void addMinus();
     void addMul();
@@ -63,8 +64,8 @@ private:
     QVector<Instruction*> _instructions;
     void setupActions();
     void setupConnections();
-    inline BlockExprAST* getInsertionBlock();
     void positionElement(InstructionExprAST* elem, qint32 factor);
+    inline ExprAST* stagedItem();
 
 
 public slots:

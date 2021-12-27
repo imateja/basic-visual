@@ -1,4 +1,5 @@
 #include "inc/ast.h"
+#include <QFontMetrics>
 
 //--------------------ACCEPT VISIT--------------------
 
@@ -114,7 +115,7 @@ void OrExprAST::AcceptVisit(VisitorAST& v){
 
 //--------------------DESTRUCTORS--------------------
 
-NotExprAST::~NotExprAST() {
+UnaryExprAST::~UnaryExprAST() {
     delete operand_;
 }
 
@@ -284,9 +285,9 @@ QString VariableExprAST::stringify() {
     return name_;
 }
 
-QString NotExprAST::stringify() {
+QString UnaryExprAST::stringify() {
     QString op = operand_->stringify();
-    return operand_->getPriority() > getPriority() ? "!(" + op + ")" : "!" + op;
+    return operand_->getPriority() > getPriority() ? op_ + "(" + op + ")" : op_ + op;
 }
 
 QString BinaryExprAST::stringify() {
@@ -300,20 +301,34 @@ QString BinaryExprAST::stringify() {
     return retVal;
 }
 
+QRectF PlaceholderExprAST::boundingRect() const{
+    float w=60;
+    float h=60;
+    return expr_ ? expr_->boundingRect():QRectF(-w/2,-h/2,w,h);
+}
+
 void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
    //TODO: Pen and colour should also be properties of subclasses
    //FIX: Colour and pen shouldnt be hardcoded
-    if(this->isSelected()){
-        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-        painter->fillRect(boundingRect(),selectedBrush);
-    }else {
-        painter->fillRect(boundingRect(), QColor::fromRgb(128, 0, 0));
+    auto br = boundingRect();
+    if(expr_){
+        expr_->setPos(0,0);
+    } else {
+        if(this->isSelected()){
+            QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+            painter->fillRect(br,selectedBrush);
+        }else {
+            painter->fillRect(br, QColor::fromRgb(128, 0, 0));
+        }
+        painter->setPen(Qt::white);
+        painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, QString("[ ]"));
+        emit ShouldUpdateScene();
     }
-    painter->setPen(Qt::white);
-    const auto SquareText = QString("[ ]");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+
+
+
     //TODO:Default case (maybe throw error)
     //emit ShouldUpdateScene();
 }
@@ -325,49 +340,78 @@ void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem
 //---------------------------------------EXPRPAINTING-------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------
+
+QRectF ValueExprAST::boundingRect() const{
+    float w=60;
+    float h=60;
+    return QRectF(-w/2,-h/2,w,h);
+}
 void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
-     Q_UNUSED(option)
-     Q_UNUSED(widget)
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 
-
-     painter->fillRect(boundingRect(), color_);
-     painter->setPen(Qt::white);
-
-     const auto SquareText = QString("%1").arg("+");
-     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-     //idk da l treba ovo ovde | emit ShouldUpdateScene();
+    auto br = boundingRect();
+    painter->fillRect(br, color_);
+    painter->setPen(Qt::white);
+    const auto SquareText = QString::number(value_);
+    painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    emit ShouldUpdateScene();
+}
+QRectF VariableExprAST::boundingRect() const {
+    float w=60;
+    float h=60;
+    return QRectF(-w/2,-h/2,w,h);
 }
 void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-
-    painter->fillRect(boundingRect(), color_);
+    auto br = boundingRect();
+    painter->fillRect(br, color_);
     painter->setPen(Qt::white);
 
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
+    const auto SquareText = name_;
+    painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    emit ShouldUpdateScene();
 }
-void NotExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+
+QRectF UnaryExprAST::boundingRect() const{
+    float w=0.0f;
+    float h=0.0f;
+    float opr = 60.0f;
+    const float gap=10.0f;
+    w += operand_->getWidth() + 2 * gap;
+    h += operand_->getHeight() + gap*2 + opr;
+    return QRect(-w/2,-h/2,w,h);
+}
+void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-
-    painter->fillRect(boundingRect(), color_);
+    float opr = 60.0f;
+    auto br = boundingRect();
+    const float gap=10.0f;
+    //painter->fillRect(br, color_);
     painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
+    opcircle_ = QRect( -opr/2,-br.height()/2 + gap,opr,opr);
+    painter->setBrush(QColor::fromRgb(0,128,0));
+    painter->drawEllipse(opcircle_);
+    painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
+    operand_->setPos(-br.width()/2 +operand_->getWidth() + gap, -br.height()/2 +2*gap +opcircle_.height()+ operand_->getHeight()/2);
+    emit ShouldUpdateScene();
 }
-
 
 QRectF BinaryExprAST::boundingRect() const
 {
-    float w=60;
-    float h=60;
+    float w=0.0f;
+    float h=0.0f;
+    float opr = 60.0f;
+    const float gap=10.0f;
+    w += left_->getWidth() + 100.0f + right_->getWidth();
+    h += left_->getHeight() > right_->getHeight() ? left_->getHeight() : right_->getHeight();
+    h+= gap + opr;
     return QRect(-w/2,-h/2,w,h);
 }
 
@@ -375,160 +419,35 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+    float opr = 60.0f;
     auto br = boundingRect();
-
-    painter->fillRect(br, color_);
+    const float gap=10.0f;
+    //painter->fillRect(br, color_);
     painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg(op_);
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    left_->setPos(-br.width()/2, -br.height()/2 + left_->getHeight()/2+100);
-    right_->setPos(br.width()/2, -br.height()/2 + right_->getHeight()/2+100);
+    opcircle_ = QRect( -opr/2,-br.height()/2,opr,opr);
+    painter->setBrush(QColor::fromRgb(0,128,0));
+    painter->drawEllipse(opcircle_);
+    painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
+    left_->setPos(-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ left_->getHeight()/2);
+    right_->setPos(br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ right_->getHeight()/2);
     emit ShouldUpdateScene();
 }
-/*
-void MulExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
 
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
+void BinaryExprAST::updateChildren(){
+    left_->setParentItem(this);
+    right_->setParentItem(this);
+    left_->updateChildren();
+    right_->updateChildren();
+};
+void UnaryExprAST::updateChildren(){
+    operand_->setParentItem(this);
+    operand_->updateChildren();
 }
-void DivExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
+void PlaceholderExprAST::updateChildren(){
+    if(expr_){
+        expr_->setParentItem(this);
+        expr_->updateChildren();
+    }
 }
-void AddExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
 
 
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-void SubExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-void LtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-void LeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-void GtExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-void GeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-void EqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-void NeqExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-void AndExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-void OrExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-
-    painter->fillRect(boundingRect(), color_);
-    painter->setPen(Qt::white);
-
-    const auto SquareText = QString("%1").arg("+");
-    painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    //idk da l treba ovo ovde | emit ShouldUpdateScene();
-}
-*/
