@@ -35,7 +35,6 @@ public:
     void VisitOrExprAST(OrExprAST&) override;
 
     void VisitStartExprAST(StartExprAST&) override;
-    void VisitEndExprAST(EndExprAST&) override;
     void VisitAssignExprAST(AssignExprAST&) override;
     void VisitBlockExprAST(BlockExprAST&) override;
     void VisitIfExprAST(IfExprAST&) override;
