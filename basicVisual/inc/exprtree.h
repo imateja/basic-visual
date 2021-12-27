@@ -61,7 +61,7 @@ public:
     QString stringify() final;
     //ExprAST* copy() const override;
 
-    //QRectF boundingRect() const override;
+    QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
@@ -78,7 +78,8 @@ public:
     BlockExprAST( QGraphicsItem* parent = nullptr)
         : InstructionExprAST(parent)
     {
-        insert(new StartExprAST(this));
+        auto start = new StartExprAST(this);
+        insert(start);
     }
     ~BlockExprAST();
     BlockExprAST(const BlockExprAST&);
@@ -91,14 +92,13 @@ public:
     inline QVector<InstructionExprAST*> getBody() {return body_;}
     QString stringify() final;
     //ExprAST* copy() const override;
-
-    //QRectF boundingRect() const override;
+    QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(0,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     QVector<InstructionExprAST*> body_;
 
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 class IfExprAST final : public InstructionExprAST
@@ -132,7 +132,7 @@ public:
     QString stringify() final;
     //ExprAST* copy() const override;
 
-    //QRectF boundingRect() const override;
+    QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(128,128,0);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
@@ -167,7 +167,7 @@ public:
     QString stringify() final;
     //ExprAST* copy() const override;
 
-    //QRectF boundingRect() const override;
+    QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(60,60,0);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 

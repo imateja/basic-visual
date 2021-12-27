@@ -228,6 +228,7 @@ void ExprAST::propagateUpdateSelection(){
 }
 
 void ExprAST::propagateShouldUpdateScene(){
+    update();
     emit ShouldUpdateScene();
 }
 
@@ -260,6 +261,8 @@ void ExprAST::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 QRectF ExprAST::boundingRect() const
 {
+    float w=150.0f;
+    float h=80.0f;
     return QRect(-w/2,-h/2,w,h);
 }
 //QRectF StartExprAST::boundingRect() const
@@ -359,18 +362,28 @@ void NotExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     //idk da l treba ovo ovde | emit ShouldUpdateScene();
 }
+
+
+QRectF BinaryExprAST::boundingRect() const
+{
+    float w=60;
+    float h=60;
+    return QRect(-w/2,-h/2,w,h);
+}
+
 void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    w = h;
-    painter->fillRect(boundingRect(), color_);
+    auto br = boundingRect();
+
+    painter->fillRect(br, color_);
     painter->setPen(Qt::white);
 
     const auto SquareText = QString("%1").arg(op_);
     painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    left_->setPos(-w/2, -h/2 + left_->getHeight()/2+100);
-    right_->setPos(w/2, -h/2 + right_->getHeight()/2+100);
+    left_->setPos(-br.width()/2, -br.height()/2 + left_->getHeight()/2+100);
+    right_->setPos(br.width()/2, -br.height()/2 + right_->getHeight()/2+100);
     emit ShouldUpdateScene();
 }
 /*

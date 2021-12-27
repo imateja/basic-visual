@@ -66,6 +66,15 @@ private:
     inline BlockExprAST* getInsertionBlock();
     void positionElement(InstructionExprAST* elem, qint32 factor);
 
+
+public slots:
+    void updateScene();
+    void position();
+
+
+    // QObject interface
+public:
+    bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // MAINWINDOW_H

@@ -9,6 +9,8 @@
 
 #include "inc/exprtree.h"
 #include <QString>
+#include <QAbstractScrollArea>
+#include <QWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,12 +29,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     mainBlock= new BlockExprAST();
     _mainGraphicsScene->addItem(mainBlock);
-    mainBlock->setParent(_mainGraphicsScene);
-    connect(mainBlock,&ExprAST::ShouldUpdateScene,_mainGraphicsScene,&mainGraphicsScene::updateScene);
+    position();
+    connect(mainBlock,&ExprAST::ShouldUpdateScene,this,&MainWindow::updateScene);
     connect(mainBlock,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
     connect(mainBlock,&ExprAST::updateSelection,_mainGraphicsScene,&mainGraphicsScene::selectItem);
-    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-    mainBlock->setPos(sceneCenter.x(), sceneCenter.y());
+
 
 //    mainBlock= new BlockExprAST();
 //    _mainGraphicsView->addItem(mainBlock);
@@ -43,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupActions();
     setupConnections();
 
-
+    ui->mainGV->viewport()->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -55,6 +56,33 @@ void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
 {
     QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
     elem->setPos(sceneCenter.x(), factor*90);
+}
+
+void MainWindow::updateScene(){
+    ExprAST* centerItem = mainBlock;
+    centerItem->update();
+    ui->mainGV->setSceneRect(centerItem->boundingRect());
+    _mainGraphicsScene->update();
+    //qDebug()<<"Scena se updatovala";
+}
+
+void MainWindow::position()
+{
+    ExprAST* centerItem = mainBlock;
+    qDebug() << centerItem->boundingRect()<< "\n";
+    ui->mainGV->centerOn(mainBlock);
+    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+    mainBlock->setPos(sceneCenter.x(), sceneCenter.y());
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == ui->mainGV->viewport()){
+        if(event->type() == QEvent::Resize){
+            position();
+        }
+    }
+    return QMainWindow::eventFilter(watched, event);
 }
 
 void MainWindow::Edit()
@@ -110,10 +138,8 @@ void MainWindow::addInstruction(InstructionExprAST* newElement){
         auto parent = static_cast<BlockExprAST*>(selected->parentItem());
         parent->insert(newElement,static_cast<InstructionExprAST*>(selected));
     }
-
-    //_mainGraphicsView->addItem(newElement);
-    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
-    mainBlock->setPos(sceneCenter.x(), sceneCenter.y());
+    updateScene();
+    position();
 }
 void MainWindow::addAssign()
 {

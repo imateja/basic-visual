@@ -33,11 +33,6 @@ void mainGraphicsScene::addedSquareOnGV(InstructionExprAST *node)
 //    drawConnections();
 }
 
-void mainGraphicsScene::updateScene(){
-    this->update();
-    //qDebug()<<"Scena se updatovala";
-}
-
 void mainGraphicsScene::setSelectedItem(ExprAST *item)
 {
     selectedItem_ = item;

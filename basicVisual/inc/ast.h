@@ -89,8 +89,8 @@ public:
     virtual void AcceptVisit(VisitorAST&) = 0;
     virtual Priority getPriority() = 0;
     virtual QString stringify() = 0;
-    inline float getWidth() const { return w; }
-    inline float getHeight() const { return h; }
+    inline float getWidth() const { return boundingRect().width(); }
+    inline float getHeight() const { return boundingRect().height();}
     //virtual ExprAST* copy() const = 0;
 
     const QColor color_;
@@ -100,7 +100,7 @@ public:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    QRectF boundingRect() const final;
+    QRectF boundingRect() const override;
 
 signals:
     void selectItem(ExprAST* item);
@@ -111,10 +111,6 @@ public slots:
     void propagateSelectItem(ExprAST* item);
     void propagateUpdateSelection();
     void propagateShouldUpdateScene();
-
-protected:
-    float w=150.0f;
-    float h=80.0f;
 
 signals:
     void Moved();
@@ -215,6 +211,7 @@ public:
 
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
+    QRectF boundingRect() const override;
 
 protected:
     ExprAST *left_, *right_;
