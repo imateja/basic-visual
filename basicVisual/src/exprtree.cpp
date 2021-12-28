@@ -58,7 +58,6 @@ void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posi
 void BlockExprAST::remove(InstructionExprAST* instr){
     auto pos = body_.indexOf(instr);
     body_.remove(pos);
-    deleteLater();
 }
 
 IfExprAST::~IfExprAST(){
@@ -371,5 +370,6 @@ QString FunctionExprAST::stringify() {
 void InstructionExprAST::deleteMe(){
     auto parent = static_cast<BlockExprAST*>(parentItem());
     parent->remove(this);
+    delete this;
 }
 

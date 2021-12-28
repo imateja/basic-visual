@@ -480,7 +480,8 @@ void OperatorExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 void ExprAST::deleteMe(){
     auto parent = static_cast<PlaceholderExprAST*>(parentItem());
     parent->expr_ = nullptr;
-    deleteLater();
+    //deleteLater();
+    delete this;
 }
 
 

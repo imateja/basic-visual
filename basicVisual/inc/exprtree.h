@@ -35,7 +35,7 @@ public:
     ExprAST* getEditableExpr() override { return nullptr; }
     QString stringify() final;
     //ExprAST* copy() const override;
-
+    void deleteMe() override {};
     //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(0,128,0);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

@@ -313,6 +313,18 @@ void MainWindow::addConst()
         QMessageBox::information(this, "Invalid Value", "A valid value consists only of digits (with zero or one decimal dot).");
     }
 }
+
+void MainWindow::deletePushed(){
+    auto item = _mainGraphicsScene->getSelectedItem();
+    if(item){
+        item->deleteMe();
+        _mainGraphicsScene->setSelectedItem(nullptr);
+        _mainGraphicsScene->selectItem();
+        updateScene();
+        position();
+    }
+}
+
 void MainWindow::setupConnections()
 {
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
@@ -336,6 +348,8 @@ void MainWindow::setupConnections()
     connect(ui->varBtn, &QPushButton::clicked, this, &MainWindow::addVar);
     connect(ui->constBtn, &QPushButton::clicked, this, &MainWindow::addConst);
     connect(ui->backBtn, &QPushButton::clicked, this, &MainWindow::backPushed);
+    connect(ui->deleteBtn, &QPushButton::clicked, this, &MainWindow::deletePushed);
+    connect(ui->deleteBtn_2, &QPushButton::clicked, this, &MainWindow::deletePushed);
 
 }
 
