@@ -338,6 +338,12 @@ void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 //}
 
 
+void InstructionExprAST::deleteMe(){
+    auto parent = static_cast<BlockExprAST*>(parentItem());
+    parent->remove(this);
+    delete this;
+}
+
 //------------ STRINGIFY ------------
 
 QString StartExprAST::stringify() {
@@ -367,7 +373,7 @@ QString FunctionExprAST::stringify() {
     return {};
 }
 
-<<<<<<< HEAD
+
 //------------------ toVariant -------------------
 
 QVariant StartExprAST::toVariant() const
@@ -462,11 +468,4 @@ FunctionExprAST::FunctionExprAST(const QVariant& v)
 {
 //TODO: ???
 }
-=======
-void InstructionExprAST::deleteMe(){
-    auto parent = static_cast<BlockExprAST*>(parentItem());
-    parent->remove(this);
-    delete this;
-}
 
->>>>>>> 8c1792a74be44069379a8d7b5d3c970331c6e20f

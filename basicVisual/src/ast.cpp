@@ -465,9 +465,7 @@ void PlaceholderExprAST::updateChildren(){
     }
 }
 
-<<<<<<< HEAD
-//--------------------toVariant--------------------
-=======
+
 inline bool isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition){
     return pow(center.x()-mousePosition.x(),2) + pow(center.y()-mousePosition.y(),2) <= pow(opcircle.height()/2,2);
 }
@@ -488,7 +486,7 @@ void ExprAST::deleteMe(){
 }
 
 
->>>>>>> 8c1792a74be44069379a8d7b5d3c970331c6e20f
+//--------------------toVariant--------------------
 
 QVariant PlaceholderExprAST::toVariant() const
 {
