@@ -55,6 +55,12 @@ void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posi
     connect(newinstr, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 }
 
+void BlockExprAST::remove(InstructionExprAST* instr){
+    auto pos = body_.indexOf(instr);
+    body_.remove(pos);
+    deleteLater();
+}
+
 IfExprAST::~IfExprAST(){
     delete cond_;
     delete then_;
@@ -361,3 +367,9 @@ QString FunctionExprAST::stringify() {
     //TODO error handling
     return {};
 }
+
+void InstructionExprAST::deleteMe(){
+    auto parent = static_cast<BlockExprAST*>(parentItem());
+    parent->remove(this);
+}
+
