@@ -48,6 +48,8 @@ set(PROJECT_SOURCES
         src/state.cpp
         src/interpret.cpp
         src/exprtree.cpp
+        #src/serializable.cpp
+        src/serializer.cpp
         #tests/test_ast.cpp
 )
 
@@ -61,6 +63,8 @@ set(PROJECT_HEADERS
         inc/state.h
         inc/interpret.h
         inc/exprtree.h
+        inc/serializable.h
+        inc/serializer.h
         tests/catch.hpp
 )
 

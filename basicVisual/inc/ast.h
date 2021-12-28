@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QGraphicsObject>
 #include <QGraphicsSceneMouseEvent>
+#include "serializable.h"
 
 class PlaceholderExprAST;
 class ValueExprAST;
@@ -74,12 +75,12 @@ enum class Priority
     LOGICAL = 6
 };
 
-class ExprAST : public QGraphicsObject
+class ExprAST : public QGraphicsObject, public Serializable
 {
     Q_OBJECT
 public:
     ExprAST(QGraphicsItem* parent = nullptr)
-        :QGraphicsObject(parent)
+        : QGraphicsObject(parent), errorFound(false)
     {
         setFlags(GraphicsItemFlag::ItemIsSelectable);
     }
@@ -93,7 +94,9 @@ public:
     inline float getHeight() const { return boundingRect().height();}
     //virtual ExprAST* copy() const = 0;
 
-    const QColor color_;
+    static ExprAST* makeFromVariant(const QVariant& v);
+
+    QColor color_;
     const QString instructionName_;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
@@ -102,6 +105,9 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     QRectF boundingRect() const override;
     virtual void updateChildren() {};
+
+    bool errorFound;
+    QBrush setBrush();
 
 signals:
     void selectItem(ExprAST* item);
@@ -116,7 +122,6 @@ public slots:
 signals:
     void Moved();
     void signalSelected();
-
 };
 
 class PlaceholderExprAST final : public ExprAST
@@ -124,7 +129,9 @@ class PlaceholderExprAST final : public ExprAST
 public:
     PlaceholderExprAST(){
         expr_ = nullptr;
+        color_= QColor::fromRgb(128,0,0);
     }
+    PlaceholderExprAST(const QVariant& v);
     void setExpr(ExprAST* expr){
         expr_ = expr;
         expr_->setParentItem(this);
@@ -135,11 +142,13 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::INSTRUCTION;}
     QString stringify() final;
+    QVariant toVariant() const override;
+
     void deleteMe() override {};
-    QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
     void updateChildren() final;
+
     ExprAST* expr_;
 };
 
@@ -148,15 +157,18 @@ class ValueExprAST final : public ExprAST
 public:
     ValueExprAST(double value)
         :value_(value)
-    {}
+    {
+        color_= QColor::fromRgb(128,0,128);
+    }
+    ValueExprAST(const QVariant& v);
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::INSTRUCTION;}
     inline double getValue() {return value_;}
     QString stringify() final;
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
 
-    QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
 private:
@@ -168,14 +180,17 @@ class VariableExprAST final : public ExprAST
 public:
     VariableExprAST(QString name)
         :name_(name)
-    {}
+    {
+        color_= QColor::fromRgb(128,0,128);
+    }
+    VariableExprAST(const QVariant& v);
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::INSTRUCTION;}
     inline QString getName() {return name_;}
     QString stringify() final;  //the same as getName
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-    QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
 private:
@@ -204,7 +219,10 @@ public:
         connect(operand_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(operand_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 
+        color_ = QColor::fromRgb(36, 17, 100);
     }
+    UnaryExprAST(const QVariant&);
+
     inline Priority getPriority() final {return Priority::UNARY;}
     inline ExprAST* getOperand() {return operand_;}
     QString stringify() final;
@@ -227,12 +245,14 @@ public:
     {
         op_ = QString("-");
     }
+    NotExprAST(const QVariant& v)
+        :UnaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
-
+    QVariant toVariant() const override;
 
     //ExprAST* copy() const override;
-
 };
 
 class BinaryExprAST : public OperatorExprAST
@@ -252,8 +272,10 @@ public:
         connect(right_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(right_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 
-
+        color_= QColor::fromRgb(128,0,128);
     }
+    BinaryExprAST(const QVariant&);
+
     ~BinaryExprAST();
     BinaryExprAST(const BinaryExprAST&);
     BinaryExprAST& operator= (const BinaryExprAST&);
@@ -264,7 +286,6 @@ public:
     void setRight(ExprAST*);
     QString stringify() final;
 
-    QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
     QRectF boundingRect() const override;
     void updateChildren() final;
@@ -282,14 +303,14 @@ public:
     {
         op_ = QString("*");
     }
+    MulExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::ARITHMETIC_HIGHER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
 };
 
 class DivExprAST final : public BinaryExprAST
@@ -300,13 +321,14 @@ public:
     {
         op_ = QString("/");
     }
+    DivExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::ARITHMETIC_HIGHER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class AddExprAST final : public BinaryExprAST
@@ -317,13 +339,14 @@ public:
     {
         op_ = QString("+");
     }
+    AddExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::ARITHMETIC_LOWER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class SubExprAST final : public BinaryExprAST
@@ -334,13 +357,14 @@ public:
     {
         op_ = QString("-");
     }
+    SubExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::ARITHMETIC_LOWER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class LtExprAST final : public BinaryExprAST
@@ -351,13 +375,14 @@ public:
     {
         op_ = QString("<");
     }
+    LtExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class LeqExprAST final : public BinaryExprAST
@@ -368,13 +393,14 @@ public:
     {
         op_ = QString("<=");
     }
+    LeqExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class GtExprAST final : public BinaryExprAST
@@ -385,13 +411,14 @@ public:
     {
         op_ = QString(">");
     }
+    GtExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class GeqExprAST final : public BinaryExprAST
@@ -402,13 +429,14 @@ public:
     {
         op_ = QString(">=");
     }
+    GeqExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_HIGHER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class EqExprAST final : public BinaryExprAST
@@ -419,13 +447,14 @@ public:
     {
         op_ = QString("==");
     }
+    EqExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_LOWER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class NeqExprAST final : public BinaryExprAST
@@ -436,13 +465,14 @@ public:
     {
         op_ = QString("!=");
     }
+    NeqExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::RELATIONAL_LOWER;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class AndExprAST final : public BinaryExprAST
@@ -453,13 +483,14 @@ public:
     {
         op_ = QString("&&");
     }
+    AndExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::LOGICAL;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 class OrExprAST final : public BinaryExprAST
@@ -470,13 +501,14 @@ public:
     {
         op_ = QString("||");
     }
+    OrExprAST(const QVariant& v)
+        :BinaryExprAST(v)
+    {}
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::LOGICAL;}
+    QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
-    QColor color_= QColor::fromRgb(128,0,128);
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 #endif // AST_H

@@ -301,6 +301,19 @@ QString BinaryExprAST::stringify() {
     return retVal;
 }
 
+QBrush ExprAST::setBrush() {
+    QBrush brush = QBrush(color_);
+    if (errorFound) {
+        brush.setColor(Qt::red);
+        brush.setStyle(Qt::Dense1Pattern);
+    }
+    if(this->isSelected()){
+        brush.setColor(Qt::green);
+        brush.setStyle(Qt::Dense1Pattern);
+    }
+    return brush;
+}
+
 QRectF PlaceholderExprAST::boundingRect() const{
     float w=60;
     float h=60;
@@ -316,24 +329,13 @@ void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem
     if(expr_){
         expr_->setPos(0,0);
     } else {
-        if(this->isSelected()){
-            QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-            painter->fillRect(br,selectedBrush);
-        }else {
-            painter->fillRect(br, QColor::fromRgb(128, 0, 0));
-        }
+        painter->fillRect(br,setBrush());
         painter->setPen(Qt::white);
-        painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, QString("[ ]"));
-        emit ShouldUpdateScene();
+        painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, QString("[ ]"));   
     }
-
-
-
-    //TODO:Default case (maybe throw error)
-    //emit ShouldUpdateScene();
+    emit ShouldUpdateScene();
 }
 
-//TODO implement paint functions
 
 //----------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------
@@ -352,7 +354,7 @@ void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(widget)
 
     auto br = boundingRect();
-    painter->fillRect(br, color_);
+    painter->fillRect(br, setBrush());
     painter->setPen(Qt::white);
     const auto SquareText = QString::number(value_);
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
@@ -368,7 +370,7 @@ void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(widget)
 
     auto br = boundingRect();
-    painter->fillRect(br, color_);
+    painter->fillRect(br, setBrush());
     painter->setPen(Qt::white);
 
     const auto SquareText = name_;
@@ -398,12 +400,7 @@ void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     //opcircle_ = QRect( -opr/2,-br.height()/2 + gap,opr,opr);
     opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
     center_ = QPointF(0, -br.height()/2+opr/2);
-    if(this->isSelected()){
-        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-        painter->setBrush(selectedBrush);
-    }else {
-        painter->setBrush(QColor::fromRgb(0,128,0));
-    }
+    painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
     operand_->setPos(-br.width()/2 +operand_->getWidth() + gap, -br.height()/2 +2*gap +opcircle_.height()+ operand_->getHeight()/2);
@@ -429,18 +426,10 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     float opr = 60.0f;
     auto br = boundingRect();
     const float gap=10.0f;
-    //painter->fillRect(br, color_);
     painter->setPen(Qt::white);
     opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
     center_ = QPointF(0, -br.height()/2+opr/2);
-    if(this->isSelected()){
-        //qDebug() << "please";
-        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-        painter->setBrush(selectedBrush);
-    }else {
-        painter->setBrush(QColor::fromRgb(0,128,0));
-    }
-
+    painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
     left_->setPos(-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ left_->getHeight()/2);
@@ -465,6 +454,7 @@ void PlaceholderExprAST::updateChildren(){
     }
 }
 
+
 inline bool isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition){
     return pow(center.x()-mousePosition.x(),2) + pow(center.y()-mousePosition.y(),2) <= pow(opcircle.height()/2,2);
 }
@@ -472,7 +462,6 @@ inline bool isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition){
 void OperatorExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     auto mousePosition = event->pos();
-    qDebug() << center_<<opcircle_<<mousePosition;
     emit selectItem(isInCircle(center_,opcircle_,mousePosition)?this:nullptr);
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
@@ -485,4 +474,241 @@ void ExprAST::deleteMe(){
 }
 
 
+//--------------------toVariant--------------------
 
+QVariant PlaceholderExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "PlaceholderExprAST");
+    map.insert("isFull", static_cast<bool>(expr_ != nullptr));
+    if(expr_){
+        map.insert("expr", expr_->toVariant());
+    }
+    return map;
+}
+
+QVariant ValueExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "ValueExprAST");
+    map.insert("value", value_);
+    return map;
+}
+
+QVariant VariableExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "ValueExprAST");
+    map.insert("name", name_);
+    return map;
+}
+
+QVariant NotExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "NotExprAST");
+    map.insert("operand", operand_->toVariant());
+    return map;
+}
+
+QVariant MulExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "MulExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant DivExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "DivExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant AddExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "AddExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant SubExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "SubExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant LtExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "LtExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant LeqExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "LeqExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant GtExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "GtExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant GeqExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "GeqExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant EqExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "EqExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+
+QVariant NeqExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "NeqExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant AndExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "AndExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant OrExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "OrExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+//---------------------------------------------------------------
+
+ExprAST* ExprAST::makeFromVariant(const QVariant& v){
+        QVariantMap m = v.toMap();
+        if(m.empty())
+        {
+            return nullptr;
+        }
+        QString type = m.value("type").toString();
+        if(type == "PlaceholderExprAST"){
+            return new PlaceholderExprAST(v);
+        } else if (type == "ValueExprAST") {
+            return new ValueExprAST(v);
+        } else if (type == "VariableExprAST") {
+            return new VariableExprAST(v);
+        } else if (type == "NotExprAST") {
+            return new NotExprAST(v);
+        } else if (type == "NotExprAST") {
+            return new MulExprAST(v);
+        } else if (type == "MulExprAST") {
+            return new DivExprAST(v);
+        } else if (type == "DivExprAST") {
+            return new AddExprAST(v);
+        } else if (type == "AddExprAST") {
+            return new SubExprAST(v);
+        } else if (type == "SubExprAST") {
+            return new LtExprAST(v);
+        } else if (type == "LtExprAST") {
+            return new LeqExprAST(v);
+        } else if (type == "LeqExprAST") {
+            return new GtExprAST(v);
+        } else if (type == "GtExprAST") {
+            return new GeqExprAST(v);
+        } else if (type == "GeqExprAST") {
+            return new EqExprAST(v);
+        } else if (type == "EqExprAST") {
+            return new NeqExprAST(v);
+        } else if (type == "NeqExprAST") {
+            return new AndExprAST(v);
+        } else if (type == "AndExprAST") {
+            return new AndExprAST(v);
+        } else if (type == "OrExprAST") {
+            return new OrExprAST(v);
+        } else {
+            return nullptr;
+        }
+    }
+
+//-------------------- QVariant constructors --------------------
+
+PlaceholderExprAST::PlaceholderExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    expr_ = (map.value("isFull").toBool())
+          ? makeFromVariant(map.value("expr"))
+          : nullptr;
+
+    color_= QColor::fromRgb(128,0,0);
+}
+
+ValueExprAST::ValueExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    value_ = map.value("value").toDouble();
+
+    color_= QColor::fromRgb(128,0,128);
+}
+
+VariableExprAST::VariableExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    name_ = map.value("name").toString();
+
+    color_= QColor::fromRgb(128,0,128);
+}
+
+UnaryExprAST::UnaryExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    operand_ = ExprAST::makeFromVariant(map.value("operand"));
+
+    color_ = QColor::fromRgb(36, 17, 100);
+}
+
+BinaryExprAST::BinaryExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    left_ = ExprAST::makeFromVariant(map.value("left"));
+    right_ = ExprAST::makeFromVariant(map.value("right"));
+
+    color_= QColor::fromRgb(128,0,128);
+}
