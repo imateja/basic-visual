@@ -55,6 +55,11 @@ void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posi
     connect(newinstr, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 }
 
+void BlockExprAST::remove(InstructionExprAST* instr){
+    auto pos = body_.indexOf(instr);
+    body_.remove(pos);
+}
+
 IfExprAST::~IfExprAST(){
     delete cond_;
     delete then_;
@@ -362,6 +367,7 @@ QString FunctionExprAST::stringify() {
     return {};
 }
 
+<<<<<<< HEAD
 //------------------ toVariant -------------------
 
 QVariant StartExprAST::toVariant() const
@@ -456,3 +462,11 @@ FunctionExprAST::FunctionExprAST(const QVariant& v)
 {
 //TODO: ???
 }
+=======
+void InstructionExprAST::deleteMe(){
+    auto parent = static_cast<BlockExprAST*>(parentItem());
+    parent->remove(this);
+    delete this;
+}
+
+>>>>>>> 8c1792a74be44069379a8d7b5d3c970331c6e20f

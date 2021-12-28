@@ -43,5 +43,5 @@ QVariant State::getValue(const QString& variable)
         }
     }
 
-    return QString("Expression not finished :: Variable " + variable + " does not exist");
+    return QString("Variable :: " + variable + " does not exist");
 }

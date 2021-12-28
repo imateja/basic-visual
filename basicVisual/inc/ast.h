@@ -89,6 +89,7 @@ public:
     virtual void AcceptVisit(VisitorAST&) = 0;
     virtual Priority getPriority() = 0;
     virtual QString stringify() = 0;
+    virtual void deleteMe();
     inline float getWidth() const { return boundingRect().width(); }
     inline float getHeight() const { return boundingRect().height();}
     //virtual ExprAST* copy() const = 0;
@@ -139,6 +140,7 @@ public:
     QString stringify() final;
     QVariant toVariant() const override;
 
+    void deleteMe() override {};
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
@@ -183,7 +185,6 @@ public:
     QString stringify() final;  //the same as getName
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
@@ -191,9 +192,18 @@ private:
     QString name_;
 };
 
+class OperatorExprAST : public ExprAST
+{
+public:
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+protected:
+    QRectF opcircle_;
+    QPointF center_;
+    QString op_;
 
+};
 
-class UnaryExprAST : public ExprAST
+class UnaryExprAST : public OperatorExprAST
 {
 public:
     UnaryExprAST(ExprAST *operand = nullptr)
@@ -211,14 +221,13 @@ public:
     QString stringify() final;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
     QRectF boundingRect() const override;
-    QRectF opcircle_;
+
     ~UnaryExprAST();
     void updateChildren() final;
-    //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 
 protected:
     ExprAST* operand_;
-    QString op_;
+
 };
 
 class NotExprAST final : public UnaryExprAST
@@ -240,7 +249,7 @@ public:
 
 };
 
-class BinaryExprAST : public ExprAST
+class BinaryExprAST : public OperatorExprAST
 {
 public:
     BinaryExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
@@ -273,13 +282,11 @@ public:
     QColor color_= QColor::fromRgb(128,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
     QRectF boundingRect() const override;
-    QRectF opcircle_;
     void updateChildren() final;
-    //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+
 
 protected:
     ExprAST *left_, *right_;
-    QString op_;
 };
 
 class MulExprAST final : public BinaryExprAST

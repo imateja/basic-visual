@@ -395,8 +395,15 @@ void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     const float gap=10.0f;
     //painter->fillRect(br, color_);
     painter->setPen(Qt::white);
-    opcircle_ = QRect( -opr/2,-br.height()/2 + gap,opr,opr);
-    painter->setBrush(QColor::fromRgb(0,128,0));
+    //opcircle_ = QRect( -opr/2,-br.height()/2 + gap,opr,opr);
+    opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
+    center_ = QPointF(0, -br.height()/2+opr/2);
+    if(this->isSelected()){
+        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+        painter->setBrush(selectedBrush);
+    }else {
+        painter->setBrush(QColor::fromRgb(0,128,0));
+    }
     painter->drawEllipse(opcircle_);
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
     operand_->setPos(-br.width()/2 +operand_->getWidth() + gap, -br.height()/2 +2*gap +opcircle_.height()+ operand_->getHeight()/2);
@@ -424,8 +431,16 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     const float gap=10.0f;
     //painter->fillRect(br, color_);
     painter->setPen(Qt::white);
-    opcircle_ = QRect( -opr/2,-br.height()/2,opr,opr);
-    painter->setBrush(QColor::fromRgb(0,128,0));
+    opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
+    center_ = QPointF(0, -br.height()/2+opr/2);
+    if(this->isSelected()){
+        //qDebug() << "please";
+        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
+        painter->setBrush(selectedBrush);
+    }else {
+        painter->setBrush(QColor::fromRgb(0,128,0));
+    }
+
     painter->drawEllipse(opcircle_);
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
     left_->setPos(-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ left_->getHeight()/2);
@@ -450,7 +465,30 @@ void PlaceholderExprAST::updateChildren(){
     }
 }
 
+<<<<<<< HEAD
 //--------------------toVariant--------------------
+=======
+inline bool isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition){
+    return pow(center.x()-mousePosition.x(),2) + pow(center.y()-mousePosition.y(),2) <= pow(opcircle.height()/2,2);
+}
+
+void OperatorExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    auto mousePosition = event->pos();
+    qDebug() << center_<<opcircle_<<mousePosition;
+    emit selectItem(isInCircle(center_,opcircle_,mousePosition)?this:nullptr);
+    QGraphicsItem::mouseDoubleClickEvent(event);
+}
+
+void ExprAST::deleteMe(){
+    auto parent = static_cast<PlaceholderExprAST*>(parentItem());
+    parent->expr_ = nullptr;
+    //deleteLater();
+    delete this;
+}
+
+
+>>>>>>> 8c1792a74be44069379a8d7b5d3c970331c6e20f
 
 QVariant PlaceholderExprAST::toVariant() const
 {

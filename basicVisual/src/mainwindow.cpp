@@ -167,8 +167,17 @@ void MainWindow::addInstruction(InstructionExprAST* newElement){
 }
 void MainWindow::addAssign()
 {
-    auto newElement = new AssignExprAST(QString("x"));
-    addInstruction(newElement);
+    auto var = ui->assignVarName->text();
+    QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
+    if (re.match(var).hasMatch()) {
+        auto newElement = new AssignExprAST(var);
+        ui->assignVarName->clear();
+        addInstruction(newElement);
+    }
+    else {
+        QMessageBox::information(this, "Invalid Variable name", "A valid variable name starts with a letter, followed by letters, digits, or underscores.");
+    }
+
 }
 
 //connect(newElement,&InstructionExprAST::signalSelected,_mainGraphicsView,[=](){
@@ -313,6 +322,18 @@ void MainWindow::addConst()
         QMessageBox::information(this, "Invalid Value", "A valid value consists only of digits (with zero or one decimal dot).");
     }
 }
+
+void MainWindow::deletePushed(){
+    auto item = _mainGraphicsScene->getSelectedItem();
+    if(item){
+        item->deleteMe();
+        _mainGraphicsScene->setSelectedItem(nullptr);
+        _mainGraphicsScene->selectItem();
+        updateScene();
+        position();
+    }
+}
+
 void MainWindow::setupConnections()
 {
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
@@ -336,6 +357,8 @@ void MainWindow::setupConnections()
     connect(ui->varBtn, &QPushButton::clicked, this, &MainWindow::addVar);
     connect(ui->constBtn, &QPushButton::clicked, this, &MainWindow::addConst);
     connect(ui->backBtn, &QPushButton::clicked, this, &MainWindow::backPushed);
+    connect(ui->deleteBtn, &QPushButton::clicked, this, &MainWindow::deletePushed);
+    connect(ui->deleteBtn_2, &QPushButton::clicked, this, &MainWindow::deletePushed);
 
 }
 

@@ -52,6 +52,7 @@ private slots:
     void addVar();
     void addConst();
     void backPushed();
+    void deletePushed();
 
 private:
     void addInstruction(InstructionExprAST*);

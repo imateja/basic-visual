@@ -17,7 +17,7 @@ public:
       :ExprAST(parent)
     {}
     ~InstructionExprAST(){}
-
+    void deleteMe() override;
     virtual ExprAST* getEditableExpr() = 0;
     inline Priority getPriority() final {return Priority::INSTRUCTION;}
 };
@@ -37,7 +37,7 @@ public:
     QString stringify() final;
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
-
+    void deleteMe() override {};
     //QRectF boundingRect() const override;
     QColor color_= QColor::fromRgb(0,128,0);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -92,12 +92,14 @@ public:
     void AcceptVisit(VisitorAST&) override;
     void updateChildren() final;
     void insert(InstructionExprAST*, InstructionExprAST* = nullptr);
+    void remove(InstructionExprAST* instr);
     ExprAST* getEditableExpr() override { return nullptr; }
     inline QVector<InstructionExprAST*> getBody() {return body_;}
     QString stringify() final;
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
     QRectF boundingRect() const override;
+    void deleteMe() override {} ;
     QColor color_= QColor::fromRgb(0,0,128);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
