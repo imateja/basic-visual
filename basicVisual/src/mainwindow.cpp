@@ -11,6 +11,7 @@
 #include <QString>
 #include <QAbstractScrollArea>
 #include <QWidget>
+#include <QRegularExpression>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -289,18 +290,28 @@ void MainWindow::addNeq()
 void MainWindow::addVar()
 {
     auto var = ui->varTF->toPlainText();
-    //TODO provera unosa
-    auto elem = new VariableExprAST(var);
-    addExpr(elem);
-    ui->varTF->clear();
+    QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
+    if (re.match(var).hasMatch()) {
+        auto elem = new VariableExprAST(var);
+        addExpr(elem);
+        ui->varTF->clear();
+    }
+    else {
+        QMessageBox::information(this, "Invalid Variable name", "A valid variable name starts with a letter, followed by letters, digits, or underscores.");
+    }
 }
 void MainWindow::addConst()
 {
-    auto val = ui->constTF->toPlainText().toDouble();
-    //TODO provra unosa
-    auto elem = new ValueExprAST(val);
-    addExpr(elem);
-    ui->constTF->clear();
+    bool ok;
+    auto val = ui->constTF->toPlainText().toDouble(&ok);
+    if (ok) {
+        auto elem = new ValueExprAST(val);
+        addExpr(elem);
+        ui->constTF->clear();
+    }
+    else {
+        QMessageBox::information(this, "Invalid Value", "A valid value consists only of digits (with zero or one decimal dot).");
+    }
 }
 void MainWindow::setupConnections()
 {
