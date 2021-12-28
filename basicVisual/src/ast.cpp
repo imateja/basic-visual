@@ -301,6 +301,19 @@ QString BinaryExprAST::stringify() {
     return retVal;
 }
 
+QBrush ExprAST::setBrush() {
+    QBrush brush = QBrush(color_);
+    if (errorFound) {
+        brush.setColor(Qt::red);
+        brush.setStyle(Qt::Dense1Pattern);
+    }
+    if(this->isSelected()){
+        brush.setColor(Qt::green);
+        brush.setStyle(Qt::Dense1Pattern);
+    }
+    return brush;
+}
+
 QRectF PlaceholderExprAST::boundingRect() const{
     float w=60;
     float h=60;
@@ -316,24 +329,13 @@ void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem
     if(expr_){
         expr_->setPos(0,0);
     } else {
-        if(this->isSelected()){
-            QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-            painter->fillRect(br,selectedBrush);
-        }else {
-            painter->fillRect(br, QColor::fromRgb(128, 0, 0));
-        }
+        painter->fillRect(br,setBrush());
         painter->setPen(Qt::white);
-        painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, QString("[ ]"));
-        emit ShouldUpdateScene();
+        painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, QString("[ ]"));   
     }
-
-
-
-    //TODO:Default case (maybe throw error)
-    //emit ShouldUpdateScene();
+    emit ShouldUpdateScene();
 }
 
-//TODO implement paint functions
 
 //----------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------
@@ -352,7 +354,7 @@ void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(widget)
 
     auto br = boundingRect();
-    painter->fillRect(br, color_);
+    painter->fillRect(br, setBrush());
     painter->setPen(Qt::white);
     const auto SquareText = QString::number(value_);
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
@@ -368,7 +370,7 @@ void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(widget)
 
     auto br = boundingRect();
-    painter->fillRect(br, color_);
+    painter->fillRect(br, setBrush());
     painter->setPen(Qt::white);
 
     const auto SquareText = name_;
@@ -398,12 +400,7 @@ void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     //opcircle_ = QRect( -opr/2,-br.height()/2 + gap,opr,opr);
     opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
     center_ = QPointF(0, -br.height()/2+opr/2);
-    if(this->isSelected()){
-        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-        painter->setBrush(selectedBrush);
-    }else {
-        painter->setBrush(QColor::fromRgb(0,128,0));
-    }
+    painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
     operand_->setPos(-br.width()/2 +operand_->getWidth() + gap, -br.height()/2 +2*gap +opcircle_.height()+ operand_->getHeight()/2);
@@ -429,18 +426,10 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     float opr = 60.0f;
     auto br = boundingRect();
     const float gap=10.0f;
-    //painter->fillRect(br, color_);
     painter->setPen(Qt::white);
     opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
     center_ = QPointF(0, -br.height()/2+opr/2);
-    if(this->isSelected()){
-        //qDebug() << "please";
-        QBrush selectedBrush = QBrush(Qt::green,Qt::Dense1Pattern);
-        painter->setBrush(selectedBrush);
-    }else {
-        painter->setBrush(QColor::fromRgb(0,128,0));
-    }
-
+    painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
     left_->setPos(-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ left_->getHeight()/2);
@@ -472,7 +461,6 @@ inline bool isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition){
 void OperatorExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     auto mousePosition = event->pos();
-    qDebug() << center_<<opcircle_<<mousePosition;
     emit selectItem(isInCircle(center_,opcircle_,mousePosition)?this:nullptr);
     QGraphicsItem::mouseDoubleClickEvent(event);
 }

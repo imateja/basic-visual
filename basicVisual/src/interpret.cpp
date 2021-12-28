@@ -7,8 +7,11 @@ int Interpret::boolTypeId = QVariant(static_cast<bool>(true)).typeId();
 int Interpret::qstringTypeId = QVariant(static_cast<QString>("")).typeId();
 double Interpret::eps = 0.000001;
 
-void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST&) {
+void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
+    obj.errorFound = false;
+
     value_ = QString("Expression not finished :: Placeholder exists.");
+    obj.errorFound = true;
 }
 
 void Interpret::VisitValueExprAST(ValueExprAST& obj) {
@@ -16,10 +19,17 @@ void Interpret::VisitValueExprAST(ValueExprAST& obj) {
 }
 
 void Interpret::VisitVariableExprAST(VariableExprAST& obj) {
+    obj.errorFound = false;
+
     value_ = State::Domains().getValue(obj.getName());
+    if (value_.typeId() == qstringTypeId) {
+        obj.errorFound = true;
+    }
 }
 
 void Interpret::VisitNotExprAST(NotExprAST& obj) {
+    obj.errorFound = false;
+
     auto op = Interpret(obj.getOperand()).value_;
     if (op.typeId() == qstringTypeId) {
         value_ = op;
@@ -27,6 +37,7 @@ void Interpret::VisitNotExprAST(NotExprAST& obj) {
     }
     if (op.typeId() != boolTypeId) {
         value_ = QString("Not :: Invalid operand, boolean required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -34,6 +45,8 @@ void Interpret::VisitNotExprAST(NotExprAST& obj) {
 }
 
 void Interpret::VisitMulExprAST(MulExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -41,6 +54,7 @@ void Interpret::VisitMulExprAST(MulExprAST& obj) {
     }
     if (l.typeId() != doubleTypeId) {
         value_ = QString("Mul :: Invalid left operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -51,6 +65,7 @@ void Interpret::VisitMulExprAST(MulExprAST& obj) {
     }
     if (r.typeId() != doubleTypeId) {
         value_ = QString("Mul :: Invalid right operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -58,6 +73,8 @@ void Interpret::VisitMulExprAST(MulExprAST& obj) {
 }
 
 void Interpret::VisitDivExprAST(DivExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -65,6 +82,7 @@ void Interpret::VisitDivExprAST(DivExprAST& obj) {
     }
     if (l.typeId() != doubleTypeId) {
         value_ = QString("Div :: Invalid left operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -75,12 +93,14 @@ void Interpret::VisitDivExprAST(DivExprAST& obj) {
     }
     if (r.typeId() != doubleTypeId) {
         value_ = QString("Div :: Invalid right operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
     if (qFabs(r.toDouble()) < eps)
     {
         value_ = QString("Div :: Dividing with 0.");
+        obj.errorFound = true;
         return;
     }
 
@@ -88,6 +108,8 @@ void Interpret::VisitDivExprAST(DivExprAST& obj) {
 }
 
 void Interpret::VisitAddExprAST(AddExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -95,6 +117,7 @@ void Interpret::VisitAddExprAST(AddExprAST& obj) {
     }
     if (l.typeId() != doubleTypeId) {
         value_ = QString("Add :: Invalid left operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -105,6 +128,7 @@ void Interpret::VisitAddExprAST(AddExprAST& obj) {
     }
     if (r.typeId() != doubleTypeId) {
         value_ = QString("Add :: Invalid right operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -112,6 +136,8 @@ void Interpret::VisitAddExprAST(AddExprAST& obj) {
 }
 
 void Interpret::VisitSubExprAST(SubExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -119,6 +145,7 @@ void Interpret::VisitSubExprAST(SubExprAST& obj) {
     }
     if (l.typeId() != doubleTypeId) {
         value_ = QString("Sub :: Invalid left operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -129,6 +156,7 @@ void Interpret::VisitSubExprAST(SubExprAST& obj) {
     }
     if (r.typeId() != doubleTypeId) {
         value_ = QString("Sub :: Invalid right operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -136,6 +164,8 @@ void Interpret::VisitSubExprAST(SubExprAST& obj) {
 }
 
 void Interpret::VisitLtExprAST(LtExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -143,6 +173,7 @@ void Interpret::VisitLtExprAST(LtExprAST& obj) {
     }
     if (l.typeId() != doubleTypeId) {
         value_ = QString("Lt :: Invalid left operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -153,6 +184,7 @@ void Interpret::VisitLtExprAST(LtExprAST& obj) {
     }
     if (r.typeId() != doubleTypeId) {
         value_ = QString("Lt :: Invalid right operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -160,6 +192,8 @@ void Interpret::VisitLtExprAST(LtExprAST& obj) {
 }
 
 void Interpret::VisitLeqExprAST(LeqExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -167,6 +201,7 @@ void Interpret::VisitLeqExprAST(LeqExprAST& obj) {
     }
     if (l.typeId() != doubleTypeId) {
         value_ = QString("Leq :: Invalid left operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -177,6 +212,7 @@ void Interpret::VisitLeqExprAST(LeqExprAST& obj) {
     }
     if (r.typeId() != doubleTypeId) {
         value_ = QString("Leq :: Invalid right operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -184,6 +220,8 @@ void Interpret::VisitLeqExprAST(LeqExprAST& obj) {
 }
 
 void Interpret::VisitGtExprAST(GtExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -191,6 +229,7 @@ void Interpret::VisitGtExprAST(GtExprAST& obj) {
     }
     if (l.typeId() != doubleTypeId) {
         value_ = QString("Gt :: Invalid left operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -201,6 +240,7 @@ void Interpret::VisitGtExprAST(GtExprAST& obj) {
     }
     if (r.typeId() != doubleTypeId) {
         value_ = QString("Gt :: Invalid right operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -208,6 +248,8 @@ void Interpret::VisitGtExprAST(GtExprAST& obj) {
 }
 
 void Interpret::VisitGeqExprAST(GeqExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -215,6 +257,7 @@ void Interpret::VisitGeqExprAST(GeqExprAST& obj) {
     }
     if (l.typeId() != doubleTypeId) {
         value_ = QString("Geq :: Invalid left operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -225,6 +268,7 @@ void Interpret::VisitGeqExprAST(GeqExprAST& obj) {
     }
     if (r.typeId() != doubleTypeId) {
         value_ = QString("Geq :: Invalid right operand, number required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -232,6 +276,8 @@ void Interpret::VisitGeqExprAST(GeqExprAST& obj) {
 }
 
 void Interpret::VisitEqExprAST(EqExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -252,10 +298,13 @@ void Interpret::VisitEqExprAST(EqExprAST& obj) {
     }
     else {
         value_ = QString("Eq :: Invalid operand(s).");
+        obj.errorFound = true;
     }
 }
 
 void Interpret::VisitNeqExprAST(NeqExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -276,10 +325,13 @@ void Interpret::VisitNeqExprAST(NeqExprAST& obj) {
     }
     else {
         value_ = QString("Neq :: Invalid operand(s).");
+        obj.errorFound = true;
     }
 }
 
 void Interpret::VisitAndExprAST(AndExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -287,6 +339,7 @@ void Interpret::VisitAndExprAST(AndExprAST& obj) {
     }
     if (l.typeId() != boolTypeId) {
         value_ = QString("And :: Invalid left operand, boolean required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -297,6 +350,7 @@ void Interpret::VisitAndExprAST(AndExprAST& obj) {
     }
     if (r.typeId() != boolTypeId) {
         value_ = QString("And :: Invalid right operand, boolean required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -304,6 +358,8 @@ void Interpret::VisitAndExprAST(AndExprAST& obj) {
 }
 
 void Interpret::VisitOrExprAST(OrExprAST& obj) {
+    obj.errorFound = false;
+
     auto l = Interpret(obj.getLeft()).value_;
     if (l.typeId() == qstringTypeId) {
         value_ = l;
@@ -311,6 +367,7 @@ void Interpret::VisitOrExprAST(OrExprAST& obj) {
     }
     if (l.typeId() != boolTypeId) {
         value_ = QString("Or :: Invalid left operand, boolean required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -321,6 +378,7 @@ void Interpret::VisitOrExprAST(OrExprAST& obj) {
     }
     if (r.typeId() != boolTypeId) {
         value_ = QString("Or :: Invalid right operand, boolean required.");
+        obj.errorFound = true;
         return;
     }
 
@@ -362,6 +420,8 @@ void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
 }
 
 void Interpret::VisitIfExprAST(IfExprAST& obj) {
+    obj.errorFound = false;
+
     value_ = QVariant();
 
     auto instrCond = Interpret(obj.getCond()).value_;
@@ -371,6 +431,7 @@ void Interpret::VisitIfExprAST(IfExprAST& obj) {
     }
     if (instrCond.typeId() != boolTypeId) {
         value_ = QString("If :: Invalid condition.");
+        obj.errorFound = true;
         return;
     }
 
@@ -378,6 +439,7 @@ void Interpret::VisitIfExprAST(IfExprAST& obj) {
 }
 
 void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
+    obj.errorFound = false;
     value_ = QVariant();
 
     while (true) {
@@ -388,6 +450,7 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
         }
         if (instrCond.typeId() != boolTypeId) {
             value_ = QString("While :: Invalid condition.");
+            obj.errorFound = true;
             return;
         }
 
