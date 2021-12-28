@@ -58,6 +58,9 @@
              </widget>
             </item>
             <item>
+             <widget class="QLineEdit" name="assignVarName"/>
+            </item>
+            <item>
              <widget class="QPushButton" name="WhileBtn">
               <property name="text">
                <string>While</string>
