@@ -450,4 +450,231 @@ void PlaceholderExprAST::updateChildren(){
     }
 }
 
+//--------------------toVariant--------------------
 
+QVariant PlaceholderExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "PlaceholderExprAST");
+    map.insert("isFull", static_cast<bool>(expr_ != nullptr));
+    if(expr_){
+        map.insert("expr", expr_->toVariant());
+    }
+    return map;
+}
+
+QVariant ValueExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "ValueExprAST");
+    map.insert("value", value_);
+    return map;
+}
+
+QVariant VariableExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "ValueExprAST");
+    map.insert("name", name_);
+    return map;
+}
+
+QVariant NotExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "NotExprAST");
+    map.insert("operand", operand_->toVariant());
+    return map;
+}
+
+QVariant MulExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "MulExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant DivExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "DivExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant AddExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "AddExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant SubExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "SubExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant LtExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "LtExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant LeqExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "LeqExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant GtExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "GtExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant GeqExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "GeqExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant EqExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "EqExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+
+QVariant NeqExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "NeqExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant AndExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "AndExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+QVariant OrExprAST::toVariant() const
+{
+    QVariantMap map;
+    map.insert("type", "OrExprAST");
+    map.insert("left", left_->toVariant());
+    map.insert("right", right_->toVariant());
+    return map;
+}
+
+//---------------------------------------------------------------
+
+ExprAST* ExprAST::makeFromVariant(const QVariant& v){
+        QVariantMap m = v.toMap();
+        if(m.empty())
+        {
+            return nullptr;
+        }
+        QString type = m.value("type").toString();
+        if(type == "PlaceholderExprAST"){
+            return new PlaceholderExprAST(v);
+        } else if (type == "ValueExprAST") {
+            return new ValueExprAST(v);
+        } else if (type == "VariableExprAST") {
+            return new VariableExprAST(v);
+        } else if (type == "NotExprAST") {
+            return new NotExprAST(v);
+        } else if (type == "NotExprAST") {
+            return new MulExprAST(v);
+        } else if (type == "MulExprAST") {
+            return new DivExprAST(v);
+        } else if (type == "DivExprAST") {
+            return new AddExprAST(v);
+        } else if (type == "AddExprAST") {
+            return new SubExprAST(v);
+        } else if (type == "SubExprAST") {
+            return new LtExprAST(v);
+        } else if (type == "LtExprAST") {
+            return new LeqExprAST(v);
+        } else if (type == "LeqExprAST") {
+            return new GtExprAST(v);
+        } else if (type == "GtExprAST") {
+            return new GeqExprAST(v);
+        } else if (type == "GeqExprAST") {
+            return new EqExprAST(v);
+        } else if (type == "EqExprAST") {
+            return new NeqExprAST(v);
+        } else if (type == "NeqExprAST") {
+            return new AndExprAST(v);
+        } else if (type == "AndExprAST") {
+            return new AndExprAST(v);
+        } else if (type == "OrExprAST") {
+            return new OrExprAST(v);
+        } else {
+            return nullptr;
+        }
+    }
+
+//-------------------- QVariant constructors --------------------
+
+PlaceholderExprAST::PlaceholderExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    expr_ = (map.value("isFull").toBool())
+          ? makeFromVariant(map.value("expr"))
+          : nullptr;
+}
+
+ValueExprAST::ValueExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    value_ = map.value("value").toDouble();
+}
+
+VariableExprAST::VariableExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    name_ = map.value("name").toString();
+}
+
+UnaryExprAST::UnaryExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    operand_ = ExprAST::makeFromVariant(map.value("operand"));
+}
+
+BinaryExprAST::BinaryExprAST(const QVariant& v)
+{
+    QVariantMap map = v.toMap();
+    left_ = ExprAST::makeFromVariant(map.value("left"));
+    right_ = ExprAST::makeFromVariant(map.value("right"));
+}
