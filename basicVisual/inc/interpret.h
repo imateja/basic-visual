@@ -43,6 +43,7 @@ public:
 
     static int doubleTypeId;
     static int boolTypeId;
+    static int qstringTypeId;
     static double eps;
 
 private:
