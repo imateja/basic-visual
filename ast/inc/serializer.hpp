@@ -8,9 +8,9 @@
 class Serializer
 {
 public:
-    Serializer();
+    Serializer() = default;
     void save(const Serializable& serializable, const QString& filepath);
-    void load(ExprAST* serializable, const QString& filepath);
+    QVariant load(const QString& filepath);
 };
 
 #endif // SERIALIZER_H
