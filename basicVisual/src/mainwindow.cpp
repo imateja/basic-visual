@@ -5,9 +5,11 @@
 #include <QAbstractScrollArea>
 #include <QWidget>
 #include <QRegularExpression>
+#include <QThread>
 #include "./ui_mainwindow.h"
 #include <mainwindow.hpp>
 #include <exprtree.hpp>
+#include <interpret.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -33,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mainBlock,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
     connect(mainBlock,&ExprAST::updateSelection,_mainGraphicsScene,&mainGraphicsScene::selectItem);
 
-
+    Interpret::mutex_.lock();
 //    mainBlock= new BlockExprAST();
 //    _mainGraphicsView->addItem(mainBlock);
 //    mainBlock->setParent(_mainGraphicsView);
@@ -42,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    mainBlock->setPos(sceneCenter.x(), 0);
     setupActions();
     setupConnections();
+    ui->nextBtn->hide();
 
     ui->mainGV->viewport()->installEventFilter(this);
 }
@@ -330,6 +333,11 @@ void MainWindow::deletePushed(){
     }
 }
 
+void MainWindow::nextPushed()
+{
+    Interpret::mutex_.unlock();
+}
+
 void MainWindow::setupConnections()
 {
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
@@ -355,6 +363,7 @@ void MainWindow::setupConnections()
     connect(ui->backBtn, &QPushButton::clicked, this, &MainWindow::backPushed);
     connect(ui->deleteBtn, &QPushButton::clicked, this, &MainWindow::deletePushed);
     connect(ui->deleteBtn_2, &QPushButton::clicked, this, &MainWindow::deletePushed);
+    connect(ui->nextBtn, &QPushButton::clicked, this, &MainWindow::nextPushed);
 
 }
 
@@ -364,6 +373,8 @@ void MainWindow::setupActions()
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onActionSave);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::onActionSaveAs);
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::onActionExit);
+    connect(ui->actionRun, &QAction::triggered, this, &MainWindow::onActionRun);
+    connect(ui->actionDebug, &QAction::triggered, this, &MainWindow::onActionDebug);
 }
 //TODO:other actions
 void MainWindow::onActionOpen()
@@ -400,6 +411,36 @@ void MainWindow::onActionExit()
         MainWindow::close();
     else
         return;
+}
+
+void MainWindow::onActionRun()
+{
+    Interpret::steps = false;
+    QThread* thread = new QThread;
+    Worker* worker = new Worker(mainBlock);
+    worker->moveToThread(thread);
+    connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
+    connect(thread, SIGNAL(started()), worker, SLOT(process()));
+    connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    thread->start();
+}
+
+void MainWindow::onActionDebug()
+{
+    ui->nextBtn->show();
+    Interpret::steps = true;
+    QThread* thread = new QThread;
+    Worker* worker = new Worker(mainBlock);
+    worker->moveToThread(thread);
+    connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
+    connect(thread, SIGNAL(started()), worker, SLOT(process()));
+    connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    connect(worker, SIGNAL(finished()), ui->nextBtn, SLOT(hide));
+    thread->start();
 }
 
 
