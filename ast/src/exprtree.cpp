@@ -132,6 +132,7 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     auto br = boundingRect();
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 15));
     const auto SquareText = QString("%1\n").arg("start");
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
@@ -155,6 +156,7 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     auto br = boundingRect();
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 15));
     const auto SquareText = QString(instructionName_ +"\n"+stringify());
     qDebug()<<"evo me u paintu"<<stringify();
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
@@ -232,6 +234,7 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     float ifh = 60;
     painter->fillRect(br, QColor::fromRgb(20,20,20));
     painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 15));
     const float gap=10.0f;
     ifrectangle_ = QRectF(-br.width()/2,-br.height()/2 + gap,br.width(),ifh);
     painter->fillRect(ifrectangle_,setBrush());
@@ -281,6 +284,7 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     float whileh = 60;
     painter->fillRect(br, QColor::fromRgb(20,20,20));
     painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 15));
     whilerectangle_ = QRectF(-br.width()/2,-br.height()/2 + gap,br.width(),whileh);
     painter->fillRect(whilerectangle_,setBrush());
     painter->drawText(whilerectangle_, Qt::AlignHCenter | Qt::AlignVCenter, "While\n"+stringify());
