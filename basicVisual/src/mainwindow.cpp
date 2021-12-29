@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainGV->setRenderHint(QPainter::Antialiasing);
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     ui->tabWidget->setCurrentIndex(0);
+    ui->tabWidget->setTabEnabled(1,false);
     mainBlock= new BlockExprAST();
     exprItem=nullptr;
     _mainGraphicsScene->addItem(mainBlock);
@@ -103,9 +104,9 @@ void MainWindow::Edit()
         }
 
 
-        ui->ExprEdit->setDisabled(false);
+        ui->tabWidget->setTabEnabled(1,true);
         ui->tabWidget->setCurrentIndex(1);
-        ui->tab->setDisabled(true);
+        ui->tabWidget->setTabEnabled(0,false);
 
         _mainGraphicsScene->clearItems();
         _mainGraphicsScene->addItem(exprItem);
@@ -130,9 +131,9 @@ void MainWindow::Edit()
 void MainWindow::backPushed()
 {
     if(!mainBlock->isVisible()){
-        ui->tab->setDisabled(false);
+        ui->tabWidget->setTabEnabled(0,true);
         ui->tabWidget->setCurrentIndex(0);
-        ui->ExprEdit->setDisabled(true);
+        ui->tabWidget->setTabEnabled(1,false);
 
         disconnect(exprItem,&ExprAST::ShouldUpdateScene,this,&MainWindow::updateScene);
         disconnect(exprItem,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
