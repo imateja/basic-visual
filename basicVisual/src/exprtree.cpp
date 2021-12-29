@@ -403,6 +403,8 @@ AssignExprAST::AssignExprAST(const QVariant& v)
 BlockExprAST::BlockExprAST(const QVariant& v)
 {
     QVariantMap map = v.toMap();
+    qDeleteAll(body_);
+    body_.clear();
     QVariantList list = map.value("body").toList();
     for(auto& expr : list){
         insert(dynamic_cast<InstructionExprAST*>(ExprAST::makeFromVariant(expr)));
