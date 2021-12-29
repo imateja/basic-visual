@@ -3,13 +3,14 @@
 
 #include <QString>
 #include "serializable.h"
+#include "ast.h"
 
 class Serializer
 {
 public:
-    virtual ~Serializer() = default;
-    virtual void save(const Serializable& serializable, const QString& filepath) = 0;
-    virtual void load(Serializable& serializable, const QString& filepath) = 0;
+    Serializer();
+    void save(const Serializable& serializable, const QString& filepath);
+    void load(ExprAST* serializable, const QString& filepath);
 };
 
 #endif // SERIALIZER_H

@@ -48,7 +48,6 @@ set(PROJECT_SOURCES
         src/state.cpp
         src/interpret.cpp
         src/exprtree.cpp
-        #src/serializable.cpp
         src/serializer.cpp
         #tests/test_ast.cpp
 )
