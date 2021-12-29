@@ -45,3 +45,7 @@ QVariant State::getValue(const QString& variable)
 
     return QString("Variable :: " + variable + " does not exist");
 }
+
+void State::clear(){
+    domains_.clear();
+}

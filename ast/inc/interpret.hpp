@@ -40,7 +40,10 @@ public:
     void VisitBlockExprAST(BlockExprAST&) override;
     void VisitIfExprAST(IfExprAST&) override;
     void VisitWhileExprAST(WhileExprAST&) override;
+    void VisitPrintAST(PrintAST&) override;
     void VisitFunctionExprAST(FunctionExprAST&) override;
+
+    inline QString getValue();
 
     static int doubleTypeId;
     static int boolTypeId;
@@ -66,7 +69,7 @@ public slots:
 
 signals:
     void finished();
-    void error(QString err);
+    void sendResult(QString result);
 
 private:
     BlockExprAST* mainBlock_;

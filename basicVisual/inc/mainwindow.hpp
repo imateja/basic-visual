@@ -36,6 +36,7 @@ private slots:
     void addAssign();
     void addWhile();
     void addIf();
+    void addPrint();
     void Edit();
     void addExpr(ExprAST*);
     void addPlus();
@@ -77,6 +78,7 @@ private:
 public slots:
     void updateScene();
     void position();
+    void catchResult(QString);
 
 
     // QObject interface

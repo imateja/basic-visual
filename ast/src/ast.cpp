@@ -296,8 +296,6 @@ QString BinaryExprAST::stringify() const {
     retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
     retVal += " " + op_ + " ";
     retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
-    qDebug()<<static_cast<unsigned>(left_->getPriority())<<static_cast<unsigned>(getPriority())<<static_cast<unsigned>(right_->getPriority());
-
     return retVal;
 }
 

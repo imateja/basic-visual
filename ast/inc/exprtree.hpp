@@ -44,7 +44,7 @@ public:
     QString stringify() const final;
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
-    void deleteMe() override {};
+    void deleteMe() override {}
     //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
@@ -201,6 +201,28 @@ public:
 
 private:
     ExprAST *cond_;
+};
+
+class PrintAST final : public InstructionExprAST
+{
+public:
+    PrintAST(ExprAST* expr = nullptr, QGraphicsItem* parent = nullptr)
+        :expr_(expr!=nullptr?expr:new PlaceholderExprAST()), InstructionExprAST(parent)
+    {
+        color_= QColor::fromRgb(0,60,120);
+    }
+    PrintAST(const QVariant&);
+    void AcceptVisit(VisitorAST&) override;
+    void updateChildren() final {}
+    QString stringify() const final;
+    QVariant toVariant() const override;
+    ~PrintAST();
+    QString instructionName_ = QString("Print");
+    ExprAST* getEditableExpr() override { return expr_; }
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+private:
+    ExprAST* expr_;
 };
 
 class FunctionExprAST final : public ExprAST

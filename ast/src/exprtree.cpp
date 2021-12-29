@@ -19,6 +19,10 @@ void FunctionExprAST::AcceptVisit(VisitorAST& v){
     v.VisitFunctionExprAST(*this);
 }
 
+void PrintAST::AcceptVisit(VisitorAST& v){
+    v.VisitPrintAST(*this);
+}
+
 AssignExprAST::~AssignExprAST(){
     delete expr_;
 }
@@ -26,6 +30,9 @@ AssignExprAST::~AssignExprAST(){
 BlockExprAST::~BlockExprAST(){
    for(auto& next : body_)
        delete next;
+}
+PrintAST::~PrintAST(){
+    delete expr_;
 }
 
 void BlockExprAST::updateChildren()
@@ -158,7 +165,6 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
     const auto SquareText = QString(instructionName_ +"\n"+stringify());
-    qDebug()<<"evo me u paintu"<<stringify();
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
 }
@@ -291,7 +297,28 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     body_->setPos(0,whilerectangle_.height()/2 + gap);
     emit ShouldUpdateScene();
 }
+QRectF PrintAST::boundingRect() const{
+    float w = 100;
+    float h = 60;
+    auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
+    const auto fontrect=fm->boundingRect(stringify());
+    w+=fontrect.width();
+    //qDebug()<<"povecaj me za:"<<fontrect.width();
+    //qDebug()<<"moja sirina je:"<<w;
+    return QRectF(-w/2,-h/2,w,h);
+}
 
+void PrintAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+    auto br = boundingRect();
+    painter->fillRect(br,setBrush());
+    painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 15));
+    const auto SquareText = QString(instructionName_ +"\n"+stringify());
+    painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    emit ShouldUpdateScene();
+}
 void WhileExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     auto mousePosition = event->pos();
@@ -338,6 +365,10 @@ QString IfExprAST::stringify() const {
 
 QString WhileExprAST::stringify() const {
     return cond_->stringify();
+}
+
+QString PrintAST::stringify() const {
+    return expr_->stringify();
 }
 
 QString FunctionExprAST::stringify() const {
@@ -403,6 +434,13 @@ QVariant FunctionExprAST::toVariant() const
     return map;
 }
 
+QVariant PrintAST::toVariant() const {
+    QVariantMap map;
+    map.insert("type", "PrintAST");
+    //???
+    return map;
+}
+
 //-------------------- QVariant constructors --------------------
 
 AssignExprAST::AssignExprAST(const QVariant& v)
@@ -450,5 +488,9 @@ FunctionExprAST::FunctionExprAST(const QVariant& v)
 {
 //TODO: ???
     color_= QColor::fromRgb(0,60,60);
+}
+
+PrintAST::PrintAST(const QVariant&){
+    //TODO
 }
 

@@ -1,4 +1,5 @@
 #include <QtMath>
+#include <QMessageBox>
 #include <interpret.hpp>
 #include <state.hpp>
 
@@ -12,9 +13,12 @@ double Interpret::eps = 0.000001;
 
 void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
     obj.errorFound = false;
-
-    value_ = QString("Expression not finished :: Placeholder exists.");
-    obj.errorFound = true;
+    if(obj.expr_ == nullptr){
+        value_ = QString("Expression not finished :: Placeholder exists.");
+        obj.errorFound = true;
+    } else {
+        value_ = Interpret(obj.expr_).value_;
+    }
 }
 
 void Interpret::VisitValueExprAST(ValueExprAST& obj) {
@@ -461,7 +465,15 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
             return;
         }
 
-        Interpret(obj.getBody());
+        if(!instrCond.toBool()){
+            break;
+        }
+
+        auto instrBody = Interpret(obj.getBody()).value_;
+        if (instrBody.typeId() == qstringTypeId) {
+            value_ = instrCond;
+            return;
+        }
     }
 }
 
@@ -470,8 +482,15 @@ void Interpret::VisitFunctionExprAST(FunctionExprAST& obj) {
     value_ = Interpret(obj.getBody()).value_;
 }
 
+void Interpret::VisitPrintAST(PrintAST& obj) {}
+
+inline QString Interpret::getValue(){
+    return value_.typeId() == qstringTypeId? value_.toString(): "";
+}
+
 void Worker::process() {
    // Domains().clear();
-    Interpret{mainBlock_};
+    auto res = Interpret{mainBlock_}.getValue();
+    emit sendResult(res);
     emit finished();
 }

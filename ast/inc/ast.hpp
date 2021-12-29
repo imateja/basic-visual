@@ -32,6 +32,7 @@ class AssignExprAST;
 class BlockExprAST;
 class IfExprAST;
 class WhileExprAST;
+class PrintAST;
 class FunctionExprAST;
 
 class VisitorAST
@@ -59,8 +60,10 @@ public:
     virtual void VisitBlockExprAST(BlockExprAST&) = 0;
     virtual void VisitIfExprAST(IfExprAST&) = 0;
     virtual void VisitWhileExprAST(WhileExprAST&) = 0;
+    virtual void VisitPrintAST(PrintAST&) = 0;
     virtual void VisitFunctionExprAST(FunctionExprAST&) = 0;
     virtual void VisitStartExprAST(StartExprAST&) = 0;
+
 
 };
 
@@ -146,7 +149,7 @@ public:
     QString stringify() const final;
     QVariant toVariant() const override;
 
-    void deleteMe() override {};
+    void deleteMe() override {}
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
     void updateChildren() final;
