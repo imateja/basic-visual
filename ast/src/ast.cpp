@@ -272,31 +272,31 @@ QRectF ExprAST::boundingRect() const
 //}
 
 //------------ STRINGIFY ------------
-QString PlaceholderExprAST::stringify() {
-    // TODO error handling
-    return {};
+QString PlaceholderExprAST::stringify() const {
+    return expr_? expr_->stringify() : "[]";
 }
 
-QString ValueExprAST::stringify() {
+QString ValueExprAST::stringify() const {
     return QString::number(value_);
 }
 
-QString VariableExprAST::stringify() {
+QString VariableExprAST::stringify() const {
     return name_;
 }
 
-QString UnaryExprAST::stringify() {
+QString UnaryExprAST::stringify() const {
     QString op = operand_->stringify();
     return operand_->getPriority() > getPriority() ? op_ + "(" + op + ")" : op_ + op;
 }
 
-QString BinaryExprAST::stringify() {
+QString BinaryExprAST::stringify() const {
     QString l = left_->stringify();
     QString r = right_->stringify();
     QString retVal;
     retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
     retVal += " " + op_ + " ";
     retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+    qDebug()<<static_cast<unsigned>(left_->getPriority())<<static_cast<unsigned>(getPriority())<<static_cast<unsigned>(right_->getPriority());
 
     return retVal;
 }
