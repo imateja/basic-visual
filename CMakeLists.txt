@@ -48,9 +48,11 @@ endif()
 
 set(PROJECT_SOURCES
         basicVisual/src/mainwindow.ui
+        basicVisual/src/pseudoterminal.ui
         basicVisual/src/main.cpp
         basicVisual/src/mainwindow.cpp
         basicVisual/src/maingraphicsscene.cpp
+        basicVisual/src/pseudoterminal.cpp
         ast/src/ast.cpp
         ast/src/state.cpp
         ast/src/interpret.cpp
@@ -63,6 +65,7 @@ set(PROJECT_SOURCES
 set(PROJECT_HEADERS
         basicVisual/inc/mainwindow.hpp
         basicVisual/inc/maingraphicsscene.hpp
+        basicVisual/inc/pseudoterminal.hpp
         ast/inc/ast.hpp
         ast/inc/state.hpp
         ast/inc/interpret.hpp

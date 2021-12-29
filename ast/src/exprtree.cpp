@@ -171,7 +171,6 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 QRectF BlockExprAST::boundingRect() const
 {
-    const float gap=10.0f;
     float w=0.0f;
     float h=0.0f;
     for(auto &elem : body_) {
@@ -192,9 +191,7 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
    //TODO: check what i can do with this options
     Q_UNUSED(option)
     Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
-    const float gap=10.0f;
+
     auto br = boundingRect();
 
     painter->fillRect(br, color_);
@@ -218,7 +215,7 @@ QRectF IfExprAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
     float ifh = 60;
-    const float gap=10.0f;
+
     w+= then_->getWidth() + else_->getWidth() + 100.0f;
 
     h+= then_->getHeight() > else_->getHeight() ? then_->getHeight() : else_->getHeight();
@@ -241,7 +238,7 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->fillRect(br, QColor::fromRgb(20,20,20));
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
-    const float gap=10.0f;
+
     ifrectangle_ = QRectF(-br.width()/2,-br.height()/2 + gap,br.width(),ifh);
     painter->fillRect(ifrectangle_,setBrush());
     const auto SquareText = QString("%1\n%2").arg(instructionName_, stringify());
@@ -271,7 +268,7 @@ QRectF WhileExprAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
     float whileh = 60;
-    const float gap=10.0f;
+
     h += body_->getHeight() + whileh+ gap*2;
     w += body_->getWidth();
     auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
@@ -285,7 +282,6 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    const float gap=10.0f;
     auto br = boundingRect();
     float whileh = 60;
     painter->fillRect(br, QColor::fromRgb(20,20,20));

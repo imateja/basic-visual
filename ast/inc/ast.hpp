@@ -110,6 +110,7 @@ public:
     virtual void updateChildren() {};
 
     bool errorFound;
+    static float gap;
     QBrush setBrush();
 
 signals:

@@ -1,5 +1,6 @@
 #include <QFontMetrics>
 #include <ast.hpp>
+float ExprAST::gap=10.0f;
 
 //--------------------ACCEPT VISIT--------------------
 
@@ -384,7 +385,7 @@ QRectF UnaryExprAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
     float opr = 60.0f;
-    const float gap=10.0f;
+
     w += operand_->getWidth() + 2 * gap;
     h += operand_->getHeight() + gap*2 + opr;
     return QRect(-w/2,-h/2,w,h);
@@ -395,7 +396,7 @@ void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     float opr = 60.0f;
     auto br = boundingRect();
-    const float gap=10.0f;
+
     //painter->fillRect(br, color_);
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 18));
@@ -405,7 +406,9 @@ void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
-    operand_->setPos(-br.width()/2 +operand_->getWidth() + gap, -br.height()/2 +2*gap +opcircle_.height()+ operand_->getHeight()/2);
+    operand_->setPos(0, -br.height()/2 +2*gap +opcircle_.height()+ operand_->getHeight()/2);
+    painter->setPen(Qt::black);
+    painter->drawLine(0,-br.height()/2+opr,0, -br.height()/2 +gap*2 +opcircle_.height());
     emit ShouldUpdateScene();
 }
 
@@ -414,7 +417,7 @@ QRectF BinaryExprAST::boundingRect() const
     float w=0.0f;
     float h=0.0f;
     float opr = 60.0f;
-    const float gap=10.0f;
+
     w += left_->getWidth() + 100.0f + right_->getWidth();
     h += left_->getHeight() > right_->getHeight() ? left_->getHeight() : right_->getHeight();
     h+= gap + opr;
@@ -427,7 +430,7 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
     float opr = 60.0f;
     auto br = boundingRect();
-    const float gap=10.0f;
+
     painter->setPen(Qt::white);
     opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
     center_ = QPointF(0, -br.height()/2+opr/2);
@@ -435,8 +438,12 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawEllipse(opcircle_);
     painter->setFont(QFont("Times New Roman", 18));
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
+
     left_->setPos(-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ left_->getHeight()/2);
     right_->setPos(br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ right_->getHeight()/2);
+    painter->setPen(Qt::black);
+    painter->drawLine(0,-br.height()/2+opr,-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap +opcircle_.height());
+    painter->drawLine(0,-br.height()/2+opr,br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap +opcircle_.height());
     emit ShouldUpdateScene();
 }
 
