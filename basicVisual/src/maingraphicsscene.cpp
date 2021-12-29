@@ -1,10 +1,6 @@
-#include "inc/maingraphicsscene.hpp"
-#include "inc/instructioncontainer.h"
-#include "inc/instruction.h"
 #include <QDebug>
-
-#include "inc/exprtree.h"
-
+#include <maingraphicsscene.hpp>
+#include <exprtree.hpp>
 
 mainGraphicsScene::mainGraphicsScene(QObject *parent)
     :QGraphicsScene(parent), selectedItem_(nullptr)

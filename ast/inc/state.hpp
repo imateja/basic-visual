@@ -6,7 +6,7 @@
 #include <QString>
 #include <QVariant>
 #include <QDebug>
-#include "ast.h"
+#include <ast.hpp>
 
 class State final
 {

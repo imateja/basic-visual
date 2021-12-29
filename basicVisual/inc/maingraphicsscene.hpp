@@ -1,8 +1,8 @@
 #ifndef MAINGRAPHICSSCENE_H
 #define MAINGRAPHICSSCENE_H
 #include <QGraphicsScene>
-#include "exprtree.h"
 #include <QDebug>
+#include <exprtree.hpp>
 
 class InstructionContainer;
 class Instruction;

@@ -7,8 +7,8 @@
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <algorithm>
-#include "ast.h"
-#include "state.h"
+#include <ast.hpp>
+#include <state.hpp>
 
 class InstructionExprAST : public ExprAST
 {

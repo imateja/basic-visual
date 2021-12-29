@@ -1,7 +1,7 @@
 #include <QJsonDocument>
 #include <QFile>
-#include "inc/serializer.h"
-#include "inc/ast.h"
+#include <serializer.hpp>
+#include <ast.hpp>
 
 Serializer::Serializer()
 {

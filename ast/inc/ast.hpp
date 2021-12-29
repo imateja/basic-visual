@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <QGraphicsObject>
 #include <QGraphicsSceneMouseEvent>
-#include "serializable.h"
+#include <serializable.hpp>
 
 class PlaceholderExprAST;
 class ValueExprAST;

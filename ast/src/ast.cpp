@@ -1,5 +1,5 @@
-#include "inc/ast.h"
 #include <QFontMetrics>
+#include <ast.hpp>
 
 //--------------------ACCEPT VISIT--------------------
 

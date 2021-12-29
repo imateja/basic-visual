@@ -4,9 +4,9 @@
 #include <QMainWindow>
 #include <QWidget>
 #include <QGraphicsScene>
-#include "exprtree.h"
-#include "maingraphicsscene.hpp"
 #include <QDebug>
+#include <exprtree.hpp>
+#include <maingraphicsscene.hpp>
 
 class QGraphicsScene;
 class Instruction;

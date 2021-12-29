@@ -2,8 +2,8 @@
 #define SERIALIZER_H
 
 #include <QString>
-#include "serializable.h"
-#include "ast.h"
+#include <serializable.hpp>
+#include <ast.hpp>
 
 class Serializer
 {

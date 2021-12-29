@@ -3,8 +3,8 @@
 
 #include <QVariant>
 #include <QDebug>
-#include "ast.h"
-#include "exprtree.h"
+#include <ast.hpp>
+#include <exprtree.hpp>
 
 class Interpret final : public VisitorAST
 {

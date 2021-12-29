@@ -1,6 +1,6 @@
 #include <QtMath>
-#include "inc/interpret.h"
-#include "inc/state.h"
+#include <interpret.hpp>
+#include <state.hpp>
 
 int Interpret::doubleTypeId = QVariant(static_cast<double>(0)).typeId();
 int Interpret::boolTypeId = QVariant(static_cast<bool>(true)).typeId();

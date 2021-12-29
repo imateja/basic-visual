@@ -1,17 +1,13 @@
-#include "inc/mainwindow.h"
-#include "./ui_mainwindow.h"
-#include "inc/instruction.h"
-#include "inc/instructioncontainer.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QFileDialog>
-#include "inc/instructiondialog.h"
-
-#include "inc/exprtree.h"
 #include <QString>
 #include <QAbstractScrollArea>
 #include <QWidget>
 #include <QRegularExpression>
+#include "./ui_mainwindow.h"
+#include <mainwindow.hpp>
+#include <exprtree.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
