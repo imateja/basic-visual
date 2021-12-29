@@ -3,6 +3,7 @@
 
 #include <QVariant>
 #include <QDebug>
+#include <QMutex>
 #include <ast.hpp>
 #include <exprtree.hpp>
 
@@ -45,9 +46,30 @@ public:
     static int boolTypeId;
     static int qstringTypeId;
     static double eps;
+    static QMutex mutex_;
+    static bool steps;
 
 private:
     QVariant value_;
+};
+
+class Worker : public QObject {
+    Q_OBJECT
+
+public:
+    Worker(BlockExprAST* mb)
+        :mainBlock_(mb)
+    {}
+
+public slots:
+    void process();
+
+signals:
+    void finished();
+    void error(QString err);
+
+private:
+    BlockExprAST* mainBlock_;
 };
 
 #endif // INTERPRET_H
