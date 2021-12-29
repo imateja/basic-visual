@@ -48,13 +48,16 @@ public:
     void VisitBlockExprAST(BlockExprAST&) override;
     void VisitIfExprAST(IfExprAST&) override;
     void VisitWhileExprAST(WhileExprAST&) override;
-    //void VisitPrintExprAST(PrintExprAST&) override; //new
+    //void VisitPrintAST(PrintAST&) override;
     void VisitFunctionExprAST(FunctionExprAST&) override;
     
+    static int qstringTypeId;
+    static int allocaInstTypeId;
+
     void InitializeModuleAndPassManager();
     AllocaInst* CreateEntryBlockAlloca(Function*, QString);
 private:
-    Value* cValue_;
+    QVariant value_;
 };
 
 #endif // COMPILE_H

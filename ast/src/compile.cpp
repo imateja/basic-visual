@@ -1,5 +1,9 @@
+#include <vector>
 #include <compile.hpp>
 #include <state.hpp>
+
+int Compile::qstringTypeId = QVariant(static_cast<QString>("")).typeId();
+int Compile::allocaInstTypeId = QVariant::fromValue(static_cast<AllocaInst*>(nullptr)).typeId();
 
 LLVMContext TheContext;
 IRBuilder<> Builder(TheContext);
@@ -8,131 +12,106 @@ Module* TheModule;
 legacy::FunctionPassManager* TheFPM;
 
 void Compile::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
-    //TODO error handling
+    value_ = Compile(obj.expr_).value_;
 }
 
 void Compile::VisitValueExprAST(ValueExprAST& obj) {
-    cValue_ = ConstantFP::get(TheContext, APFloat(obj.getValue()));
+    value_ = QVariant::fromValue(ConstantFP::get(TheContext, APFloat(obj.getValue())));
 }
 
 void Compile::VisitVariableExprAST(VariableExprAST& obj) {
-	//TODO Discuss table
+    value_ = State::Domains().getValue(obj.getName());
 }
 
 void Compile::VisitNotExprAST(NotExprAST& obj) {
-    Value* v = Compile(obj.getOperand()).cValue_;
-    if(!v){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateNot(v, "nottmp"); // Maybe CreateNeg ? (Has additional arguments)
+    auto v = Compile(obj.getOperand()).value_;
+    value_ = QVariant::fromValue(Builder.CreateNot(v.value<AllocaInst*>(), "nottmp")); // Maybe CreateNeg ? (Has additional arguments
 }
 
 void Compile::VisitMulExprAST(MulExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateFMul(l, r, "multmp");
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateFMul(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "multmp"));
 }
 
 void Compile::VisitDivExprAST(DivExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateFDiv(l, r, "divtmp");
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateFDiv(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "divtmp"));
 }
 
 void Compile::VisitAddExprAST(AddExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateFAdd(l, r, "addtmp");
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateFAdd(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "addtmp"));
 }
 
 void Compile::VisitSubExprAST(SubExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateFSub(l, r, "subtmp");	
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateFSub(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "subtmp"));
 }
 
 void Compile::VisitLtExprAST(LtExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateUIToFP(Builder.CreateFCmpOLT(l, r, "lttmp"), Type::getDoubleTy(TheContext), "booltmp");
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateUIToFP(Builder.CreateFCmpOLT(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "lttmp"), Type::getDoubleTy(TheContext), "booltmp"));
 }
 
 void Compile::VisitLeqExprAST(LeqExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateUIToFP(Builder.CreateFCmpOLE(l, r, "letmp"), Type::getDoubleTy(TheContext), "booltmp");
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateUIToFP(Builder.CreateFCmpOLE(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "letmp"), Type::getDoubleTy(TheContext), "booltmp"));
 }
 
 void Compile::VisitGtExprAST(GtExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateUIToFP(Builder.CreateFCmpOGT(l, r, "gttmp"), Type::getDoubleTy(TheContext), "booltmp");
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateUIToFP(Builder.CreateFCmpOGT(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "gttmp"), Type::getDoubleTy(TheContext), "booltmp"));
 }
 
 void Compile::VisitGeqExprAST(GeqExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateUIToFP(Builder.CreateFCmpOGE(l, r, "getmp"), Type::getDoubleTy(TheContext), "booltmp");
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateUIToFP(Builder.CreateFCmpOGE(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "getmp"), Type::getDoubleTy(TheContext), "booltmp"));
 }
 
 void Compile::VisitEqExprAST(EqExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateUIToFP(Builder.CreateFCmpOEQ(l, r, "eqtmp"), Type::getDoubleTy(TheContext), "booltmp");
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateUIToFP(Builder.CreateFCmpOEQ(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "eqtmp"), Type::getDoubleTy(TheContext), "booltmp"));
 }
 
 void Compile::VisitNeqExprAST(NeqExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateUIToFP(Builder.CreateFCmpONE(l, r, "netmp"), Type::getDoubleTy(TheContext), "booltmp");
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateUIToFP(Builder.CreateFCmpONE(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "netmp"), Type::getDoubleTy(TheContext), "booltmp"));
 }
 
 void Compile::VisitAndExprAST(AndExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateAnd(l, r, "andtmp"); // Maybe CreateLocigalAnd ?
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateUIToFP(Builder.CreateAnd(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "andtmp"), Type::getDoubleTy(TheContext), "booltmp"));
+    // Maybe CreateLocigalAnd ?
 }
 
 void Compile::VisitOrExprAST(OrExprAST& obj) {
-	Value* l = Compile(obj.getLeft()).cValue_;
-    Value* r = Compile(obj.getRight()).cValue_;
-    if(!l || !r){
-        //TODO error handling
-    }
-    cValue_ = Builder.CreateOr(l, r, "ortmp"); // Maybe CreateLocigalOr ?
+    auto l = Compile(obj.getLeft()).value_;
+    auto r = Compile(obj.getRight()).value_;
+
+    value_ = QVariant::fromValue(Builder.CreateUIToFP(Builder.CreateOr(l.value<AllocaInst*>(), r.value<AllocaInst*>(), "ortmp"), Type::getDoubleTy(TheContext), "booltmp"));
+    // Maybe CreateLocigalOr ?
 }
 
 void Compile::VisitStartExprAST(StartExprAST& obj) {
@@ -140,38 +119,50 @@ void Compile::VisitStartExprAST(StartExprAST& obj) {
 }
 
 void Compile::VisitAssignExprAST(AssignExprAST& obj) {
-	//TODO Discuss table
+    //TODO default value_
+
+    auto instrValue = Compile(obj.getExpr()).value_;
+    if(!instrValue.value<AllocaInst*>()){
+        //TODO error handling
+    }
+    State::Domains().assignValue(obj.getName(), instrValue);
 }
 
 void Compile::VisitBlockExprAST(BlockExprAST& obj) {
+    //TODO default value_
+
+    State::Domains().createNewDomain();
     QVector<InstructionExprAST*> tmpVector = obj.getBody();
     for (unsigned i = 0; i < tmpVector.size(); i++) {
-        Value* expr = Compile(tmpVector[i]).cValue_;
-        if (!expr){
+        auto expr = Compile(tmpVector[i]).value_;
+        if(!expr.value<AllocaInst*>()){
             //TODO error handling
         }
     }
-    cValue_ = ConstantFP::get(TheContext, APFloat(0.0));
+    //value_ = QVariant::fromValue(ConstantFP::get(TheContext, APFloat(0.0)));
+    State::Domains().removeCurrentDomain();
 }
 
 void Compile::VisitIfExprAST(IfExprAST& obj) {
-	Function* f = Builder.GetInsertBlock()->getParent();
+    //TODO default value_
+
+    Function* f = Builder.GetInsertBlock()->getParent();
 	BasicBlock* ThenBB = BasicBlock::Create(TheContext, "then", f);
 	BasicBlock* ElseBB = BasicBlock::Create(TheContext, "else", f);
 	BasicBlock* MergeBB = BasicBlock::Create(TheContext, "ifcont", f);
     
-    Value* condV = Compile(obj.getCond()).cValue_;
-    if(!condV){
+    auto condV = Compile(obj.getCond()).value_;
+    if(!condV.value<AllocaInst*>()){
         //TODO error handling
     }
     
-    Value* tmp = Builder.CreateFCmpONE(condV, ConstantFP::get(TheContext, APFloat(0.0)), "ifcond");
+    Value* tmp = Builder.CreateFCmpONE(condV.value<AllocaInst*>(), ConstantFP::get(TheContext, APFloat(0.0)), "ifcond");
     
     Builder.CreateCondBr(tmp, ThenBB, ElseBB);
     
     Builder.SetInsertPoint(ThenBB);
-    Value* thenV = Compile(obj.getThen()).cValue_;
-    if(!thenV){
+    auto thenV = Compile(obj.getThen()).value_;
+    if(!thenV.value<AllocaInst*>()){
         //TODO error handling
     }
     Builder.CreateBr(MergeBB);
@@ -179,8 +170,8 @@ void Compile::VisitIfExprAST(IfExprAST& obj) {
     
     f->getBasicBlockList().push_back(ElseBB);
     Builder.SetInsertPoint(ElseBB);
-    Value* elseV = Compile(obj.getElse()).cValue_;
-    if(!elseV){
+    auto elseV = Compile(obj.getElse()).value_;
+    if(!elseV.value<AllocaInst*>()){
         //TODO error handling
     }
     Builder.CreateBr(MergeBB);
@@ -189,14 +180,15 @@ void Compile::VisitIfExprAST(IfExprAST& obj) {
     f->getBasicBlockList().push_back(MergeBB);
     Builder.SetInsertPoint(MergeBB);
     PHINode* phi = Builder.CreatePHI(Type::getDoubleTy(TheContext), 2, "iftmp");
-    phi->addIncoming(thenV,ThenBB);
-    phi->addIncoming(elseV,ElseBB);
+    phi->addIncoming(thenV.value<AllocaInst*>(),ThenBB);
+    phi->addIncoming(elseV.value<AllocaInst*>(),ElseBB);
 	
-	cValue_ = phi;
+    value_ = QVariant::fromValue(phi);
 }
 
-//TODO Variable domains
 void Compile::VisitWhileExprAST(WhileExprAST& obj) {
+    //TODO default value_
+
 	Function* f = Builder.GetInsertBlock()->getParent();
     BasicBlock* CondBB = BasicBlock::Create(TheContext, "cond", f);
     BasicBlock* LoopBB = BasicBlock::Create(TheContext, "loop", f);
@@ -205,17 +197,17 @@ void Compile::VisitWhileExprAST(WhileExprAST& obj) {
     Builder.CreateBr(CondBB);
     Builder.SetInsertPoint(CondBB);
   
-    Value* condV = Compile(obj.getCond()).cValue_;
-    if(!condV){
+    auto condV = Compile(obj.getCond()).value_;
+    if(!condV.value<AllocaInst*>()){
         //TODO error handling
     }
     
-    Value* tmp = Builder.CreateFCmpONE(condV, ConstantFP::get(TheContext, APFloat(0.0)), "loopcond");
+    Value* tmp = Builder.CreateFCmpONE(condV.value<AllocaInst*>(), ConstantFP::get(TheContext, APFloat(0.0)), "loopcond");
     Builder.CreateCondBr(tmp, LoopBB, AfterLoopBB);
   
     Builder.SetInsertPoint(LoopBB);
-    Value* bodyV = Compile(obj.getBody()).cValue_;
-    if (!bodyV){
+    auto bodyV = Compile(obj.getBody()).value_;
+    if (!bodyV.value<AllocaInst*>()){
         //TODO error handling
     }
     
@@ -223,12 +215,12 @@ void Compile::VisitWhileExprAST(WhileExprAST& obj) {
 
     Builder.SetInsertPoint(AfterLoopBB);
 
-    cValue_ = ConstantFP::get(TheContext, APFloat(0.0));
+    value_ = QVariant::fromValue(ConstantFP::get(TheContext, APFloat(0.0)));
 }
 
-//TODO Needs "args_" field in FunctionExprAST definition (getArgs())
-//TODO Variable domains
 void Compile::VisitFunctionExprAST(FunctionExprAST& obj) {
+    //TODO default value_
+
     Function* f = TheModule->getFunction(obj.getName().toStdString());
     if(f){
         //TODO error handling (function already defined)
@@ -262,15 +254,15 @@ void Compile::VisitFunctionExprAST(FunctionExprAST& obj) {
      * Ovde ide cuvanje promenljivih
      */
     
-    Value* bodyV = Compile(obj.getBody()).cValue_;
-    if(bodyV){
-        Builder.CreateRet(bodyV);
+    auto bodyV = Compile(obj.getBody()).value_;
+    if(bodyV.value<AllocaInst*>()){
+        Builder.CreateRet(bodyV.value<AllocaInst*>());
         
         verifyFunction(*f);
         
         TheFPM->run(*f);
         
-        cValue_ = f;
+        //value_ = QVariant::fromValue(f);
     }
     else{
         //TODO error handling if bodyV == nullptr 
@@ -282,20 +274,22 @@ void Compile::VisitFunctionExprAST(FunctionExprAST& obj) {
 // printFunction = Function::Create(FT1, Function::ExternalLinkage, "print", TheModule);
 // 
 // Value* Compile::VisitPrintExprAST(PrintExprAST& obj) {
-//     Value* s = Compile(obj.getValue()).cValue_;
-//     if(!v){
+//     //TODO default value_
+//
+//     auto s = Compile(obj.getValue()).value_;
+//     if(!v.value<AllocaInst*>()){
 //         TODO error handling
 //     }
 // 
 //     /* globalni stringovi potreban za ispis */
-//     Str = Builder.CreateGlobalStringPtr("%lf\n");
+//     auto Str = Builder.CreateGlobalStringPtr("%lf\n");
 // 
-//     vector<Value *> ArgsV;
+//     std::vector<AllocaInst*> ArgsV;
 //     ArgsV.push_back(Str);
-//     ArgsV.push_back(s);
+//     ArgsV.push_back(s.value<AllocaInst*>());
 //     Builder.CreateCall(printfFunction, ArgsV, "printCall");
 // 
-//     return s;
+//     return QVariant::fromValue(s);
 // }
 
 void InitializeModuleAndPassManager(){
