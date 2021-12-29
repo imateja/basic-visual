@@ -498,7 +498,7 @@ QVariant ValueExprAST::toVariant() const
 QVariant VariableExprAST::toVariant() const
 {
     QVariantMap map;
-    map.insert("type", "ValueExprAST");
+    map.insert("type", "VariableExprAST");
     map.insert("name", name_);
     return map;
 }
