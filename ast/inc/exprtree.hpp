@@ -222,6 +222,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() final {return Priority::INSTRUCTION;}
     inline QString getName() {return name_;}
+    inline QVector<QString> getParameters() {return parameters_;}
     inline BlockExprAST* getBody() {return body_;}
     QString stringify() final;
     QVariant toVariant() const override;
@@ -231,6 +232,7 @@ public:
 
 private:
     QString name_;
+    QVector<QString> parameters_;
     BlockExprAST* body_;
 };
 

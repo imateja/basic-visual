@@ -54,6 +54,7 @@ set(PROJECT_SOURCES
         ast/src/ast.cpp
         ast/src/state.cpp
         ast/src/interpret.cpp
+        ast/src/compile.cpp
         ast/src/exprtree.cpp
         ast/src/serializer.cpp
         #tests/test_ast.cpp
@@ -66,6 +67,7 @@ set(PROJECT_HEADERS
         ast/inc/ast.hpp
         ast/inc/state.hpp
         ast/inc/interpret.hpp
+        ast/inc/compile.hpp
         ast/inc/exprtree.hpp
         ast/inc/serializable.hpp
         ast/inc/serializer.hpp
@@ -78,27 +80,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         ${PROJECT_HEADERS}
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET basicVisual APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(basicVisual SHARED
-            ${PROJECT_SOURCES}
-            ${PROJECT_HEADERS}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(basicVisual
-            ${PROJECT_SOURCES}
-            ${PROJECT_HEADERS}
-        )
-    endif()
 endif()
 
-target_link_libraries(basicVisual PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+if(LLVM_FOUND)
+    target_link_libraries(basicVisual PRIVATE Qt${QT_VERSION_MAJOR}::Widgets LLVM)
+else()
+    target_link_libraries(basicVisual PRIVATE Qt${QT_VERSION_MAJOR}::Widgets llvm-core::llvm-core)
+endif()
 
 set_target_properties(basicVisual PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
