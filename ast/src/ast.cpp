@@ -272,31 +272,31 @@ QRectF ExprAST::boundingRect() const
 //}
 
 //------------ STRINGIFY ------------
-QString PlaceholderExprAST::stringify() {
-    // TODO error handling
-    return {};
+QString PlaceholderExprAST::stringify() const {
+    return expr_? expr_->stringify() : "[]";
 }
 
-QString ValueExprAST::stringify() {
+QString ValueExprAST::stringify() const {
     return QString::number(value_);
 }
 
-QString VariableExprAST::stringify() {
+QString VariableExprAST::stringify() const {
     return name_;
 }
 
-QString UnaryExprAST::stringify() {
+QString UnaryExprAST::stringify() const {
     QString op = operand_->stringify();
     return operand_->getPriority() > getPriority() ? op_ + "(" + op + ")" : op_ + op;
 }
 
-QString BinaryExprAST::stringify() {
+QString BinaryExprAST::stringify() const {
     QString l = left_->stringify();
     QString r = right_->stringify();
     QString retVal;
     retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
     retVal += " " + op_ + " ";
     retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
+    qDebug()<<static_cast<unsigned>(left_->getPriority())<<static_cast<unsigned>(getPriority())<<static_cast<unsigned>(right_->getPriority());
 
     return retVal;
 }
@@ -331,6 +331,7 @@ void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem
     } else {
         painter->fillRect(br,setBrush());
         painter->setPen(Qt::white);
+        painter->setFont(QFont("Times New Roman", 18));
         painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, QString("[ ]"));   
     }
     emit ShouldUpdateScene();
@@ -356,6 +357,7 @@ void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     auto br = boundingRect();
     painter->fillRect(br, setBrush());
     painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 18));
     const auto SquareText = QString::number(value_);
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
@@ -372,6 +374,7 @@ void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     auto br = boundingRect();
     painter->fillRect(br, setBrush());
     painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 18));
 
     const auto SquareText = name_;
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
@@ -397,6 +400,7 @@ void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     const float gap=10.0f;
     //painter->fillRect(br, color_);
     painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 18));
     //opcircle_ = QRect( -opr/2,-br.height()/2 + gap,opr,opr);
     opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
     center_ = QPointF(0, -br.height()/2+opr/2);
@@ -431,6 +435,7 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     center_ = QPointF(0, -br.height()/2+opr/2);
     painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
+    painter->setFont(QFont("Times New Roman", 18));
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
     left_->setPos(-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ left_->getHeight()/2);
     right_->setPos(br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ right_->getHeight()/2);
