@@ -47,6 +47,9 @@ public:
 
     inline QString getValue();
 
+    inline QVariant getValueTest() { return value_;}
+
+
     static int doubleTypeId;
     static int boolTypeId;
     static int qstringTypeId;

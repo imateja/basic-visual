@@ -49,7 +49,7 @@ endif()
 set(PROJECT_SOURCES
         basicVisual/src/mainwindow.ui
         basicVisual/src/pseudoterminal.ui
-        basicVisual/src/main.cpp
+        #basicVisual/src/main.cpp
         basicVisual/src/mainwindow.cpp
         basicVisual/src/maingraphicsscene.cpp
         basicVisual/src/pseudoterminal.cpp
@@ -58,8 +58,8 @@ set(PROJECT_SOURCES
         ast/src/interpret.cpp
         ast/src/exprtree.cpp
         ast/src/serializer.cpp
-        #tests/test_ast.cpp
-		#tests/catch.cpp
+        tests/test_ast.cpp
+        tests/catch.cpp
 )
 
 set(PROJECT_HEADERS
@@ -72,7 +72,7 @@ set(PROJECT_HEADERS
         ast/inc/exprtree.hpp
         ast/inc/serializable.hpp
         ast/inc/serializer.hpp
-        #tests/catch.hpp
+        tests/catch.hpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -113,4 +113,4 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(basicVisual)
 endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ast/inc basicVisual/inc)
+target_include_directories(${PROJECT_NAME} PUBLIC ast/inc basicVisual/inc tests/)
