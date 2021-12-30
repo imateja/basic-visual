@@ -83,6 +83,7 @@ public slots:
     void catchResult(QString);
 
 
+
     // QObject interface
 public:
     bool eventFilter(QObject *watched, QEvent *event) override;

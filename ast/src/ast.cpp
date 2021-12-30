@@ -1,5 +1,6 @@
 #include <QFontMetrics>
 #include <ast.hpp>
+#include <interpret.hpp>
 float ExprAST::gap=10.0f;
 
 //--------------------ACCEPT VISIT--------------------
@@ -309,6 +310,10 @@ QBrush ExprAST::setBrush() {
     if(this->isSelected()){
         brush.setColor(Qt::green);
         brush.setStyle(Qt::Dense1Pattern);
+    }
+    if(Interpret::steps && this->isCurrent){
+        brush.setColor(Qt::yellow);
+        brush.setStyle(Qt::Dense2Pattern);
     }
     return brush;
 }
