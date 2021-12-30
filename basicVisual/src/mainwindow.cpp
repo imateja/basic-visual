@@ -426,9 +426,9 @@ void MainWindow::onActionExit()
 
 void MainWindow::catchResult(QString result){
     if(result.isEmpty()){
-        QMessageBox::information(this,"success","Interpretation finished successfully");
+        QMessageBox::information(this,"Success","Interpretation finished successfully");
     } else {
-        QMessageBox::information(this,"failure",result);
+        QMessageBox::information(this,"Failure",result);
     }
 
 }
