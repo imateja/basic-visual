@@ -53,68 +53,11 @@ void OrExprAST::AcceptVisit(VisitorAST& v){
     v.VisitOrExprAST(*this);
 }
 
-//--------------------OPERATOR=--------------------
-
-//BinaryExprAST& BinaryExprAST::operator= (const BinaryExprAST& be){
-//    if(&be != this){
-//        delete left_;
-//        delete right_;
-//        left_ = be.left_->copy();
-//        right_ = be.right_->copy();
-//    }
-//    return *this;
-//}
-
-//IfExprAST& IfExprAST::operator= (const IfExprAST& ie){
-//    if(&ie != this){
-//        delete cond_;
-//        delete then_;
-//        delete else_;
-//        cond_ = ie.cond_->copy();
-//        then_ = static_cast<BlockExprAST*>(ie.then_->copy());
-//        else_ = static_cast<BlockExprAST*>(ie.else_->copy());
-//    }
-//    return *this;
-//}
-
-//WhileExprAST& WhileExprAST::operator= (const WhileExprAST& we){
-//    if(&we != this){
-//        delete cond_;
-//        delete body_;
-//        cond_ = we.cond_->copy();
-//        body_ = static_cast<BlockExprAST*>(we.body_->copy());
-//    }
-//    return *this;
-//}
-
-//AssignExprAST& AssignExprAST::operator= (const AssignExprAST& ae){
-//    if(&ae != this){
-//        delete expr_;
-//        expr_ = ae.expr_->copy();
-//    }
-//    return *this;
-//}
-
-//BlockExprAST& BlockExprAST::operator= (const BlockExprAST& be){
-//    if(&be != this){
-//        for(auto &x : body_){
-//            delete x;
-//        }
-//        body_ = be.body_;
-//    }
-//    return *this;
-
-//}
-
-//FunctionExprAST& FunctionExprAST::operator= (const FunctionExprAST& fe){
-//    if(&fe != this){
-//        delete body_;
-//        body_ = static_cast<BlockExprAST*>(fe.body_->copy());
-//    }
-//    return *this;
-//}
-
 //--------------------DESTRUCTORS--------------------
+
+PlaceholderExprAST::~PlaceholderExprAST() {
+    delete expr_;
+}
 
 UnaryExprAST::~UnaryExprAST() {
     delete operand_;
@@ -124,86 +67,6 @@ BinaryExprAST::~BinaryExprAST(){
     delete left_;
     delete right_;
 }
-
-//--------------------COPY CONSTRUCTORS--------------------
-
-//BinaryExprAST::BinaryExprAST(const BinaryExprAST& be){
-//    left_ = be.left_->copy();
-//    right_ = be.right_->copy();
-//}
-
-//IfExprAST::IfExprAST(const IfExprAST& ie){
-//    cond_ = ie.cond_->copy();
-//    then_ = static_cast<BlockExprAST*>(ie.then_->copy());
-//    else_ = static_cast<BlockExprAST*>(ie.else_->copy());
-//}
-
-//WhileExprAST::WhileExprAST(const WhileExprAST& we){
-//    cond_ = we.cond_->copy();
-//    body_ = static_cast<BlockExprAST*>(we.body_->copy());
-//}
-
-//AssignExprAST::AssignExprAST(const AssignExprAST& ae){
-//    name_ = ae.name_;
-//    expr_ = ae.expr_->copy();
-//}
-
-//BlockExprAST::BlockExprAST(const BlockExprAST& be){
-//    body_ = be.body_;
-//}
-
-//FunctionExprAST::FunctionExprAST(const FunctionExprAST& fe){
-//    name_ = fe.name_;
-//    body_ = static_cast<BlockExprAST*>(fe.body_->copy());
-//}
-
-//--------------------COPY--------------------
-
-//ExprAST* ValueExprAST::copy() const{
-//    return new ValueExprAST(*this);
-//}
-
-//ExprAST* VariableExprAST::copy() const{
-//    return new VariableExprAST(*this);
-//}
-
-//ExprAST* AddExprAST::copy() const{
-//    return new AddExprAST(*this);
-//}
-
-//ExprAST* SubExprAST::copy() const{
-//    return new SubExprAST(*this);
-//}
-
-//ExprAST* MulExprAST::copy() const{
-//    return new MulExprAST(*this);
-//}
-
-//ExprAST* DivExprAST::copy() const{
-//    return new DivExprAST(*this);
-//}
-
-//ExprAST* LtExprAST::copy() const{
-//    return new LtExprAST(*this);
-//}
-
-//ExprAST* GtExprAST::copy() const{
-//    return new GtExprAST(*this);
-//}
-
-
-//--------------------------------------------
-
-
-
-//TEMP
-//unsigned BlockExprAST::size(){
-//   return body_.size();
-//}
-
-//InstructionContainer* BlockExprAST::at(unsigned i){
-//    return body_.at(i);
-//}
 
 //--------------------SETTERS--------------------
 
@@ -220,7 +83,6 @@ void BinaryExprAST::setRight(ExprAST* expr)
 }
 
 //--------------------------------------------
-
 
 void ExprAST::propagateSelectItem(ExprAST* item){
     emit selectItem(item);
@@ -267,6 +129,7 @@ QRectF ExprAST::boundingRect() const
     float h=80.0f;
     return QRect(-w/2,-h/2,w,h);
 }
+
 //QRectF StartExprAST::boundingRect() const
 //{
 //    return QRect(-w/2,-h/2, w,h-30);
@@ -316,7 +179,7 @@ QBrush ExprAST::setBrush() {
 QRectF PlaceholderExprAST::boundingRect() const{
     float w=60;
     float h=60;
-    return expr_ ? expr_->boundingRect():QRectF(-w/2,-h/2,w,h);
+    return expr_ ? expr_->boundingRect() : QRectF(-w/2,-h/2,w,h);
 }
 
 void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
@@ -336,19 +199,15 @@ void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem
     emit ShouldUpdateScene();
 }
 
+//--------------------- EXPRPAINTING ---------------------
 
-//----------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------
-//---------------------------------------EXPRPAINTING-------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------
-
-QRectF ValueExprAST::boundingRect() const{
+QRectF ValueExprAST::boundingRect() const {
     float w=60;
     float h=60;
     return QRectF(-w/2,-h/2,w,h);
 }
-void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
 
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -361,12 +220,14 @@ void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
 }
+
 QRectF VariableExprAST::boundingRect() const {
     float w=60;
     float h=60;
     return QRectF(-w/2,-h/2,w,h);
 }
-void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
@@ -380,7 +241,6 @@ void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     emit ShouldUpdateScene();
 }
 
-
 QRectF UnaryExprAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
@@ -390,7 +250,8 @@ QRectF UnaryExprAST::boundingRect() const{
     h += operand_->getHeight() + gap*2 + opr;
     return QRect(-w/2,-h/2,w,h);
 }
-void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+
+void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
@@ -412,8 +273,7 @@ void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     emit ShouldUpdateScene();
 }
 
-QRectF BinaryExprAST::boundingRect() const
-{
+QRectF BinaryExprAST::boundingRect() const {
     float w=0.0f;
     float h=0.0f;
     float opr = 60.0f;
@@ -424,7 +284,7 @@ QRectF BinaryExprAST::boundingRect() const
     return QRect(-w/2,-h/2,w,h);
 }
 
-void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
@@ -447,36 +307,36 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     emit ShouldUpdateScene();
 }
 
-void BinaryExprAST::updateChildren(){
+void BinaryExprAST::updateChildren() {
     left_->setParentItem(this);
     right_->setParentItem(this);
     left_->updateChildren();
     right_->updateChildren();
-};
-void UnaryExprAST::updateChildren(){
+}
+
+void UnaryExprAST::updateChildren() {
     operand_->setParentItem(this);
     operand_->updateChildren();
 }
-void PlaceholderExprAST::updateChildren(){
+
+void PlaceholderExprAST::updateChildren() {
     if(expr_){
         expr_->setParentItem(this);
         expr_->updateChildren();
     }
 }
 
-
-inline bool isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition){
+inline bool isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition) {
     return pow(center.x()-mousePosition.x(),2) + pow(center.y()-mousePosition.y(),2) <= pow(opcircle.height()/2,2);
 }
 
-void OperatorExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-{
+void OperatorExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     auto mousePosition = event->pos();
     emit selectItem(isInCircle(center_,opcircle_,mousePosition)?this:nullptr);
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
-void ExprAST::deleteMe(){
+void ExprAST::deleteMe() {
     auto parent = static_cast<PlaceholderExprAST*>(parentItem());
     parent->expr_ = nullptr;
     //deleteLater();

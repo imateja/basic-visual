@@ -63,8 +63,6 @@ public:
     virtual void VisitPrintAST(PrintAST&) = 0;
     virtual void VisitFunctionExprAST(FunctionExprAST&) = 0;
     virtual void VisitStartExprAST(StartExprAST&) = 0;
-
-
 };
 
 enum class Priority
@@ -94,8 +92,7 @@ public:
     virtual QString stringify() const = 0;
     virtual void deleteMe();
     inline float getWidth() const { return boundingRect().width(); }
-    inline float getHeight() const { return boundingRect().height();}
-    //virtual ExprAST* copy() const = 0;
+    inline float getHeight() const { return boundingRect().height(); }
 
     static ExprAST* makeFromVariant(const QVariant& v);
 
@@ -136,6 +133,7 @@ public:
         color_= QColor::fromRgb(128,0,0);
     }
     PlaceholderExprAST(const QVariant& v);
+
     void setExpr(ExprAST* expr){
         expr_ = expr;
         expr_->setParentItem(this);
@@ -143,6 +141,9 @@ public:
         connect(expr_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(expr_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
     }
+
+    ~PlaceholderExprAST();
+
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {
         return expr_ ? expr_->getPriority() : Priority::INSTRUCTION;
@@ -156,13 +157,17 @@ public:
     void updateChildren() final;
 
     ExprAST* expr_;
+
+private:
+    PlaceholderExprAST(const PlaceholderExprAST&) = delete;
+    PlaceholderExprAST& operator=(const PlaceholderExprAST&) = delete;
 };
 
 class ValueExprAST final : public ExprAST
 {
 public:
     ValueExprAST(double value)
-        :value_(value)
+        : value_(value)
     {
         color_= QColor::fromRgb(128,0,128);
     }
@@ -173,19 +178,20 @@ public:
     inline double getValue() {return value_;}
     QString stringify() const final;
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
 private:
     double value_;
+    ValueExprAST(const ValueExprAST&) = delete;
+    ValueExprAST& operator=(const ValueExprAST&) = delete;
 };
 
 class VariableExprAST final : public ExprAST
 {
 public:
     VariableExprAST(QString name)
-        :name_(name)
+        : name_(name)
     {
         color_= QColor::fromRgb(128,0,128);
     }
@@ -194,13 +200,15 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::INSTRUCTION;}
     inline QString getName() {return name_;}
-    QString stringify() const final;  //the same as getName
+    QString stringify() const final;  //TODO this is the same as getName
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
+
 private:
     QString name_;
+    VariableExprAST(const VariableExprAST&) = delete;
+    VariableExprAST& operator=(const VariableExprAST&) = delete;
 };
 
 class OperatorExprAST : public ExprAST
@@ -211,14 +219,13 @@ protected:
     QRectF opcircle_;
     QPointF center_;
     QString op_;
-
 };
 
 class UnaryExprAST : public OperatorExprAST
 {
 public:
     UnaryExprAST(ExprAST *operand = nullptr)
-        :operand_(operand!=nullptr?operand:new PlaceholderExprAST())
+        : operand_(operand != nullptr ? operand : new PlaceholderExprAST())
     {
         operand_->setParentItem(this);
         connect(operand_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
@@ -229,18 +236,18 @@ public:
     }
     UnaryExprAST(const QVariant&);
 
+    ~UnaryExprAST();
+
     inline Priority getPriority() const final {return Priority::UNARY;}
     inline ExprAST* getOperand() {return operand_;}
     QString stringify() const final;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
     QRectF boundingRect() const override;
 
-    ~UnaryExprAST();
     void updateChildren() final;
 
 protected:
     ExprAST* operand_;
-
 };
 
 class NotExprAST final : public UnaryExprAST
@@ -258,7 +265,9 @@ public:
     void AcceptVisit(VisitorAST&) override;
     QVariant toVariant() const override;
 
-    //ExprAST* copy() const override;
+private:
+    NotExprAST(const NotExprAST&) = delete;
+    NotExprAST& operator=(const NotExprAST) = delete;
 };
 
 class BinaryExprAST : public OperatorExprAST
@@ -283,8 +292,6 @@ public:
     BinaryExprAST(const QVariant&);
 
     ~BinaryExprAST();
-    BinaryExprAST(const BinaryExprAST&);
-    BinaryExprAST& operator= (const BinaryExprAST&);
 
     virtual ExprAST* getLeft() {return left_;}
     virtual ExprAST* getRight() {return right_;}
@@ -295,7 +302,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
     QRectF boundingRect() const override;
     void updateChildren() final;
-
 
 protected:
     ExprAST *left_, *right_;
@@ -316,7 +322,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::ARITHMETIC_HIGHER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    MulExprAST(const MulExprAST&) = delete;
+    MulExprAST& operator=(const MulExprAST) = delete;
 };
 
 class DivExprAST final : public BinaryExprAST
@@ -334,7 +343,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::ARITHMETIC_HIGHER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    DivExprAST(const DivExprAST&) = delete;
+    DivExprAST& operator=(const DivExprAST) = delete;
 };
 
 class AddExprAST final : public BinaryExprAST
@@ -352,7 +364,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::ARITHMETIC_LOWER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    AddExprAST(const AddExprAST&) = delete;
+    AddExprAST& operator=(const AddExprAST) = delete;
 };
 
 class SubExprAST final : public BinaryExprAST
@@ -370,7 +385,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::ARITHMETIC_LOWER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    SubExprAST(const SubExprAST&) = delete;
+    SubExprAST& operator=(const SubExprAST) = delete;
 };
 
 class LtExprAST final : public BinaryExprAST
@@ -388,7 +406,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_HIGHER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    LtExprAST(const LtExprAST&) = delete;
+    LtExprAST& operator=(const LtExprAST) = delete;
 };
 
 class LeqExprAST final : public BinaryExprAST
@@ -406,7 +427,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_HIGHER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    LeqExprAST(const LeqExprAST&) = delete;
+    LeqExprAST& operator=(const LeqExprAST) = delete;
 };
 
 class GtExprAST final : public BinaryExprAST
@@ -424,7 +448,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_HIGHER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    GtExprAST(const GtExprAST&) = delete;
+    GtExprAST& operator=(const GtExprAST) = delete;
 };
 
 class GeqExprAST final : public BinaryExprAST
@@ -442,7 +469,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_HIGHER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    GeqExprAST(const GeqExprAST&) = delete;
+    GeqExprAST& operator=(const GeqExprAST) = delete;
 };
 
 class EqExprAST final : public BinaryExprAST
@@ -460,7 +490,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_LOWER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    EqExprAST(const EqExprAST&) = delete;
+    EqExprAST& operator=(const EqExprAST) = delete;
 };
 
 class NeqExprAST final : public BinaryExprAST
@@ -478,7 +511,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_LOWER;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    NeqExprAST(const NeqExprAST&) = delete;
+    NeqExprAST& operator=(const NeqExprAST) = delete;
 };
 
 class AndExprAST final : public BinaryExprAST
@@ -496,7 +532,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::LOGICAL;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    AndExprAST(const AndExprAST&) = delete;
+    AndExprAST& operator=(const AndExprAST) = delete;
 };
 
 class OrExprAST final : public BinaryExprAST
@@ -514,7 +553,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::LOGICAL;}
     QVariant toVariant() const override;
-    //ExprAST* copy() const override;
+
+private:
+    OrExprAST(const OrExprAST&) = delete;
+    OrExprAST& operator=(const OrExprAST) = delete;
 };
 
 #endif // AST_H
