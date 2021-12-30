@@ -19,6 +19,10 @@ void FunctionExprAST::AcceptVisit(VisitorAST& v){
     v.VisitFunctionExprAST(*this);
 }
 
+void PrintAST::AcceptVisit(VisitorAST& v){
+    v.VisitPrintAST(*this);
+}
+
 AssignExprAST::~AssignExprAST(){
     delete expr_;
 }
@@ -26,6 +30,9 @@ AssignExprAST::~AssignExprAST(){
 BlockExprAST::~BlockExprAST(){
    for(auto& next : body_)
        delete next;
+}
+PrintAST::~PrintAST(){
+    delete expr_;
 }
 
 void BlockExprAST::updateChildren()
@@ -132,6 +139,7 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     auto br = boundingRect();
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 15));
     const auto SquareText = QString("%1\n").arg("start");
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
@@ -140,6 +148,11 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 QRectF AssignExprAST::boundingRect() const{
     float w = 100;
     float h = 60;
+    auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
+    const auto fontrect=fm->boundingRect(stringify());
+    w+=fontrect.width();
+    //qDebug()<<"povecaj me za:"<<fontrect.width();
+    //qDebug()<<"moja sirina je:"<<w;
     return QRectF(-w/2,-h/2,w,h);
 }
 
@@ -150,14 +163,14 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     auto br = boundingRect();
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
-    const auto SquareText = QString(instructionName_ + "\n" + name_ + " = " + stringify());
+    painter->setFont(QFont("Times New Roman", 15));
+    const auto SquareText = QString(instructionName_ +"\n"+stringify());
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
 }
 
 QRectF BlockExprAST::boundingRect() const
 {
-    const float gap=10.0f;
     float w=0.0f;
     float h=0.0f;
     for(auto &elem : body_) {
@@ -178,9 +191,7 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
    //TODO: check what i can do with this options
     Q_UNUSED(option)
     Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
-    const float gap=10.0f;
+
     auto br = boundingRect();
 
     painter->fillRect(br, color_);
@@ -204,14 +215,16 @@ QRectF IfExprAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
     float ifh = 60;
-    const float gap=10.0f;
+
     w+= then_->getWidth() + else_->getWidth() + 100.0f;
 
     h+= then_->getHeight() > else_->getHeight() ? then_->getHeight() : else_->getHeight();
 
     h+=ifh*2 +gap;
     h+=gap*2;
-
+    auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
+    const auto fontrect=fm->boundingRect(stringify());
+    w+=fontrect.width();
 
     return QRectF(-w/2,-h/2,w,h);
 }
@@ -224,10 +237,11 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     float ifh = 60;
     painter->fillRect(br, QColor::fromRgb(20,20,20));
     painter->setPen(Qt::white);
-    const float gap=10.0f;
+    painter->setFont(QFont("Times New Roman", 15));
+
     ifrectangle_ = QRectF(-br.width()/2,-br.height()/2 + gap,br.width(),ifh);
     painter->fillRect(ifrectangle_,setBrush());
-    const auto SquareText = QString("%1").arg(instructionName_);
+    const auto SquareText = QString("%1\n%2").arg(instructionName_, stringify());
     painter->drawText(ifrectangle_, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
 
@@ -254,9 +268,12 @@ QRectF WhileExprAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
     float whileh = 60;
-    const float gap=10.0f;
+
     h += body_->getHeight() + whileh+ gap*2;
     w += body_->getWidth();
+    auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
+    const auto fontrect=fm->boundingRect(stringify());
+    w+=fontrect.width();
     return QRectF(-w/2,-h/2,w,h);
 }
 
@@ -265,18 +282,39 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    const float gap=10.0f;
     auto br = boundingRect();
     float whileh = 60;
     painter->fillRect(br, QColor::fromRgb(20,20,20));
     painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 15));
     whilerectangle_ = QRectF(-br.width()/2,-br.height()/2 + gap,br.width(),whileh);
     painter->fillRect(whilerectangle_,setBrush());
-    painter->drawText(whilerectangle_, Qt::AlignHCenter | Qt::AlignVCenter, "While");
+    painter->drawText(whilerectangle_, Qt::AlignHCenter | Qt::AlignVCenter, "While\n"+stringify());
     body_->setPos(0,whilerectangle_.height()/2 + gap);
     emit ShouldUpdateScene();
 }
+QRectF PrintAST::boundingRect() const{
+    float w = 100;
+    float h = 60;
+    auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
+    const auto fontrect=fm->boundingRect(stringify());
+    w+=fontrect.width();
+    //qDebug()<<"povecaj me za:"<<fontrect.width();
+    //qDebug()<<"moja sirina je:"<<w;
+    return QRectF(-w/2,-h/2,w,h);
+}
 
+void PrintAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+    auto br = boundingRect();
+    painter->fillRect(br,setBrush());
+    painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 15));
+    const auto SquareText = QString(instructionName_ +"\n"+stringify());
+    painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    emit ShouldUpdateScene();
+}
 void WhileExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     auto mousePosition = event->pos();
@@ -303,29 +341,33 @@ void InstructionExprAST::deleteMe(){
 
 //------------ STRINGIFY ------------
 
-QString StartExprAST::stringify() {
+QString StartExprAST::stringify() const {
     //TODO error handling
     return {};
 }
 
-QString AssignExprAST::stringify() {
+QString AssignExprAST::stringify() const {
+    return name_+" = "+ expr_->stringify();
+}
+
+QString BlockExprAST::stringify() const {
+    //TODO error handling
+    return {};
+}
+
+QString IfExprAST::stringify() const {
+    return cond_->stringify();
+}
+
+QString WhileExprAST::stringify() const {
+    return cond_->stringify();
+}
+
+QString PrintAST::stringify() const {
     return expr_->stringify();
 }
 
-QString BlockExprAST::stringify() {
-    //TODO error handling
-    return {};
-}
-
-QString IfExprAST::stringify() {
-    return cond_->stringify();
-}
-
-QString WhileExprAST::stringify() {
-    return cond_->stringify();
-}
-
-QString FunctionExprAST::stringify() {
+QString FunctionExprAST::stringify() const {
     //TODO error handling
     return {};
 }
@@ -388,6 +430,13 @@ QVariant FunctionExprAST::toVariant() const
     return map;
 }
 
+QVariant PrintAST::toVariant() const {
+    QVariantMap map;
+    map.insert("type", "PrintAST");
+    //???
+    return map;
+}
+
 //-------------------- QVariant constructors --------------------
 
 AssignExprAST::AssignExprAST(const QVariant& v)
@@ -435,5 +484,9 @@ FunctionExprAST::FunctionExprAST(const QVariant& v)
 {
 //TODO: ???
     color_= QColor::fromRgb(0,60,60);
+}
+
+PrintAST::PrintAST(const QVariant&){
+    //TODO
 }
 

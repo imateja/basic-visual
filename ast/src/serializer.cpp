@@ -3,11 +3,6 @@
 #include <serializer.hpp>
 #include <ast.hpp>
 
-Serializer::Serializer()
-{
-
-}
-
 void Serializer::save(const Serializable& serializable, const QString& filepath)
 {
     QJsonDocument doc = QJsonDocument::fromVariant(serializable.toVariant());
@@ -17,11 +12,11 @@ void Serializer::save(const Serializable& serializable, const QString& filepath)
     file.close();
 }
 
-void Serializer::load(ExprAST* serializable, const QString& filepath)
+QVariant Serializer::load(const QString& filepath)
 {
     QFile file(filepath);
     file.open(QFile::ReadOnly);
     QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
     file.close();
-    serializable = ExprAST::makeFromVariant(doc.toVariant()); //is this good ???
+    return doc.toVariant();
 }

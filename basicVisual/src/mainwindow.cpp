@@ -5,9 +5,11 @@
 #include <QAbstractScrollArea>
 #include <QWidget>
 #include <QRegularExpression>
+#include <QThread>
 #include "./ui_mainwindow.h"
 #include <mainwindow.hpp>
 #include <exprtree.hpp>
+#include <interpret.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainGV->setRenderHint(QPainter::Antialiasing);
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     ui->tabWidget->setCurrentIndex(0);
+    ui->tabWidget->setTabEnabled(1,false);
     mainBlock= new BlockExprAST();
     exprItem=nullptr;
     _mainGraphicsScene->addItem(mainBlock);
@@ -33,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mainBlock,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
     connect(mainBlock,&ExprAST::updateSelection,_mainGraphicsScene,&mainGraphicsScene::selectItem);
 
-
+    Interpret::mutex_.lock();
 //    mainBlock= new BlockExprAST();
 //    _mainGraphicsView->addItem(mainBlock);
 //    mainBlock->setParent(_mainGraphicsView);
@@ -42,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    mainBlock->setPos(sceneCenter.x(), 0);
     setupActions();
     setupConnections();
+    ui->nextBtn->hide();
 
     ui->mainGV->viewport()->installEventFilter(this);
 }
@@ -49,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    Interpret::mutex_.unlock();
 }
 
 void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
@@ -62,6 +67,7 @@ void MainWindow::updateScene(){
     centerItem->update();
     ui->mainGV->setSceneRect(centerItem->boundingRect());
     _mainGraphicsScene->update();
+    _mainGraphicsScene->selectItem();
     //qDebug()<<"Scena se updatovala";
 }
 
@@ -70,7 +76,7 @@ void MainWindow::position()
     ExprAST* centerItem = stagedItem();
     //qDebug() << centerItem->boundingRect()<< "\n";
     ui->mainGV->centerOn(centerItem);
-    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+    QPointF sceneCenter = ui->mainGV->mapToScene(ui->mainGV->viewport()->rect().center());
     centerItem->setPos(sceneCenter.x(), sceneCenter.y());
 }
 
@@ -103,9 +109,9 @@ void MainWindow::Edit()
         }
 
 
-        ui->ExprEdit->setDisabled(false);
+        ui->tabWidget->setTabEnabled(1,true);
         ui->tabWidget->setCurrentIndex(1);
-        ui->tab->setDisabled(true);
+        ui->tabWidget->setTabEnabled(0,false);
 
         _mainGraphicsScene->clearItems();
         _mainGraphicsScene->addItem(exprItem);
@@ -130,9 +136,9 @@ void MainWindow::Edit()
 void MainWindow::backPushed()
 {
     if(!mainBlock->isVisible()){
-        ui->tab->setDisabled(false);
+        ui->tabWidget->setTabEnabled(0,true);
         ui->tabWidget->setCurrentIndex(0);
-        ui->ExprEdit->setDisabled(true);
+        ui->tabWidget->setTabEnabled(1,false);
 
         disconnect(exprItem,&ExprAST::ShouldUpdateScene,this,&MainWindow::updateScene);
         disconnect(exprItem,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
@@ -194,6 +200,11 @@ void MainWindow::addIf()
     addInstruction(newElement);
 }
 
+void MainWindow::addPrint()
+{
+    auto newElement =new PrintAST();
+    addInstruction(newElement);
+}
 //void MainWindow::addFor()
 //{
 //    InstructionDialog* ForDialog = new InstructionDialog(this);
@@ -221,9 +232,9 @@ void MainWindow::addExpr(ExprAST* elem)
     if(selected){
         selected->setExpr(elem);
     }
+    _mainGraphicsScene->setSelectedItem(nullptr);
     updateScene();
     position();
-
 }
 
 void MainWindow::addPlus()
@@ -319,6 +330,8 @@ void MainWindow::addConst()
     }
 }
 
+
+
 void MainWindow::deletePushed(){
     auto item = _mainGraphicsScene->getSelectedItem();
     if(item){
@@ -330,13 +343,17 @@ void MainWindow::deletePushed(){
     }
 }
 
+void MainWindow::nextPushed()
+{
+    Interpret::mutex_.unlock();
+}
+
 void MainWindow::setupConnections()
 {
     connect(ui->AssignBtn, &QPushButton::clicked, this, &MainWindow::addAssign);
     connect(ui->WhileBtn, &QPushButton::clicked, this, &MainWindow::addWhile);
     connect(ui->IfBtn, &QPushButton::clicked, this, &MainWindow::addIf);
     connect(ui->editBtn, &QPushButton::clicked, this, &MainWindow::Edit);
-    connect(this, &MainWindow::newSquareOnGV, dynamic_cast<mainGraphicsScene *>(_mainGraphicsScene), &mainGraphicsScene::addedSquareOnGV);
     connect(ui->plusBtn, &QPushButton::clicked, this, &MainWindow::addPlus);
     connect(ui->minusBtn, &QPushButton::clicked, this, &MainWindow::addMinus);
     connect(ui->mulBtn, &QPushButton::clicked, this, &MainWindow::addMul);
@@ -355,6 +372,8 @@ void MainWindow::setupConnections()
     connect(ui->backBtn, &QPushButton::clicked, this, &MainWindow::backPushed);
     connect(ui->deleteBtn, &QPushButton::clicked, this, &MainWindow::deletePushed);
     connect(ui->deleteBtn_2, &QPushButton::clicked, this, &MainWindow::deletePushed);
+    connect(ui->nextBtn, &QPushButton::clicked, this, &MainWindow::nextPushed);
+    connect(ui->printBtn, &QPushButton::clicked, this, &MainWindow::addPrint);
 
 }
 
@@ -364,6 +383,8 @@ void MainWindow::setupActions()
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onActionSave);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::onActionSaveAs);
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::onActionExit);
+    connect(ui->actionRun, &QAction::triggered, this, &MainWindow::onActionRun);
+    connect(ui->actionDebug, &QAction::triggered, this, &MainWindow::onActionDebug);
 }
 //TODO:other actions
 void MainWindow::onActionOpen()
@@ -400,6 +421,46 @@ void MainWindow::onActionExit()
         MainWindow::close();
     else
         return;
+}
+
+void MainWindow::catchResult(QString result){
+    if(result.isEmpty()){
+        QMessageBox::information(this,"success","Interpretation finished successfully");
+    } else {
+        QMessageBox::information(this,"failure",result);
+    }
+
+}
+
+void MainWindow::onActionRun()
+{
+    State::Domains().clear();
+    Interpret::steps = false;
+    QThread* thread = new QThread;
+    Worker* worker = new Worker(mainBlock);
+    worker->moveToThread(thread);
+    connect(thread, SIGNAL(started()), worker, SLOT(process()));
+    connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    connect(worker, SIGNAL(sendResult(QString)), this, SLOT(catchResult(QString)));
+    thread->start();
+}
+
+void MainWindow::onActionDebug()
+{
+    State::Domains().clear();
+    ui->nextBtn->show();
+    Interpret::steps = true;
+    QThread* thread = new QThread;
+    Worker* worker = new Worker(mainBlock);
+    worker->moveToThread(thread);
+    connect(thread, SIGNAL(started()), worker, SLOT(process()));
+    connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    connect(worker, SIGNAL(finished()), ui->nextBtn, SLOT(hide));
+    thread->start();
 }
 
 

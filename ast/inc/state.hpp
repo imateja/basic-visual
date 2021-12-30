@@ -17,6 +17,7 @@ public:
     }
     void createNewDomain();
     void removeCurrentDomain();
+    void clear();
     void assignValue(const QString&, QVariant&);
     QHash<QString, QVariant> getCurrentDomain();
     QVariant getValue(const QString&);

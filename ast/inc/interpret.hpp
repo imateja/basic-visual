@@ -3,6 +3,7 @@
 
 #include <QVariant>
 #include <QDebug>
+#include <QMutex>
 #include <ast.hpp>
 #include <exprtree.hpp>
 
@@ -39,15 +40,39 @@ public:
     void VisitBlockExprAST(BlockExprAST&) override;
     void VisitIfExprAST(IfExprAST&) override;
     void VisitWhileExprAST(WhileExprAST&) override;
+    void VisitPrintAST(PrintAST&) override;
     void VisitFunctionExprAST(FunctionExprAST&) override;
+
+    inline QString getValue();
 
     static int doubleTypeId;
     static int boolTypeId;
     static int qstringTypeId;
     static double eps;
+    static QMutex mutex_;
+    static bool steps;
 
 private:
     QVariant value_;
+};
+
+class Worker : public QObject {
+    Q_OBJECT
+
+public:
+    Worker(BlockExprAST* mb)
+        :mainBlock_(mb)
+    {}
+
+public slots:
+    void process();
+
+signals:
+    void finished();
+    void sendResult(QString result);
+
+private:
+    BlockExprAST* mainBlock_;
 };
 
 #endif // INTERPRET_H

@@ -5,8 +5,10 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QDebug>
+#include <QMutex>
 #include <exprtree.hpp>
 #include <maingraphicsscene.hpp>
+
 
 class QGraphicsScene;
 class Instruction;
@@ -34,6 +36,7 @@ private slots:
     void addAssign();
     void addWhile();
     void addIf();
+    void addPrint();
     void Edit();
     void addExpr(ExprAST*);
     void addPlus();
@@ -53,6 +56,7 @@ private slots:
     void addConst();
     void backPushed();
     void deletePushed();
+    void nextPushed();
 
 private:
     void addInstruction(InstructionExprAST*);
@@ -60,6 +64,8 @@ private:
     void onActionSave();
     void onActionSaveAs();
     void onActionExit();
+    void onActionRun();
+    void onActionDebug();
     Ui::MainWindow *ui;
     mainGraphicsScene *_mainGraphicsScene;
     QVector<Instruction*> _instructions;
@@ -72,6 +78,7 @@ private:
 public slots:
     void updateScene();
     void position();
+    void catchResult(QString);
 
 
     // QObject interface

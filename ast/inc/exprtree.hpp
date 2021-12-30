@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <ast.hpp>
 #include <state.hpp>
+#include<QFontMetrics>
+#include<QFont>
 
 class InstructionExprAST : public ExprAST
 {
@@ -19,7 +21,7 @@ public:
     ~InstructionExprAST(){}
     void deleteMe() override;
     virtual ExprAST* getEditableExpr() = 0;
-    inline Priority getPriority() final {return Priority::INSTRUCTION;}
+    inline Priority getPriority() const final {return Priority::INSTRUCTION;}
 };
 
 class StartExprAST : public InstructionExprAST
@@ -39,10 +41,10 @@ public:
     void AcceptVisit(VisitorAST&) override;
     void updateChildren() final {}
     ExprAST* getEditableExpr() override { return nullptr; }
-    QString stringify() final;
+    QString stringify() const final;
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
-    void deleteMe() override {};
+    void deleteMe() override {}
     //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
@@ -66,7 +68,7 @@ public:
     ExprAST* getEditableExpr() override { return expr_; }
     inline QString getName() {return name_;}
     inline ExprAST* getExpr() {return expr_;}
-    QString stringify() final;
+    QString stringify() const final;
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
 
@@ -101,7 +103,7 @@ public:
     void remove(InstructionExprAST* instr);
     ExprAST* getEditableExpr() override { return nullptr; }
     inline QVector<InstructionExprAST*> getBody() {return body_;}
-    QString stringify() final;
+    QString stringify() const final;
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
     QRectF boundingRect() const override;
@@ -146,7 +148,7 @@ public:
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getThen() {return then_;}
     inline BlockExprAST* getElse() {return else_;}
-    QString stringify() final;
+    QString stringify() const final;
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
 
@@ -185,7 +187,7 @@ public:
     ExprAST* getEditableExpr() override { return cond_; }
     inline ExprAST* getCond() {return cond_;}
     inline BlockExprAST* getBody() {return body_;}
-    QString stringify() final;
+    QString stringify() const final;
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
 
@@ -199,6 +201,28 @@ public:
 
 private:
     ExprAST *cond_;
+};
+
+class PrintAST final : public InstructionExprAST
+{
+public:
+    PrintAST(ExprAST* expr = nullptr, QGraphicsItem* parent = nullptr)
+        :expr_(expr!=nullptr?expr:new PlaceholderExprAST()), InstructionExprAST(parent)
+    {
+        color_= QColor::fromRgb(0,60,120);
+    }
+    PrintAST(const QVariant&);
+    void AcceptVisit(VisitorAST&) override;
+    void updateChildren() final {}
+    QString stringify() const final;
+    QVariant toVariant() const override;
+    ~PrintAST();
+    QString instructionName_ = QString("Print");
+    ExprAST* getEditableExpr() override { return expr_; }
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+private:
+    ExprAST* expr_;
 };
 
 class FunctionExprAST final : public ExprAST
@@ -220,11 +244,11 @@ public:
     FunctionExprAST& operator= (const FunctionExprAST&);
 
     void AcceptVisit(VisitorAST&) override;
-    inline Priority getPriority() final {return Priority::INSTRUCTION;}
+    inline Priority getPriority() const final {return Priority::INSTRUCTION;}
     inline QString getName() {return name_;}
     inline QVector<QString> getParameters() {return parameters_;}
     inline BlockExprAST* getBody() {return body_;}
-    QString stringify() final;
+    QString stringify() const final;
     QVariant toVariant() const override;
     //ExprAST* copy() const override;
 
