@@ -11,6 +11,7 @@ int Interpret::boolTypeId = QVariant(static_cast<bool>(true)).typeId();
 int Interpret::qstringTypeId = QVariant(static_cast<QString>("")).typeId();
 double Interpret::eps = 0.000001;
 Worker* Interpret::worker = nullptr;
+QString Interpret::input = QString();
 
 void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
     obj.errorFound = false;
@@ -500,6 +501,27 @@ void Interpret::VisitPrintAST(PrintAST& obj) {
     value_ = {};
 }
 
+void Interpret::VisitInputAST(InputAST& obj){
+    worker->btnsettings(true);
+    worker->print("Input variable " + obj.getName() + ":");
+    Interpret::mutex_.lock();
+    if(input.isEmpty()){
+        value_ = QString("Input :: input empty");
+        return;
+    }
+    bool ok;
+    auto val = input.toDouble(&ok);
+    if(!ok) {
+        value_ = QString("Input :: not a valid number");
+        return;
+    }
+    auto tmp = QVariant(val);
+    State::Domains().assignValue(obj.getName(),tmp);
+    worker->print(input);
+    worker->btnsettings(false);
+    value_ = {};
+}
+
 inline QString Interpret::getValue(){
     return value_.typeId() == qstringTypeId? value_.toString(): "";
 }
@@ -514,5 +536,9 @@ void Worker::process() {
     auto res = Interpret{mainBlock_}.getValue();
     emit sendResult(res);
     emit finished();
+}
+
+void Worker::btnsettings(bool enabled) {
+    emit changeButtonSettings(enabled);
 }
 

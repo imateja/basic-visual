@@ -38,6 +38,7 @@ private slots:
     void addWhile();
     void addIf();
     void addPrint();
+    void addInput();
     void Edit();
     void addExpr(ExprAST*);
     void addPlus();

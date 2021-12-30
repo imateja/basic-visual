@@ -35,14 +35,14 @@
      <item>
       <widget class="QLineEdit" name="inputTF">
        <property name="readOnly">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="submitBtn">
        <property name="text">
-        <string>Subit</string>
+        <string>Submit</string>
        </property>
       </widget>
      </item>

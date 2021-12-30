@@ -33,6 +33,7 @@ class BlockExprAST;
 class IfExprAST;
 class WhileExprAST;
 class PrintAST;
+class InputAST;
 class FunctionExprAST;
 
 class VisitorAST
@@ -61,6 +62,7 @@ public:
     virtual void VisitIfExprAST(IfExprAST&) = 0;
     virtual void VisitWhileExprAST(WhileExprAST&) = 0;
     virtual void VisitPrintAST(PrintAST&) = 0;
+    virtual void VisitInputAST(InputAST&) = 0;
     virtual void VisitFunctionExprAST(FunctionExprAST&) = 0;
     virtual void VisitStartExprAST(StartExprAST&) = 0;
 
