@@ -216,6 +216,7 @@ public:
     void updateChildren() final {}
     QString stringify() const final;
     QVariant toVariant() const override;
+    inline ExprAST* getExpr() {return expr_;}
     ~PrintAST();
     QString instructionName_ = QString("Print");
     ExprAST* getEditableExpr() override { return expr_; }

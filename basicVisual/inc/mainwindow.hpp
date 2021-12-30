@@ -8,6 +8,7 @@
 #include <QMutex>
 #include <exprtree.hpp>
 #include <maingraphicsscene.hpp>
+#include <pseudoterminal.hpp>
 
 
 class QGraphicsScene;

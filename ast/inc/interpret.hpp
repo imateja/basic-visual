@@ -7,6 +7,8 @@
 #include <ast.hpp>
 #include <exprtree.hpp>
 
+class Worker;
+
 class Interpret final : public VisitorAST
 {
 public:
@@ -51,6 +53,7 @@ public:
     static double eps;
     static QMutex mutex_;
     static bool steps;
+    static Worker* worker;
 
 private:
     QVariant value_;
@@ -64,12 +67,16 @@ public:
         :mainBlock_(mb)
     {}
 
+    void print(QString);
+
+
 public slots:
     void process();
 
 signals:
     void finished();
     void sendResult(QString result);
+    void sendPrintText(QString);
 
 private:
     BlockExprAST* mainBlock_;
