@@ -102,35 +102,7 @@ FunctionExprAST::~FunctionExprAST(){
     delete body_;
 }
 
-//-----------------------COPY---------------------
-//ExprAST* IfExprAST::copy() const{
-//    return new IfExprAST(*this);
-//}
-
-//ExprAST* WhileExprAST::copy() const{
-//    return new WhileExprAST(*this);
-//}
-
-//ExprAST* AssignExprAST::copy() const{
-//    return new AssignExprAST(*this);
-//}
-
-//ExprAST* BlockExprAST::copy() const{
-//    return new BlockExprAST(*this);
-//}
-
-//ExprAST* FunctionExprAST::copy() const{
-//    return new FunctionExprAST(*this);
-//}
-
-//ExprAST* EndExprAST::copy() const{
-//    return new EndExprAST(*this);
-//}
-
-//ExprAST* StartExprAST::copy() const{
-//    return new EndExprAST(*this);
-//}
-
+// ---------------------- PAINT -----------------------
 
 void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -145,14 +117,13 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     emit ShouldUpdateScene();
 }
 
-QRectF AssignExprAST::boundingRect() const{
+QRectF AssignExprAST::boundingRect() const
+{
     float w = 100;
     float h = 60;
     auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
     const auto fontrect=fm->boundingRect(stringify());
     w+=fontrect.width();
-    //qDebug()<<"povecaj me za:"<<fontrect.width();
-    //qDebug()<<"moja sirina je:"<<w;
     return QRectF(-w/2,-h/2,w,h);
 }
 
@@ -164,42 +135,40 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
-    const auto SquareText = QString(instructionName_ +"\n"+stringify());
+    const auto SquareText = QString(instructionName_ + "\n" + stringify());
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
 }
 
 QRectF BlockExprAST::boundingRect() const
 {
-    float w=0.0f;
-    float h=0.0f;
-    for(auto &elem : body_) {
+    float w = 0.0f;
+    float h = 0.0f;
+    for (auto &elem : body_) {
         auto br = elem->boundingRect();
-        if(br.width()>w) {
+        if (br.width()>w) {
             w=br.width();
         }
-        h+=br.height();
-        h+=gap;
+        h += br.height();
+        h += gap;
     }
-    h-=gap;
-    return QRectF(-w/2,-h/2,w,h);
+    h -= gap;
+    return QRectF(-w/2, -h/2, w, h);
 }
 
 void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
-   //TODO: check what i can do with this options
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
     auto br = boundingRect();
 
     painter->fillRect(br, color_);
-    float currenth = -br.height()/2;
+    float currenth = -br.height() / 2;
 
     for(auto elem : body_) {
-        elem->setPos(0,currenth + elem->getHeight()/2);
-       currenth += elem->getHeight()+gap;
+        elem->setPos(0, currenth + elem->getHeight() / 2);
+       currenth += elem->getHeight() + gap;
     }
     emit ShouldUpdateScene();
 
@@ -211,23 +180,24 @@ void BlockExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     emit selectItem(nullptr);
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
+
 QRectF IfExprAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
     float ifh = 60;
 
-    w+= then_->getWidth() + else_->getWidth() + 100.0f;
+    w += then_->getWidth() + else_->getWidth() + 100.0f;
+    h += then_->getHeight() > else_->getHeight() ? then_->getHeight() : else_->getHeight();
 
-    h+= then_->getHeight() > else_->getHeight() ? then_->getHeight() : else_->getHeight();
-
-    h+=ifh*2 +gap;
-    h+=gap*2;
-    auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
-    const auto fontrect=fm->boundingRect(stringify());
+    h += ifh * 2 + gap;
+    h += gap * 2;
+    auto fm = new QFontMetrics(QFont("Times", 10, QFont::Bold));
+    const auto fontrect = fm->boundingRect(stringify());
     w+=fontrect.width();
 
-    return QRectF(-w/2,-h/2,w,h);
+    return QRectF(-w/2, -h/2, w, h);
 }
+
 void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
@@ -235,45 +205,42 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     QRectF br = boundingRect();
     float ifh = 60;
-    painter->fillRect(br, QColor::fromRgb(20,20,20));
+    painter->fillRect(br, QColor::fromRgb(20, 20, 20));
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
 
-    ifrectangle_ = QRectF(-br.width()/2,-br.height()/2 + gap,br.width(),ifh);
-    painter->fillRect(ifrectangle_,setBrush());
+    ifrectangle_ = QRectF(-br.width()/2, -br.height()/2 + gap, br.width(), ifh);
+    painter->fillRect(ifrectangle_, setBrush());
     const auto SquareText = QString("%1\n%2").arg(instructionName_, stringify());
     painter->drawText(ifrectangle_, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
-
-    QRectF thenrect=QRectF(-ifrectangle_.width()/2,-br.height()/2 +ifrectangle_.height()+gap*2,then_->getWidth(),ifrectangle_.height());
-    painter->fillRect(thenrect, QColor::fromRgb(128,0,0));
+    QRectF thenrect = QRectF(-ifrectangle_.width()/2, -br.height()/2 + ifrectangle_.height()+gap*2, then_->getWidth(), ifrectangle_.height());
+    painter->fillRect(thenrect, QColor::fromRgb(128, 0, 0));
     painter->drawText(thenrect, Qt::AlignHCenter | Qt::AlignVCenter, "then" );
 
-
-    QRectF elserect=QRectF(ifrectangle_.width()/2 -else_->getWidth() ,-br.height()/2 +ifrectangle_.height()+gap*2,else_->getWidth(),ifrectangle_.height());
+    QRectF elserect = QRectF(ifrectangle_.width()/2 - else_->getWidth(), -br.height()/2 + ifrectangle_.height() + gap*2, else_->getWidth(), ifrectangle_.height());
 
     painter->fillRect(elserect, QColor::fromRgb(128,0,0));
     painter->drawText(elserect, Qt::AlignHCenter | Qt::AlignVCenter, "else" );
 
-
-
-    then_->setPos(-ifrectangle_.width()/2 + then_->getWidth()/2,-br.height()/2 +ifrectangle_.height()+gap*2 + thenrect.height() + gap + then_->getHeight()/2);
-    else_->setPos(ifrectangle_.width()/2 - else_->getWidth()/2, -br.height()/2 +ifrectangle_.height()+gap*2 + elserect.height() + gap + else_->getHeight()/2);
+    then_->setPos(-ifrectangle_.width()/2 + then_->getWidth()/2, -br.height()/2 + ifrectangle_.height()+gap*2 + thenrect.height() + gap + then_->getHeight()/2);
+    else_->setPos(ifrectangle_.width()/2 - else_->getWidth()/2, -br.height()/2 + ifrectangle_.height()+gap*2 + elserect.height() + gap + else_->getHeight()/2);
 
     emit ShouldUpdateScene();
     //TODO:Default case (maybe throw error)
 }
 
-QRectF WhileExprAST::boundingRect() const{
-    float w=0.0f;
-    float h=0.0f;
+QRectF WhileExprAST::boundingRect() const
+{
+    float w = 0.0f;
+    float h = 0.0f;
     float whileh = 60;
 
-    h += body_->getHeight() + whileh+ gap*2;
+    h += body_->getHeight() + whileh + gap*2;
     w += body_->getWidth();
-    auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
+    auto fm = new QFontMetrics(QFont("Times", 10, QFont::Bold));
     const auto fontrect=fm->boundingRect(stringify());
-    w+=fontrect.width();
+    w += fontrect.width();
     return QRectF(-w/2,-h/2,w,h);
 }
 
@@ -293,18 +260,19 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     body_->setPos(0,whilerectangle_.height()/2 + gap);
     emit ShouldUpdateScene();
 }
-QRectF PrintAST::boundingRect() const{
+
+QRectF PrintAST::boundingRect() const
+{
     float w = 100;
     float h = 60;
-    auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
-    const auto fontrect=fm->boundingRect(stringify());
-    w+=fontrect.width();
-    //qDebug()<<"povecaj me za:"<<fontrect.width();
-    //qDebug()<<"moja sirina je:"<<w;
-    return QRectF(-w/2,-h/2,w,h);
+    auto fm = new QFontMetrics(QFont("Times", 10, QFont::Bold));
+    const auto fontrect = fm->boundingRect(stringify());
+    w += fontrect.width();
+    return QRectF(-w/2, -h/2, w, h);
 }
 
-void PrintAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void PrintAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     Q_UNUSED(option)
     Q_UNUSED(widget)
     auto br = boundingRect();
@@ -315,15 +283,15 @@ void PrintAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
 }
+
 void WhileExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     auto mousePosition = event->pos();
-    emit selectItem(whilerectangle_.contains(mousePosition)?this:nullptr);
+    emit selectItem(whilerectangle_.contains(mousePosition) ? this : nullptr);
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
-//TODO implement paint
-void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {}
 
 //QRectF AssignExprAST::boundingRect() const
 //{
@@ -333,7 +301,8 @@ void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 //}
 
 
-void InstructionExprAST::deleteMe(){
+void InstructionExprAST::deleteMe()
+{
     auto parent = static_cast<BlockExprAST*>(parentItem());
     parent->remove(this);
     delete this;
@@ -341,37 +310,13 @@ void InstructionExprAST::deleteMe(){
 
 //------------ STRINGIFY ------------
 
-QString StartExprAST::stringify() const {
-    //TODO error handling
-    return {};
-}
-
-QString AssignExprAST::stringify() const {
-    return name_+" = "+ expr_->stringify();
-}
-
-QString BlockExprAST::stringify() const {
-    //TODO error handling
-    return {};
-}
-
-QString IfExprAST::stringify() const {
-    return cond_->stringify();
-}
-
-QString WhileExprAST::stringify() const {
-    return cond_->stringify();
-}
-
-QString PrintAST::stringify() const {
-    return expr_->stringify();
-}
-
-QString FunctionExprAST::stringify() const {
-    //TODO error handling
-    return {};
-}
-
+QString StartExprAST::stringify() const { return {}; }
+QString AssignExprAST::stringify() const { return name_ + " = " + expr_->stringify(); }
+QString BlockExprAST::stringify() const { return {}; }
+QString IfExprAST::stringify() const { return cond_->stringify(); }
+QString WhileExprAST::stringify() const { return cond_->stringify(); }
+QString PrintAST::stringify() const { return expr_->stringify(); }
+QString FunctionExprAST::stringify() const { return {}; }
 
 //------------------ toVariant -------------------
 
@@ -396,7 +341,7 @@ QVariant BlockExprAST::toVariant() const
     QVariantMap map;
     map.insert("type", "BlockExprAST");
     QVariantList list;
-    for(auto expr : body_){
+    for (auto expr : body_) {
         list.append(expr->toVariant());
     }
     map.insert("body", list);
@@ -454,11 +399,11 @@ BlockExprAST::BlockExprAST(const QVariant& v)
     qDeleteAll(body_);
     body_.clear();
     QVariantList list = map.value("body").toList();
-    for(auto& expr : list){
+    for(auto& expr : list) {
         insert(dynamic_cast<InstructionExprAST*>(ExprAST::makeFromVariant(expr)));
     }
 
-    color_= QColor::fromRgb(0,0,128);
+    color_= QColor::fromRgb(0, 0, 128);
 }
 
 IfExprAST::IfExprAST(const QVariant& v)
@@ -468,7 +413,7 @@ IfExprAST::IfExprAST(const QVariant& v)
     then_ = dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(map.value("then")));
     else_ = dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(map.value("else")));
 
-    color_= QColor::fromRgb(128,128,0);
+    color_= QColor::fromRgb(128, 128, 0);
 }
 
 WhileExprAST::WhileExprAST(const QVariant& v)
@@ -477,13 +422,13 @@ WhileExprAST::WhileExprAST(const QVariant& v)
     cond_ = ExprAST::makeFromVariant(map.value("cond"));
     body_ = dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(map.value("body")));
 
-    color_= QColor::fromRgb(60,60,0);
+    color_= QColor::fromRgb(60, 60, 0);
 }
 
 FunctionExprAST::FunctionExprAST(const QVariant& v)
 {
 //TODO: ???
-    color_= QColor::fromRgb(0,60,60);
+    color_= QColor::fromRgb(0, 60, 60);
 }
 
 PrintAST::PrintAST(const QVariant&){
