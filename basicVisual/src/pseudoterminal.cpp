@@ -13,6 +13,6 @@ PseudoTerminal::~PseudoTerminal()
     delete ui;
 }
 
-void PseudoTerminal::addLine(QString txt){
+void PseudoTerminal::addLine(QString txt) {
     ui->outputTF->append(txt);
 }

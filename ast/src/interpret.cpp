@@ -14,12 +14,14 @@ Worker* Interpret::worker = nullptr;
 
 void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
     obj.errorFound = false;
-    if(obj.expr_ == nullptr){
+
+    if(obj.expr_ == nullptr) {
         value_ = QString("Expression not finished :: Placeholder exists.");
         obj.errorFound = true;
-    } else {
-        value_ = Interpret(obj.expr_).value_;
+        return;
     }
+
+    value_ = Interpret(obj.expr_).value_;
 }
 
 void Interpret::VisitValueExprAST(ValueExprAST& obj) {
@@ -77,7 +79,7 @@ void Interpret::VisitMulExprAST(MulExprAST& obj) {
         return;
     }
 
-    value_ = QVariant(l.toDouble() * r.toDouble());;
+    value_ = QVariant(l.toDouble() * r.toDouble());
 }
 
 void Interpret::VisitDivExprAST(DivExprAST& obj) {
@@ -105,8 +107,7 @@ void Interpret::VisitDivExprAST(DivExprAST& obj) {
         return;
     }
 
-    if (qFabs(r.toDouble()) < eps)
-    {
+    if (qFabs(r.toDouble()) < eps) {
         value_ = QString("Div :: Dividing with 0.");
         obj.errorFound = true;
         return;
@@ -140,7 +141,7 @@ void Interpret::VisitAddExprAST(AddExprAST& obj) {
         return;
     }
 
-    value_ = QVariant(l.toDouble() + r.toDouble());;
+    value_ = QVariant(l.toDouble() + r.toDouble());
 }
 
 void Interpret::VisitSubExprAST(SubExprAST& obj) {
@@ -429,8 +430,6 @@ void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
     State::Domains().removeCurrentDomain();
 }
 
-
-
 void Interpret::VisitIfExprAST(IfExprAST& obj) {
     obj.errorFound = false;
 
@@ -483,15 +482,13 @@ void Interpret::VisitFunctionExprAST(FunctionExprAST& obj) {
     value_ = Interpret(obj.getBody()).value_;
 }
 
-
-
 void Interpret::VisitPrintAST(PrintAST& obj) {
     value_ = Interpret(obj.getExpr()).value_;
-    if(value_.typeId() == qstringTypeId){
+    if(value_.typeId() == qstringTypeId) {
         worker->print(value_.toString());
         return;
     }
-    if(value_.isNull()){
+    if(value_.isNull()) {
         value_ = QString("Print :: Invalid print.");
         return;
     }
@@ -500,8 +497,8 @@ void Interpret::VisitPrintAST(PrintAST& obj) {
     value_ = {};
 }
 
-inline QString Interpret::getValue(){
-    return value_.typeId() == qstringTypeId? value_.toString(): "";
+inline QString Interpret::getValue() {
+    return value_.typeId() == qstringTypeId? value_.toString() : "";
 }
 
 void Worker::print(QString txt){
@@ -515,4 +512,3 @@ void Worker::process() {
     emit sendResult(res);
     emit finished();
 }
-

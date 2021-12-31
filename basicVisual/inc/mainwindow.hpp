@@ -4,16 +4,12 @@
 #include <QMainWindow>
 #include <QWidget>
 #include <QGraphicsScene>
-#include <QDebug>
 #include <QMutex>
 #include <exprtree.hpp>
 #include <maingraphicsscene.hpp>
 #include <pseudoterminal.hpp>
 
-
 class QGraphicsScene;
-class Instruction;
-//class InstructionContainer;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,6 +18,7 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -30,31 +27,34 @@ public:
     qint32 factor;
 
 signals:
-    void newSquareOnGV(InstructionExprAST *);
+    void newSquareOnGV(InstructionExprAST*);
 
 private slots:
 
-    void addAssign();
-    void addWhile();
-    void addIf();
-    void addPrint();
-    void Edit();
-    void addExpr(ExprAST*);
-    void addPlus();
-    void addMinus();
+    void addConst();
+    void addVar();
+
+    void addNot();
     void addMul();
     void addDiv();
+    void addPlus();
+    void addMinus();
     void addLs();
-    void addGt();
     void addLseq();
+    void addGt();
     void addGteq();
-    void addAnd();
-    void addOr();
-    void addNot();
     void addEq();
     void addNeq();
-    void addVar();
-    void addConst();
+    void addAnd();
+    void addOr();
+
+    void addAssign();
+    void addIf();
+    void addWhile();
+    void addPrint();
+
+    void Edit();
+    void addExpr(ExprAST*);
     void backPushed();
     void deletePushed();
     void nextPushed();
@@ -67,24 +67,22 @@ private:
     void onActionExit();
     void onActionRun();
     void onActionDebug();
-    Ui::MainWindow *ui;
-    mainGraphicsScene *_mainGraphicsScene;
+    Ui::MainWindow* ui;
+    mainGraphicsScene* _mainGraphicsScene;
     QVector<Instruction*> _instructions;
     void setupActions();
     void setupConnections();
     void positionElement(InstructionExprAST* elem, qint32 factor);
     inline ExprAST* stagedItem();
 
-
 public slots:
     void updateScene();
     void position();
     void catchResult(QString);
 
-
     // QObject interface
 public:
-    bool eventFilter(QObject *watched, QEvent *event) override;
+    bool eventFilter(QObject* watched, QEvent* event) override;
 };
 
 #endif // MAINWINDOW_H

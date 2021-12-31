@@ -28,21 +28,21 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainGV->setRenderHint(QPainter::Antialiasing);
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     ui->tabWidget->setCurrentIndex(0);
-    ui->tabWidget->setTabEnabled(1,false);
-    mainBlock= new BlockExprAST();
-    exprItem=nullptr;
+    ui->tabWidget->setTabEnabled(1, false);
+    mainBlock = new BlockExprAST();
+    exprItem = nullptr;
     _mainGraphicsScene->addItem(mainBlock);
     position();
-    connect(mainBlock,&ExprAST::ShouldUpdateScene,this,&MainWindow::updateScene);
-    connect(mainBlock,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
-    connect(mainBlock,&ExprAST::updateSelection,_mainGraphicsScene,&mainGraphicsScene::selectItem);
+    connect(mainBlock, &ExprAST::ShouldUpdateScene, this, &MainWindow::updateScene);
+    connect(mainBlock, &ExprAST::selectItem, _mainGraphicsScene, &mainGraphicsScene::setSelectedItem);
+    connect(mainBlock, &ExprAST::updateSelection, _mainGraphicsScene, &mainGraphicsScene::selectItem);
 
     Interpret::mutex_.lock();
 //    mainBlock= new BlockExprAST();
 //    _mainGraphicsView->addItem(mainBlock);
 //    mainBlock->setParent(_mainGraphicsView);
 //    qDebug()<<mainBlock->parent()<<"/n";
-//    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+//    QPointF sceneCenter = ui->mainGV->mapToScene(ui->mainGV->viewport()->rect().center());
 //    mainBlock->setPos(sceneCenter.x(), 0);
     setupActions();
     setupConnections();
@@ -59,36 +59,36 @@ MainWindow::~MainWindow()
 
 void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
 {
-    QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+    QPointF sceneCenter = ui->mainGV->mapToScene(ui->mainGV->viewport()->rect().center());
     elem->setPos(sceneCenter.x(), factor*90);
 }
 
-void MainWindow::updateScene(){
+void MainWindow::updateScene()
+{
     ExprAST* centerItem = stagedItem();
     centerItem->update();
     ui->mainGV->setSceneRect(centerItem->boundingRect());
     _mainGraphicsScene->update();
     _mainGraphicsScene->selectItem();
-    //qDebug()<<"Scena se updatovala";
 }
 
 void MainWindow::position()
 {
     ExprAST* centerItem = stagedItem();
-    //qDebug() << centerItem->boundingRect()<< "\n";
     ui->mainGV->centerOn(centerItem);
     QPointF sceneCenter = ui->mainGV->mapToScene(ui->mainGV->viewport()->rect().center());
     centerItem->setPos(sceneCenter.x(), sceneCenter.y());
 }
 
-ExprAST* MainWindow::stagedItem(){
+ExprAST* MainWindow::stagedItem()
+{
     return exprItem == nullptr ? mainBlock : exprItem;
 }
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    if(watched == ui->mainGV->viewport()){
-        if(event->type() == QEvent::Resize){
+    if (watched == ui->mainGV->viewport()) {
+        if (event->type() == QEvent::Resize) {
             position();
         }
     }
@@ -97,32 +97,30 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 
 void MainWindow::Edit()
 {
-    if(mainBlock->isVisible()){
-        if(_mainGraphicsScene->getSelectedItem() == nullptr){
+    if (mainBlock->isVisible()) {
+        if (_mainGraphicsScene->getSelectedItem() == nullptr) {
             //TODO error handling
             return;
         }
 
         exprItem = static_cast<InstructionExprAST*>(_mainGraphicsScene->getSelectedItem())->getEditableExpr();
-        if(exprItem == nullptr){
+        if (exprItem == nullptr) {
             //TODO error handling
             return;
         }
 
-
-        ui->tabWidget->setTabEnabled(1,true);
+        ui->tabWidget->setTabEnabled(1, true);
         ui->tabWidget->setCurrentIndex(1);
-        ui->tabWidget->setTabEnabled(0,false);
+        ui->tabWidget->setTabEnabled(0, false);
 
         _mainGraphicsScene->clearItems();
         _mainGraphicsScene->addItem(exprItem);
 
-        connect(exprItem,&ExprAST::ShouldUpdateScene,this,&MainWindow::updateScene);
-        connect(exprItem,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
-        connect(exprItem,&ExprAST::updateSelection,_mainGraphicsScene,&mainGraphicsScene::selectItem);
+        connect(exprItem, &ExprAST::ShouldUpdateScene, this, &MainWindow::updateScene);
+        connect(exprItem, &ExprAST::selectItem, _mainGraphicsScene, &mainGraphicsScene::setSelectedItem);
+        connect(exprItem, &ExprAST::updateSelection, _mainGraphicsScene, &mainGraphicsScene::selectItem);
 
-
-//        QPointF sceneCenter = ui->mainGV->mapToScene( ui->mainGV->viewport()->rect().center());
+//        QPointF sceneCenter = ui->mainGV->mapToScene(ui->mainGV->viewport()->rect().center());
 //        exprItem->setPos(sceneCenter.x(), sceneCenter.y());
         _mainGraphicsScene->setSelectedItem(nullptr);
         mainBlock->hide();
@@ -130,20 +128,19 @@ void MainWindow::Edit()
         updateScene();
         _mainGraphicsScene->selectItem();
         position();
-
     }
 }
 
 void MainWindow::backPushed()
 {
-    if(!mainBlock->isVisible()){
-        ui->tabWidget->setTabEnabled(0,true);
+    if( !mainBlock->isVisible()) {
+        ui->tabWidget->setTabEnabled(0, true);
         ui->tabWidget->setCurrentIndex(0);
-        ui->tabWidget->setTabEnabled(1,false);
+        ui->tabWidget->setTabEnabled(1, false);
 
-        disconnect(exprItem,&ExprAST::ShouldUpdateScene,this,&MainWindow::updateScene);
-        disconnect(exprItem,&ExprAST::selectItem,_mainGraphicsScene,&mainGraphicsScene::setSelectedItem);
-        disconnect(exprItem,&ExprAST::updateSelection,_mainGraphicsScene,&mainGraphicsScene::selectItem);
+        disconnect(exprItem, &ExprAST::ShouldUpdateScene, this, &MainWindow::updateScene);
+        disconnect(exprItem, &ExprAST::selectItem, _mainGraphicsScene, &mainGraphicsScene::setSelectedItem);
+        disconnect(exprItem, &ExprAST::updateSelection, _mainGraphicsScene, &mainGraphicsScene::selectItem);
         _mainGraphicsScene->clearItems();
         _mainGraphicsScene->addItem(mainBlock);
         exprItem = nullptr;
@@ -159,15 +156,17 @@ void MainWindow::backPushed()
 
 void MainWindow::addInstruction(InstructionExprAST* newElement){
     auto selected = _mainGraphicsScene->getSelectedItem();
-    if (selected == nullptr){
+    if (selected == nullptr) {
         mainBlock->insert(newElement);
-    }else {
+    }
+    else {
         auto parent = static_cast<BlockExprAST*>(selected->parentItem());
         parent->insert(newElement,static_cast<InstructionExprAST*>(selected));
     }
     updateScene();
     position();
 }
+
 void MainWindow::addAssign()
 {
     auto var = ui->assignVarName->text();
@@ -180,7 +179,6 @@ void MainWindow::addAssign()
     else {
         QMessageBox::information(this, "Invalid Variable name", "A valid variable name starts with a letter, followed by letters, digits, or underscores.");
     }
-
 }
 
 //connect(newElement,&InstructionExprAST::signalSelected,_mainGraphicsView,[=](){
@@ -189,6 +187,7 @@ void MainWindow::addAssign()
 //    node->setSelected(true);
 //    qDebug()<<"selektovano je"<<"\n";
 //});
+
 void MainWindow::addWhile()
 {
    auto newElement =new WhileExprAST();
@@ -206,31 +205,15 @@ void MainWindow::addPrint()
     auto newElement =new PrintAST();
     addInstruction(newElement);
 }
-//void MainWindow::addFor()
-//{
-//    InstructionDialog* ForDialog = new InstructionDialog(this);
-//    if(ForDialog->exec())
-//    {
-//     //TODO: Add check if condition and all dialog boxes are filled right
-//     const auto instr= new Instruction(ForDialog->getCondition(), Instruction::TypeOfInstruction::FOR);
-
-//    _instructions.push_back(instr);
-
-//    const auto node = new InstructionContainer(instr);
-//    _mainGraphicsView->addItem(node);
-
-//    emit newSquareOnGV(node);
-//    }
-//}
 
 void MainWindow::addExpr(ExprAST* elem)
 {
-    if(_mainGraphicsScene->getSelectedItem() == nullptr){
+    if (_mainGraphicsScene->getSelectedItem() == nullptr) {
         //TODO error handling
         return;
     }
     auto selected = dynamic_cast<PlaceholderExprAST*>(_mainGraphicsScene->getSelectedItem());
-    if(selected){
+    if (selected) {
         selected->setExpr(elem);
     }
     _mainGraphicsScene->setSelectedItem(nullptr);
@@ -249,61 +232,73 @@ void MainWindow::addMinus()
     auto elem = new SubExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addMul()
 {
     auto elem = new MulExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addDiv()
 {
     auto elem = new DivExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addLs()
 {
     auto elem = new LtExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addGt()
 {
     auto elem = new GtExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addLseq()
 {
     auto elem = new LeqExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addGteq()
 {
     auto elem = new GeqExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addAnd()
 {
     auto elem = new AndExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addOr()
 {
     auto elem = new OrExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addNot()
 {
     auto elem = new NotExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addEq()
 {
     auto elem = new EqExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addNeq()
 {
     auto elem = new NeqExprAST();
     addExpr(elem);
 }
+
 void MainWindow::addVar()
 {
     auto var = ui->varTF->toPlainText();
@@ -317,6 +312,7 @@ void MainWindow::addVar()
         QMessageBox::information(this, "Invalid Variable name", "A valid variable name starts with a letter, followed by letters, digits, or underscores.");
     }
 }
+
 void MainWindow::addConst()
 {
     bool ok;
@@ -331,11 +327,10 @@ void MainWindow::addConst()
     }
 }
 
-
-
-void MainWindow::deletePushed(){
+void MainWindow::deletePushed()
+{
     auto item = _mainGraphicsScene->getSelectedItem();
-    if(item){
+    if (item) {
         item->deleteMe();
         _mainGraphicsScene->setSelectedItem(nullptr);
         _mainGraphicsScene->selectItem();
@@ -375,7 +370,6 @@ void MainWindow::setupConnections()
     connect(ui->deleteBtn_2, &QPushButton::clicked, this, &MainWindow::deletePushed);
     connect(ui->nextBtn, &QPushButton::clicked, this, &MainWindow::nextPushed);
     connect(ui->printBtn, &QPushButton::clicked, this, &MainWindow::addPrint);
-
 }
 
 void MainWindow::setupActions()
@@ -399,7 +393,7 @@ void MainWindow::onActionOpen()
 
 void MainWindow::onActionSave()
 {
-// i have no idea what to do here
+//TODO i have no idea what to do here
 }
 
 void MainWindow::onActionSaveAs()
@@ -416,19 +410,23 @@ void MainWindow::onActionExit()
 {
     QMessageBox::StandardButton response = QMessageBox::question(
            this, "Exit", "Force exit?", QMessageBox::Yes| QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes
-       );
+    );
 
-    if(response == QMessageBox::Yes)
+    if (response == QMessageBox::Yes) {
         MainWindow::close();
-    else
+    }
+    else {
         return;
+    }
 }
 
-void MainWindow::catchResult(QString result){
-    if(result.isEmpty()){
-        QMessageBox::information(this,"Success","Interpretation finished successfully");
-    } else {
-        QMessageBox::information(this,"Failure",result);
+void MainWindow::catchResult(QString result)
+{
+    if (result.isEmpty()) {
+        QMessageBox::information(this, "Success", "Interpretation finished successfully");
+    }
+    else {
+        QMessageBox::information(this, "Failure", result);
     }
 
 }
@@ -467,6 +465,3 @@ void MainWindow::onActionDebug()
     connect(worker, SIGNAL(finished()), ui->nextBtn, SLOT(hide));
     thread->start();
 }
-
-
-

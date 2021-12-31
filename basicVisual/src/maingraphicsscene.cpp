@@ -1,12 +1,9 @@
-#include <QDebug>
 #include <maingraphicsscene.hpp>
 #include <exprtree.hpp>
 
 mainGraphicsScene::mainGraphicsScene(QObject *parent)
     :QGraphicsScene(parent), selectedItem_(nullptr)
-{
-
-}
+{}
 
 void mainGraphicsScene::clearItems()
 {
@@ -23,18 +20,7 @@ void mainGraphicsScene::setSelectedItem(ExprAST *item)
 void mainGraphicsScene::selectItem()
 {
     clearSelection();
-    if(selectedItem_ != nullptr){
+    if (selectedItem_ != nullptr) {
         selectedItem_->setSelected(true);
     }
 }
-
-
-
-
-
-
-
-
-
-
-

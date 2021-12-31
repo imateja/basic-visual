@@ -3,9 +3,7 @@
 
 #include <QDialog>
 
-namespace Ui {
-class PseudoTerminal;
-}
+namespace Ui { class PseudoTerminal; }
 
 class PseudoTerminal : public QDialog
 {

@@ -2,7 +2,6 @@
 #define INTERPRET_H
 
 #include <QVariant>
-#include <QDebug>
 #include <QMutex>
 #include <ast.hpp>
 #include <exprtree.hpp>
@@ -12,8 +11,7 @@ class Worker;
 class Interpret final : public VisitorAST
 {
 public:
-    Interpret()
-    {}
+    Interpret() {}
     Interpret(ExprAST* expr)
     {
         expr->AcceptVisit(*this);
@@ -64,11 +62,10 @@ class Worker : public QObject {
 
 public:
     Worker(BlockExprAST* mb)
-        :mainBlock_(mb)
+        : mainBlock_(mb)
     {}
 
     void print(QString);
-
 
 public slots:
     void process();

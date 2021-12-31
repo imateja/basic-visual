@@ -7,12 +7,9 @@ void State::createNewDomain()
 
 void State::removeCurrentDomain()
 {
-    if(domains_.empty()){
-        //TODO error handling
-        return;
+    if (!domains_.isEmpty()) {
+       domains_.pop_back();
     }
-
-   domains_.pop_back();
 }
 
 void State::assignValue(const QString& variable, QVariant& value)
@@ -46,6 +43,7 @@ QVariant State::getValue(const QString& variable)
     return QString("Variable :: " + variable + " does not exist");
 }
 
-void State::clear(){
+void State::clear()
+{
     domains_.clear();
 }
