@@ -397,6 +397,150 @@ TEST_CASE("NeqExprAST", "[class][ValueExprAST][VariableExprAST][State]")
     }
 }
 
+TEST_CASE("AndExprAST", "[class][ValueExprAST][VariableExprAST][State]"){
+    SECTION("For two type ExprAST that return bool values, AndExprAST will add them and Interpret will hold true if both values are true")
+    {
+        ValueExprAST *tmp1 = new ValueExprAST(6.0);
+        ValueExprAST *tmp2 = new ValueExprAST(5.0);
+        ValueExprAST *tmp3 = new ValueExprAST(6.0);
+        ValueExprAST *tmp4 = new ValueExprAST(5.0);
+        NeqExprAST *input1 = new NeqExprAST(tmp1,tmp2);
+        NeqExprAST *input2 = new NeqExprAST(tmp3,tmp4);
+        bool expectedResult = true;
+
+        AndExprAST inputAnd(input1,input2);
+        auto result = Interpret(&inputAnd).getValueTest().toBool();
+
+        REQUIRE(result == expectedResult);
+    }
+
+    SECTION("For two type ExprAST that return bool values, AndExprAST will add them and Interpret will hold false if one is true and other is false")
+    {
+        ValueExprAST *tmp1 = new ValueExprAST(6.0);
+        ValueExprAST *tmp2 = new ValueExprAST(5.0);
+        ValueExprAST *tmp3 = new ValueExprAST(6.0);
+        ValueExprAST *tmp4 = new ValueExprAST(5.0);
+        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
+        NeqExprAST *input2 = new NeqExprAST(tmp3,tmp4);
+        bool expectedResult = false;
+
+        AndExprAST inputAnd(input1,input2);
+        auto resault = Interpret(&inputAnd).getValueTest().toBool();
+
+        REQUIRE(resault == expectedResult);
+    }
+
+    SECTION("For two type ExprAST that return bool values, AndExprAST will add them and Interpret will hold false if both are false")
+    {
+        ValueExprAST *tmp1 = new ValueExprAST(6.0);
+        ValueExprAST *tmp2 = new ValueExprAST(5.0);
+        ValueExprAST *tmp3 = new ValueExprAST(6.0);
+        ValueExprAST *tmp4 = new ValueExprAST(5.0);
+        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
+        EqExprAST *input2 = new EqExprAST(tmp3,tmp4);
+        bool expectedResult = false;
+
+        AndExprAST inputAnd(input1,input2);
+        auto result = Interpret(&inputAnd).getValueTest().toBool();
+
+        REQUIRE(result== expectedResult);
+    }
+}
+
+TEST_CASE("OrExprAST", "[class][ValueExprAST][VariableExprAST][State]"){
+    SECTION("For two type ExprAST that return bool values, OrExprAST will or them and Interpret will hold true if both values are true")
+    {
+        ValueExprAST *tmp1 = new ValueExprAST(6.0);
+        ValueExprAST *tmp2 = new ValueExprAST(5.0);
+        ValueExprAST *tmp3 = new ValueExprAST(6.0);
+        ValueExprAST *tmp4 = new ValueExprAST(5.0);
+        NeqExprAST *input1 = new NeqExprAST(tmp1,tmp2);
+        NeqExprAST *input2 = new NeqExprAST(tmp3,tmp4);
+        bool expectedResult = true;
+
+        OrExprAST inputOr(input1,input2);
+        auto result = Interpret(&inputOr).getValueTest().toBool();
+
+        REQUIRE(result == expectedResult);
+    }
+
+    SECTION("For two type ExprAST that return bool values, OrExprAST will add them and Interpret will hold true if one is true and other is false")
+    {
+        ValueExprAST *tmp1 = new ValueExprAST(6.0);
+        ValueExprAST *tmp2 = new ValueExprAST(5.0);
+        ValueExprAST *tmp3 = new ValueExprAST(6.0);
+        ValueExprAST *tmp4 = new ValueExprAST(5.0);
+        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
+        NeqExprAST *input2 = new NeqExprAST(tmp3,tmp4);
+        bool expectedResult = true;
+
+        OrExprAST inputOr(input1,input2);
+        auto result= Interpret(&inputOr).getValueTest().toBool();
+
+        REQUIRE(result == expectedResult);
+    }
+
+    SECTION("For two type ExprAST that return bool values, OrExprAST will add them and Interpret will hold false if both are false")
+    {
+        ValueExprAST *tmp1 = new ValueExprAST(6.0);
+        ValueExprAST *tmp2 = new ValueExprAST(5.0);
+        ValueExprAST *tmp3 = new ValueExprAST(6.0);
+        ValueExprAST *tmp4 = new ValueExprAST(5.0);
+        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
+        EqExprAST *input2 = new EqExprAST(tmp3,tmp4);
+        bool expectedResult = false;
+        OrExprAST inputOr(input1,input2);
+        auto result = Interpret(&inputOr).getValueTest().toBool();
+
+        REQUIRE(result == expectedResult);
+    }
+    SECTION("For two type ExprAST that return bool values, OrExprAST will or them and Interpret will hold true if first is true and other is false")
+    {
+        ValueExprAST *tmp1 = new ValueExprAST(6.0);
+        ValueExprAST *tmp2 = new ValueExprAST(5.0);
+        ValueExprAST *tmp3 = new ValueExprAST(6.0);
+        ValueExprAST *tmp4 = new ValueExprAST(5.0);
+        NeqExprAST *input1 = new NeqExprAST(tmp1,tmp2);
+        EqExprAST *input2 = new EqExprAST(tmp3,tmp4);
+        bool expectedResult = true;
+
+        OrExprAST inputOr(input1,input2);
+       auto resault = Interpret(&inputOr).getValueTest().toBool();
+
+        REQUIRE(resault == expectedResult);
+    }
+}
+
+TEST_CASE("NotExprAST", "[class][ValueExprAST][VariableExprAST][State]"){
+    SECTION("For type ExprAST that return bool value, NotExprAST will not it and Interpret will hold true if value is false")
+    {
+        ValueExprAST *tmp1 = new ValueExprAST(6.0);
+        ValueExprAST *tmp2 = new ValueExprAST(5.0);
+        NeqExprAST *input1 = new NeqExprAST(tmp1,tmp2);
+        bool expectedResult = false;
+        NotExprAST inputNot(input1);
+        auto result = Interpret(&inputNot).getValueTest().toBool();
+
+        REQUIRE(result == expectedResult);
+    }
+
+    SECTION("For type ExprAST that return bool value, NotExprAST will  not it and Interpret will hold false if value is true")
+    {
+        ValueExprAST *tmp1 = new ValueExprAST(6.0);
+        ValueExprAST *tmp2 = new ValueExprAST(5.0);
+        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
+        bool expectedResult = true;
+
+        NotExprAST inputNot(input1);
+        auto result = Interpret(&inputNot).getValueTest().toBool();
+
+        REQUIRE(result == expectedResult);
+
+
+    }
+
+}
+
 TEST_CASE("AssignExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 {
     /* FIX: DOUBLE FREE */
