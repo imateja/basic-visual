@@ -3,6 +3,16 @@
 #include <compile.hpp>
 #include <state.hpp>
 
+
+#include <llvm/IR/Verifier.h>
+#include <llvm/Support/TargetRegistry.h>
+#include <llvm/Support/FileSystem.h>
+#include <llvm/Support/Host.h>
+#include <llvm/Support/TargetSelect.h>
+#include <llvm/Support/raw_ostream.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/Target/TargetOptions.h>
+
 LLVMContext TheContext;
 IRBuilder<> Builder(TheContext);
 Module* TheModule = nullptr;
@@ -32,15 +42,13 @@ void Compile::InitializeModuleAndPassManager(){
 
     TheFPM = new legacy::FunctionPassManager(TheModule);
 
-//	TheFPM->add(createInstructionCombiningPass());
-//	TheFPM->add(createReassociatePass());
-//	TheFPM->add(createGVNPass());
-//	TheFPM->add(createCFGSimplificationPass());
-//	TheFPM->add(createPromoteMemoryToRegisterPass());
+    TheFPM->add(createInstructionCombiningPass());
+    TheFPM->add(createReassociatePass());
+    TheFPM->add(createGVNPass());
+    TheFPM->add(createCFGSimplificationPass());
+    TheFPM->add(createPromoteMemoryToRegisterPass());
 
     TheFPM->doInitialization();
-
-    //TODO: Functions
 
     std::vector<Type*> arg(0);
     FunctionType* FTMain = FunctionType::get(Type::getInt32Ty(TheContext), arg, false);
@@ -50,16 +58,58 @@ void Compile::InitializeModuleAndPassManager(){
 }
 
 void Compile::compile(const QString& path){
-    Builder.CreateRet(ConstantInt::get(TheContext, APInt(32, 0)));
     if(TheModule != nullptr){
-        std::string Str;
-        raw_string_ostream OS(Str);
-        OS << *TheModule;
-        OS.flush();
-        QFile file(path);
-        file.open(QFile::WriteOnly);
-        file.write(QByteArray::fromStdString(Str));
-        file.close();
+        Builder.CreateRet(ConstantInt::get(TheContext, APInt(32, 0)));
+        Function* mainFunction = Builder.GetInsertBlock()->getParent();
+        TheFPM->run(*mainFunction);
+
+        auto TargetTriple = sys::getDefaultTargetTriple();
+
+        InitializeAllTargetInfos();
+        InitializeAllTargets();
+        InitializeAllTargetMCs();
+        InitializeAllAsmParsers();
+        InitializeAllAsmPrinters();
+
+        std::string Error;
+        auto Target = TargetRegistry::lookupTarget(TargetTriple, Error);
+
+        if(!Target){
+            qDebug() << QString::fromStdString(Error) << "/n";
+            return;
+        }
+
+        auto CPU = "generic";
+        auto Features = "";
+
+        TargetOptions ops;
+        auto RM = Optional<Reloc::Model>();
+        auto TargetMachine = Target->createTargetMachine(TargetTriple, CPU, Features, ops, RM);
+
+        TheModule->setDataLayout(TargetMachine->createDataLayout());
+        TheModule->setTargetTriple(TargetTriple);
+
+        auto FileName = path.toStdString();
+        std::error_code EC;
+        raw_fd_ostream dest(FileName, EC, sys::fs::OF_None);
+
+        if(EC){
+            return;
+        }
+
+        legacy::PassManager pass;
+        auto FileType = CodeGenFileType::CGFT_ObjectFile;
+
+        if(TargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)){
+            qDebug() << "Machine can't emit file of this type!\n";
+            return;
+        }
+
+        pass.run(*TheModule);
+        dest.flush();
+
+
+        delete TheModule;
     }
 }
 
