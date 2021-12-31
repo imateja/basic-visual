@@ -827,3 +827,114 @@ TEST_CASE("BlockExprAST", "[class][ValueExprAST]"){
     */
 }
 }
+TEST_CASE("AssignExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+{
+
+    SECTION("Interpreting a valid AssignExprAST created with a non-existing name and a ValueExprAST will result in creating a variable in scope")
+    {
+        State::Domains().createNewDomain();
+        QString name = "testing";
+        AssignExprAST * expr = new AssignExprAST(name, new ValueExprAST(10.0));
+        double expectedResult = 10.0;
+
+        Interpret i = Interpret{expr};
+        VariableExprAST *var = new VariableExprAST(name);
+        double result = Interpret{var}.getValueTest().toDouble();
+
+        REQUIRE(result == expectedResult);
+
+        State::Domains().clear();
+    }
+
+
+    SECTION("Interpreting a valid AssignExprAST created with an existing name and ValueExprAST will result in updating an existing variable in scope")
+    {
+        State::Domains().createNewDomain();
+        QString name = "testing";
+        AssignExprAST* expr = new AssignExprAST(name,new ValueExprAST(10.0));
+        QVariant oldValue = QVariant(Interpret{expr}.getValueTest());
+
+        State::Domains().assignValue(name,oldValue);
+        QVariant newValue = QVariant(5.0);
+        State::Domains().assignValue(name,newValue);
+        double result = State::Domains().getValue(name).toDouble();
+
+        double expectedResult = 5.0;
+
+        REQUIRE(result == expectedResult);
+        State::Domains().clear();
+
+    }
+
+
+    SECTION("Interpreting a valid AssignExprAST created with VariableExprAST will result in creating a variable in scope")
+    {
+        State::Domains().createNewDomain();
+        QString newVarName = "testing";
+        VariableExprAST* varExpr = new VariableExprAST(QString("oldVarName"));
+        QVariant value = QVariant(10.0);
+        State::Domains().assignValue(varExpr->getName(), value);
+        double expectedResult = 10.0;
+
+        double result = State::Domains().getValue(varExpr->getName()).toDouble();
+
+        REQUIRE(result == expectedResult);
+
+        State::Domains().clear();
+
+    }
+}
+TEST_CASE("BlockExprAST", "[class][ValueExprAST]"){
+    SECTION("Given empty BlockExprAST instance, insert will append an ExprAST at the end of the collection")
+    {
+        QString name = "test";
+        AssignExprAST* assign = new AssignExprAST(name,new ValueExprAST(10.0));
+        BlockExprAST *block = new BlockExprAST();
+        auto expected = assign;
+
+        block->insert(assign);
+        auto body = block->getBody();
+        auto result = body[body.size()-1];
+
+        REQUIRE(result == expected);
+
+
+
+    }
+
+    SECTION("Given BlockExprAST instance with more than one instruction, interpreting that block will result in empty QVariant");
+    {
+        QString name = "test";
+        AssignExprAST* assign = new AssignExprAST(name,new ValueExprAST(10.0));
+        BlockExprAST *block = new BlockExprAST();
+        block->insert(assign);
+        auto expected = QVariant();
+
+        auto body = block->getBody();
+        auto result = Interpret{block}.getValueTest();
+
+        REQUIRE(result == expected);
+
+
+    }
+
+    SECTION("Given BlockExprAST instance with more than one instruction, interpreting that block will result in empty QVariant");
+    {
+        State::Domains().createNewDomain();
+        QString name = "test";
+        AssignExprAST* assign = new AssignExprAST(name,new VariableExprAST(QString("s")));
+        BlockExprAST *block = new BlockExprAST();
+        block->insert(assign);
+        auto expected = QVariant();
+
+        auto body = block->getBody();
+        auto result = Interpret{block}.getValueTest();
+
+        REQUIRE_FALSE(result == expected);
+
+        State::Domains().clear();
+
+
+    }
+
+}
