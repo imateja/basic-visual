@@ -525,7 +525,11 @@ void MainWindow::onActionBuild()
     QString fileName = QFileDialog::getSaveFileName(
             this,
             tr("Save Visual"), ".",
-            tr("Visual (*.ll)"));
+            tr("Object File (*.o)"));
+    if(!fileName.endsWith(".o"))
+    {
+        fileName.append(".o");
+    }
 
     Compile::InitializeModuleAndPassManager();
     State::Domains().clear();
