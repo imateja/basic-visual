@@ -411,67 +411,59 @@ QVariant FunctionExprAST::toVariant() const
 QVariant PrintAST::toVariant() const {
     QVariantMap map;
     map.insert("type", "PrintAST");
-    //???
+    map.insert("expr", expr_->toVariant());
     return map;
 }
 
 QVariant InputAST::toVariant() const {
     QVariantMap map;
     map.insert("type", "InputAST");
-    //???
+    map.insert("name", name_);
     return map;
 }
 
 //-------------------- QVariant constructors --------------------
 
 AssignExprAST::AssignExprAST(const QVariant& v)
+    : AssignExprAST(
+          v.toMap().value("name").toString(),
+          ExprAST::makeFromVariant(v.toMap().value("expr"))
+          )
 {
-    QVariantMap map = v.toMap();
-    name_ = map.value("name").toString();
-    expr_ = ExprAST::makeFromVariant(map.value("expr"));
-
-    color_ = QColor::fromRgb(64, 120, 7);
 }
 
 BlockExprAST::BlockExprAST(const QVariant& v)
+    : BlockExprAST()
 {
-    QVariantMap map = v.toMap();
     qDeleteAll(body_);
     body_.clear();
-    QVariantList list = map.value("body").toList();
-    for(auto& expr : list) {
+    for(auto& expr : v.toMap().value("body").toList()) {
         insert(dynamic_cast<InstructionExprAST*>(ExprAST::makeFromVariant(expr)));
     }
-
-    color_= QColor::fromRgb(0, 0, 128);
 }
 
 IfExprAST::IfExprAST(const QVariant& v)
+    : IfExprAST(
+          ExprAST::makeFromVariant(v.toMap().value("cond")),
+          dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(v.toMap().value("then"))),
+          dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(v.toMap().value("then")))
+          )
 {
-    QVariantMap map = v.toMap();
-    cond_ = ExprAST::makeFromVariant(map.value("cond"));
-    then_ = dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(map.value("then")));
-    else_ = dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(map.value("else")));
-
-    color_= QColor::fromRgb(128, 128, 0);
 }
 
 WhileExprAST::WhileExprAST(const QVariant& v)
+    : WhileExprAST(
+          ExprAST::makeFromVariant(v.toMap().value("cond")),
+          dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(v.toMap().value("body")))
+          )
 {
-    QVariantMap map = v.toMap();
-    cond_ = ExprAST::makeFromVariant(map.value("cond"));
-    body_ = dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(map.value("body")));
-
-    color_= QColor::fromRgb(60, 60, 0);
 }
 
-FunctionExprAST::FunctionExprAST(const QVariant& v)
+PrintAST::PrintAST(const QVariant& v)
+    : PrintAST(ExprAST::makeFromVariant(v.toMap().value("expr")))
 {
-//TODO: ???
-    color_= QColor::fromRgb(0, 60, 60);
 }
 
-PrintAST::PrintAST(const QVariant&){
-    //TODO
-}
-
+InputAST::InputAST(const QVariant& v)
+    : InputAST(v.toMap().value("name").toString())
+{}

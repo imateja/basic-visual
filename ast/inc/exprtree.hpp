@@ -32,9 +32,7 @@ public:
     {
         color_= QColor::fromRgb(0,128,0);
     }
-    StartExprAST(const QVariant&){
-        color_= QColor::fromRgb(0,128,0);
-    }
+    StartExprAST(const QVariant&) : StartExprAST() {}
 
     ~StartExprAST(){};
 

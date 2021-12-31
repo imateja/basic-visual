@@ -539,44 +539,36 @@ ExprAST* ExprAST::makeFromVariant(const QVariant& v){
 //-------------------- QVariant constructors --------------------
 
 PlaceholderExprAST::PlaceholderExprAST(const QVariant& v)
+    : PlaceholderExprAST()
 {
     QVariantMap map = v.toMap();
-    expr_ = (map.value("isFull").toBool())
-          ? makeFromVariant(map.value("expr"))
-          : nullptr;
-
-    color_= QColor::fromRgb(128,0,0);
+    auto child = (map.value("isFull").toBool())
+               ? makeFromVariant(map.value("expr"))
+               : nullptr;
+    if(child){
+        setExpr(child);
+    }
 }
 
 ValueExprAST::ValueExprAST(const QVariant& v)
+    : ValueExprAST(v.toMap().value("value").toDouble())
 {
-    QVariantMap map = v.toMap();
-    value_ = map.value("value").toDouble();
-
-    color_= QColor::fromRgb(128,0,128);
 }
 
 VariableExprAST::VariableExprAST(const QVariant& v)
+    : VariableExprAST(v.toMap().value("name").toString())
 {
-    QVariantMap map = v.toMap();
-    name_ = map.value("name").toString();
-
-    color_= QColor::fromRgb(128,0,128);
 }
 
 UnaryExprAST::UnaryExprAST(const QVariant& v)
+    : UnaryExprAST(ExprAST::makeFromVariant(v.toMap().value("operand")))
 {
-    QVariantMap map = v.toMap();
-    operand_ = ExprAST::makeFromVariant(map.value("operand"));
-
-    color_ = QColor::fromRgb(36, 17, 100);
 }
 
 BinaryExprAST::BinaryExprAST(const QVariant& v)
+    : BinaryExprAST(
+          ExprAST::makeFromVariant(v.toMap().value("left")),
+          ExprAST::makeFromVariant(v.toMap().value("right"))
+          )
 {
-    QVariantMap map = v.toMap();
-    left_ = ExprAST::makeFromVariant(map.value("left"));
-    right_ = ExprAST::makeFromVariant(map.value("right"));
-
-    color_= QColor::fromRgb(128,0,128);
 }
