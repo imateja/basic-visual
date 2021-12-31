@@ -120,7 +120,7 @@ class IfAST final : public InstructionAST
 {
 public:
     IfAST(ExprAST *cond = nullptr, BlockAST *thenblock = nullptr, BlockAST *elseblock = nullptr, QGraphicsItem* parent = nullptr)
-        : cond_(cond != nullptr ? cond : new PlaceholderAST)
+        : cond_(cond != nullptr ? cond : new PlaceholderAST())
         , then_(thenblock != nullptr ? thenblock : new BlockAST(this))
         , else_(elseblock != nullptr ? elseblock : new BlockAST(this))
         , InstructionAST(parent)

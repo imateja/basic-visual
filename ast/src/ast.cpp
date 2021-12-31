@@ -123,7 +123,7 @@ QString VariableAST::stringify() const {
 
 QString UnaryAST::stringify() const {
     QString op = operand_->stringify();
-    return operand_->getPriority() > getPriority() ? op_ + "(" + op + ")" : op_ + op;
+    return operand_->getPriority() > getPriority() ? getOp() + "(" + op + ")" : getOp() + op;
 }
 
 QString BinaryAST::stringify() const {
@@ -131,7 +131,7 @@ QString BinaryAST::stringify() const {
     QString r = right_->stringify();
     QString retVal;
     retVal += left_->getPriority() > getPriority() ? "(" + l + ")" : l;
-    retVal += " " + op_ + " ";
+    retVal += " " + getOp() + " ";
     retVal += right_->getPriority() > getPriority() ? "(" + r + ")" : r;
     return retVal;
 }
@@ -244,7 +244,7 @@ void UnaryAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     center_ = QPointF(0, -br.height()/2+opr/2);
     painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
-    painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
+    painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(getOp()));
     operand_->setPos(0, -br.height()/2 +3*gap + opcircle_.height()+ operand_->getHeight()/2);
     QPen pen = QPen(Qt::black);
     pen.setWidth(4);
@@ -277,7 +277,7 @@ void BinaryAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
     painter->setFont(QFont("Times New Roman", 18));
-    painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
+    painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, getOp());
 
     left_->setPos(-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap*2 +opcircle_.height()+ left_->getHeight()/2);
     right_->setPos(br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap*2 +opcircle_.height()+ right_->getHeight()/2);
@@ -501,7 +501,7 @@ ExprAST* ExprAST::makeFromVariant(const QVariant& v){
             return new LtAST(v);
         } else if (type == "LeqExprAST") {
             return new LeqAST(v);
-        } else if (type == "QtExprAST") {
+        } else if (type == "GtExprAST") {
             return new GtAST(v);
         } else if (type == "GeqExprAST") {
             return new GeqAST(v);

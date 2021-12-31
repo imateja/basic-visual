@@ -218,7 +218,7 @@ public:
 protected:
     QRectF opcircle_;
     QPointF center_;
-    QString op_;
+    virtual QString getOp() const = 0;
 };
 
 class UnaryAST : public OperatorAST
@@ -252,13 +252,11 @@ class NotAST final : public UnaryAST
 public:
     NotAST(ExprAST *operand = nullptr)
         :UnaryAST(operand)
-    {
-        op_ = QString("!");
-    }
+    {}
     NotAST(const QVariant& v)
         :UnaryAST(v)
     {}
-
+    inline QString getOp() const override {return "!";}
     void AcceptVisit(VisitorAST&) override;
     QVariant toVariant() const override;
 
@@ -307,9 +305,7 @@ class MulAST final : public BinaryAST
 public:
     MulAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("*");
-    }
+    {}
     MulAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -317,6 +313,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::ARITHMETIC_HIGHER;}
     QVariant toVariant() const override;
+    inline QString getOp() const override {return "*";}
 
 private:
     MulAST(const MulAST&) = delete;
@@ -328,9 +325,7 @@ class DivAST final : public BinaryAST
 public:
     DivAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("/");
-    }
+    {}
     DivAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -338,7 +333,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::ARITHMETIC_HIGHER;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return "/";}
 private:
     DivAST(const DivAST&) = delete;
     DivAST& operator=(const DivAST) = delete;
@@ -349,9 +344,7 @@ class AddAST final : public BinaryAST
 public:
     AddAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("+");
-    }
+    {}
     AddAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -359,7 +352,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::ARITHMETIC_LOWER;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return "+";}
 private:
     AddAST(const AddAST&) = delete;
     AddAST& operator=(const AddAST) = delete;
@@ -370,9 +363,7 @@ class SubAST final : public BinaryAST
 public:
     SubAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("-");
-    }
+    {}
     SubAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -380,7 +371,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::ARITHMETIC_LOWER;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return "-";}
 private:
     SubAST(const SubAST&) = delete;
     SubAST& operator=(const SubAST) = delete;
@@ -391,9 +382,7 @@ class LtAST final : public BinaryAST
 public:
     LtAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("<");
-    }
+    {}
     LtAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -401,7 +390,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_HIGHER;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return "<";}
 private:
     LtAST(const LtAST&) = delete;
     LtAST& operator=(const LtAST) = delete;
@@ -412,9 +401,7 @@ class LeqAST final : public BinaryAST
 public:
     LeqAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("<=");
-    }
+    {}
     LeqAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -422,7 +409,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_HIGHER;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return "<=";}
 private:
     LeqAST(const LeqAST&) = delete;
     LeqAST& operator=(const LeqAST) = delete;
@@ -433,9 +420,7 @@ class GtAST final : public BinaryAST
 public:
     GtAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString(">");
-    }
+    {}
     GtAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -443,7 +428,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_HIGHER;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return ">";}
 private:
     GtAST(const GtAST&) = delete;
     GtAST& operator=(const GtAST) = delete;
@@ -454,9 +439,7 @@ class GeqAST final : public BinaryAST
 public:
     GeqAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString(">=");
-    }
+    {}
     GeqAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -464,7 +447,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_HIGHER;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return ">=";}
 private:
     GeqAST(const GeqAST&) = delete;
     GeqAST& operator=(const GeqAST) = delete;
@@ -475,9 +458,7 @@ class EqAST final : public BinaryAST
 public:
     EqAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("==");
-    }
+    {}
     EqAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -485,7 +466,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_LOWER;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return "==";}
 private:
     EqAST(const EqAST&) = delete;
     EqAST& operator=(const EqAST) = delete;
@@ -496,9 +477,7 @@ class NeqAST final : public BinaryAST
 public:
     NeqAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("!=");
-    }
+    {}
     NeqAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -506,7 +485,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::RELATIONAL_LOWER;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return "!=";}
 private:
     NeqAST(const NeqAST&) = delete;
     NeqAST& operator=(const NeqAST) = delete;
@@ -517,9 +496,7 @@ class AndAST final : public BinaryAST
 public:
     AndAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("&&");
-    }
+    {}
     AndAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -527,7 +504,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::LOGICAL;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return "&&";}
 private:
     AndAST(const AndAST&) = delete;
     AndAST& operator=(const AndAST) = delete;
@@ -538,9 +515,7 @@ class OrAST final : public BinaryAST
 public:
     OrAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
         :BinaryAST(left,right)
-    {
-        op_ = QString("||");
-    }
+    {}
     OrAST(const QVariant& v)
         :BinaryAST(v)
     {}
@@ -548,7 +523,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::LOGICAL;}
     QVariant toVariant() const override;
-
+    inline QString getOp() const override {return "||";}
 private:
     OrAST(const OrAST&) = delete;
     OrAST& operator=(const OrAST) = delete;

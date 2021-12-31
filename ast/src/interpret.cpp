@@ -398,13 +398,25 @@ void Interpret::VisitOrExprAST(OrAST& obj) {
 /* Following Classes (InstructionExprAST subclasses) set value_ to QVariant() if everything succeds, QString otherwise */
 
 void Interpret::VisitStartExprAST(StartAST& obj) {
+    if(Interpret::steps){
+        obj.isCurrent = true;
+        Interpret::mutex_.lock();
+        obj.isCurrent = false;
+    }
     value_ = QVariant();
 }
 
 void Interpret::VisitAssignExprAST(AssignAST& obj) {
     value_ = QVariant();
-
+    if(Interpret::steps){
+        obj.isCurrent = true;
+        Interpret::mutex_.lock();
+    }
     auto instrValue = Interpret(obj.getExpr()).value_;
+    if(Interpret::steps){
+        obj.isCurrent = false;
+    }
+
     if (instrValue.typeId() == qstringTypeId) {
         value_ = instrValue;
         return;
@@ -415,37 +427,55 @@ void Interpret::VisitAssignExprAST(AssignAST& obj) {
     }
 }
 
+//void Interpret::VisitBlockExprAST(BlockAST& obj) {
+//    value_ = QVariant();
+//    State::Domains().createNewDomain();
+//    QVector<InstructionAST*> b = obj.getBody();
+//    auto begin = b.begin();
+//    auto end = b.end();
+//    if(Interpret::steps){
+//        (*begin)->isCurrent = true;
+//    }
+//    auto prev = begin;
+//    auto instrValue = Interpret{(*begin)}.value_;
+//    if (instrValue.typeId() == qstringTypeId) {
+//        value_ = instrValue;
+//    }else {
+//        ++begin;
+//        while(begin != end){
+//            if(Interpret::steps){
+//                Interpret::mutex_.lock();
+//                (*begin)->isCurrent = true;
+//                (*prev)->isCurrent = false;
+//            }
+//            auto instrValue = Interpret{(*begin)}.value_;
+//            if (instrValue.typeId() == qstringTypeId) {
+//                value_ = instrValue;
+//                break;
+//            }
+//            prev = begin;
+//            ++begin;
+//        }
+//        Interpret::mutex_.lock();
+//        (*prev)->isCurrent = false;
+
+//    }
+
+//    State::Domains().removeCurrentDomain();
+//}
+
+
 void Interpret::VisitBlockExprAST(BlockAST& obj) {
     value_ = QVariant();
     State::Domains().createNewDomain();
-    QVector<InstructionAST*> b = obj.getBody();
-    auto begin = b.begin();
-    auto end = b.end();
-    (*begin)->isCurrent = true;
-    auto prev = begin;
-    auto instrValue = Interpret{(*begin)}.value_;
-    if (instrValue.typeId() == qstringTypeId) {
-        value_ = instrValue;
-    }else {
-        ++begin;
-        while(begin != end){
-            if(Interpret::steps){
-                Interpret::mutex_.lock();
-                qDebug() << (*begin) << "\n";
-                (*begin)->isCurrent = true;
-                (*prev)->isCurrent = false;
-            }
-            auto instrValue = Interpret{(*begin)}.value_;
-            if (instrValue.typeId() == qstringTypeId) {
-                value_ = instrValue;
-                break;
-            }
-            prev = begin;
-            ++begin;
-        }
-        (*prev)->isCurrent = false;
-    }
 
+    for(auto instruction : obj.getBody()){
+        auto instrValue = Interpret{instruction}.value_;
+        if (instrValue.typeId() == qstringTypeId) {
+            value_ = instrValue;
+            break;
+        }
+    }
     State::Domains().removeCurrentDomain();
 }
 
@@ -453,8 +483,14 @@ void Interpret::VisitIfExprAST(IfAST& obj) {
     obj.errorFound = false;
 
     value_ = QVariant();
-
+    if(Interpret::steps){
+        obj.isCurrent = true;
+        Interpret::mutex_.lock();
+    }
     auto instrCond = Interpret(obj.getCond()).value_;
+    if(Interpret::steps){
+        obj.isCurrent = false;
+    }
     if (instrCond.typeId() == qstringTypeId) {
         value_ = instrCond;
         return;
@@ -473,7 +509,14 @@ void Interpret::VisitWhileExprAST(WhileAST& obj) {
     value_ = QVariant();
 
     while (true) {
+        if(Interpret::steps){
+            obj.isCurrent = true;
+            Interpret::mutex_.lock();
+        }
         auto instrCond = Interpret(obj.getCond()).value_;
+        if(Interpret::steps){
+            obj.isCurrent = false;
+        }
         if (instrCond.typeId() == qstringTypeId) {
             value_ = instrCond;
             obj.errorFound = true;
@@ -498,7 +541,14 @@ void Interpret::VisitWhileExprAST(WhileAST& obj) {
 }
 
 void Interpret::VisitPrintAST(PrintAST& obj) {
+    if(Interpret::steps){
+        obj.isCurrent = true;
+        Interpret::mutex_.lock();
+    }
     value_ = Interpret(obj.getExpr()).value_;
+    if(Interpret::steps){
+        obj.isCurrent = false;
+    }
     if(value_.typeId() == qstringTypeId) {
         worker->print(value_.toString());
         return;
@@ -515,21 +565,29 @@ void Interpret::VisitPrintAST(PrintAST& obj) {
 void Interpret::VisitInputAST(InputAST& obj){
     worker->btnsettings(true);
     worker->print("Input variable " + obj.getName() + ":");
+    if(Interpret::steps){
+        obj.isCurrent = true;
+    }
     Interpret::mutex_.lock();
-    if(input.isEmpty()){
+    QString in = input;
+    input = "";
+    if(in.isEmpty()){
         value_ = QString("Input :: input empty");
         return;
     }
     bool ok;
-    auto val = input.toDouble(&ok);
+    auto val = in.toDouble(&ok);
     if(!ok) {
         value_ = QString("Input :: not a valid number");
         return;
     }
     auto tmp = QVariant(val);
     State::Domains().assignValue(obj.getName(),tmp);
-    worker->print(input);
+    worker->print(in);
     worker->btnsettings(false);
+    if(Interpret::steps){
+        obj.isCurrent = false;
+    }
     value_ = {};
 }
 
