@@ -1,18 +1,18 @@
 #include <exprtree.hpp>
 
-void StartExprAST::AcceptVisit(VisitorAST& v){
+void StartAST::AcceptVisit(VisitorAST& v){
     v.VisitStartExprAST(*this);
 }
-void AssignExprAST::AcceptVisit(VisitorAST& v){
+void AssignAST::AcceptVisit(VisitorAST& v){
     v.VisitAssignExprAST(*this);
 }
-void BlockExprAST::AcceptVisit(VisitorAST& v){
+void BlockAST::AcceptVisit(VisitorAST& v){
     v.VisitBlockExprAST(*this);
 }
-void WhileExprAST::AcceptVisit(VisitorAST& v){
+void WhileAST::AcceptVisit(VisitorAST& v){
     v.VisitWhileExprAST(*this);
 }
-void IfExprAST::AcceptVisit(VisitorAST& v){
+void IfAST::AcceptVisit(VisitorAST& v){
     v.VisitIfExprAST(*this);
 }
 
@@ -24,11 +24,11 @@ void InputAST::AcceptVisit(VisitorAST& v){
     v.VisitInputAST(*this);
 }
 
-AssignExprAST::~AssignExprAST(){
+AssignAST::~AssignAST(){
     delete expr_;
 }
 
-BlockExprAST::~BlockExprAST(){
+BlockAST::~BlockAST(){
    for(auto& next : body_)
        delete next;
 }
@@ -36,7 +36,7 @@ PrintAST::~PrintAST(){
     delete expr_;
 }
 
-void BlockExprAST::updateChildren()
+void BlockAST::updateChildren()
 {
     for(auto elem : body_){
         elem->setParentItem(this);
@@ -44,15 +44,13 @@ void BlockExprAST::updateChildren()
     }
 }
 
-void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posinstr){
+void BlockAST::insert(InstructionAST* newinstr, InstructionAST* posinstr){
     if (posinstr == nullptr){
         body_.push_back(newinstr);
     }else {
         auto pos = body_.indexOf(posinstr);
         if (pos != -1){
             body_.insert(pos+1, newinstr);
-        }else {
-            //TODO error handling
         }
     }
 
@@ -62,18 +60,18 @@ void BlockExprAST::insert(InstructionExprAST* newinstr, InstructionExprAST* posi
     connect(newinstr, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 }
 
-void BlockExprAST::remove(InstructionExprAST* instr){
+void BlockAST::remove(InstructionAST* instr){
     auto pos = body_.indexOf(instr);
     body_.remove(pos);
 }
 
-IfExprAST::~IfExprAST(){
+IfAST::~IfAST(){
     delete cond_;
     delete then_;
     delete else_;
 }
 
-void IfExprAST::updateChildren()
+void IfAST::updateChildren()
 {
     then_->setParentItem(this);
     else_->setParentItem(this);
@@ -81,19 +79,19 @@ void IfExprAST::updateChildren()
     else_->updateChildren();
 }
 
-void IfExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void IfAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     auto mousePosition = event->pos();
     emit selectItem(ifrectangle_.contains(mousePosition)?this:nullptr);
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
-WhileExprAST::~WhileExprAST(){
+WhileAST::~WhileAST(){
     delete cond_;
     delete body_;
 }
 
-void WhileExprAST::updateChildren()
+void WhileAST::updateChildren()
 {
     body_->setParentItem(this);
     body_->updateChildren();
@@ -101,14 +99,14 @@ void WhileExprAST::updateChildren()
 
 // ---------------------- PAINT -----------------------
 
-QRectF InstructionExprAST::boundingRect() const
+QRectF InstructionAST::boundingRect() const
 {
     float w = 120.0f;
     float h = 60.0f;
     return QRect(-w/2, -h/2, w, h);
 }
 
-void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void StartAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -121,7 +119,7 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     emit ShouldUpdateScene();
 }
 
-QRectF AssignExprAST::boundingRect() const
+QRectF AssignAST::boundingRect() const
 {
     float w = 120.0f;
     float h = 60.0f;
@@ -131,7 +129,7 @@ QRectF AssignExprAST::boundingRect() const
     return QRectF(-w/2,-h/2,w,h);
 }
 
-void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void AssignAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -144,7 +142,7 @@ void AssignExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     emit ShouldUpdateScene();
 }
 
-QRectF BlockExprAST::boundingRect() const
+QRectF BlockAST::boundingRect() const
 {
     float w = 0.0f;
     float h = 0.0f;
@@ -161,7 +159,7 @@ QRectF BlockExprAST::boundingRect() const
     return QRectF(-w/2, -h/2, w, h);
 }
 
-void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void BlockAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -175,13 +173,13 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     emit ShouldUpdateScene();
 }
 
-void BlockExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void BlockAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     emit selectItem(nullptr);
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
-QRectF IfExprAST::boundingRect() const{
+QRectF IfAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
     float ifh = 60.0f;
@@ -198,7 +196,7 @@ QRectF IfExprAST::boundingRect() const{
     return QRectF(-w/2,-h/2, w, h);
 }
 
-void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void IfAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -223,13 +221,21 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->fillRect(elserect, QColor::fromRgb(156, 102, 21));
     painter->drawText(elserect, Qt::AlignHCenter | Qt::AlignVCenter, "else" );
 
-    then_->setPos(-ifrectangle_.width()/2 + then_->getWidth()/2, -br.height()/2 + ifrectangle_.height()+gap*2 + thenrect.height() + gap + then_->getHeight()/2);
-    else_->setPos(ifrectangle_.width()/2 - else_->getWidth()/2, -br.height()/2 + ifrectangle_.height()+gap*2 + elserect.height() + gap + else_->getHeight()/2);
+    then_->setPos(
+                -ifrectangle_.width()/2 + then_->getWidth()/2,
+                -br.height()/2 + ifrectangle_.height()+gap*3 +
+                    thenrect.height() + then_->getHeight()/2
+                );
+    else_->setPos(
+                ifrectangle_.width()/2 - else_->getWidth()/2,
+                -br.height()/2 + ifrectangle_.height()+gap*2 +
+                    elserect.height() + gap + else_->getHeight()/2
+                );
 
     emit ShouldUpdateScene();
 }
 
-QRectF WhileExprAST::boundingRect() const
+QRectF WhileAST::boundingRect() const
 {
     float w = 0.0f;
     float h = 0.0f;
@@ -243,7 +249,7 @@ QRectF WhileExprAST::boundingRect() const
     return QRectF(-w/2,-h/2,w,h);
 }
 
-void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void WhileAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -303,40 +309,40 @@ void InputAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
 }
-void WhileExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void WhileAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     auto mousePosition = event->pos();
     emit selectItem(whilerectangle_.contains(mousePosition) ? this : nullptr);
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
-void InstructionExprAST::deleteMe()
+void InstructionAST::deleteMe()
 {
-    auto parent = static_cast<BlockExprAST*>(parentItem());
+    auto parent = static_cast<BlockAST*>(parentItem());
     parent->remove(this);
     delete this;
 }
 
 //------------ STRINGIFY ------------
 
-QString StartExprAST::stringify() const { return {}; }
-QString AssignExprAST::stringify() const { return name_ + " = " + expr_->stringify(); }
-QString BlockExprAST::stringify() const { return {}; }
-QString IfExprAST::stringify() const { return cond_->stringify(); }
-QString WhileExprAST::stringify() const { return cond_->stringify(); }
+QString StartAST::stringify() const { return {}; }
+QString AssignAST::stringify() const { return name_ + " = " + expr_->stringify(); }
+QString BlockAST::stringify() const { return {}; }
+QString IfAST::stringify() const { return cond_->stringify(); }
+QString WhileAST::stringify() const { return cond_->stringify(); }
 QString PrintAST::stringify() const { return expr_->stringify(); }
 QString InputAST::stringify() const { return {}; }
 
 //------------------ toVariant -------------------
 
-QVariant StartExprAST::toVariant() const
+QVariant StartAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "StartExprAST");
     return map;
 }
 
-QVariant AssignExprAST::toVariant() const
+QVariant AssignAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "AssignExprAST");
@@ -345,7 +351,7 @@ QVariant AssignExprAST::toVariant() const
     return map;
 }
 
-QVariant BlockExprAST::toVariant() const
+QVariant BlockAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "BlockExprAST");
@@ -357,7 +363,7 @@ QVariant BlockExprAST::toVariant() const
     return map;
 }
 
-QVariant IfExprAST::toVariant() const
+QVariant IfAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "IfExprAST");
@@ -367,7 +373,7 @@ QVariant IfExprAST::toVariant() const
     return map;
 }
 
-QVariant WhileExprAST::toVariant() const
+QVariant WhileAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "WhileExprAST");
@@ -392,37 +398,37 @@ QVariant InputAST::toVariant() const {
 
 //-------------------- QVariant constructors --------------------
 
-AssignExprAST::AssignExprAST(const QVariant& v)
-    : AssignExprAST(
+AssignAST::AssignAST(const QVariant& v)
+    : AssignAST(
           v.toMap().value("name").toString(),
           ExprAST::makeFromVariant(v.toMap().value("expr"))
           )
 {
 }
 
-BlockExprAST::BlockExprAST(const QVariant& v)
-    : BlockExprAST()
+BlockAST::BlockAST(const QVariant& v)
+    : BlockAST()
 {
     qDeleteAll(body_);
     body_.clear();
     for(auto& expr : v.toMap().value("body").toList()) {
-        insert(dynamic_cast<InstructionExprAST*>(ExprAST::makeFromVariant(expr)));
+        insert(dynamic_cast<InstructionAST*>(ExprAST::makeFromVariant(expr)));
     }
 }
 
-IfExprAST::IfExprAST(const QVariant& v)
-    : IfExprAST(
+IfAST::IfAST(const QVariant& v)
+    : IfAST(
           ExprAST::makeFromVariant(v.toMap().value("cond")),
-          dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(v.toMap().value("then"))),
-          dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(v.toMap().value("else")))
+          dynamic_cast<BlockAST*>(ExprAST::makeFromVariant(v.toMap().value("then"))),
+          dynamic_cast<BlockAST*>(ExprAST::makeFromVariant(v.toMap().value("else")))
           )
 {
 }
 
-WhileExprAST::WhileExprAST(const QVariant& v)
-    : WhileExprAST(
+WhileAST::WhileAST(const QVariant& v)
+    : WhileAST(
           ExprAST::makeFromVariant(v.toMap().value("cond")),
-          dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(v.toMap().value("body")))
+          dynamic_cast<BlockAST*>(ExprAST::makeFromVariant(v.toMap().value("body")))
           )
 {
 }

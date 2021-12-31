@@ -21,8 +21,6 @@ public slots:
     void input();
     void changeBtnSettings(bool);
 
-signals:
-    void killInterpret();
 };
 
 

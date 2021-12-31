@@ -125,16 +125,16 @@ AllocaInst* CreateEntryBlockAlloca(Function *f, QString s, MyType type){
     return nullptr;
 }
 
-void Compile::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
+void Compile::VisitPlaceholderExprAST(PlaceholderAST& obj) {
     if(obj.isEmpty()){
         value_ = QString("Expression not finished :: Placeholder exists.");
         return;
     }
 
-    value_ = Compile(obj.expr_).value_;
+    value_ = Compile(obj.getExpr()).value_;
 }
 
-void Compile::VisitValueExprAST(ValueExprAST& obj) {
+void Compile::VisitValueExprAST(ValueAST& obj) {
     Value* val = ConstantFP::get(TheContext, APFloat(obj.getValue()));
     QVariantMap map;
     map.insert("value", QVariant::fromValue(val));
@@ -142,7 +142,7 @@ void Compile::VisitValueExprAST(ValueExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitVariableExprAST(VariableExprAST& obj) {
+void Compile::VisitVariableExprAST(VariableAST& obj) {
     QString name = obj.getName();
     auto prevValue = State::Domains().getValue(name);
     QVariantMap map = prevValue.toMap();
@@ -160,7 +160,7 @@ void Compile::VisitVariableExprAST(VariableExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitNotExprAST(NotExprAST& obj) {
+void Compile::VisitNotExprAST(NotAST& obj) {
     auto prevValue = Compile(obj.getOperand()).value_;
     QVariantMap map = prevValue.toMap();
     if(map.isEmpty()){
@@ -185,7 +185,7 @@ void Compile::VisitNotExprAST(NotExprAST& obj) {
     value_ = map; // Maybe CreateNeg ? (Has additional arguments)
 }
 
-void Compile::VisitMulExprAST(MulExprAST& obj) {
+void Compile::VisitMulExprAST(MulAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -220,7 +220,7 @@ void Compile::VisitMulExprAST(MulExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitDivExprAST(DivExprAST& obj) {
+void Compile::VisitDivExprAST(DivAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -255,7 +255,7 @@ void Compile::VisitDivExprAST(DivExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitAddExprAST(AddExprAST& obj) {
+void Compile::VisitAddExprAST(AddAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -290,7 +290,7 @@ void Compile::VisitAddExprAST(AddExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitSubExprAST(SubExprAST& obj) {
+void Compile::VisitSubExprAST(SubAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -325,7 +325,7 @@ void Compile::VisitSubExprAST(SubExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitLtExprAST(LtExprAST& obj) {
+void Compile::VisitLtExprAST(LtAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -360,7 +360,7 @@ void Compile::VisitLtExprAST(LtExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitLeqExprAST(LeqExprAST& obj) {
+void Compile::VisitLeqExprAST(LeqAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -395,7 +395,7 @@ void Compile::VisitLeqExprAST(LeqExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitGtExprAST(GtExprAST& obj) {
+void Compile::VisitGtExprAST(GtAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -430,7 +430,7 @@ void Compile::VisitGtExprAST(GtExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitGeqExprAST(GeqExprAST& obj) {
+void Compile::VisitGeqExprAST(GeqAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -465,7 +465,7 @@ void Compile::VisitGeqExprAST(GeqExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitEqExprAST(EqExprAST& obj) {
+void Compile::VisitEqExprAST(EqAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -512,7 +512,7 @@ void Compile::VisitEqExprAST(EqExprAST& obj) {
     return;
 }
 
-void Compile::VisitNeqExprAST(NeqExprAST& obj) {
+void Compile::VisitNeqExprAST(NeqAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -559,7 +559,7 @@ void Compile::VisitNeqExprAST(NeqExprAST& obj) {
     return;
 }
 
-void Compile::VisitAndExprAST(AndExprAST& obj) {
+void Compile::VisitAndExprAST(AndAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -594,7 +594,7 @@ void Compile::VisitAndExprAST(AndExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitOrExprAST(OrExprAST& obj) {
+void Compile::VisitOrExprAST(OrAST& obj) {
     auto left = Compile(obj.getLeft()).value_;
     QVariantMap mapLeft = left.toMap();
     if(mapLeft.isEmpty()){
@@ -629,11 +629,11 @@ void Compile::VisitOrExprAST(OrExprAST& obj) {
     value_ = map;
 }
 
-void Compile::VisitStartExprAST(StartExprAST& obj) {
+void Compile::VisitStartExprAST(StartAST& obj) {
 
 }
 
-void Compile::VisitAssignExprAST(AssignExprAST& obj) {
+void Compile::VisitAssignExprAST(AssignAST& obj) {
     auto expr = Compile{obj.getExpr()}.value_;
     QVariantMap condMap = expr.toMap();
     if(condMap.isEmpty()){
@@ -662,7 +662,7 @@ void Compile::VisitAssignExprAST(AssignExprAST& obj) {
     value_ = {};
 }
 
-void Compile::VisitBlockExprAST(BlockExprAST& obj) {
+void Compile::VisitBlockExprAST(BlockAST& obj) {
     State::Domains().createNewDomain();
     for(auto instruction : obj.getBody()){
         auto res = Compile(instruction).value_;
@@ -675,7 +675,7 @@ void Compile::VisitBlockExprAST(BlockExprAST& obj) {
     value_ = {};
 }
 
-void Compile::VisitIfExprAST(IfExprAST& obj) {
+void Compile::VisitIfExprAST(IfAST& obj) {
     Function* f = Builder.GetInsertBlock()->getParent();
 	BasicBlock* ThenBB = BasicBlock::Create(TheContext, "then", f);
 	BasicBlock* ElseBB = BasicBlock::Create(TheContext, "else", f);
@@ -719,7 +719,7 @@ void Compile::VisitIfExprAST(IfExprAST& obj) {
     value_ = {};
 }
 
-void Compile::VisitWhileExprAST(WhileExprAST& obj) {
+void Compile::VisitWhileExprAST(WhileAST& obj) {
     Function* f = Builder.GetInsertBlock()->getParent();
     BasicBlock* CondBB = BasicBlock::Create(TheContext, "cond", f);
     BasicBlock* LoopBB = BasicBlock::Create(TheContext, "loop", f);

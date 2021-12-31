@@ -8,60 +8,60 @@
 #include <QGraphicsSceneMouseEvent>
 #include <serializable.hpp>
 
-class PlaceholderExprAST;
-class ValueExprAST;
-class VariableExprAST;
+class PlaceholderAST;
+class ValueAST;
+class VariableAST;
 
-class NotExprAST;
-class MulExprAST;
-class DivExprAST;
-class AddExprAST;
-class SubExprAST;
-class LtExprAST;
-class LeqExprAST;
-class GtExprAST;
-class GeqExprAST;
-class EqExprAST;
-class NeqExprAST;
-class AndExprAST;
-class OrExprAST;
+class NotAST;
+class MulAST;
+class DivAST;
+class AddAST;
+class SubAST;
+class LtAST;
+class LeqAST;
+class GtAST;
+class GeqAST;
+class EqAST;
+class NeqAST;
+class AndAST;
+class OrAST;
 
-class StartExprAST;
-class AssignExprAST;
-class BlockExprAST;
-class IfExprAST;
-class WhileExprAST;
+class StartAST;
+class AssignAST;
+class BlockAST;
+class IfAST;
+class WhileAST;
 class PrintAST;
 class InputAST;
 
 class VisitorAST
 {
 public:
-    virtual void VisitPlaceholderExprAST(PlaceholderExprAST&) = 0;
-    virtual void VisitValueExprAST(ValueExprAST&) = 0;
-    virtual void VisitVariableExprAST(VariableExprAST&) = 0;
+    virtual void VisitPlaceholderExprAST(PlaceholderAST&) = 0;
+    virtual void VisitValueExprAST(ValueAST&) = 0;
+    virtual void VisitVariableExprAST(VariableAST&) = 0;
 
-    virtual void VisitNotExprAST(NotExprAST&) = 0;
-    virtual void VisitMulExprAST(MulExprAST&) = 0;
-    virtual void VisitDivExprAST(DivExprAST&) = 0;
-    virtual void VisitAddExprAST(AddExprAST&) = 0;
-    virtual void VisitSubExprAST(SubExprAST&) = 0;
-    virtual void VisitLtExprAST(LtExprAST&) = 0;
-    virtual void VisitLeqExprAST(LeqExprAST&) = 0;
-    virtual void VisitGtExprAST(GtExprAST&) = 0;
-    virtual void VisitGeqExprAST(GeqExprAST&) = 0;
-    virtual void VisitEqExprAST(EqExprAST&) = 0;
-    virtual void VisitNeqExprAST(NeqExprAST&) = 0;
-    virtual void VisitAndExprAST(AndExprAST&) = 0;
-    virtual void VisitOrExprAST(OrExprAST&) = 0;
+    virtual void VisitNotExprAST(NotAST&) = 0;
+    virtual void VisitMulExprAST(MulAST&) = 0;
+    virtual void VisitDivExprAST(DivAST&) = 0;
+    virtual void VisitAddExprAST(AddAST&) = 0;
+    virtual void VisitSubExprAST(SubAST&) = 0;
+    virtual void VisitLtExprAST(LtAST&) = 0;
+    virtual void VisitLeqExprAST(LeqAST&) = 0;
+    virtual void VisitGtExprAST(GtAST&) = 0;
+    virtual void VisitGeqExprAST(GeqAST&) = 0;
+    virtual void VisitEqExprAST(EqAST&) = 0;
+    virtual void VisitNeqExprAST(NeqAST&) = 0;
+    virtual void VisitAndExprAST(AndAST&) = 0;
+    virtual void VisitOrExprAST(OrAST&) = 0;
 
-    virtual void VisitAssignExprAST(AssignExprAST&) = 0;
-    virtual void VisitBlockExprAST(BlockExprAST&) = 0;
-    virtual void VisitIfExprAST(IfExprAST&) = 0;
-    virtual void VisitWhileExprAST(WhileExprAST&) = 0;
+    virtual void VisitAssignExprAST(AssignAST&) = 0;
+    virtual void VisitBlockExprAST(BlockAST&) = 0;
+    virtual void VisitIfExprAST(IfAST&) = 0;
+    virtual void VisitWhileExprAST(WhileAST&) = 0;
     virtual void VisitPrintAST(PrintAST&) = 0;
     virtual void VisitInputAST(InputAST&) = 0;
-    virtual void VisitStartExprAST(StartExprAST&) = 0;
+    virtual void VisitStartExprAST(StartAST&) = 0;
 };
 
 enum class Priority
@@ -123,14 +123,14 @@ signals:
     void signalSelected();
 };
 
-class PlaceholderExprAST final : public ExprAST
+class PlaceholderAST final : public ExprAST
 {
 public:
-    PlaceholderExprAST(){
+    PlaceholderAST(){
         expr_ = nullptr;
         color_= QColor::fromRgb(112, 171, 175);
     }
-    PlaceholderExprAST(const QVariant& v);
+    PlaceholderAST(const QVariant& v);
 
     void setExpr(ExprAST* expr){
         expr_ = expr;
@@ -140,7 +140,7 @@ public:
         connect(expr_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
     }
 
-    ~PlaceholderExprAST();
+    ~PlaceholderAST();
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {
@@ -154,28 +154,28 @@ public:
     QRectF boundingRect() const override;
     void updateChildren() final;
     inline bool isEmpty() const {return expr_ == nullptr;}
-
-
-    ExprAST* expr_;
+    void clear() {expr_ = nullptr;}
+    inline ExprAST* getExpr() const { return expr_; }
 
 private:
-    PlaceholderExprAST(const PlaceholderExprAST&) = delete;
-    PlaceholderExprAST& operator=(const PlaceholderExprAST&) = delete;
+    PlaceholderAST(const PlaceholderAST&) = delete;
+    PlaceholderAST& operator=(const PlaceholderAST&) = delete;
+    ExprAST* expr_;
 };
 
-class ValueExprAST final : public ExprAST
+class ValueAST final : public ExprAST
 {
 public:
-    ValueExprAST(double value)
+    ValueAST(double value)
         : value_(value)
     {
         color_= QColor::fromRgb(107, 39, 55);
     }
-    ValueExprAST(const QVariant& v);
+    ValueAST(const QVariant& v);
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::INSTRUCTION;}
-    inline double getValue() {return value_;}
+    inline double getValue() const { return value_; }
     QString stringify() const final;
     QVariant toVariant() const override;
 
@@ -183,23 +183,23 @@ public:
     QRectF boundingRect() const override;
 private:
     double value_;
-    ValueExprAST(const ValueExprAST&) = delete;
-    ValueExprAST& operator=(const ValueExprAST&) = delete;
+    ValueAST(const ValueAST&) = delete;
+    ValueAST& operator=(const ValueAST&) = delete;
 };
 
-class VariableExprAST final : public ExprAST
+class VariableAST final : public ExprAST
 {
 public:
-    VariableExprAST(QString name)
+    VariableAST(QString name)
         : name_(name)
     {
         color_= QColor::fromRgb(107, 39, 55);
     }
-    VariableExprAST(const QVariant& v);
+    VariableAST(const QVariant& v);
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::INSTRUCTION;}
-    inline QString getName() {return name_;}
+    inline QString getName() const { return name_; }
     QString stringify() const final;
     QVariant toVariant() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -207,11 +207,11 @@ public:
 
 private:
     QString name_;
-    VariableExprAST(const VariableExprAST&) = delete;
-    VariableExprAST& operator=(const VariableExprAST&) = delete;
+    VariableAST(const VariableAST&) = delete;
+    VariableAST& operator=(const VariableAST&) = delete;
 };
 
-class OperatorExprAST : public ExprAST
+class OperatorAST : public ExprAST
 {
 public:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
@@ -221,11 +221,11 @@ protected:
     QString op_;
 };
 
-class UnaryExprAST : public OperatorExprAST
+class UnaryAST : public OperatorAST
 {
 public:
-    UnaryExprAST(ExprAST *operand = nullptr)
-        : operand_(operand != nullptr ? operand : new PlaceholderExprAST())
+    UnaryAST(ExprAST *operand = nullptr)
+        : operand_(operand != nullptr ? operand : new PlaceholderAST())
     {
         operand_->setParentItem(this);
         connect(operand_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
@@ -234,48 +234,45 @@ public:
 
         color_ = QColor::fromRgb(175, 122, 109);
     }
-    UnaryExprAST(const QVariant&);
-
-    ~UnaryExprAST();
-
+    UnaryAST(const QVariant&);
+    ~UnaryAST();
     inline Priority getPriority() const final {return Priority::UNARY;}
-    inline ExprAST* getOperand() {return operand_;}
+    inline ExprAST* getOperand() const { return operand_; }
     QString stringify() const final;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
     QRectF boundingRect() const override;
-
     void updateChildren() final;
 
 protected:
     ExprAST* operand_;
 };
 
-class NotExprAST final : public UnaryExprAST
+class NotAST final : public UnaryAST
 {
 public:
-    NotExprAST(ExprAST *operand = nullptr)
-        :UnaryExprAST(operand)
+    NotAST(ExprAST *operand = nullptr)
+        :UnaryAST(operand)
     {
         op_ = QString("!");
     }
-    NotExprAST(const QVariant& v)
-        :UnaryExprAST(v)
+    NotAST(const QVariant& v)
+        :UnaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
     QVariant toVariant() const override;
 
 private:
-    NotExprAST(const NotExprAST&) = delete;
-    NotExprAST& operator=(const NotExprAST) = delete;
+    NotAST(const NotAST&) = delete;
+    NotAST& operator=(const NotAST) = delete;
 };
 
-class BinaryExprAST : public OperatorExprAST
+class BinaryAST : public OperatorAST
 {
 public:
-    BinaryExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :left_(left!=nullptr?left:new PlaceholderExprAST())
-        ,right_(right!=nullptr?right:new PlaceholderExprAST())
+    BinaryAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :left_(left!=nullptr?left:new PlaceholderAST())
+        ,right_(right!=nullptr?right:new PlaceholderAST())
     {
         left_->setParentItem(this);
         connect(left_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
@@ -289,14 +286,12 @@ public:
 
         color_= QColor::fromRgb(175, 122, 109);
     }
-    BinaryExprAST(const QVariant&);
+    BinaryAST(const QVariant&);
 
-    ~BinaryExprAST();
+    ~BinaryAST();
 
-    virtual ExprAST* getLeft() {return left_;}
-    virtual ExprAST* getRight() {return right_;}
-    void setLeft(ExprAST*);
-    void setRight(ExprAST*);
+    virtual ExprAST* getLeft() const {return left_;}
+    virtual ExprAST* getRight() const {return right_;}
     QString stringify() const final;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
@@ -307,16 +302,16 @@ protected:
     ExprAST *left_, *right_;
 };
 
-class MulExprAST final : public BinaryExprAST
+class MulAST final : public BinaryAST
 {
 public:
-    MulExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    MulAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("*");
     }
-    MulExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    MulAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -324,20 +319,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    MulExprAST(const MulExprAST&) = delete;
-    MulExprAST& operator=(const MulExprAST) = delete;
+    MulAST(const MulAST&) = delete;
+    MulAST& operator=(const MulAST) = delete;
 };
 
-class DivExprAST final : public BinaryExprAST
+class DivAST final : public BinaryAST
 {
 public:
-    DivExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    DivAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("/");
     }
-    DivExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    DivAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -345,20 +340,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    DivExprAST(const DivExprAST&) = delete;
-    DivExprAST& operator=(const DivExprAST) = delete;
+    DivAST(const DivAST&) = delete;
+    DivAST& operator=(const DivAST) = delete;
 };
 
-class AddExprAST final : public BinaryExprAST
+class AddAST final : public BinaryAST
 {
 public:
-    AddExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    AddAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("+");
     }
-    AddExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    AddAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -366,20 +361,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    AddExprAST(const AddExprAST&) = delete;
-    AddExprAST& operator=(const AddExprAST) = delete;
+    AddAST(const AddAST&) = delete;
+    AddAST& operator=(const AddAST) = delete;
 };
 
-class SubExprAST final : public BinaryExprAST
+class SubAST final : public BinaryAST
 {
 public:
-    SubExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    SubAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("-");
     }
-    SubExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    SubAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -387,20 +382,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    SubExprAST(const SubExprAST&) = delete;
-    SubExprAST& operator=(const SubExprAST) = delete;
+    SubAST(const SubAST&) = delete;
+    SubAST& operator=(const SubAST) = delete;
 };
 
-class LtExprAST final : public BinaryExprAST
+class LtAST final : public BinaryAST
 {
 public:
-    LtExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    LtAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("<");
     }
-    LtExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    LtAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -408,20 +403,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    LtExprAST(const LtExprAST&) = delete;
-    LtExprAST& operator=(const LtExprAST) = delete;
+    LtAST(const LtAST&) = delete;
+    LtAST& operator=(const LtAST) = delete;
 };
 
-class LeqExprAST final : public BinaryExprAST
+class LeqAST final : public BinaryAST
 {
 public:
-    LeqExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    LeqAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("<=");
     }
-    LeqExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    LeqAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -429,20 +424,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    LeqExprAST(const LeqExprAST&) = delete;
-    LeqExprAST& operator=(const LeqExprAST) = delete;
+    LeqAST(const LeqAST&) = delete;
+    LeqAST& operator=(const LeqAST) = delete;
 };
 
-class GtExprAST final : public BinaryExprAST
+class GtAST final : public BinaryAST
 {
 public:
-    GtExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    GtAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString(">");
     }
-    GtExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    GtAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -450,20 +445,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    GtExprAST(const GtExprAST&) = delete;
-    GtExprAST& operator=(const GtExprAST) = delete;
+    GtAST(const GtAST&) = delete;
+    GtAST& operator=(const GtAST) = delete;
 };
 
-class GeqExprAST final : public BinaryExprAST
+class GeqAST final : public BinaryAST
 {
 public:
-    GeqExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    GeqAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString(">=");
     }
-    GeqExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    GeqAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -471,20 +466,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    GeqExprAST(const GeqExprAST&) = delete;
-    GeqExprAST& operator=(const GeqExprAST) = delete;
+    GeqAST(const GeqAST&) = delete;
+    GeqAST& operator=(const GeqAST) = delete;
 };
 
-class EqExprAST final : public BinaryExprAST
+class EqAST final : public BinaryAST
 {
 public:
-    EqExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    EqAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("==");
     }
-    EqExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    EqAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -492,20 +487,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    EqExprAST(const EqExprAST&) = delete;
-    EqExprAST& operator=(const EqExprAST) = delete;
+    EqAST(const EqAST&) = delete;
+    EqAST& operator=(const EqAST) = delete;
 };
 
-class NeqExprAST final : public BinaryExprAST
+class NeqAST final : public BinaryAST
 {
 public:
-    NeqExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    NeqAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("!=");
     }
-    NeqExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    NeqAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -513,20 +508,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    NeqExprAST(const NeqExprAST&) = delete;
-    NeqExprAST& operator=(const NeqExprAST) = delete;
+    NeqAST(const NeqAST&) = delete;
+    NeqAST& operator=(const NeqAST) = delete;
 };
 
-class AndExprAST final : public BinaryExprAST
+class AndAST final : public BinaryAST
 {
 public:
-    AndExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    AndAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("&&");
     }
-    AndExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    AndAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -534,20 +529,20 @@ public:
     QVariant toVariant() const override;
 
 private:
-    AndExprAST(const AndExprAST&) = delete;
-    AndExprAST& operator=(const AndExprAST) = delete;
+    AndAST(const AndAST&) = delete;
+    AndAST& operator=(const AndAST) = delete;
 };
 
-class OrExprAST final : public BinaryExprAST
+class OrAST final : public BinaryAST
 {
 public:
-    OrExprAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
-        :BinaryExprAST(left,right)
+    OrAST(ExprAST *left = nullptr, ExprAST *right = nullptr)
+        :BinaryAST(left,right)
     {
         op_ = QString("||");
     }
-    OrExprAST(const QVariant& v)
-        :BinaryExprAST(v)
+    OrAST(const QVariant& v)
+        :BinaryAST(v)
     {}
 
     void AcceptVisit(VisitorAST&) override;
@@ -555,8 +550,8 @@ public:
     QVariant toVariant() const override;
 
 private:
-    OrExprAST(const OrExprAST&) = delete;
-    OrExprAST& operator=(const OrExprAST) = delete;
+    OrAST(const OrAST&) = delete;
+    OrAST& operator=(const OrAST) = delete;
 };
 
 #endif // AST_H

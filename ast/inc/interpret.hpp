@@ -17,36 +17,35 @@ public:
         expr->AcceptVisit(*this);
     }
 
-    void VisitPlaceholderExprAST(PlaceholderExprAST&) override;
-    void VisitValueExprAST(ValueExprAST&) override;
-    void VisitVariableExprAST(VariableExprAST&) override;
+    void VisitPlaceholderExprAST(PlaceholderAST&) override;
+    void VisitValueExprAST(ValueAST&) override;
+    void VisitVariableExprAST(VariableAST&) override;
 
-    void VisitNotExprAST(NotExprAST&) override;
-    void VisitMulExprAST(MulExprAST&) override;
-    void VisitDivExprAST(DivExprAST&) override;
-    void VisitAddExprAST(AddExprAST&) override;
-    void VisitSubExprAST(SubExprAST&) override;
-    void VisitLtExprAST(LtExprAST&) override;
-    void VisitLeqExprAST(LeqExprAST&) override;
-    void VisitGtExprAST(GtExprAST&) override;
-    void VisitGeqExprAST(GeqExprAST&) override;
-    void VisitEqExprAST(EqExprAST&) override;
-    void VisitNeqExprAST(NeqExprAST&) override;
-    void VisitAndExprAST(AndExprAST&) override;
-    void VisitOrExprAST(OrExprAST&) override;
+    void VisitNotExprAST(NotAST&) override;
+    void VisitMulExprAST(MulAST&) override;
+    void VisitDivExprAST(DivAST&) override;
+    void VisitAddExprAST(AddAST&) override;
+    void VisitSubExprAST(SubAST&) override;
+    void VisitLtExprAST(LtAST&) override;
+    void VisitLeqExprAST(LeqAST&) override;
+    void VisitGtExprAST(GtAST&) override;
+    void VisitGeqExprAST(GeqAST&) override;
+    void VisitEqExprAST(EqAST&) override;
+    void VisitNeqExprAST(NeqAST&) override;
+    void VisitAndExprAST(AndAST&) override;
+    void VisitOrExprAST(OrAST&) override;
 
-    void VisitStartExprAST(StartExprAST&) override;
-    void VisitAssignExprAST(AssignExprAST&) override;
-    void VisitBlockExprAST(BlockExprAST&) override;
-    void VisitIfExprAST(IfExprAST&) override;
-    void VisitWhileExprAST(WhileExprAST&) override;
+    void VisitStartExprAST(StartAST&) override;
+    void VisitAssignExprAST(AssignAST&) override;
+    void VisitBlockExprAST(BlockAST&) override;
+    void VisitIfExprAST(IfAST&) override;
+    void VisitWhileExprAST(WhileAST&) override;
     void VisitPrintAST(PrintAST&) override;
     void VisitInputAST(InputAST&) override;
 
-    inline QString getValue();
+    inline QString getErrorMsg();
 
-    inline QVariant getValueTest() { return value_;}
-
+    inline QVariant getValue() { return value_;}
 
     static int doubleTypeId;
     static int boolTypeId;
@@ -65,17 +64,16 @@ class Worker : public QObject {
     Q_OBJECT
 
 public:
-    Worker(BlockExprAST* mb)
+    Worker(BlockAST* mb)
         : mainBlock_(mb)
     {}
 
     void print(QString);
     void btnsettings(bool);
-    InstructionExprAST* current;
+    InstructionAST* current;
 
 public slots:
     void process();
-    void kill();
 
 signals:
     void finished();
@@ -84,7 +82,8 @@ signals:
     void changeButtonSettings(bool);
 
 private:
-    BlockExprAST* mainBlock_;
+    BlockAST* mainBlock_;
+
 };
 
 #endif // INTERPRET_H

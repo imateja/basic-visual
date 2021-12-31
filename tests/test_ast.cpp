@@ -5,47 +5,47 @@
 #include <interpret.hpp>
 #include <state.hpp>
 
-TEST_CASE("ValueExprAST testing constructor with different values", "[class][constructor]")
+TEST_CASE("ValueAST testing constructor with different values", "[class][constructor]")
 {
-    SECTION("Instance of ValueExprAST constructed with argument type 'double' will return that value when getValue() is called")
+    SECTION("Instance of ValueAST constructed with argument type 'double' will return that value when getValue() is called")
     {
             double input = 5.5;
-            ValueExprAST value(input);
+            ValueAST value(input);
             double expected = 5.5;
             REQUIRE(value.getValue() == expected);
 
     }
 
 
-    SECTION("Border case, Instance of ValueExprAST constructed with argument double max will return double max when getValue() is called")
+    SECTION("Border case, Instance of ValueAST constructed with argument double max will return double max when getValue() is called")
     {
-        ValueExprAST value(std::numeric_limits<double>::max());
+        ValueAST value(std::numeric_limits<double>::max());
         double expected = std::numeric_limits<double>::max();
         REQUIRE(value.getValue() == expected);
 
     }
-    SECTION("Stringify method will for string of value that it is in instance of ValueExprAST"){
-        ValueExprAST value(0);
+    SECTION("Stringify method will for string of value that it is in instance of ValueAST"){
+        ValueAST value(0);
         QString expected = "0";
         REQUIRE(value.stringify() == expected);
     }
-    SECTION("Interpreting ValueExprAST should return the same value as ValueExprAST getValue()"){
+    SECTION("Interpreting ValueAST should return the same value as ValueAST getValue()"){
 
-        ValueExprAST *input = new ValueExprAST(6.25);
+        ValueAST *input = new ValueAST(6.25);
         double expectedResult = 6.25;
         Interpret *i = new Interpret(input);
 
-        REQUIRE(i->getValueTest().toDouble() == 6.25);
+        REQUIRE(i->getValue().toDouble() == 6.25);
     }
 }
 
-TEST_CASE("VariableExprAST", "[VariableExprAST][Constructor]")
+TEST_CASE("VariableAST", "[VariableAST][Constructor]")
 {
-    SECTION("Instance of VariableExprAST constructed with argument type 'string' will return that value when getName() is called")
+    SECTION("Instance of VariableAST constructed with argument type 'string' will return that value when getName() is called")
     {
         QString input = "x";
         QString expected = "x";
-        VariableExprAST variable(input);
+        VariableAST variable(input);
         REQUIRE(variable.getName() == expected);
     }
 
@@ -53,41 +53,41 @@ TEST_CASE("VariableExprAST", "[VariableExprAST][Constructor]")
     {
         QString input = "";
         QString expected = "";
-        VariableExprAST variable(input);
+        VariableAST variable(input);
         REQUIRE(variable.getName() == expected);
     }
 
     SECTION("Testing Stringify metod for argument string should return exact string"){
         QString input = "string";
         QString expected = "string";
-        VariableExprAST variable(input);
+        VariableAST variable(input);
         REQUIRE(variable.stringify() == expected);
     }
-    SECTION("Interpreting ValueExprAST should return the same value as ValueExprAST getValue()"){
+    SECTION("Interpreting ValueAST should return the same value as ValueAST getValue()"){
         State::Domains().createNewDomain();
 
-        VariableExprAST *input = new VariableExprAST(QString("x"));
+        VariableAST *input = new VariableAST(QString("x"));
         QVariant variableValue(6.25);
         State::Domains().assignValue(input->getName(),variableValue);
         double expectedResult = 6.25;
         Interpret *i = new Interpret(input);
 
-        REQUIRE(i->getValueTest().toDouble() == 6.25);
+        REQUIRE(i->getValue().toDouble() == 6.25);
     }
 }
 
-TEST_CASE("Testing PlaceholderExprAST constructor","[PlaceholderExprAST][constructor]")
+TEST_CASE("Testing PlaceholderAST constructor","[PlaceholderAST][constructor]")
 {
-    SECTION("For PlaceholderExprAST empty constructor expr_ should be nullptr")
+    SECTION("For PlaceholderAST empty constructor expr_ should be nullptr")
     {
-        PlaceholderExprAST placeholder = PlaceholderExprAST();
+        PlaceholderAST placeholder = PlaceholderAST();
         REQUIRE(placeholder.expr_ == nullptr);
     }
 
-    SECTION("For empty PlaceholderExprAST stringify method should return []")
+    SECTION("For empty PlaceholderAST stringify method should return []")
     {
         QString expected = "[]";
-        PlaceholderExprAST placeholder = PlaceholderExprAST();
+        PlaceholderAST placeholder = PlaceholderAST();
         REQUIRE(placeholder.stringify() == expected);
 
     }
@@ -95,246 +95,246 @@ TEST_CASE("Testing PlaceholderExprAST constructor","[PlaceholderExprAST][constru
     SECTION("For not empty Placeholder stringfy method should return expr_ stringfy")
     {
 
-    //TODO: Once ExprAST is tested
+    //TODO: Once AST is tested
     }
 }
 
-TEST_CASE("MulExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("MulAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, MulExprAST will multiply them and Interpret will hold their product")
+    SECTION("For two type ValueAST operands, MulAST will multiply them and Interpret will hold their product")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(5.0);
-        ValueExprAST *tmp2 = new ValueExprAST(6.0);
-        MulExprAST *input = new MulExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(5.0);
+        ValueAST *tmp2 = new ValueAST(6.0);
+        MulAST *input = new MulAST(tmp1,tmp2);
         double expectedResult = 30.0;
-        auto result = Interpret(input).getValueTest().toDouble();
+        auto result = Interpret(input).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, MulExprAST will multiply them and Interpret will hold their product")
+    SECTION("For two VariableAST* operands, MulAST will multiply them and Interpret will hold their product")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(6.0);
         QVariant variableValue2(5.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        MulExprAST inputMul(input1,input2);
+        MulAST inputMul(input1,input2);
 
         double expectedResult = 30.0;
-        auto result = Interpret(&inputMul).getValueTest().toDouble();
+        auto result = Interpret(&inputMul).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, MulExprAST will multiply them and Interpret will hold their product")
+    SECTION("For one ValueAST* and one VariableAST* operands, MulAST will multiply them and Interpret will hold their product")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        ValueExprAST *input2 = new ValueExprAST(5.0);
+        VariableAST *input1 = new VariableAST(QString("x"));
+        ValueAST *input2 = new ValueAST(5.0);
         QVariant variableValue(6.0);
         State::Domains().assignValue(input1->getName(),variableValue);
-        MulExprAST inputMul(input1,input2);
+        MulAST inputMul(input1,input2);
 
         double expectedResult = 30.0;
-        auto result = Interpret(&inputMul).getValueTest().toDouble();
+        auto result = Interpret(&inputMul).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 }
 
-TEST_CASE("DivExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("DivAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, DivExprAST will divide them and Interpret will hold their quotient")
+    SECTION("For two type ValueAST operands, DivAST will divide them and Interpret will hold their quotient")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(5.0);
-        ValueExprAST *tmp2 = new ValueExprAST(6.0);
-        DivExprAST *input = new DivExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(5.0);
+        ValueAST *tmp2 = new ValueAST(6.0);
+        DivAST *input = new DivAST(tmp1,tmp2);
         double expectedResult = 5.0/6.0;
-        auto result = Interpret(input).getValueTest().toDouble();
+        auto result = Interpret(input).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, DivExprAST will divide them and Interpret will hold their quotient")
+    SECTION("For two VariableAST* operands, DivAST will divide them and Interpret will hold their quotient")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(6.0);
         QVariant variableValue2(5.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        DivExprAST inputDiv(input1,input2);
+        DivAST inputDiv(input1,input2);
 
         double expectedResult = 6.0/5.0;
-        auto result = Interpret(&inputDiv).getValueTest().toDouble();
+        auto result = Interpret(&inputDiv).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, DivExprAST will divide them and Interpret will hold their quotient")
+    SECTION("For one ValueAST* and one VariableAST* operands, DivAST will divide them and Interpret will hold their quotient")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        ValueExprAST *input2 = new ValueExprAST(5.0);
+        VariableAST *input1 = new VariableAST(QString("x"));
+        ValueAST *input2 = new ValueAST(5.0);
         QVariant variableValue(6.0);
         State::Domains().assignValue(input1->getName(),variableValue);
-        DivExprAST inputDiv(input1,input2);
+        DivAST inputDiv(input1,input2);
 
         double expectedResult = 6.0/5.0;
-        auto result = Interpret(&inputDiv).getValueTest().toDouble();
+        auto result = Interpret(&inputDiv).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 }
 
-TEST_CASE("AddExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("AddAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, AddExprAST will add them and Interpret will hold their sum")
+    SECTION("For two type ValueAST operands, AddAST will add them and Interpret will hold their sum")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(5.0);
-        ValueExprAST *tmp2 = new ValueExprAST(6.0);
-        MulExprAST *input = new MulExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(5.0);
+        ValueAST *tmp2 = new ValueAST(6.0);
+        MulAST *input = new MulAST(tmp1,tmp2);
         double expectedResult = 30.0;
-        auto result = Interpret(input).getValueTest().toDouble();
+        auto result = Interpret(input).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, AddExprAST will add them and Interpret will hold their sum")
+    SECTION("For two VariableAST* operands, AddAST will add them and Interpret will hold their sum")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(6.0);
         QVariant variableValue2(5.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        AddExprAST inputAdd(input1,input2);
+        AddAST inputAdd(input1,input2);
 
         double expectedResult = 6.0+5.0;
-        auto result = Interpret(&inputAdd).getValueTest().toDouble();
+        auto result = Interpret(&inputAdd).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, AddExprAST will add them and Interpret will hold their sum")
+    SECTION("For one ValueAST* and one VariableAST* operands, AddAST will add them and Interpret will hold their sum")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        ValueExprAST *input2 = new ValueExprAST(5.0);
+        VariableAST *input1 = new VariableAST(QString("x"));
+        ValueAST *input2 = new ValueAST(5.0);
         QVariant variableValue(6.0);
         State::Domains().assignValue(input1->getName(),variableValue);
-        AddExprAST inputAdd(input1,input2);
+        AddAST inputAdd(input1,input2);
 
         double expectedResult = 6.0+5.0;
-        auto result = Interpret(&inputAdd).getValueTest().toDouble();
+        auto result = Interpret(&inputAdd).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 }
 
-TEST_CASE("SubExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("SubAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, SubExprAST will subtract them and Interpret will hold their difference")
+    SECTION("For two type ValueAST operands, SubAST will subtract them and Interpret will hold their difference")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(5.0);
-        ValueExprAST *tmp2 = new ValueExprAST(6.0);
-        SubExprAST *input = new SubExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(5.0);
+        ValueAST *tmp2 = new ValueAST(6.0);
+        SubAST *input = new SubAST(tmp1,tmp2);
         double expectedResult = 5.0-6.0;
-        auto result = Interpret(input).getValueTest().toDouble();
+        auto result = Interpret(input).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, SubExprAST will subtract them and Interpret will hold their difference")
+    SECTION("For two VariableAST* operands, SubAST will subtract them and Interpret will hold their difference")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(6.0);
         QVariant variableValue2(5.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        SubExprAST inputSub(input1,input2);
+        SubAST inputSub(input1,input2);
 
         double expectedResult = 6.0-5.0;
-        auto result = Interpret(&inputSub).getValueTest().toDouble();
+        auto result = Interpret(&inputSub).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, SubExprAST will subtract them and Interpret will hold their difference")
+    SECTION("For one ValueAST* and one VariableAST* operands, SubAST will subtract them and Interpret will hold their difference")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        ValueExprAST *input2 = new ValueExprAST(5.0);
+        VariableAST *input1 = new VariableAST(QString("x"));
+        ValueAST *input2 = new ValueAST(5.0);
         QVariant variableValue(6.0);
         State::Domains().assignValue(input1->getName(),variableValue);
-        SubExprAST inputSub(input1,input2);
+        SubAST inputSub(input1,input2);
         double expectedResult = 6.0-5.0;
 
-        auto result = Interpret(&inputSub).getValueTest().toDouble();
+        auto result = Interpret(&inputSub).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 }
 
-TEST_CASE("LtExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("LtAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, LtExprAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
+    SECTION("For two type ValueAST operands, LtAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(5.0);
-        ValueExprAST *tmp2 = new ValueExprAST(6.0);
-        LtExprAST *input = new LtExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(5.0);
+        ValueAST *tmp2 = new ValueAST(6.0);
+        LtAST *input = new LtAST(tmp1,tmp2);
         bool expectedResult = 5.0 < 6.0 ? true : false;
 
-        auto result = Interpret(input).getValueTest().toDouble();
+        auto result = Interpret(input).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, LtExprAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
+    SECTION("For two VariableAST* operands, LtAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(5.0);
         QVariant variableValue2(6.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        LtExprAST inputLt(input1,input2);
+        LtAST inputLt(input1,input2);
         bool expectedResult = 5.0 < 6.0 ? true : false;
 
-        auto result  = Interpret(&inputLt).getValueTest().toDouble();
+        auto result  = Interpret(&inputLt).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
 
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, LtExprAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
+    SECTION("For one ValueAST* and one VariableAST* operands, LtAST will compare them and Interpret will hold true if first is lower than second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        ValueExprAST *input2 = new ValueExprAST(6.0);
+        VariableAST *input1 = new VariableAST(QString("x"));
+        ValueAST *input2 = new ValueAST(6.0);
         QVariant variableValue(5.0);
         State::Domains().assignValue(input1->getName(),variableValue);
-        LtExprAST inputLt(input1,input2);
+        LtAST inputLt(input1,input2);
         bool expectedResult = 5.0 < 6.0 ? true : false;
 
-        auto result = Interpret(&inputLt).getValueTest().toDouble();
+        auto result = Interpret(&inputLt).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
 
@@ -342,49 +342,49 @@ TEST_CASE("LtExprAST", "[class][ValueExprAST][VariableExprAST][State]")
     }
 }
 
-TEST_CASE("GtExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("GtAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, GtExprAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
+    SECTION("For two type ValueAST operands, GtAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        GtExprAST *input = new GtExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        GtAST *input = new GtAST(tmp1,tmp2);
         bool expectedResult = 6.0 > 5.0 ? true : false;
 
-        auto result = Interpret(input).getValueTest().toDouble();
+        auto result = Interpret(input).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, GtExprAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
+    SECTION("For two VariableAST* operands, GtAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
     {   State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(6.0);
         QVariant variableValue2(5.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        GtExprAST inputGt(input1,input2);
+        GtAST inputGt(input1,input2);
         bool expectedResult = 6.0 > 5.0 ? true : false;
 
-        auto result = Interpret(&inputGt).getValueTest().toDouble();
+        auto result = Interpret(&inputGt).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
 
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, GtExprAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
+    SECTION("For one ValueAST* and one VariableAST* operands, GtAST will compare them and Interpret will hold true if first is greater than second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
+        VariableAST *input1 = new VariableAST(QString("x"));
         QVariant variableValue(6.0);
-        ValueExprAST *input2 = new ValueExprAST(5.0);
+        ValueAST *input2 = new ValueAST(5.0);
         State::Domains().assignValue(input1->getName(),variableValue);
-        GtExprAST inputGt(input1,input2);
+        GtAST inputGt(input1,input2);
         bool expectedResult = 6.0 > 5.0 ? true : false;
 
-        auto result = Interpret(&inputGt).getValueTest().toDouble();
+        auto result = Interpret(&inputGt).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
 
@@ -392,50 +392,50 @@ TEST_CASE("GtExprAST", "[class][ValueExprAST][VariableExprAST][State]")
     }
 }
 
-TEST_CASE("LeqExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("LeqAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, LegExprAST will compare them and Interpret will hold true if first is less or equal than second, false otherwise")
+    SECTION("For two type ValueAST operands, LegAST will compare them and Interpret will hold true if first is less or equal than second, false otherwise")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(5.0);
-        ValueExprAST *tmp2 = new ValueExprAST(6.0);
-        LeqExprAST *input = new LeqExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(5.0);
+        ValueAST *tmp2 = new ValueAST(6.0);
+        LeqAST *input = new LeqAST(tmp1,tmp2);
         bool expectedResult = 5.0 <= 6.0 ? true : false;
 
-        auto result = Interpret(input).getValueTest().toDouble();
+        auto result = Interpret(input).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, LegExprAST will compare them and Interpret will hold true if first is less or equal than second, false otherwise")
+    SECTION("For two VariableAST* operands, LegAST will compare them and Interpret will hold true if first is less or equal than second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(5.0);
         QVariant variableValue2(6.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        LeqExprAST inputLeq(input1,input2);
+        LeqAST inputLeq(input1,input2);
         bool expectedResult = 5.0 <= 6.0 ? true : false;
 
-        auto result = Interpret(&inputLeq).getValueTest().toDouble();
+        auto result = Interpret(&inputLeq).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
 
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, LeqExprAST will compare them and Interpret will hold true if first is less or equal than second, false otherwise")
+    SECTION("For one ValueAST* and one VariableAST* operands, LeqAST will compare them and Interpret will hold true if first is less or equal than second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
+        VariableAST *input1 = new VariableAST(QString("x"));
         QVariant variableValue(5.0);
-        ValueExprAST *input2 = new ValueExprAST(6.0);
+        ValueAST *input2 = new ValueAST(6.0);
         State::Domains().assignValue(input1->getName(),variableValue);
-        LeqExprAST inputLeq(input1,input2);
+        LeqAST inputLeq(input1,input2);
 
         bool expectedResult = 5.0 <= 6.0 ? true : false;
-        auto result =Interpret(&inputLeq).getValueTest().toDouble();
+        auto result =Interpret(&inputLeq).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
 
@@ -443,51 +443,51 @@ TEST_CASE("LeqExprAST", "[class][ValueExprAST][VariableExprAST][State]")
     }
 }
 
-TEST_CASE("GeqExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("GeqAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, GeqExprAST will compare them and Interpret will hold true if first is greater or equal than second, false otherwise")
+    SECTION("For two type ValueAST operands, GeqAST will compare them and Interpret will hold true if first is greater or equal than second, false otherwise")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        GeqExprAST *input = new GeqExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        GeqAST *input = new GeqAST(tmp1,tmp2);
         bool expectedResult = 6.0 >= 5.0 ? true : false;
 
-        auto result = Interpret(input).getValueTest().toDouble();
+        auto result = Interpret(input).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, GeqExprAST will compare them and Interpret will hold true if first is greater or equal than second, false otherwise")
+    SECTION("For two VariableAST* operands, GeqAST will compare them and Interpret will hold true if first is greater or equal than second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(6.0);
         QVariant variableValue2(5.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        GeqExprAST inputGeq(input1,input2);
+        GeqAST inputGeq(input1,input2);
         bool expectedResult = 6.0 >= 5.0 ? true : false;
 
-        auto result  =Interpret(&inputGeq).getValueTest().toDouble();
+        auto result  =Interpret(&inputGeq).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
 
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, GeqExprAST will compare them and Interpret will hold true if first is greater or equal than second, false otherwise")
+    SECTION("For one ValueAST* and one VariableAST* operands, GeqAST will compare them and Interpret will hold true if first is greater or equal than second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
+        VariableAST *input1 = new VariableAST(QString("x"));
         QVariant variableValue(6.0);
-        ValueExprAST *input2 = new ValueExprAST(5.0);
+        ValueAST *input2 = new ValueAST(5.0);
 
         State::Domains().assignValue(input1->getName(),variableValue);
-        GeqExprAST inputGeq(input1,input2);
+        GeqAST inputGeq(input1,input2);
 
         bool expectedResult = 6.0 >= 5.0 ? true : false;
-        auto result = Interpret(&inputGeq).getValueTest().toDouble();
+        auto result = Interpret(&inputGeq).getValue().toDouble();
 
         REQUIRE(result == expectedResult);
 
@@ -495,50 +495,50 @@ TEST_CASE("GeqExprAST", "[class][ValueExprAST][VariableExprAST][State]")
     }
 }
 
-TEST_CASE("EqExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("EqAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, EqExprAST will compare them and Interpret will hold true if first is equal to second, false otherwise")
+    SECTION("For two type ValueAST operands, EqAST will compare them and Interpret will hold true if first is equal to second, false otherwise")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(5.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        EqExprAST *input = new EqExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(5.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        EqAST *input = new EqAST(tmp1,tmp2);
         bool expectedResult = 5.0 == 5.0 ? true : false;
 
-        auto result = Interpret(input).getValueTest().toBool();
+        auto result = Interpret(input).getValue().toBool();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, EqExprAST will compare them and Interpret will hold true if first is equal to second, false otherwise")
+    SECTION("For two VariableAST* operands, EqAST will compare them and Interpret will hold true if first is equal to second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(5.0);
         QVariant variableValue2(5.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        EqExprAST inputEq(input1,input2);
+        EqAST inputEq(input1,input2);
 
         bool expectedResult = 5.0 == 5.0 ? true : false;
-        auto result = Interpret(&inputEq).getValueTest().toBool();
+        auto result = Interpret(&inputEq).getValue().toBool();
 
         REQUIRE(result == expectedResult);
 
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, EqExprAST will compare them and Interpret will hold true if first is equal to second, false otherwise")
+    SECTION("For one ValueAST* and one VariableAST* operands, EqAST will compare them and Interpret will hold true if first is equal to second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
+        VariableAST *input1 = new VariableAST(QString("x"));
         QVariant variableValue(5.0);
-        ValueExprAST *input2 = new ValueExprAST(5.0);
+        ValueAST *input2 = new ValueAST(5.0);
         State::Domains().assignValue(input1->getName(),variableValue);
-        EqExprAST inputEq(input1,input2);
+        EqAST inputEq(input1,input2);
         bool expectedResult = 5.0 == 5.0 ? true : false;
 
-        auto result = Interpret(&inputEq).getValueTest().toBool();
+        auto result = Interpret(&inputEq).getValue().toBool();
 
         REQUIRE(result == expectedResult);
 
@@ -546,192 +546,192 @@ TEST_CASE("EqExprAST", "[class][ValueExprAST][VariableExprAST][State]")
     }
 }
 
-TEST_CASE("NeqExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("NeqAST", "[class][ValueAST][VariableAST][State]")
 {
-    SECTION("For two type ValueExprAST operands, NeqExprAST will compare them and Interpret will hold true if first is not equal to second, false otherwise")
+    SECTION("For two type ValueAST operands, NeqAST will compare them and Interpret will hold true if first is not equal to second, false otherwise")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        NeqExprAST *input = new NeqExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        NeqAST *input = new NeqAST(tmp1,tmp2);
         bool expectedResult = 6.0 != 5.0 ? true : false;
 
-        auto result = Interpret(input).getValueTest().toBool();
+        auto result = Interpret(input).getValue().toBool();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two VariableExprAST* operands, NeqExprAST will compare them and Interpret will hold true if first is not equal to second, false otherwise")
+    SECTION("For two VariableAST* operands, NeqAST will compare them and Interpret will hold true if first is not equal to second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
-        VariableExprAST *input2 = new VariableExprAST(QString("y"));
+        VariableAST *input1 = new VariableAST(QString("x"));
+        VariableAST *input2 = new VariableAST(QString("y"));
         QVariant variableValue1(6.0);
         QVariant variableValue2(5.0);
         State::Domains().assignValue(input1->getName(),variableValue1);
         State::Domains().assignValue(input2->getName(),variableValue2);
-        NeqExprAST inputNeq(input1,input2);
+        NeqAST inputNeq(input1,input2);
 
         bool expectedResult = 6.0 != 5.0 ? true : false;
-        auto result = Interpret(&inputNeq).getValueTest().toBool();
+        auto result = Interpret(&inputNeq).getValue().toBool();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 
-    SECTION("For one ValueExprAST* and one VariableExprAST* operands, NeqExprAST will compare them and Interpret will hold true if first is not equal to second, false otherwise")
+    SECTION("For one ValueAST* and one VariableAST* operands, NeqAST will compare them and Interpret will hold true if first is not equal to second, false otherwise")
     {
         State::Domains().createNewDomain();
-        VariableExprAST *input1 = new VariableExprAST(QString("x"));
+        VariableAST *input1 = new VariableAST(QString("x"));
         QVariant variableValue(6.0);
-        ValueExprAST *input2 = new ValueExprAST(5.0);
+        ValueAST *input2 = new ValueAST(5.0);
 
         State::Domains().assignValue(input1->getName(),variableValue);
-        NeqExprAST inputNeq(input1,input2);
+        NeqAST inputNeq(input1,input2);
 
         bool expectedResult = 6.0 != 5.0 ? true : false;
-        auto result = Interpret(&inputNeq).getValueTest().toBool();
+        auto result = Interpret(&inputNeq).getValue().toBool();
 
         REQUIRE(result == expectedResult);
         State::Domains().clear();
     }
 }
 
-TEST_CASE("AndExprAST", "[class][ValueExprAST][VariableExprAST][State]"){
-    SECTION("For two type ExprAST that return bool values, AndExprAST will add them and Interpret will hold true if both values are true")
+TEST_CASE("AndAST", "[class][ValueAST][VariableAST][State]"){
+    SECTION("For two type AST that return bool values, AndAST will add them and Interpret will hold true if both values are true")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        ValueExprAST *tmp3 = new ValueExprAST(6.0);
-        ValueExprAST *tmp4 = new ValueExprAST(5.0);
-        NeqExprAST *input1 = new NeqExprAST(tmp1,tmp2);
-        NeqExprAST *input2 = new NeqExprAST(tmp3,tmp4);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        ValueAST *tmp3 = new ValueAST(6.0);
+        ValueAST *tmp4 = new ValueAST(5.0);
+        NeqAST *input1 = new NeqAST(tmp1,tmp2);
+        NeqAST *input2 = new NeqAST(tmp3,tmp4);
         bool expectedResult = true;
 
-        AndExprAST inputAnd(input1,input2);
-        auto result = Interpret(&inputAnd).getValueTest().toBool();
+        AndAST inputAnd(input1,input2);
+        auto result = Interpret(&inputAnd).getValue().toBool();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two type ExprAST that return bool values, AndExprAST will add them and Interpret will hold false if one is true and other is false")
+    SECTION("For two type AST that return bool values, AndAST will add them and Interpret will hold false if one is true and other is false")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        ValueExprAST *tmp3 = new ValueExprAST(6.0);
-        ValueExprAST *tmp4 = new ValueExprAST(5.0);
-        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
-        NeqExprAST *input2 = new NeqExprAST(tmp3,tmp4);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        ValueAST *tmp3 = new ValueAST(6.0);
+        ValueAST *tmp4 = new ValueAST(5.0);
+        EqAST *input1 = new EqAST(tmp1,tmp2);
+        NeqAST *input2 = new NeqAST(tmp3,tmp4);
         bool expectedResult = false;
 
-        AndExprAST inputAnd(input1,input2);
-        auto resault = Interpret(&inputAnd).getValueTest().toBool();
+        AndAST inputAnd(input1,input2);
+        auto resault = Interpret(&inputAnd).getValue().toBool();
 
         REQUIRE(resault == expectedResult);
     }
 
-    SECTION("For two type ExprAST that return bool values, AndExprAST will add them and Interpret will hold false if both are false")
+    SECTION("For two type AST that return bool values, AndAST will add them and Interpret will hold false if both are false")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        ValueExprAST *tmp3 = new ValueExprAST(6.0);
-        ValueExprAST *tmp4 = new ValueExprAST(5.0);
-        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
-        EqExprAST *input2 = new EqExprAST(tmp3,tmp4);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        ValueAST *tmp3 = new ValueAST(6.0);
+        ValueAST *tmp4 = new ValueAST(5.0);
+        EqAST *input1 = new EqAST(tmp1,tmp2);
+        EqAST *input2 = new EqAST(tmp3,tmp4);
         bool expectedResult = false;
 
-        AndExprAST inputAnd(input1,input2);
-        auto result = Interpret(&inputAnd).getValueTest().toBool();
+        AndAST inputAnd(input1,input2);
+        auto result = Interpret(&inputAnd).getValue().toBool();
 
         REQUIRE(result== expectedResult);
     }
 }
 
-TEST_CASE("OrExprAST", "[class][ValueExprAST][VariableExprAST][State]"){
-    SECTION("For two type ExprAST that return bool values, OrExprAST will or them and Interpret will hold true if both values are true")
+TEST_CASE("OrAST", "[class][ValueAST][VariableAST][State]"){
+    SECTION("For two type AST that return bool values, OrAST will or them and Interpret will hold true if both values are true")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        ValueExprAST *tmp3 = new ValueExprAST(6.0);
-        ValueExprAST *tmp4 = new ValueExprAST(5.0);
-        NeqExprAST *input1 = new NeqExprAST(tmp1,tmp2);
-        NeqExprAST *input2 = new NeqExprAST(tmp3,tmp4);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        ValueAST *tmp3 = new ValueAST(6.0);
+        ValueAST *tmp4 = new ValueAST(5.0);
+        NeqAST *input1 = new NeqAST(tmp1,tmp2);
+        NeqAST *input2 = new NeqAST(tmp3,tmp4);
         bool expectedResult = true;
 
-        OrExprAST inputOr(input1,input2);
-        auto result = Interpret(&inputOr).getValueTest().toBool();
+        OrAST inputOr(input1,input2);
+        auto result = Interpret(&inputOr).getValue().toBool();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two type ExprAST that return bool values, OrExprAST will add them and Interpret will hold true if one is true and other is false")
+    SECTION("For two type AST that return bool values, OrAST will add them and Interpret will hold true if one is true and other is false")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        ValueExprAST *tmp3 = new ValueExprAST(6.0);
-        ValueExprAST *tmp4 = new ValueExprAST(5.0);
-        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
-        NeqExprAST *input2 = new NeqExprAST(tmp3,tmp4);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        ValueAST *tmp3 = new ValueAST(6.0);
+        ValueAST *tmp4 = new ValueAST(5.0);
+        EqAST *input1 = new EqAST(tmp1,tmp2);
+        NeqAST *input2 = new NeqAST(tmp3,tmp4);
         bool expectedResult = true;
 
-        OrExprAST inputOr(input1,input2);
-        auto result= Interpret(&inputOr).getValueTest().toBool();
+        OrAST inputOr(input1,input2);
+        auto result= Interpret(&inputOr).getValue().toBool();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For two type ExprAST that return bool values, OrExprAST will add them and Interpret will hold false if both are false")
+    SECTION("For two type AST that return bool values, OrAST will add them and Interpret will hold false if both are false")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        ValueExprAST *tmp3 = new ValueExprAST(6.0);
-        ValueExprAST *tmp4 = new ValueExprAST(5.0);
-        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
-        EqExprAST *input2 = new EqExprAST(tmp3,tmp4);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        ValueAST *tmp3 = new ValueAST(6.0);
+        ValueAST *tmp4 = new ValueAST(5.0);
+        EqAST *input1 = new EqAST(tmp1,tmp2);
+        EqAST *input2 = new EqAST(tmp3,tmp4);
         bool expectedResult = false;
-        OrExprAST inputOr(input1,input2);
-        auto result = Interpret(&inputOr).getValueTest().toBool();
+        OrAST inputOr(input1,input2);
+        auto result = Interpret(&inputOr).getValue().toBool();
 
         REQUIRE(result == expectedResult);
     }
-    SECTION("For two type ExprAST that return bool values, OrExprAST will or them and Interpret will hold true if first is true and other is false")
+    SECTION("For two type AST that return bool values, OrAST will or them and Interpret will hold true if first is true and other is false")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        ValueExprAST *tmp3 = new ValueExprAST(6.0);
-        ValueExprAST *tmp4 = new ValueExprAST(5.0);
-        NeqExprAST *input1 = new NeqExprAST(tmp1,tmp2);
-        EqExprAST *input2 = new EqExprAST(tmp3,tmp4);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        ValueAST *tmp3 = new ValueAST(6.0);
+        ValueAST *tmp4 = new ValueAST(5.0);
+        NeqAST *input1 = new NeqAST(tmp1,tmp2);
+        EqAST *input2 = new EqAST(tmp3,tmp4);
         bool expectedResult = true;
 
-        OrExprAST inputOr(input1,input2);
-       auto resault = Interpret(&inputOr).getValueTest().toBool();
+        OrAST inputOr(input1,input2);
+       auto resault = Interpret(&inputOr).getValue().toBool();
 
         REQUIRE(resault == expectedResult);
     }
 }
 
-TEST_CASE("NotExprAST", "[class][ValueExprAST][VariableExprAST][State]"){
-    SECTION("For type ExprAST that return bool value, NotExprAST will not it and Interpret will hold true if value is false")
+TEST_CASE("NotAST", "[class][ValueAST][VariableAST][State]"){
+    SECTION("For type AST that return bool value, NotAST will not it and Interpret will hold true if value is false")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        NeqExprAST *input1 = new NeqExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        NeqAST *input1 = new NeqAST(tmp1,tmp2);
         bool expectedResult = false;
-        NotExprAST inputNot(input1);
-        auto result = Interpret(&inputNot).getValueTest().toBool();
+        NotAST inputNot(input1);
+        auto result = Interpret(&inputNot).getValue().toBool();
 
         REQUIRE(result == expectedResult);
     }
 
-    SECTION("For type ExprAST that return bool value, NotExprAST will  not it and Interpret will hold false if value is true")
+    SECTION("For type AST that return bool value, NotAST will  not it and Interpret will hold false if value is true")
     {
-        ValueExprAST *tmp1 = new ValueExprAST(6.0);
-        ValueExprAST *tmp2 = new ValueExprAST(5.0);
-        EqExprAST *input1 = new EqExprAST(tmp1,tmp2);
+        ValueAST *tmp1 = new ValueAST(6.0);
+        ValueAST *tmp2 = new ValueAST(5.0);
+        EqAST *input1 = new EqAST(tmp1,tmp2);
         bool expectedResult = true;
 
-        NotExprAST inputNot(input1);
-        auto result = Interpret(&inputNot).getValueTest().toBool();
+        NotAST inputNot(input1);
+        auto result = Interpret(&inputNot).getValue().toBool();
 
         REQUIRE(result == expectedResult);
 
@@ -740,19 +740,19 @@ TEST_CASE("NotExprAST", "[class][ValueExprAST][VariableExprAST][State]"){
 
 }
 
-TEST_CASE("AssignExprAST", "[class][ValueExprAST][VariableExprAST][State]")
+TEST_CASE("AssignAST", "[class][ValueAST][VariableAST][State]")
 {
 
-    SECTION("Interpreting a valid AssignExprAST created with a non-existing name and a ValueExprAST will result in creating a variable in scope")
+    SECTION("Interpreting a valid AssignAST created with a non-existing name and a ValueAST will result in creating a variable in scope")
     {
         State::Domains().createNewDomain();
         QString name = "testing";
-        AssignExprAST * expr = new AssignExprAST(name, new ValueExprAST(10.0));
+        AssignAST * expr = new AssignAST(name, new ValueAST(10.0));
         double expectedResult = 10.0;
 
         Interpret i = Interpret{expr};
-        VariableExprAST *var = new VariableExprAST(name);
-        double result = Interpret{var}.getValueTest().toDouble();
+        VariableAST *var = new VariableAST(name);
+        double result = Interpret{var}.getValue().toDouble();
 
         REQUIRE(result == expectedResult);
 
@@ -760,12 +760,12 @@ TEST_CASE("AssignExprAST", "[class][ValueExprAST][VariableExprAST][State]")
     }
 
 
-    SECTION("Interpreting a valid AssignExprAST created with an existing name and ValueExprAST will result in updating an existing variable in scope")
+    SECTION("Interpreting a valid AssignAST created with an existing name and ValueAST will result in updating an existing variable in scope")
     {
         State::Domains().createNewDomain();
         QString name = "testing";
-        AssignExprAST* expr = new AssignExprAST(name,new ValueExprAST(10.0));
-        QVariant oldValue = QVariant(Interpret{expr}.getValueTest());
+        AssignAST* expr = new AssignAST(name,new ValueAST(10.0));
+        QVariant oldValue = QVariant(Interpret{expr}.getValue());
 
         State::Domains().assignValue(name,oldValue);
         QVariant newValue = QVariant(5.0);
@@ -780,11 +780,11 @@ TEST_CASE("AssignExprAST", "[class][ValueExprAST][VariableExprAST][State]")
     }
 
 
-    SECTION("Interpreting a valid AssignExprAST created with VariableExprAST will result in creating a variable in scope")
+    SECTION("Interpreting a valid AssignAST created with VariableAST will result in creating a variable in scope")
     {
         State::Domains().createNewDomain();
         QString newVarName = "testing";
-        VariableExprAST* varExpr = new VariableExprAST(QString("oldVarName"));
+        VariableAST* varExpr = new VariableAST(QString("oldVarName"));
         QVariant value = QVariant(10.0);
         State::Domains().assignValue(varExpr->getName(), value);
         double expectedResult = 10.0;
@@ -797,12 +797,12 @@ TEST_CASE("AssignExprAST", "[class][ValueExprAST][VariableExprAST][State]")
 
     }
 }
-TEST_CASE("BlockExprAST", "[class][ValueExprAST]"){
-    SECTION("Given empty BlockExprAST instance, insert will append an ExprAST at the end of the collection")
+TEST_CASE("BlockAST", "[class][ValueAST]"){
+    SECTION("Given empty BlockAST instance, insert will append an AST at the end of the collection")
     {
         QString name = "test";
-        AssignExprAST* assign = new AssignExprAST(name,new ValueExprAST(10.0));
-        BlockExprAST *block = new BlockExprAST();
+        AssignAST* assign = new AssignAST(name,new ValueAST(10.0));
+        BlockAST *block = new BlockAST();
         auto expected = assign;
 
         block->insert(assign);
@@ -815,33 +815,33 @@ TEST_CASE("BlockExprAST", "[class][ValueExprAST]"){
 
     }
 
-    SECTION("Given BlockExprAST instance with more than one instruction, interpreting that block will result in empty QVariant");
+    SECTION("Given BlockAST instance with more than one instruction, interpreting that block will result in empty QVariant");
     {
         QString name = "test";
-        AssignExprAST* assign = new AssignExprAST(name,new ValueExprAST(10.0));
-        BlockExprAST *block = new BlockExprAST();
+        AssignAST* assign = new AssignAST(name,new ValueAST(10.0));
+        BlockAST *block = new BlockAST();
         block->insert(assign);
         auto expected = QVariant();
 
         auto body = block->getBody();
-        auto result = Interpret{block}.getValueTest();
+        auto result = Interpret{block}.getValue();
 
         REQUIRE(result == expected);
 
 
     }
 
-    SECTION("Given BlockExprAST instance with more than one instruction, interpreting that block will result in empty QVariant");
+    SECTION("Given BlockAST instance with more than one instruction, interpreting that block will result in empty QVariant");
     {
         State::Domains().createNewDomain();
         QString name = "test";
-        AssignExprAST* assign = new AssignExprAST(name,new VariableExprAST(QString("s")));
-        BlockExprAST *block = new BlockExprAST();
+        AssignAST* assign = new AssignAST(name,new VariableAST(QString("s")));
+        BlockAST *block = new BlockAST();
         block->insert(assign);
         auto expected = QVariant();
 
         auto body = block->getBody();
-        auto result = Interpret{block}.getValueTest();
+        auto result = Interpret{block}.getValue();
 
         REQUIRE_FALSE(result == expected);
 

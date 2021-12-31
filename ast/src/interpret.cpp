@@ -13,7 +13,7 @@ double Interpret::eps = 0.000001;
 Worker* Interpret::worker = nullptr;
 QString Interpret::input = QString();
 
-void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
+void Interpret::VisitPlaceholderExprAST(PlaceholderAST& obj) {
     obj.errorFound = false;
 
     if(obj.isEmpty()){
@@ -22,14 +22,14 @@ void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
         return;
     }
 
-    value_ = Interpret(obj.expr_).value_;
+    value_ = Interpret(obj.getExpr()).getValue();
 }
 
-void Interpret::VisitValueExprAST(ValueExprAST& obj) {
+void Interpret::VisitValueExprAST(ValueAST& obj) {
     value_ = obj.getValue();
 }
 
-void Interpret::VisitVariableExprAST(VariableExprAST& obj) {
+void Interpret::VisitVariableExprAST(VariableAST& obj) {
     obj.errorFound = false;
 
     value_ = State::Domains().getValue(obj.getName());
@@ -38,7 +38,7 @@ void Interpret::VisitVariableExprAST(VariableExprAST& obj) {
     }
 }
 
-void Interpret::VisitNotExprAST(NotExprAST& obj) {
+void Interpret::VisitNotExprAST(NotAST& obj) {
     obj.errorFound = false;
 
     auto op = Interpret(obj.getOperand()).value_;
@@ -55,7 +55,7 @@ void Interpret::VisitNotExprAST(NotExprAST& obj) {
     value_ = QVariant(!op.toBool());
 }
 
-void Interpret::VisitMulExprAST(MulExprAST& obj) {
+void Interpret::VisitMulExprAST(MulAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -83,7 +83,7 @@ void Interpret::VisitMulExprAST(MulExprAST& obj) {
     value_ = QVariant(l.toDouble() * r.toDouble());
 }
 
-void Interpret::VisitDivExprAST(DivExprAST& obj) {
+void Interpret::VisitDivExprAST(DivAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -117,7 +117,7 @@ void Interpret::VisitDivExprAST(DivExprAST& obj) {
     value_ = QVariant(l.toDouble() / r.toDouble());
 }
 
-void Interpret::VisitAddExprAST(AddExprAST& obj) {
+void Interpret::VisitAddExprAST(AddAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -145,7 +145,7 @@ void Interpret::VisitAddExprAST(AddExprAST& obj) {
     value_ = QVariant(l.toDouble() + r.toDouble());
 }
 
-void Interpret::VisitSubExprAST(SubExprAST& obj) {
+void Interpret::VisitSubExprAST(SubAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -173,7 +173,7 @@ void Interpret::VisitSubExprAST(SubExprAST& obj) {
     value_ = QVariant(l.toDouble() - r.toDouble());
 }
 
-void Interpret::VisitLtExprAST(LtExprAST& obj) {
+void Interpret::VisitLtExprAST(LtAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -201,7 +201,7 @@ void Interpret::VisitLtExprAST(LtExprAST& obj) {
     value_ = QVariant(static_cast<bool>(l.toDouble() < r.toDouble()));
 }
 
-void Interpret::VisitLeqExprAST(LeqExprAST& obj) {
+void Interpret::VisitLeqExprAST(LeqAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -229,7 +229,7 @@ void Interpret::VisitLeqExprAST(LeqExprAST& obj) {
     value_ = QVariant(static_cast<bool>(l.toDouble() <= r.toDouble()));
 }
 
-void Interpret::VisitGtExprAST(GtExprAST& obj) {
+void Interpret::VisitGtExprAST(GtAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -257,7 +257,7 @@ void Interpret::VisitGtExprAST(GtExprAST& obj) {
     value_ = QVariant(static_cast<bool>(l.toDouble() > r.toDouble()));
 }
 
-void Interpret::VisitGeqExprAST(GeqExprAST& obj) {
+void Interpret::VisitGeqExprAST(GeqAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -285,7 +285,7 @@ void Interpret::VisitGeqExprAST(GeqExprAST& obj) {
     value_ = QVariant(static_cast<bool>(l.toDouble() >= r.toDouble()));
 }
 
-void Interpret::VisitEqExprAST(EqExprAST& obj) {
+void Interpret::VisitEqExprAST(EqAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -312,7 +312,7 @@ void Interpret::VisitEqExprAST(EqExprAST& obj) {
     }
 }
 
-void Interpret::VisitNeqExprAST(NeqExprAST& obj) {
+void Interpret::VisitNeqExprAST(NeqAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -339,7 +339,7 @@ void Interpret::VisitNeqExprAST(NeqExprAST& obj) {
     }
 }
 
-void Interpret::VisitAndExprAST(AndExprAST& obj) {
+void Interpret::VisitAndExprAST(AndAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -367,7 +367,7 @@ void Interpret::VisitAndExprAST(AndExprAST& obj) {
     value_ = QVariant(static_cast<bool>(l.toBool() && r.toBool()));
 }
 
-void Interpret::VisitOrExprAST(OrExprAST& obj) {
+void Interpret::VisitOrExprAST(OrAST& obj) {
     obj.errorFound = false;
 
     auto l = Interpret(obj.getLeft()).value_;
@@ -397,11 +397,11 @@ void Interpret::VisitOrExprAST(OrExprAST& obj) {
 
 /* Following Classes (InstructionExprAST subclasses) set value_ to QVariant() if everything succeds, QString otherwise */
 
-void Interpret::VisitStartExprAST(StartExprAST& obj) {
+void Interpret::VisitStartExprAST(StartAST& obj) {
     value_ = QVariant();
 }
 
-void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
+void Interpret::VisitAssignExprAST(AssignAST& obj) {
     value_ = QVariant();
 
     auto instrValue = Interpret(obj.getExpr()).value_;
@@ -415,13 +415,12 @@ void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
     }
 }
 
-void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
+void Interpret::VisitBlockExprAST(BlockAST& obj) {
     value_ = QVariant();
     State::Domains().createNewDomain();
-    QVector<InstructionExprAST*> b = obj.getBody();
+    QVector<InstructionAST*> b = obj.getBody();
     auto begin = b.begin();
     auto end = b.end();
-    worker->current = *begin;
     (*begin)->isCurrent = true;
     auto prev = begin;
     auto instrValue = Interpret{(*begin)}.value_;
@@ -434,7 +433,6 @@ void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
                 Interpret::mutex_.lock();
                 qDebug() << (*begin) << "\n";
                 (*begin)->isCurrent = true;
-                worker->current = *begin;
                 (*prev)->isCurrent = false;
             }
             auto instrValue = Interpret{(*begin)}.value_;
@@ -451,7 +449,7 @@ void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
     State::Domains().removeCurrentDomain();
 }
 
-void Interpret::VisitIfExprAST(IfExprAST& obj) {
+void Interpret::VisitIfExprAST(IfAST& obj) {
     obj.errorFound = false;
 
     value_ = QVariant();
@@ -470,7 +468,7 @@ void Interpret::VisitIfExprAST(IfExprAST& obj) {
     value_ = instrCond.toBool() ? Interpret(obj.getThen()).value_ : Interpret(obj.getElse()).value_;
 }
 
-void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
+void Interpret::VisitWhileExprAST(WhileAST& obj) {
     obj.errorFound = false;
     value_ = QVariant();
 
@@ -478,6 +476,7 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
         auto instrCond = Interpret(obj.getCond()).value_;
         if (instrCond.typeId() == qstringTypeId) {
             value_ = instrCond;
+            obj.errorFound = true;
             return;
         }
         if (instrCond.typeId() != boolTypeId) {
@@ -534,7 +533,7 @@ void Interpret::VisitInputAST(InputAST& obj){
     value_ = {};
 }
 
-inline QString Interpret::getValue() {
+QString Interpret::getErrorMsg() {
     return value_.typeId() == qstringTypeId? value_.toString(): "";
 }
 
@@ -544,17 +543,13 @@ void Worker::print(QString txt){
 
 void Worker::process() {
     Interpret::worker = this;
-    auto res = Interpret{mainBlock_}.getValue();
+    auto res = Interpret{mainBlock_}.getErrorMsg();
     emit sendResult(res);
     emit finished();
+    Interpret::steps = false;
 }
 
 void Worker::btnsettings(bool enabled) {
     emit changeButtonSettings(enabled);
 }
 
-void Worker::kill(){
-    State::Domains().clear();
-    current->isCurrent = false;
-    emit finished();
-}

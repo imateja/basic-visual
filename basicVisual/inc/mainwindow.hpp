@@ -22,12 +22,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    BlockExprAST* mainBlock;
+    BlockAST* mainBlock;
     ExprAST* exprItem;
     qint32 factor;
 
 signals:
-    void newSquareOnGV(InstructionExprAST*);
+    void newSquareOnGV(InstructionAST*);
 
 private slots:
 
@@ -61,10 +61,9 @@ private slots:
     void nextPushed();
 
 private:
-    void addInstruction(InstructionExprAST*);
+    void addInstruction(InstructionAST*);
     void onActionOpen();
     void onActionSave();
-    void onActionSaveAs();
     void onActionExit();
     void onActionRun();
     void onActionDebug();
@@ -74,7 +73,6 @@ private:
     QVector<Instruction*> _instructions;
     void setupActions();
     void setupConnections();
-    void positionElement(InstructionExprAST* elem, qint32 factor);
     inline ExprAST* stagedItem();
     void initMainBlock();
 

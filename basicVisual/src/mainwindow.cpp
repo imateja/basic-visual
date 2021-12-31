@@ -21,30 +21,19 @@ MainWindow::MainWindow(QWidget *parent)
 
 {
     ui->setupUi(this);
-    //sets up the needed connections for the taskbar
     factor=0;
-
-    //mainGV is the name of out GraphicsView in .ui file
     _mainGraphicsScene->setSceneRect(ui->mainGV->rect());
     ui->mainGV->setScene(_mainGraphicsScene);
     ui->mainGV->setRenderHint(QPainter::Antialiasing);
     ui->mainGV->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     ui->tabWidget->setCurrentIndex(0);
     ui->tabWidget->setTabEnabled(1, false);
-    mainBlock = new BlockExprAST();
+    mainBlock = new BlockAST();
     initMainBlock();
-
     Interpret::mutex_.lock();
-//    mainBlock= new BlockExprAST();
-//    _mainGraphicsView->addItem(mainBlock);
-//    mainBlock->setParent(_mainGraphicsView);
-//    qDebug()<<mainBlock->parent()<<"/n";
-//    QPointF sceneCenter = ui->mainGV->mapToScene(ui->mainGV->viewport()->rect().center());
-//    mainBlock->setPos(sceneCenter.x(), 0);
     setupActions();
     setupConnections();
     ui->nextBtn->hide();
-
     ui->mainGV->viewport()->installEventFilter(this);
 }
 
@@ -52,12 +41,6 @@ MainWindow::~MainWindow()
 {
     Interpret::mutex_.unlock();
     delete ui;
-}
-
-void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
-{
-    QPointF sceneCenter = ui->mainGV->mapToScene(ui->mainGV->viewport()->rect().center());
-    elem->setPos(sceneCenter.x(), factor*90);
 }
 
 void MainWindow::updateScene()
@@ -96,15 +79,13 @@ void MainWindow::Edit()
 {
     if (mainBlock->isVisible()) {
         if (_mainGraphicsScene->getSelectedItem() == nullptr) {
-            //TODO error handling
             return;
         }
         if (dynamic_cast<InputAST*>(_mainGraphicsScene->getSelectedItem())){
             return;
         }
-        exprItem = static_cast<InstructionExprAST*>(_mainGraphicsScene->getSelectedItem())->getEditableExpr();
+        exprItem = static_cast<InstructionAST*>(_mainGraphicsScene->getSelectedItem())->getEditableExpr();
         if (exprItem == nullptr) {
-            //TODO error handling
             return;
         }
 
@@ -119,8 +100,6 @@ void MainWindow::Edit()
         connect(exprItem, &ExprAST::selectItem, _mainGraphicsScene, &mainGraphicsScene::setSelectedItem);
         connect(exprItem, &ExprAST::updateSelection, _mainGraphicsScene, &mainGraphicsScene::selectItem);
 
-//        QPointF sceneCenter = ui->mainGV->mapToScene(ui->mainGV->viewport()->rect().center());
-//        exprItem->setPos(sceneCenter.x(), sceneCenter.y());
         _mainGraphicsScene->setSelectedItem(nullptr);
         mainBlock->hide();
         exprItem->updateChildren();
@@ -153,14 +132,14 @@ void MainWindow::backPushed()
     }
 }
 
-void MainWindow::addInstruction(InstructionExprAST* newElement){
+void MainWindow::addInstruction(InstructionAST* newElement){
     auto selected = _mainGraphicsScene->getSelectedItem();
     if (selected == nullptr) {
         mainBlock->insert(newElement);
     }
     else {
-        auto parent = static_cast<BlockExprAST*>(selected->parentItem());
-        parent->insert(newElement,static_cast<InstructionExprAST*>(selected));
+        auto parent = static_cast<BlockAST*>(selected->parentItem());
+        parent->insert(newElement,static_cast<InstructionAST*>(selected));
     }
     updateScene();
     position();
@@ -171,7 +150,7 @@ void MainWindow::addAssign()
     auto var = ui->assignVarName->text();
     QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
     if (re.match(var).hasMatch()) {
-        auto newElement = new AssignExprAST(var);
+        auto newElement = new AssignAST(var);
         addInstruction(newElement);
     }
     else {
@@ -195,22 +174,16 @@ void MainWindow::addInput(){
     ui->inputVarName->clear();
 }
 
-//connect(newElement,&InstructionExprAST::signalSelected,_mainGraphicsView,[=](){
-//    qDebug()<< node->instructionName_;
-//    clearSelection();
-//    node->setSelected(true);
-//    qDebug()<<"selektovano je"<<"\n";
-//});
 
 void MainWindow::addWhile()
 {
-   auto newElement =new WhileExprAST();
+   auto newElement =new WhileAST();
    addInstruction(newElement);
 }
 
 void MainWindow::addIf()
 {
-    auto newElement =new IfExprAST();
+    auto newElement =new IfAST();
     addInstruction(newElement);
 }
 
@@ -223,10 +196,9 @@ void MainWindow::addPrint()
 void MainWindow::addExpr(ExprAST* elem)
 {
     if (_mainGraphicsScene->getSelectedItem() == nullptr) {
-        //TODO error handling
         return;
     }
-    auto selected = dynamic_cast<PlaceholderExprAST*>(_mainGraphicsScene->getSelectedItem());
+    auto selected = dynamic_cast<PlaceholderAST*>(_mainGraphicsScene->getSelectedItem());
     if (selected) {
         selected->setExpr(elem);
     }
@@ -237,79 +209,79 @@ void MainWindow::addExpr(ExprAST* elem)
 
 void MainWindow::addPlus()
 {
-    auto elem = new AddExprAST();
+    auto elem = new AddAST();
     addExpr(elem);
 }
 
 void MainWindow::addMinus()
 {
-    auto elem = new SubExprAST();
+    auto elem = new SubAST();
     addExpr(elem);
 }
 
 void MainWindow::addMul()
 {
-    auto elem = new MulExprAST();
+    auto elem = new MulAST();
     addExpr(elem);
 }
 
 void MainWindow::addDiv()
 {
-    auto elem = new DivExprAST();
+    auto elem = new DivAST();
     addExpr(elem);
 }
 
 void MainWindow::addLs()
 {
-    auto elem = new LtExprAST();
+    auto elem = new LtAST();
     addExpr(elem);
 }
 
 void MainWindow::addGt()
 {
-    auto elem = new GtExprAST();
+    auto elem = new GtAST();
     addExpr(elem);
 }
 
 void MainWindow::addLseq()
 {
-    auto elem = new LeqExprAST();
+    auto elem = new LeqAST();
     addExpr(elem);
 }
 
 void MainWindow::addGteq()
 {
-    auto elem = new GeqExprAST();
+    auto elem = new GeqAST();
     addExpr(elem);
 }
 
 void MainWindow::addAnd()
 {
-    auto elem = new AndExprAST();
+    auto elem = new AndAST();
     addExpr(elem);
 }
 
 void MainWindow::addOr()
 {
-    auto elem = new OrExprAST();
+    auto elem = new OrAST();
     addExpr(elem);
 }
 
 void MainWindow::addNot()
 {
-    auto elem = new NotExprAST();
+    auto elem = new NotAST();
     addExpr(elem);
 }
 
 void MainWindow::addEq()
 {
-    auto elem = new EqExprAST();
+    auto elem = new EqAST();
     addExpr(elem);
 }
 
 void MainWindow::addNeq()
 {
-    auto elem = new NeqExprAST();
+    auto elem = new NeqAST();
     addExpr(elem);
 }
 
@@ -318,7 +290,7 @@ void MainWindow::addVar()
     auto var = ui->varTF->toPlainText();
     QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
     if (re.match(var).hasMatch()) {
-        auto elem = new VariableExprAST(var);
+        auto elem = new VariableAST(var);
         addExpr(elem);
     }
     else {
@@ -333,7 +305,7 @@ void MainWindow::addConst()
     bool ok;
     auto val = ui->constTF->toPlainText().toDouble(&ok);
     if (ok) {
-        auto elem = new ValueExprAST(val);
+        auto elem = new ValueAST(val);
         addExpr(elem);
     }
     else {
@@ -393,13 +365,12 @@ void MainWindow::setupActions()
 {
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::onActionOpen);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onActionSave);
-    connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::onActionSaveAs);
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::onActionExit);
     connect(ui->actionRun, &QAction::triggered, this, &MainWindow::onActionRun);
     connect(ui->actionDebug, &QAction::triggered, this, &MainWindow::onActionDebug);
     connect(ui->actionBuild, &QAction::triggered, this, &MainWindow::onActionBuild);
 }
-//TODO:other actions
+
 void MainWindow::onActionOpen()
 {
     QString fileName = QFileDialog::getOpenFileName(
@@ -407,9 +378,9 @@ void MainWindow::onActionOpen()
          tr("Open Visual"), ".",
          tr("JSON (*.json)"));
     auto mb = Serializer::load(fileName);
-    //delete mainBlock;
-    auto tmp = dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(mb));
+    auto tmp = dynamic_cast<BlockAST*>(ExprAST::makeFromVariant(mb));
     if(tmp != nullptr){
+        delete mainBlock;
         mainBlock = tmp;
         backPushed();
         _mainGraphicsScene->clear();
@@ -442,15 +413,6 @@ void MainWindow::onActionSave()
     Serializer::save(*mainBlock,fileName);
 }
 
-void MainWindow::onActionSaveAs()
-{
-    QString fileName = QFileDialog::getSaveFileName(
-            this,
-            tr("Save Visual"), ".",
-            tr("Visual (*.bv)"));
-
-   //TODO: if fileName is empty
-}
 
 void MainWindow::onActionExit()
 {
@@ -493,7 +455,6 @@ void MainWindow::onActionRun()
     connect(worker, SIGNAL(sendPrintText(QString)), terminal, SLOT(addLine(QString)));
     connect(worker, SIGNAL(sendResult(QString)), this, SLOT(catchResult(QString)));
     connect(worker,SIGNAL(changeButtonSettings(bool)),terminal,SLOT(changeBtnSettings(bool)));
-    connect(terminal,SIGNAL(killInterpret()),worker, SLOT(kill()));
     thread->start();
 }
 
@@ -515,7 +476,6 @@ void MainWindow::onActionDebug()
     connect(worker, SIGNAL(sendPrintText(QString)), terminal, SLOT(addLine(QString)));
     connect(worker, SIGNAL(sendResult(QString)), this, SLOT(catchResult(QString)));
     connect(worker, SIGNAL(changeButtonSettings(bool)),terminal, SLOT(changeBtnSettings(bool)));
-    connect(terminal,SIGNAL(killInterpret()),worker, SLOT(kill()));
     thread->start();
 }
 

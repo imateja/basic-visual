@@ -5,83 +5,70 @@ float ExprAST::gap=10.0f;
 
 //--------------------ACCEPT VISIT--------------------
 
-void PlaceholderExprAST::AcceptVisit(VisitorAST& v){
+void PlaceholderAST::AcceptVisit(VisitorAST& v){
     v.VisitPlaceholderExprAST(*this);
 }
-void ValueExprAST::AcceptVisit(VisitorAST& v){
+void ValueAST::AcceptVisit(VisitorAST& v){
     v.VisitValueExprAST(*this);
 }
-void VariableExprAST::AcceptVisit(VisitorAST& v){
+void VariableAST::AcceptVisit(VisitorAST& v){
     v.VisitVariableExprAST(*this);
 }
-void NotExprAST::AcceptVisit(VisitorAST& v){
+void NotAST::AcceptVisit(VisitorAST& v){
     v.VisitNotExprAST(*this);
 }
-void MulExprAST::AcceptVisit(VisitorAST& v){
+void MulAST::AcceptVisit(VisitorAST& v){
     v.VisitMulExprAST(*this);
 }
-void DivExprAST::AcceptVisit(VisitorAST& v){
+void DivAST::AcceptVisit(VisitorAST& v){
     v.VisitDivExprAST(*this);
 }
-void AddExprAST::AcceptVisit(VisitorAST& v){
+void AddAST::AcceptVisit(VisitorAST& v){
     v.VisitAddExprAST(*this);
 }
-void SubExprAST::AcceptVisit(VisitorAST& v){
+void SubAST::AcceptVisit(VisitorAST& v){
     v.VisitSubExprAST(*this);
 }
-void LtExprAST::AcceptVisit(VisitorAST& v){
+void LtAST::AcceptVisit(VisitorAST& v){
     v.VisitLtExprAST(*this);
 }
-void LeqExprAST::AcceptVisit(VisitorAST& v){
+void LeqAST::AcceptVisit(VisitorAST& v){
     v.VisitLeqExprAST(*this);
 }
-void GtExprAST::AcceptVisit(VisitorAST& v){
+void GtAST::AcceptVisit(VisitorAST& v){
     v.VisitGtExprAST(*this);
 }
-void GeqExprAST::AcceptVisit(VisitorAST& v){
+void GeqAST::AcceptVisit(VisitorAST& v){
     v.VisitGeqExprAST(*this);
 }
-void EqExprAST::AcceptVisit(VisitorAST& v){
+void EqAST::AcceptVisit(VisitorAST& v){
     v.VisitEqExprAST(*this);
 }
-void NeqExprAST::AcceptVisit(VisitorAST& v){
+void NeqAST::AcceptVisit(VisitorAST& v){
     v.VisitNeqExprAST(*this);
 }
-void AndExprAST::AcceptVisit(VisitorAST& v){
+void AndAST::AcceptVisit(VisitorAST& v){
     v.VisitAndExprAST(*this);
 }
-void OrExprAST::AcceptVisit(VisitorAST& v){
+void OrAST::AcceptVisit(VisitorAST& v){
     v.VisitOrExprAST(*this);
 }
 
 //--------------------DESTRUCTORS--------------------
 
-PlaceholderExprAST::~PlaceholderExprAST() {
+PlaceholderAST::~PlaceholderAST() {
     delete expr_;
 }
 
-UnaryExprAST::~UnaryExprAST() {
+UnaryAST::~UnaryAST() {
     delete operand_;
 }
 
-BinaryExprAST::~BinaryExprAST(){
+BinaryAST::~BinaryAST(){
     delete left_;
     delete right_;
 }
 
-//--------------------SETTERS--------------------
-
-void BinaryExprAST::setLeft(ExprAST* expr)
-{
-    delete left_;
-    left_ = expr;
-}
-
-void BinaryExprAST::setRight(ExprAST* expr)
-{
-    delete right_;
-    right_ = expr;
-}
 
 //--------------------------------------------
 
@@ -122,24 +109,24 @@ void ExprAST::mousePressEvent(QGraphicsSceneMouseEvent *event)
 }
 
 //------------ STRINGIFY ------------
-QString PlaceholderExprAST::stringify() const {
+QString PlaceholderAST::stringify() const {
     return expr_? expr_->stringify() : "[]";
 }
 
-QString ValueExprAST::stringify() const {
+QString ValueAST::stringify() const {
     return QString::number(value_);
 }
 
-QString VariableExprAST::stringify() const {
+QString VariableAST::stringify() const {
     return name_;
 }
 
-QString UnaryExprAST::stringify() const {
+QString UnaryAST::stringify() const {
     QString op = operand_->stringify();
     return operand_->getPriority() > getPriority() ? op_ + "(" + op + ")" : op_ + op;
 }
 
-QString BinaryExprAST::stringify() const {
+QString BinaryAST::stringify() const {
     QString l = left_->stringify();
     QString r = right_->stringify();
     QString retVal;
@@ -151,29 +138,33 @@ QString BinaryExprAST::stringify() const {
 
 QBrush ExprAST::setBrush() {
     QBrush brush = QBrush(color_);
+
+    if(Interpret::steps){
+        auto tmp = dynamic_cast<InstructionAST*>(this);
+        if(tmp && tmp->isCurrent){
+            brush.setColor(QColor::fromRgb(192, 223, 133));
+            brush.setStyle(Qt::Dense2Pattern);
+        }
+    }
     if (errorFound) {
-        brush.setColor(Qt::red);
+        brush.setColor(QColor::fromRgb(237, 77, 110));
         brush.setStyle(Qt::Dense1Pattern);
     }
     if(this->isSelected()){
-        brush.setColor(Qt::green);
+        brush.setColor(QColor::fromRgb(125, 223, 100));
         brush.setStyle(Qt::Dense1Pattern);
-    }
-    if(Interpret::steps)
-        if((dynamic_cast<InstructionExprAST*>(this))->isCurrent){
-        brush.setColor(Qt::yellow);
-        brush.setStyle(Qt::Dense2Pattern);
+        errorFound = false;
     }
     return brush;
 }
 
-QRectF PlaceholderExprAST::boundingRect() const{
+QRectF PlaceholderAST::boundingRect() const{
     float w=60;
     float h=60;
     return expr_ ? expr_->boundingRect() : QRectF(-w/2,-h/2,w,h);
 }
 
-void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void PlaceholderAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
     auto br = boundingRect();
@@ -188,15 +179,13 @@ void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem
     emit ShouldUpdateScene();
 }
 
-//--------------------- EXPRPAINTING ---------------------
-
-QRectF ValueExprAST::boundingRect() const {
+QRectF ValueAST::boundingRect() const {
     float w=60;
     float h=60;
     return QRectF(-w/2,-h/2,w,h);
 }
 
-void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void ValueAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
 
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -210,13 +199,13 @@ void ValueExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     emit ShouldUpdateScene();
 }
 
-QRectF VariableExprAST::boundingRect() const {
+QRectF VariableAST::boundingRect() const {
     float w=60;
     float h=60;
     return QRectF(-w/2,-h/2,w,h);
 }
 
-void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void VariableAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
@@ -230,7 +219,7 @@ void VariableExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     emit ShouldUpdateScene();
 }
 
-QRectF UnaryExprAST::boundingRect() const{
+QRectF UnaryAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
     float opr = 60.0f;
@@ -240,7 +229,7 @@ QRectF UnaryExprAST::boundingRect() const{
     return QRect(-w/2,-h/2,w,h);
 }
 
-void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void UnaryAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
@@ -264,7 +253,7 @@ void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     emit ShouldUpdateScene();
 }
 
-QRectF BinaryExprAST::boundingRect() const {
+QRectF BinaryAST::boundingRect() const {
     float w=0.0f;
     float h=0.0f;
     float opr = 60.0f;
@@ -275,7 +264,7 @@ QRectF BinaryExprAST::boundingRect() const {
     return QRect(-w/2,-h/2,w,h);
 }
 
-void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void BinaryAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
@@ -300,19 +289,19 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     emit ShouldUpdateScene();
 }
 
-void BinaryExprAST::updateChildren() {
+void BinaryAST::updateChildren() {
     left_->setParentItem(this);
     right_->setParentItem(this);
     left_->updateChildren();
     right_->updateChildren();
 }
 
-void UnaryExprAST::updateChildren() {
+void UnaryAST::updateChildren() {
     operand_->setParentItem(this);
     operand_->updateChildren();
 }
 
-void PlaceholderExprAST::updateChildren() {
+void PlaceholderAST::updateChildren() {
     if(expr_){
         expr_->setParentItem(this);
         expr_->updateChildren();
@@ -323,15 +312,15 @@ inline bool isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition) {
     return pow(center.x()-mousePosition.x(),2) + pow(center.y()-mousePosition.y(),2) <= pow(opcircle.height()/2,2);
 }
 
-void OperatorExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
+void OperatorAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     auto mousePosition = event->pos();
     emit selectItem(isInCircle(center_,opcircle_,mousePosition)?this:nullptr);
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
 void ExprAST::deleteMe() {
-    auto parent = static_cast<PlaceholderExprAST*>(parentItem());
-    parent->expr_ = nullptr;
+    auto parent = static_cast<PlaceholderAST*>(parentItem());
+    parent->clear();
     //deleteLater();
     delete this;
 }
@@ -339,7 +328,7 @@ void ExprAST::deleteMe() {
 
 //--------------------toVariant--------------------
 
-QVariant PlaceholderExprAST::toVariant() const
+QVariant PlaceholderAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "PlaceholderExprAST");
@@ -350,7 +339,7 @@ QVariant PlaceholderExprAST::toVariant() const
     return map;
 }
 
-QVariant ValueExprAST::toVariant() const
+QVariant ValueAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "ValueExprAST");
@@ -358,7 +347,7 @@ QVariant ValueExprAST::toVariant() const
     return map;
 }
 
-QVariant VariableExprAST::toVariant() const
+QVariant VariableAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "VariableExprAST");
@@ -366,7 +355,7 @@ QVariant VariableExprAST::toVariant() const
     return map;
 }
 
-QVariant NotExprAST::toVariant() const
+QVariant NotAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "NotExprAST");
@@ -374,7 +363,7 @@ QVariant NotExprAST::toVariant() const
     return map;
 }
 
-QVariant MulExprAST::toVariant() const
+QVariant MulAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "MulExprAST");
@@ -383,7 +372,7 @@ QVariant MulExprAST::toVariant() const
     return map;
 }
 
-QVariant DivExprAST::toVariant() const
+QVariant DivAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "DivExprAST");
@@ -392,7 +381,7 @@ QVariant DivExprAST::toVariant() const
     return map;
 }
 
-QVariant AddExprAST::toVariant() const
+QVariant AddAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "AddExprAST");
@@ -401,7 +390,7 @@ QVariant AddExprAST::toVariant() const
     return map;
 }
 
-QVariant SubExprAST::toVariant() const
+QVariant SubAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "SubExprAST");
@@ -410,7 +399,7 @@ QVariant SubExprAST::toVariant() const
     return map;
 }
 
-QVariant LtExprAST::toVariant() const
+QVariant LtAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "LtExprAST");
@@ -419,7 +408,7 @@ QVariant LtExprAST::toVariant() const
     return map;
 }
 
-QVariant LeqExprAST::toVariant() const
+QVariant LeqAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "LeqExprAST");
@@ -428,7 +417,7 @@ QVariant LeqExprAST::toVariant() const
     return map;
 }
 
-QVariant GtExprAST::toVariant() const
+QVariant GtAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "GtExprAST");
@@ -437,7 +426,7 @@ QVariant GtExprAST::toVariant() const
     return map;
 }
 
-QVariant GeqExprAST::toVariant() const
+QVariant GeqAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "GeqExprAST");
@@ -446,7 +435,7 @@ QVariant GeqExprAST::toVariant() const
     return map;
 }
 
-QVariant EqExprAST::toVariant() const
+QVariant EqAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "EqExprAST");
@@ -456,7 +445,7 @@ QVariant EqExprAST::toVariant() const
 }
 
 
-QVariant NeqExprAST::toVariant() const
+QVariant NeqAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "NeqExprAST");
@@ -465,7 +454,7 @@ QVariant NeqExprAST::toVariant() const
     return map;
 }
 
-QVariant AndExprAST::toVariant() const
+QVariant AndAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "AndExprAST");
@@ -474,7 +463,7 @@ QVariant AndExprAST::toVariant() const
     return map;
 }
 
-QVariant OrExprAST::toVariant() const
+QVariant OrAST::toVariant() const
 {
     QVariantMap map;
     map.insert("type", "OrExprAST");
@@ -493,47 +482,47 @@ ExprAST* ExprAST::makeFromVariant(const QVariant& v){
         }
         QString type = m.value("type").toString();
         if(type == "PlaceholderExprAST"){
-            return new PlaceholderExprAST(v);
+            return new PlaceholderAST(v);
         } else if (type == "ValueExprAST") {
-            return new ValueExprAST(v);
+            return new ValueAST(v);
         } else if (type == "VariableExprAST") {
-            return new VariableExprAST(v);
+            return new VariableAST(v);
         } else if (type == "NotExprAST") {
-            return new NotExprAST(v);
+            return new NotAST(v);
         } else if (type == "MulExprAST") {
-            return new MulExprAST(v);
+            return new MulAST(v);
         } else if (type == "DivExprAST") {
-            return new DivExprAST(v);
+            return new DivAST(v);
         } else if (type == "AddExprAST") {
-            return new AddExprAST(v);
+            return new AddAST(v);
         } else if (type == "SubExprAST") {
-            return new SubExprAST(v);
+            return new SubAST(v);
         } else if (type == "LtExprAST") {
-            return new LtExprAST(v);
+            return new LtAST(v);
         } else if (type == "LeqExprAST") {
-            return new LeqExprAST(v);
+            return new LeqAST(v);
         } else if (type == "QtExprAST") {
-            return new GtExprAST(v);
+            return new GtAST(v);
         } else if (type == "GeqExprAST") {
-            return new GeqExprAST(v);
+            return new GeqAST(v);
         } else if (type == "EqExprAST") {
-            return new EqExprAST(v);
+            return new EqAST(v);
         } else if (type == "NeqExprAST") {
-            return new NeqExprAST(v);
+            return new NeqAST(v);
         } else if (type == "AndExprAST") {
-            return new AndExprAST(v);
+            return new AndAST(v);
         } else if (type == "OrExprAST") {
-            return new OrExprAST(v);
+            return new OrAST(v);
         } else if (type == "StartExprAST") {
-            return new StartExprAST(v);
+            return new StartAST(v);
         } else if (type == "AssignExprAST") {
-            return new AssignExprAST(v);
+            return new AssignAST(v);
         } else if (type == "BlockExprAST") {
-            return new BlockExprAST(v);
+            return new BlockAST(v);
         } else if (type == "IfExprAST") {
-            return new IfExprAST(v);
+            return new IfAST(v);
         } else if (type == "WhileExprAST") {
-            return new WhileExprAST(v);
+            return new WhileAST(v);
         } else if (type == "PrintAST") {
             return new PrintAST(v);
         } else if (type == "InputAST") {
@@ -545,8 +534,8 @@ ExprAST* ExprAST::makeFromVariant(const QVariant& v){
 
 //-------------------- QVariant constructors --------------------
 
-PlaceholderExprAST::PlaceholderExprAST(const QVariant& v)
-    : PlaceholderExprAST()
+PlaceholderAST::PlaceholderAST(const QVariant& v)
+    : PlaceholderAST()
 {
     QVariantMap map = v.toMap();
     auto child = (map.value("isFull").toBool())
@@ -557,23 +546,23 @@ PlaceholderExprAST::PlaceholderExprAST(const QVariant& v)
     }
 }
 
-ValueExprAST::ValueExprAST(const QVariant& v)
-    : ValueExprAST(v.toMap().value("value").toDouble())
+ValueAST::ValueAST(const QVariant& v)
+    : ValueAST(v.toMap().value("value").toDouble())
 {
 }
 
-VariableExprAST::VariableExprAST(const QVariant& v)
-    : VariableExprAST(v.toMap().value("name").toString())
+VariableAST::VariableAST(const QVariant& v)
+    : VariableAST(v.toMap().value("name").toString())
 {
 }
 
-UnaryExprAST::UnaryExprAST(const QVariant& v)
-    : UnaryExprAST(ExprAST::makeFromVariant(v.toMap().value("operand")))
+UnaryAST::UnaryAST(const QVariant& v)
+    : UnaryAST(ExprAST::makeFromVariant(v.toMap().value("operand")))
 {
 }
 
-BinaryExprAST::BinaryExprAST(const QVariant& v)
-    : BinaryExprAST(
+BinaryAST::BinaryAST(const QVariant& v)
+    : BinaryAST(
           ExprAST::makeFromVariant(v.toMap().value("left")),
           ExprAST::makeFromVariant(v.toMap().value("right"))
           )
