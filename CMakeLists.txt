@@ -36,7 +36,7 @@ set(PROJECT_SOURCES
         ast/src/exprtree.cpp
         ast/src/serializer.cpp
         #tests/test_ast.cpp
-		#tests/catch.cpp
+        #tests/catch.cpp
 )
 
 set(PROJECT_HEADERS
@@ -73,4 +73,4 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(basicVisual)
 endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ast/inc basicVisual/inc)
+target_include_directories(${PROJECT_NAME} PUBLIC ast/inc basicVisual/inc tests/)
