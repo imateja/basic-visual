@@ -49,6 +49,7 @@ public:
     void VisitIfExprAST(IfExprAST&) override;
     void VisitWhileExprAST(WhileExprAST&) override;
     void VisitPrintAST(PrintAST&) override;
+    void VisitInputAST(InputAST&) override;
     void VisitFunctionExprAST(FunctionExprAST&) override;
 
     static void InitializeModuleAndPassManager();

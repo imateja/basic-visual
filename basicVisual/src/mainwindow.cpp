@@ -11,6 +11,7 @@
 #include <exprtree.hpp>
 #include <interpret.hpp>
 #include <compile.hpp>
+#include <pseudoterminal.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -53,8 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete ui;
     Interpret::mutex_.unlock();
+    delete ui;
 }
 
 void MainWindow::positionElement(InstructionExprAST* elem, qint32 factor)
@@ -102,7 +103,9 @@ void MainWindow::Edit()
             //TODO error handling
             return;
         }
-
+        if (dynamic_cast<InputAST*>(_mainGraphicsScene->getSelectedItem())){
+            return;
+        }
         exprItem = static_cast<InstructionExprAST*>(_mainGraphicsScene->getSelectedItem())->getEditableExpr();
         if(exprItem == nullptr){
             //TODO error handling
@@ -181,6 +184,19 @@ void MainWindow::addAssign()
         QMessageBox::information(this, "Invalid Variable name", "A valid variable name starts with a letter, followed by letters, digits, or underscores.");
     }
 
+}
+
+void MainWindow::addInput(){
+    auto var = ui->inputVarName->text();
+    QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
+    if (re.match(var).hasMatch()) {
+        auto newElement = new InputAST(var);
+        ui->inputVarName->clear();
+        addInstruction(newElement);
+    }
+    else {
+        QMessageBox::information(this, "Invalid Variable name", "A valid variable name starts with a letter, followed by letters, digits, or underscores.");
+    }
 }
 
 //connect(newElement,&InstructionExprAST::signalSelected,_mainGraphicsView,[=](){
@@ -375,6 +391,7 @@ void MainWindow::setupConnections()
     connect(ui->deleteBtn_2, &QPushButton::clicked, this, &MainWindow::deletePushed);
     connect(ui->nextBtn, &QPushButton::clicked, this, &MainWindow::nextPushed);
     connect(ui->printBtn, &QPushButton::clicked, this, &MainWindow::addPrint);
+    connect(ui->inputBtn,&QPushButton::clicked,this,&MainWindow::addInput);
 
 }
 
@@ -427,17 +444,20 @@ void MainWindow::onActionExit()
 
 void MainWindow::catchResult(QString result){
     if(result.isEmpty()){
-        QMessageBox::information(this,"success","Interpretation finished successfully");
+        QMessageBox::information(this,"success","Finished successfully");
     } else {
         QMessageBox::information(this,"failure",result);
     }
 
 }
 
+
 void MainWindow::onActionRun()
 {
     State::Domains().clear();
     Interpret::steps = false;
+    auto terminal = new PseudoTerminal(this);
+    terminal->show();
     QThread* thread = new QThread;
     Worker* worker = new Worker(mainBlock);
     worker->moveToThread(thread);
@@ -445,7 +465,9 @@ void MainWindow::onActionRun()
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
     connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    connect(worker, SIGNAL(sendPrintText(QString)), terminal, SLOT(addLine(QString)));
     connect(worker, SIGNAL(sendResult(QString)), this, SLOT(catchResult(QString)));
+    connect(worker,SIGNAL(changeButtonSettings(bool)),terminal,SLOT(changeBtnSettings(bool)));
     thread->start();
 }
 
@@ -454,6 +476,8 @@ void MainWindow::onActionDebug()
     State::Domains().clear();
     ui->nextBtn->show();
     Interpret::steps = true;
+    auto terminal = new PseudoTerminal(this);
+    terminal->show();
     QThread* thread = new QThread;
     Worker* worker = new Worker(mainBlock);
     worker->moveToThread(thread);
@@ -461,7 +485,10 @@ void MainWindow::onActionDebug()
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
     connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    connect(worker, SIGNAL(finished()), ui->nextBtn, SLOT(hide));
+    connect(worker, SIGNAL(finished()), ui->nextBtn, SLOT(hide()));
+    connect(worker, SIGNAL(sendPrintText(QString)), terminal, SLOT(addLine(QString)));
+    connect(worker, SIGNAL(sendResult(QString)), this, SLOT(catchResult(QString)));
+    connect(worker, SIGNAL(changeButtonSettings(bool)),terminal, SLOT(changeBtnSettings(bool)));
     thread->start();
 }
 

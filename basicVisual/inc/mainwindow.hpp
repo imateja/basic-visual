@@ -8,6 +8,7 @@
 #include <QMutex>
 #include <exprtree.hpp>
 #include <maingraphicsscene.hpp>
+#include <pseudoterminal.hpp>
 
 
 class QGraphicsScene;
@@ -37,6 +38,7 @@ private slots:
     void addWhile();
     void addIf();
     void addPrint();
+    void addInput();
     void Edit();
     void addExpr(ExprAST*);
     void addPlus();
@@ -80,6 +82,7 @@ public slots:
     void updateScene();
     void position();
     void catchResult(QString);
+
 
 
     // QObject interface

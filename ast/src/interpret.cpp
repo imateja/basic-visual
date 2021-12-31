@@ -10,6 +10,8 @@ int Interpret::doubleTypeId = QVariant(static_cast<double>(0.0f)).typeId();
 int Interpret::boolTypeId = QVariant(static_cast<bool>(true)).typeId();
 int Interpret::qstringTypeId = QVariant(static_cast<QString>("")).typeId();
 double Interpret::eps = 0.000001;
+Worker* Interpret::worker = nullptr;
+QString Interpret::input = QString();
 
 void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
     obj.errorFound = false;
@@ -36,7 +38,6 @@ void Interpret::VisitVariableExprAST(VariableExprAST& obj) {
 
 void Interpret::VisitNotExprAST(NotExprAST& obj) {
     obj.errorFound = false;
-
     auto op = Interpret(obj.getOperand()).value_;
     if (op.typeId() == qstringTypeId) {
         value_ = op;
@@ -92,7 +93,6 @@ void Interpret::VisitDivExprAST(DivExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -127,7 +127,6 @@ void Interpret::VisitAddExprAST(AddExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -155,7 +154,6 @@ void Interpret::VisitSubExprAST(SubExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -183,7 +181,6 @@ void Interpret::VisitLtExprAST(LtExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -211,7 +208,6 @@ void Interpret::VisitLeqExprAST(LeqExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -239,7 +235,6 @@ void Interpret::VisitGtExprAST(GtExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -267,7 +262,6 @@ void Interpret::VisitGeqExprAST(GeqExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -290,7 +284,6 @@ void Interpret::VisitEqExprAST(EqExprAST& obj) {
         value_ = l;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -317,7 +310,6 @@ void Interpret::VisitNeqExprAST(NeqExprAST& obj) {
         value_ = l;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -349,7 +341,6 @@ void Interpret::VisitAndExprAST(AndExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -360,7 +351,6 @@ void Interpret::VisitAndExprAST(AndExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     value_ = QVariant(static_cast<bool>(l.toBool() && r.toBool()));
 }
 
@@ -377,7 +367,6 @@ void Interpret::VisitOrExprAST(OrExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     auto r = Interpret(obj.getRight()).value_;
     if (r.typeId() == qstringTypeId) {
         value_ = r;
@@ -388,13 +377,12 @@ void Interpret::VisitOrExprAST(OrExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     value_ = QVariant(static_cast<bool>(l.toBool() || r.toBool()));
 }
 
 /* Following Classes (InstructionExprAST subclasses) set value_ to QVariant() if everything succeds, QString otherwise */
 
-void Interpret::VisitStartExprAST(StartExprAST&) {
+void Interpret::VisitStartExprAST(StartExprAST& obj) {
     value_ = QVariant();
 }
 
@@ -415,18 +403,55 @@ void Interpret::VisitAssignExprAST(AssignExprAST& obj) {
 void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
     value_ = QVariant();
     State::Domains().createNewDomain();
-    for (auto instr : obj.getBody()) {
-        if(Interpret::steps){
-            Interpret::mutex_.lock();
+    QVector<InstructionExprAST*> b = obj.getBody();
+    auto begin = b.begin();
+    auto end = b.end();
+    (*begin)->isCurrent = true;
+    auto prev = begin;
+    auto instrValue = Interpret{(*begin)}.value_;
+    if (instrValue.typeId() == qstringTypeId) {
+        value_ = instrValue;
+    }else {
+        ++begin;
+        while(begin != end){
+            if(Interpret::steps){
+                Interpret::mutex_.lock();
+                qDebug() << (*begin) << "\n";
+                (*begin)->isCurrent = true;
+                (*prev)->isCurrent = false;
+            }
+            auto instrValue = Interpret{(*begin)}.value_;
+            if (instrValue.typeId() == qstringTypeId) {
+                value_ = instrValue;
+                break;
+            }
+            prev = begin;
+            ++begin;
         }
-        auto instrValue = Interpret{instr}.value_;
-        if (instrValue.typeId() == qstringTypeId) {
-            value_ = instrValue;
-            break;
-        }
+        (*prev)->isCurrent = false;
     }
+
     State::Domains().removeCurrentDomain();
 }
+
+//void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
+//    value_ = QVariant();
+//    State::Domains().createNewDomain();
+//    for(auto instr : obj.getBody()){
+//        if(Interpret::steps){
+//            instr->isCurrent = true;
+//            Interpret::mutex_.lock();
+//        }
+//        auto instrValue = Interpret{(instr)}.value_;
+//        if (instrValue.typeId() == qstringTypeId) {
+//            value_ = instrValue;
+//            break;
+//        }
+//        instr->isCurrent = false;
+//    }
+
+//    State::Domains().removeCurrentDomain();
+//}
 
 
 
@@ -445,14 +470,12 @@ void Interpret::VisitIfExprAST(IfExprAST& obj) {
         obj.errorFound = true;
         return;
     }
-
     value_ = instrCond.toBool() ? Interpret(obj.getThen()).value_ : Interpret(obj.getElse()).value_;
 }
 
 void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
     obj.errorFound = false;
     value_ = QVariant();
-
     while (true) {
         auto instrCond = Interpret(obj.getCond()).value_;
         if (instrCond.typeId() == qstringTypeId) {
@@ -468,7 +491,6 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
         if(!instrCond.toBool()){
             break;
         }
-
         auto instrBody = Interpret(obj.getBody()).value_;
         if (instrBody.typeId() == qstringTypeId) {
             value_ = instrCond;
@@ -482,15 +504,61 @@ void Interpret::VisitFunctionExprAST(FunctionExprAST& obj) {
     value_ = Interpret(obj.getBody()).value_;
 }
 
-void Interpret::VisitPrintAST(PrintAST& obj) {}
+
+
+void Interpret::VisitPrintAST(PrintAST& obj) {
+    value_ = Interpret(obj.getExpr()).value_;
+    if(value_.typeId() == qstringTypeId){
+        worker->print(value_.toString());
+        return;
+    }
+    if(value_.isNull()){
+        value_ = QString("Print :: Invalid print.");
+        return;
+    }
+
+    worker->print(value_.toString());
+    value_ = {};
+}
+
+void Interpret::VisitInputAST(InputAST& obj){
+    worker->btnsettings(true);
+    worker->print("Input variable " + obj.getName() + ":");
+    Interpret::mutex_.lock();
+    if(input.isEmpty()){
+        value_ = QString("Input :: input empty");
+        return;
+    }
+    bool ok;
+    auto val = input.toDouble(&ok);
+    if(!ok) {
+        value_ = QString("Input :: not a valid number");
+        return;
+    }
+    auto tmp = QVariant(val);
+    State::Domains().assignValue(obj.getName(),tmp);
+    worker->print(input);
+    worker->btnsettings(false);
+    value_ = {};
+}
 
 inline QString Interpret::getValue(){
     return value_.typeId() == qstringTypeId? value_.toString(): "";
 }
 
+void Worker::print(QString txt){
+    emit sendPrintText(txt);
+}
+
 void Worker::process() {
-   // Domains().clear();
+    State::Domains().clear();
+    Interpret::worker = this;
     auto res = Interpret{mainBlock_}.getValue();
     emit sendResult(res);
     emit finished();
 }
+
+void Worker::btnsettings(bool enabled) {
+    emit changeButtonSettings(enabled);
+}
+

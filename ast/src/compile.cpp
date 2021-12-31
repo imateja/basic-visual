@@ -7,9 +7,11 @@ LLVMContext TheContext;
 IRBuilder<> Builder(TheContext);
 Module* TheModule = nullptr;
 legacy::FunctionPassManager* TheFPM;
-//Value* doubleStr = Builder.CreateGlobalStringPtr("%lf\n");
-//Value* trueStr = Builder.CreateGlobalStringPtr("true\n");
-//Value* falseStr = Builder.CreateGlobalStringPtr("false\n");
+Value* doublePrintStr = nullptr;
+Value* truePrintStr = nullptr;
+Value* falsePrintStr = nullptr;
+Value* doubleInputStr = nullptr;
+
 
 // ------ QVariantMap(Value*, TypeEnum);
 
@@ -42,12 +44,13 @@ void Compile::InitializeModuleAndPassManager(){
 
     std::vector<Type*> arg(0);
     FunctionType* FTMain = FunctionType::get(Type::getInt32Ty(TheContext), arg, false);
-    Function* MainFunction = Function::Create(FTMain, Function::InternalLinkage, "main", TheModule);
+    Function* MainFunction = Function::Create(FTMain, Function::ExternalLinkage, "main", TheModule);
     BasicBlock* MainBB = BasicBlock::Create(TheContext, "entry", MainFunction);
     Builder.SetInsertPoint(MainBB);
 }
 
 void Compile::compile(const QString& path){
+    Builder.CreateRet(ConstantInt::get(TheContext, APInt(32, 0)));
     if(TheModule != nullptr){
         std::string Str;
         raw_string_ostream OS(Str);
@@ -648,8 +651,7 @@ void Compile::VisitIfExprAST(IfExprAST& obj) {
 
     Builder.SetInsertPoint(ThenBB);
     auto thenV = Compile(obj.getThen()).value_;
-    QVariantMap thenMap = thenV.toMap();
-    if(thenMap.isEmpty()){
+    if(!thenV.isNull()){
         value_ = thenV;
         return;
     }
@@ -657,8 +659,7 @@ void Compile::VisitIfExprAST(IfExprAST& obj) {
     
     Builder.SetInsertPoint(ElseBB);
     auto elseV = Compile(obj.getElse()).value_;
-    QVariantMap elseMap = elseV.toMap();
-    if(elseMap.isEmpty()){
+    if(!elseV.isNull()){
         value_ = elseV;
         return;
     }
@@ -697,15 +698,13 @@ void Compile::VisitWhileExprAST(WhileExprAST& obj) {
   
     Builder.SetInsertPoint(LoopBB);
     auto bodyV = Compile(obj.getBody()).value_;
-    QVariantMap bodyMap = bodyV.toMap();
-    if (bodyMap.isEmpty()){
+    if (!bodyV.isNull()){
         value_ = bodyV;
         return;
     }
-    
     Builder.CreateBr(CondBB);
-    Builder.SetInsertPoint(AfterLoopBB);
 
+    Builder.SetInsertPoint(AfterLoopBB);
     value_ = {};
 }
 
@@ -761,24 +760,97 @@ void Compile::VisitFunctionExprAST(FunctionExprAST& obj) {
 //    }
 }
 
-//FunctionType *FT1 = FunctionType::get(Type::getDoubleTy(TheContext), PointerType::get(Type::getInt8Ty(TheContext), 0), true);
-//Function* printFunction = Function::Create(FT1, Function::ExternalLinkage, "printf", TheModule);
+
 
 void Compile::VisitPrintAST(PrintAST& obj) {
-//    //TODO default value_
+    auto expr = Compile{obj.getExpr()}.value_;
+    QVariantMap exprMap = expr.toMap();
+    if(exprMap.isEmpty()){
+        value_ = expr;
+        return;
+    }
 
-//    auto s = Compile(obj.getExpr()).value_;
-//    if(!s.value<AllocaInst*>()){
-//        //TODO error handling
-//    }
+    Value* vExpr = exprMap.value("value").value<Value*>();
+    MyType typeExpr = exprMap.value("type").value<MyType>();
 
-//    /* globalni stringovi potreban za ispis */
-//    auto Str = Builder.CreateGlobalStringPtr("%lf\n");
+    Function* printFunction = TheModule->getFunction("printf");
+    if(printFunction == nullptr){
+        FunctionType *FT1 = FunctionType::get(Type::getInt32Ty(TheContext), PointerType::get(Type::getInt8Ty(TheContext), 0), true);
+        printFunction = Function::Create(FT1, Function::ExternalLinkage, "printf", TheModule);
+    }
 
-//    std::vector<AllocaInst*> ArgsV;
-//    ArgsV.push_back(Str.value<AllocaInst*>());
-//    ArgsV.push_back(s.value<AllocaInst*>());
-//    Builder.CreateCall(printfFunction, ArgsV, "printCall");
+    if(typeExpr == MyType::DOUBLE_T){
+        if(doublePrintStr == nullptr){
+            doublePrintStr = Builder.CreateGlobalStringPtr("%g\n");
+        }
 
-//    return QVariant::fromValue(s);
+        std::vector<Value*> args;
+        args.push_back(doublePrintStr);
+        args.push_back(vExpr);
+        Builder.CreateCall(printFunction, args, "printfDoubleCall");
+    }
+    else if(typeExpr == MyType::BOOL_T){
+
+        if(truePrintStr == nullptr){
+            truePrintStr = Builder.CreateGlobalStringPtr("true\n");
+        }
+
+        if(falsePrintStr == nullptr){
+            falsePrintStr = Builder.CreateGlobalStringPtr("false\n");
+        }
+
+        Function* f = Builder.GetInsertBlock()->getParent();
+        BasicBlock* TrueBB = BasicBlock::Create(TheContext, "trueprint", f);
+        BasicBlock* FalseBB = BasicBlock::Create(TheContext, "falseprint", f);
+        BasicBlock* MergeBB = BasicBlock::Create(TheContext, "mergeprint", f);
+
+        Value* printJump = Builder.CreateICmpEQ(vExpr, ConstantInt::get(TheContext, APInt(1, 1)), "ifcond");
+        Builder.CreateCondBr(printJump, TrueBB, FalseBB);
+
+        Builder.SetInsertPoint(TrueBB);
+        std::vector<Value*> args;
+        args.push_back(truePrintStr);
+        Builder.CreateCall(printFunction, args, "printfTrueCall");
+        Builder.CreateBr(MergeBB);
+
+        Builder.SetInsertPoint(FalseBB);
+        args.clear();
+        args.push_back(falsePrintStr);
+        Builder.CreateCall(printFunction, args, "printfFalseCall");
+        Builder.CreateBr(MergeBB);
+
+        Builder.SetInsertPoint(MergeBB);
+    }
+
+    value_ = {};
+}
+
+void Compile::VisitInputAST(InputAST& obj) {
+    Function* scanFunction = TheModule->getFunction("scanf");
+    if(scanFunction == nullptr){
+        FunctionType *FT1 = FunctionType::get(Type::getInt32Ty(TheContext), PointerType::get(Type::getInt8Ty(TheContext), 0), true);
+        scanFunction = Function::Create(FT1, Function::ExternalLinkage, "scanf", TheModule);
+    }
+
+    if(doubleInputStr == nullptr){
+        doubleInputStr = Builder.CreateGlobalStringPtr("%lf");
+    }
+
+    QString name = obj.getName();
+    auto prevValue = State::Domains().getValue(name);
+    QVariantMap map = prevValue.toMap();
+    if(map.isEmpty() || map.value("type").value<MyType>() != MyType::DOUBLE_T){
+        Function *F = Builder.GetInsertBlock()->getParent();
+        AllocaInst* alloca = CreateEntryBlockAlloca(F, name, MyType::DOUBLE_T);
+        map.clear();
+        map.insert("value", QVariant::fromValue(alloca));
+        map.insert("type", QVariant::fromValue(MyType::DOUBLE_T));
+        State::Domains().assignValue(name, map);
+    }
+    auto var = map.value("value").value<AllocaInst*>();
+    std::vector<Value*> args;
+    args.push_back(doubleInputStr);
+    args.push_back(var);
+    Builder.CreateCall(scanFunction, args, "scanfCall");
+    value_ = {};
 }
