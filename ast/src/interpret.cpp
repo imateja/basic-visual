@@ -498,11 +498,6 @@ void Interpret::VisitWhileExprAST(WhileExprAST& obj) {
     }
 }
 
-//if Interpret succeds, then value_ is QVariant(), otherwise it's QString
-void Interpret::VisitFunctionExprAST(FunctionExprAST& obj) {
-    value_ = Interpret(obj.getBody()).value_;
-}
-
 void Interpret::VisitPrintAST(PrintAST& obj) {
     value_ = Interpret(obj.getExpr()).value_;
     if(value_.typeId() == qstringTypeId) {

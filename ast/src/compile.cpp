@@ -708,60 +708,6 @@ void Compile::VisitWhileExprAST(WhileExprAST& obj) {
     value_ = {};
 }
 
-void Compile::VisitFunctionExprAST(FunctionExprAST& obj) {
-//    //TODO default value_
-
-//    Function* f = TheModule->getFunction(obj.getName().toStdString());
-//    if(f){
-//        //TODO error handling (function already defined)
-//    }
-    
-//    QVector<QString> args = obj.getParameters();
-    
-//    QVector<Type*> Qtypes(args.size(), Type::getDoubleTy(TheContext));
-//    std::vector<Type*> types(Qtypes.size());
-//    for(int i = 0; i < Qtypes.size(); i++)
-//    {
-//        types[i] = Qtypes[i];
-//    }
-    
-//    FunctionType* ft = FunctionType::get(Type::getDoubleTy(TheContext), types, false);
-//    f = Function::Create(ft, Function::ExternalLinkage, obj.getName().toStdString(), TheModule);
-    
-//    unsigned i = 0;
-//    for(auto &arg : f->args()){
-//        arg.setName(args[i++].toStdString());
-//    }
-    
-//    if(!f){
-//        //TODO error handling (code can't be generated because prototype failed to initialize)
-//    }
-    
-//    BasicBlock* BB = BasicBlock::Create(TheContext, "entry", f);
-//	Builder.SetInsertPoint(BB);
-    
-//    /*
-//     * Ovde ide cuvanje promenljivih
-//     */
-    
-//    auto bodyV = Compile(obj.getBody()).value_;
-//    if(bodyV.value<AllocaInst*>()){
-//        Builder.CreateRet(bodyV.value<AllocaInst*>());
-        
-//        verifyFunction(*f);
-        
-//        TheFPM->run(*f);
-        
-//        //value_ = QVariant::fromValue(f);
-//    }
-//    else{
-//        //TODO error handling if bodyV == nullptr
-//        f->eraseFromParent();
-//    }
-}
-
-
-
 void Compile::VisitPrintAST(PrintAST& obj) {
     auto expr = Compile{obj.getExpr()}.value_;
     QVariantMap exprMap = expr.toMap();

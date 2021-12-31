@@ -15,9 +15,6 @@ void WhileExprAST::AcceptVisit(VisitorAST& v){
 void IfExprAST::AcceptVisit(VisitorAST& v){
     v.VisitIfExprAST(*this);
 }
-void FunctionExprAST::AcceptVisit(VisitorAST& v){
-    v.VisitFunctionExprAST(*this);
-}
 
 void PrintAST::AcceptVisit(VisitorAST& v){
     v.VisitPrintAST(*this);
@@ -100,10 +97,6 @@ void WhileExprAST::updateChildren()
 {
     body_->setParentItem(this);
     body_->updateChildren();
-}
-
-FunctionExprAST::~FunctionExprAST(){
-    delete body_;
 }
 
 // ---------------------- PAINT -----------------------
@@ -324,15 +317,6 @@ void WhileExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
-void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {}
-
-//QRectF AssignExprAST::boundingRect() const
-//{
-//    float w=160;
-//    float h=80;
-//    return QRectF(-w/2, 0, w, h);
-//}
-
 void InstructionExprAST::deleteMe()
 {
     auto parent = static_cast<BlockExprAST*>(parentItem());
@@ -349,7 +333,6 @@ QString IfExprAST::stringify() const { return cond_->stringify(); }
 QString WhileExprAST::stringify() const { return cond_->stringify(); }
 QString PrintAST::stringify() const { return expr_->stringify(); }
 QString InputAST::stringify() const { return {}; }
-QString FunctionExprAST::stringify() const { return {}; }
 
 //------------------ toVariant -------------------
 
@@ -397,14 +380,6 @@ QVariant WhileExprAST::toVariant() const
     map.insert("type", "WhileExprAST");
     map.insert("cond", cond_->toVariant());
     map.insert("body", body_->toVariant());
-    return map;
-}
-
-QVariant FunctionExprAST::toVariant() const
-{
-    QVariantMap map;
-    map.insert("type", "FunctionExprAST");
-    //???
     return map;
 }
 

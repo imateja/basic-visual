@@ -50,7 +50,6 @@ public:
     void VisitWhileExprAST(WhileExprAST&) override;
     void VisitPrintAST(PrintAST&) override;
     void VisitInputAST(InputAST&) override;
-    void VisitFunctionExprAST(FunctionExprAST&) override;
 
     static void InitializeModuleAndPassManager();
     static void compile(const QString& file);

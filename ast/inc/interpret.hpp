@@ -42,7 +42,6 @@ public:
     void VisitWhileExprAST(WhileExprAST&) override;
     void VisitPrintAST(PrintAST&) override;
     void VisitInputAST(InputAST&) override;
-    void VisitFunctionExprAST(FunctionExprAST&) override;
 
     inline QString getValue();
 

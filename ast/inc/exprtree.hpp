@@ -262,40 +262,4 @@ private:
     QString name_;
 };
 
-class FunctionExprAST final : public ExprAST
-{
-public:
-    FunctionExprAST(QString name, BlockExprAST* body)
-        : name_(name), body_(body)
-    {
-        color_= QColor::fromRgb(0,60,60);
-    }
-    FunctionExprAST(QString name)
-        :FunctionExprAST(name, new BlockExprAST())
-    {
-        color_= QColor::fromRgb(0,60,60);
-    }
-    FunctionExprAST(const QVariant&);
-
-    ~FunctionExprAST();
-
-    void AcceptVisit(VisitorAST&) override;
-    inline Priority getPriority() const final {return Priority::INSTRUCTION;}
-    inline QString getName() {return name_;}
-    inline QVector<QString> getParameters() {return parameters_;}
-    inline BlockExprAST* getBody() {return body_;}
-    QString stringify() const final;
-    QVariant toVariant() const override;
-
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
-private:
-    QString name_;
-    QVector<QString> parameters_;
-    BlockExprAST* body_;
-
-    FunctionExprAST(const FunctionExprAST&);
-    FunctionExprAST& operator=(const FunctionExprAST&);
-};
-
 #endif // EXPRTREE_H
