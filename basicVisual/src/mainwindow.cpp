@@ -175,13 +175,13 @@ void MainWindow::addAssign()
     QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
     if (re.match(var).hasMatch()) {
         auto newElement = new AssignExprAST(var);
-        ui->assignVarName->clear();
         addInstruction(newElement);
     }
     else {
         QMessageBox::information(this, "Invalid Variable name", "A valid variable name starts with a letter, followed by letters, digits, or underscores.");
     }
 
+    ui->assignVarName->clear();
 }
 
 void MainWindow::addInput(){
@@ -189,12 +189,13 @@ void MainWindow::addInput(){
     QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
     if (re.match(var).hasMatch()) {
         auto newElement = new InputAST(var);
-        ui->inputVarName->clear();
         addInstruction(newElement);
     }
     else {
         QMessageBox::information(this, "Invalid Variable name", "A valid variable name starts with a letter, followed by letters, digits, or underscores.");
     }
+
+    ui->inputVarName->clear();
 }
 
 //connect(newElement,&InstructionExprAST::signalSelected,_mainGraphicsView,[=](){
@@ -322,11 +323,12 @@ void MainWindow::addVar()
     if (re.match(var).hasMatch()) {
         auto elem = new VariableExprAST(var);
         addExpr(elem);
-        ui->varTF->clear();
     }
     else {
         QMessageBox::information(this, "Invalid Variable name", "A valid variable name starts with a letter, followed by letters, digits, or underscores.");
     }
+
+    ui->varTF->clear();
 }
 
 void MainWindow::addConst()
@@ -336,11 +338,12 @@ void MainWindow::addConst()
     if (ok) {
         auto elem = new ValueExprAST(val);
         addExpr(elem);
-        ui->constTF->clear();
     }
     else {
         QMessageBox::information(this, "Invalid Value", "A valid value consists only of digits (with zero or one decimal dot).");
     }
+
+    ui->constTF->clear();
 }
 
 void MainWindow::deletePushed()
