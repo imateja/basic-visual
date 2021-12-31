@@ -464,6 +464,7 @@ void MainWindow::onActionRun()
     connect(worker, SIGNAL(sendPrintText(QString)), terminal, SLOT(addLine(QString)));
     connect(worker, SIGNAL(sendResult(QString)), this, SLOT(catchResult(QString)));
     connect(worker,SIGNAL(changeButtonSettings(bool)),terminal,SLOT(changeBtnSettings(bool)));
+    connect(terminal,SIGNAL(killInterpret()),worker, SLOT(kill()));
     thread->start();
 }
 
@@ -485,6 +486,7 @@ void MainWindow::onActionDebug()
     connect(worker, SIGNAL(sendPrintText(QString)), terminal, SLOT(addLine(QString)));
     connect(worker, SIGNAL(sendResult(QString)), this, SLOT(catchResult(QString)));
     connect(worker, SIGNAL(changeButtonSettings(bool)),terminal, SLOT(changeBtnSettings(bool)));
+    connect(terminal,SIGNAL(killInterpret()),worker, SLOT(kill()));
     thread->start();
 }
 
