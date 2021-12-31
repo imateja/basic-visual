@@ -239,6 +239,29 @@ private:
     PrintAST& operator=(const PrintAST&);
 };
 
+class InputAST final : public InstructionExprAST
+{
+public:
+    InputAST(QString name,QGraphicsItem* parent = nullptr)
+        :name_(name),InstructionExprAST(parent)
+    {
+        color_= QColor::fromRgb(120,60,0);
+    }
+    InputAST(const QVariant&);
+    void AcceptVisit(VisitorAST&) override;
+    void updateChildren() final {}
+    QString stringify() const final;
+    QVariant toVariant() const override;
+    inline QString getName() {return name_;}
+    ~InputAST(){}
+    QString instructionName_ = QString("Input");
+    ExprAST* getEditableExpr() override { return nullptr; }//???
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+private:
+    QString name_;
+};
+
 class FunctionExprAST final : public ExprAST
 {
 public:

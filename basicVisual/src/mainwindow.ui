@@ -82,6 +82,16 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="inputBtn">
+              <property name="text">
+               <string>Input</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="inputVarName"/>
+            </item>
+            <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>

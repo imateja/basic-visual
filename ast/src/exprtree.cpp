@@ -23,6 +23,10 @@ void PrintAST::AcceptVisit(VisitorAST& v){
     v.VisitPrintAST(*this);
 }
 
+void InputAST::AcceptVisit(VisitorAST& v){
+    v.VisitInputAST(*this);
+}
+
 AssignExprAST::~AssignExprAST(){
     delete expr_;
 }
@@ -146,7 +150,7 @@ QRectF BlockExprAST::boundingRect() const
     float h = 0.0f;
     for (auto &elem : body_) {
         auto br = elem->boundingRect();
-        if (br.width()>w) {
+        if (br.width() > w) {
             w=br.width();
         }
         h += br.height();
@@ -283,7 +287,23 @@ void PrintAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
 }
+QRectF InputAST::boundingRect() const{
+    float w = 100;
+    float h = 60;
+    return QRectF(-w/2,-h/2,w,h);
+}
 
+void InputAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+    auto br = boundingRect();
+    painter->fillRect(br,setBrush());
+    painter->setPen(Qt::white);
+    painter->setFont(QFont("Times New Roman", 15));
+    const auto SquareText = QString(instructionName_+ "\n" + name_);
+    painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
+    emit ShouldUpdateScene();
+}
 void WhileExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     auto mousePosition = event->pos();
@@ -300,7 +320,6 @@ void FunctionExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 //    return QRectF(-w/2, 0, w, h);
 //}
 
-
 void InstructionExprAST::deleteMe()
 {
     auto parent = static_cast<BlockExprAST*>(parentItem());
@@ -316,6 +335,7 @@ QString BlockExprAST::stringify() const { return {}; }
 QString IfExprAST::stringify() const { return cond_->stringify(); }
 QString WhileExprAST::stringify() const { return cond_->stringify(); }
 QString PrintAST::stringify() const { return expr_->stringify(); }
+QString InputAST::stringify() const { return {}; }
 QString FunctionExprAST::stringify() const { return {}; }
 
 //------------------ toVariant -------------------
@@ -378,6 +398,13 @@ QVariant FunctionExprAST::toVariant() const
 QVariant PrintAST::toVariant() const {
     QVariantMap map;
     map.insert("type", "PrintAST");
+    //???
+    return map;
+}
+
+QVariant InputAST::toVariant() const {
+    QVariantMap map;
+    map.insert("type", "InputAST");
     //???
     return map;
 }

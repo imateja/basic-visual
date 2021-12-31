@@ -41,6 +41,7 @@ public:
     void VisitIfExprAST(IfExprAST&) override;
     void VisitWhileExprAST(WhileExprAST&) override;
     void VisitPrintAST(PrintAST&) override;
+    void VisitInputAST(InputAST&) override;
     void VisitFunctionExprAST(FunctionExprAST&) override;
 
     inline QString getValue();
@@ -52,6 +53,7 @@ public:
     static QMutex mutex_;
     static bool steps;
     static Worker* worker;
+    static QString input;
 
 private:
     QVariant value_;
@@ -66,6 +68,7 @@ public:
     {}
 
     void print(QString);
+    void btnsettings(bool);
 
 public slots:
     void process();
@@ -74,6 +77,7 @@ signals:
     void finished();
     void sendResult(QString result);
     void sendPrintText(QString);
+    void changeButtonSettings(bool);
 
 private:
     BlockExprAST* mainBlock_;
