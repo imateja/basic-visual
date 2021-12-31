@@ -100,11 +100,8 @@ void ExprAST::propagateShouldUpdateScene(){
 void ExprAST::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsObject::mouseMoveEvent(event);
-
-    //TODO:Emit signal that the item is moved
+    //moved()
     emit Moved();
-
-
 }
 void ExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
     emit selectItem(this);
@@ -179,8 +176,6 @@ QRectF PlaceholderExprAST::boundingRect() const{
 void PlaceholderExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
-   //TODO: Pen and colour should also be properties of subclasses
-   //FIX: Colour and pen shouldnt be hardcoded
     auto br = boundingRect();
     if(expr_){
         expr_->setPos(0,0);

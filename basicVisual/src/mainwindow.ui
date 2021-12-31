@@ -377,7 +377,7 @@
          <widget class="QPushButton" name="backBtn">
           <property name="geometry">
            <rect>
-            <x>38</x>
+            <x>40</x>
             <y>490</y>
             <width>101</width>
             <height>25</height>
@@ -471,34 +471,17 @@
     <addaction name="separator"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
-    <addaction name="actionSave_As"/>
-    <addaction name="actionImport_as_custom_function"/>
-    <addaction name="actionImport_custom_function"/>
     <addaction name="actionExit"/>
-   </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <addaction name="actionZoom_in"/>
-    <addaction name="actionZoom_out"/>
    </widget>
    <widget class="QMenu" name="menuBuild">
     <property name="title">
      <string>Build</string>
     </property>
-    <addaction name="actionBuild"/>
     <addaction name="actionRun"/>
     <addaction name="actionDebug"/>
+    <addaction name="actionBuild"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
-   <addaction name="menuView"/>
    <addaction name="menuBuild"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

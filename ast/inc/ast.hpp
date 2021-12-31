@@ -128,7 +128,7 @@ class PlaceholderExprAST final : public ExprAST
 public:
     PlaceholderExprAST(){
         expr_ = nullptr;
-        color_= QColor::fromRgb(128,0,0);
+        color_= QColor::fromRgb(112, 171, 175);
     }
     PlaceholderExprAST(const QVariant& v);
 
@@ -169,7 +169,7 @@ public:
     ValueExprAST(double value)
         : value_(value)
     {
-        color_= QColor::fromRgb(128,0,128);
+        color_= QColor::fromRgb(107, 39, 55);
     }
     ValueExprAST(const QVariant& v);
 
@@ -193,14 +193,14 @@ public:
     VariableExprAST(QString name)
         : name_(name)
     {
-        color_= QColor::fromRgb(128,0,128);
+        color_= QColor::fromRgb(107, 39, 55);
     }
     VariableExprAST(const QVariant& v);
 
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::INSTRUCTION;}
     inline QString getName() {return name_;}
-    QString stringify() const final;  //TODO this is the same as getName
+    QString stringify() const final;
     QVariant toVariant() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
@@ -232,7 +232,7 @@ public:
         connect(operand_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(operand_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 
-        color_ = QColor::fromRgb(36, 17, 100);
+        color_ = QColor::fromRgb(175, 122, 109);
     }
     UnaryExprAST(const QVariant&);
 
@@ -287,7 +287,7 @@ public:
         connect(right_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(right_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 
-        color_= QColor::fromRgb(128,0,128);
+        color_= QColor::fromRgb(175, 122, 109);
     }
     BinaryExprAST(const QVariant&);
 

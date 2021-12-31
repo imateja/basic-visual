@@ -116,15 +116,15 @@ void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
-    const auto SquareText = QString("%1\n").arg("start");
+    const auto SquareText = QString("Start");
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
     emit ShouldUpdateScene();
 }
 
 QRectF AssignExprAST::boundingRect() const
 {
-    float w = 120;
-    float h = 60;
+    float w = 120.0f;
+    float h = 60.0f;
     auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
     const auto fontrect=fm->boundingRect(stringify());
     w+=fontrect.width();
@@ -165,19 +165,14 @@ void BlockExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-
     auto br = boundingRect();
-
     painter->fillRect(br, color_);
     float currenth = -br.height() / 2+gap;
-
     for(auto elem : body_) {
         elem->setPos(0, currenth + elem->getHeight() / 2);
-       currenth += elem->getHeight() + gap;
+        currenth += elem->getHeight() + gap;
     }
     emit ShouldUpdateScene();
-
-    //TODO:Default case (maybe throw error)
 }
 
 void BlockExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -189,7 +184,7 @@ void BlockExprAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 QRectF IfExprAST::boundingRect() const{
     float w=0.0f;
     float h=0.0f;
-    float ifh = 60;
+    float ifh = 60.0f;
 
     w += then_->getWidth() + else_->getWidth() + 100.0f;
     h += then_->getHeight() > else_->getHeight() ? then_->getHeight() : else_->getHeight();
@@ -210,7 +205,7 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     QRectF br = boundingRect();
     float ifh = 60;
-    painter->fillRect(br, QColor::fromRgb(70, 40, 20));
+    painter->fillRect(br, QColor::fromRgb(101, 50, 57));
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
 
@@ -220,26 +215,25 @@ void IfExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawText(ifrectangle_, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
     QRectF thenrect = QRectF(-ifrectangle_.width()/2, -br.height()/2 + ifrectangle_.height()+gap*2, then_->getWidth(), ifrectangle_.height());
-    painter->fillRect(thenrect, QColor::fromRgb(128, 0, 0));
+    painter->fillRect(thenrect, QColor::fromRgb(156, 102, 21));
     painter->drawText(thenrect, Qt::AlignHCenter | Qt::AlignVCenter, "then" );
 
     QRectF elserect = QRectF(ifrectangle_.width()/2 - else_->getWidth(), -br.height()/2 + ifrectangle_.height() + gap*2, else_->getWidth(), ifrectangle_.height());
 
-    painter->fillRect(elserect, QColor::fromRgb(128,0,0));
+    painter->fillRect(elserect, QColor::fromRgb(156, 102, 21));
     painter->drawText(elserect, Qt::AlignHCenter | Qt::AlignVCenter, "else" );
 
     then_->setPos(-ifrectangle_.width()/2 + then_->getWidth()/2, -br.height()/2 + ifrectangle_.height()+gap*2 + thenrect.height() + gap + then_->getHeight()/2);
     else_->setPos(ifrectangle_.width()/2 - else_->getWidth()/2, -br.height()/2 + ifrectangle_.height()+gap*2 + elserect.height() + gap + else_->getHeight()/2);
 
     emit ShouldUpdateScene();
-    //TODO:Default case (maybe throw error)
 }
 
 QRectF WhileExprAST::boundingRect() const
 {
     float w = 0.0f;
     float h = 0.0f;
-    float whileh = 60;
+    float whileh = 60.0f;
 
     h += body_->getHeight() + whileh + gap*3;
     w += body_->getWidth() + 2*gap;
@@ -256,21 +250,20 @@ void WhileExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     auto br = boundingRect();
     float whileh = 60;
-    painter->fillRect(br, QColor::fromRgb(20,20,20));
+    painter->fillRect(br, QColor::fromRgb(101, 50, 57));
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
     whilerectangle_ = QRectF(-br.width()/2 + gap, -br.height()/2 + gap, br.width() - 2*gap, whileh);
     painter->fillRect(whilerectangle_,setBrush());
     painter->drawText(whilerectangle_, Qt::AlignHCenter | Qt::AlignVCenter, "While\n"+stringify());
     body_->setPos(0,-br.height()/2 + whilerectangle_.height() + 2*gap + body_->getHeight()/2);
-    //whilerectangle_.height()/2
     emit ShouldUpdateScene();
 }
 
 QRectF PrintAST::boundingRect() const
 {
-    float w = 120;
-    float h = 60;
+    float w = 120.0f;
+    float h = 60.0f;
     auto fm = new QFontMetrics(QFont("Times", 10, QFont::Bold));
     const auto fontrect = fm->boundingRect(stringify());
     w += fontrect.width();
@@ -291,8 +284,8 @@ void PrintAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 }
 QRectF InputAST::boundingRect() const
 {
-    float w = 120;
-    float h = 60;
+    float w = 120.0f;
+    float h = 60.0f;
     auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
     const auto fontrect=fm->boundingRect(stringify());
     w+=fontrect.width();

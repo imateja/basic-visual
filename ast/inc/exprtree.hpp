@@ -30,7 +30,7 @@ public:
     StartExprAST(QGraphicsItem* parent = nullptr)
         : InstructionExprAST(parent)
     {
-        color_= QColor::fromRgb(0,128,0);
+        color_= QColor::fromRgb(156, 102, 21);
     }
     StartExprAST(const QVariant&) : StartExprAST() {}
 
@@ -42,7 +42,6 @@ public:
     QString stringify() const final;
     QVariant toVariant() const override;
     void deleteMe() override {}
-    //QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
@@ -57,7 +56,7 @@ public:
         : InstructionExprAST(parent), name_(name)
         , expr_(expr != nullptr ? expr : new PlaceholderExprAST)
     {
-        color_ = QColor::fromRgb(64, 120, 7);
+        color_ = QColor::fromRgb(156, 102, 21);
     }
     AssignExprAST(const QVariant&);
 
@@ -92,7 +91,7 @@ public:
     {
         auto start = new StartExprAST(this);
         insert(start);
-        color_= QColor::fromRgb(0,0,128);
+        color_= QColor::fromRgb(42, 71, 71);
     }
     BlockExprAST(const QVariant&);
 
@@ -138,7 +137,7 @@ public:
         connect(else_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(else_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 
-        color_= QColor::fromRgb(60,128,0);
+        color_= QColor::fromRgb(156, 102, 21);
     }
     IfExprAST(const QVariant&);
 
@@ -181,7 +180,7 @@ public:
         connect(body_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(body_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 
-        color_= QColor::fromRgb(120,120,0);
+        color_= QColor::fromRgb(156, 102, 21);
     }
     WhileExprAST(const QVariant&);
 
@@ -216,7 +215,7 @@ public:
     PrintAST(ExprAST* expr = nullptr, QGraphicsItem* parent = nullptr)
         : expr_(expr != nullptr ? expr : new PlaceholderExprAST()), InstructionExprAST(parent)
     {
-        color_= QColor::fromRgb(0,60,120);
+        color_= QColor::fromRgb(156, 102, 21);
     }
     PrintAST(const QVariant&);
 
@@ -245,7 +244,7 @@ public:
     InputAST(QString name,QGraphicsItem* parent = nullptr)
         :name_(name),InstructionExprAST(parent)
     {
-        color_= QColor::fromRgb(120,60,0);
+        color_= QColor::fromRgb(156, 102, 21);
     }
     InputAST(const QVariant&);
     void AcceptVisit(VisitorAST&) override;
@@ -255,7 +254,7 @@ public:
     inline QString getName() {return name_;}
     ~InputAST(){}
     QString instructionName_ = QString("Input");
-    ExprAST* getEditableExpr() override { return nullptr; }//???
+    ExprAST* getEditableExpr() override { return nullptr; }
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 private:
