@@ -54,6 +54,7 @@ private slots:
     void addPrint();
 
     void Edit();
+    void addInput();
     void addExpr(ExprAST*);
     void backPushed();
     void deletePushed();

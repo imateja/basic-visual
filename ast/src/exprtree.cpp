@@ -108,6 +108,13 @@ FunctionExprAST::~FunctionExprAST(){
 
 // ---------------------- PAINT -----------------------
 
+QRectF InstructionExprAST::boundingRect() const
+{
+    float w = 120.0f;
+    float h = 60.0f;
+    return QRect(-w/2, -h/2, w, h);
+}
+
 void StartExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
