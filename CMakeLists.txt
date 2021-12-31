@@ -14,37 +14,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
-find_package(LLVM 12 QUIET CONFIG)
+find_package(LLVM 12 REQUIRED CONFIG)
 
-if(LLVM_FOUND)
-    message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
-    message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
+message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
-    include_directories(${LLVM_INCLUDE_DIRS})
-    add_definitions(${LLVM_DEFINITIONS})
-else()
-    # Download automatically, you can also just copy the conan.cmake file
-    if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-       message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-       file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/master/conan.cmake"
-                      "${CMAKE_BINARY_DIR}/conan.cmake")
-    endif()
-
-    include(${CMAKE_BINARY_DIR}/conan.cmake)
-
-    conan_cmake_configure(REQUIRES llvm-core/12.0.0
-                          GENERATORS cmake_find_package)
-
-    conan_cmake_autodetect(settings)
-
-    conan_cmake_install(PATH_OR_REFERENCE .
-                        BUILD missing
-                        REMOTE conancenter
-                        SETTINGS ${settings})
-
-    find_package(llvm-core)
-    include_directories(llvm-core_INCLUDE_DIRS)
-endif()
+include_directories(${LLVM_INCLUDE_DIRS})
+add_definitions(${LLVM_DEFINITIONS})
 
 set(PROJECT_SOURCES
         basicVisual/src/mainwindow.ui
@@ -60,7 +36,7 @@ set(PROJECT_SOURCES
         ast/src/exprtree.cpp
         ast/src/serializer.cpp
         #tests/test_ast.cpp
-		#tests/catch.cpp
+        #tests/catch.cpp
 )
 
 set(PROJECT_HEADERS
@@ -85,11 +61,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     )
 endif()
 
-if(LLVM_FOUND)
-    target_link_libraries(basicVisual PRIVATE Qt${QT_VERSION_MAJOR}::Widgets LLVM)
-else()
-    target_link_libraries(basicVisual PRIVATE Qt${QT_VERSION_MAJOR}::Widgets llvm-core::llvm-core)
-endif()
+target_link_libraries(basicVisual PRIVATE Qt${QT_VERSION_MAJOR}::Widgets LLVM)
 
 set_target_properties(basicVisual PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
@@ -101,4 +73,4 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(basicVisual)
 endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ast/inc basicVisual/inc)
+target_include_directories(${PROJECT_NAME} PUBLIC ast/inc basicVisual/inc tests/)
