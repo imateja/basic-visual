@@ -12,7 +12,7 @@ void State::removeCurrentDomain()
     }
 }
 
-void State::assignValue(const QString& variable, QVariant& value)
+void State::assignValue(const QString& variable, QVariant value)
 {
     for (auto rit = domains_.rbegin(); rit != domains_.rend(); rit++) {
         if ((*rit).find(variable) != (*rit).end()) {

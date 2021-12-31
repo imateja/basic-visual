@@ -16,7 +16,7 @@ QString Interpret::input = QString();
 void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
     obj.errorFound = false;
 
-    if(obj.expr_ == nullptr) {
+    if(obj.isEmpty()){
         value_ = QString("Expression not finished :: Placeholder exists.");
         obj.errorFound = true;
         return;

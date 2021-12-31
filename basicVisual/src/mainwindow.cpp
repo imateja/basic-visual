@@ -10,6 +10,7 @@
 #include <mainwindow.hpp>
 #include <exprtree.hpp>
 #include <interpret.hpp>
+#include <compile.hpp>
 #include <pseudoterminal.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -400,6 +401,7 @@ void MainWindow::setupActions()
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::onActionExit);
     connect(ui->actionRun, &QAction::triggered, this, &MainWindow::onActionRun);
     connect(ui->actionDebug, &QAction::triggered, this, &MainWindow::onActionDebug);
+    connect(ui->actionBuild, &QAction::triggered, this, &MainWindow::onActionBuild);
 }
 //TODO:other actions
 void MainWindow::onActionOpen()
@@ -443,7 +445,7 @@ void MainWindow::onActionExit()
 void MainWindow::catchResult(QString result)
 {
     if (result.isEmpty()) {
-        QMessageBox::information(this, "Success", "Interpretation finished successfully");
+        QMessageBox::information(this, "Success", "Finished successfully");
     }
     else {
         QMessageBox::information(this, "Failure", result);
@@ -491,5 +493,24 @@ void MainWindow::onActionDebug()
     connect(worker, SIGNAL(changeButtonSettings(bool)),terminal, SLOT(changeBtnSettings(bool)));
     connect(terminal,SIGNAL(killInterpret()),worker, SLOT(kill()));
     thread->start();
+}
+
+
+void MainWindow::onActionBuild()
+{
+    QString fileName = QFileDialog::getSaveFileName(
+            this,
+            tr("Save Visual"), ".",
+            tr("Visual (*.ll)"));
+
+    Compile::InitializeModuleAndPassManager();
+    State::Domains().clear();
+    auto res = Compile{mainBlock}.getValue();
+
+    if(res.isEmpty()){
+        Compile::compile(fileName);
+    }
+
+    catchResult(res);
 }
 

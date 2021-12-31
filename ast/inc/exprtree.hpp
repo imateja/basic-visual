@@ -284,6 +284,7 @@ public:
     void AcceptVisit(VisitorAST&) override;
     inline Priority getPriority() const final {return Priority::INSTRUCTION;}
     inline QString getName() {return name_;}
+    inline QVector<QString> getParameters() {return parameters_;}
     inline BlockExprAST* getBody() {return body_;}
     QString stringify() const final;
     QVariant toVariant() const override;
@@ -292,6 +293,7 @@ public:
 
 private:
     QString name_;
+    QVector<QString> parameters_;
     BlockExprAST* body_;
 
     FunctionExprAST(const FunctionExprAST&);
