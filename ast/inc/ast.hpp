@@ -27,7 +27,6 @@ class AndExprAST;
 class OrExprAST;
 
 class StartExprAST;
-class EndExprAST;
 class AssignExprAST;
 class BlockExprAST;
 class IfExprAST;

@@ -12,6 +12,7 @@
 #include <interpret.hpp>
 #include <compile.hpp>
 #include <pseudoterminal.hpp>
+#include <serializer.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,12 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget->setCurrentIndex(0);
     ui->tabWidget->setTabEnabled(1, false);
     mainBlock = new BlockExprAST();
-    exprItem = nullptr;
-    _mainGraphicsScene->addItem(mainBlock);
-    position();
-    connect(mainBlock, &ExprAST::ShouldUpdateScene, this, &MainWindow::updateScene);
-    connect(mainBlock, &ExprAST::selectItem, _mainGraphicsScene, &mainGraphicsScene::setSelectedItem);
-    connect(mainBlock, &ExprAST::updateSelection, _mainGraphicsScene, &mainGraphicsScene::selectItem);
+    initMainBlock();
 
     Interpret::mutex_.lock();
 //    mainBlock= new BlockExprAST();
@@ -409,13 +405,41 @@ void MainWindow::onActionOpen()
     QString fileName = QFileDialog::getOpenFileName(
          this,
          tr("Open Visual"), ".",
-         tr("basicVisual Files (*.bv)"));
-    //TODO: if fileName is empty
+         tr("JSON (*.json)"));
+    auto mb = Serializer::load(fileName);
+    //delete mainBlock;
+    auto tmp = dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(mb));
+    if(tmp != nullptr){
+        mainBlock = tmp;
+        backPushed();
+        _mainGraphicsScene->clear();
+        initMainBlock();
+    } else {
+        catchResult("Failed to open");
+    }
+}
+
+void MainWindow::initMainBlock(){
+    exprItem = nullptr;
+    _mainGraphicsScene->addItem(mainBlock);
+    connect(mainBlock, &ExprAST::ShouldUpdateScene, this, &MainWindow::updateScene);
+    connect(mainBlock, &ExprAST::selectItem, _mainGraphicsScene, &mainGraphicsScene::setSelectedItem);
+    connect(mainBlock, &ExprAST::updateSelection, _mainGraphicsScene, &mainGraphicsScene::selectItem);
+    _mainGraphicsScene->setSelectedItem(nullptr);
+    updateScene();
+    position();
 }
 
 void MainWindow::onActionSave()
 {
-//TODO i have no idea what to do here
+    QString fileName = QFileDialog::getSaveFileName(
+            this,
+            tr("Save Visual"), ".",
+            tr("JSON (*.json)"));
+    if (!fileName.endsWith(".json")){
+        fileName.append(".json");
+    }
+    Serializer::save(*mainBlock,fileName);
 }
 
 void MainWindow::onActionSaveAs()

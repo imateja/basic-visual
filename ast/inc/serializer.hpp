@@ -9,8 +9,8 @@ class Serializer
 {
 public:
     Serializer() = default;
-    void save(const Serializable& serializable, const QString& filepath);
-    QVariant load(const QString& filepath);
+    static void save(const Serializable& serializable, const QString& filepath);
+    static QVariant load(const QString& filepath);
 };
 
 #endif // SERIALIZER_H

@@ -505,32 +505,44 @@ ExprAST* ExprAST::makeFromVariant(const QVariant& v){
             return new VariableExprAST(v);
         } else if (type == "NotExprAST") {
             return new NotExprAST(v);
-        } else if (type == "NotExprAST") {
-            return new MulExprAST(v);
         } else if (type == "MulExprAST") {
-            return new DivExprAST(v);
+            return new MulExprAST(v);
         } else if (type == "DivExprAST") {
-            return new AddExprAST(v);
+            return new DivExprAST(v);
         } else if (type == "AddExprAST") {
-            return new SubExprAST(v);
+            return new AddExprAST(v);
         } else if (type == "SubExprAST") {
-            return new LtExprAST(v);
+            return new SubExprAST(v);
         } else if (type == "LtExprAST") {
-            return new LeqExprAST(v);
+            return new LtExprAST(v);
         } else if (type == "LeqExprAST") {
+            return new LeqExprAST(v);
+        } else if (type == "QtExprAST") {
             return new GtExprAST(v);
-        } else if (type == "GtExprAST") {
-            return new GeqExprAST(v);
         } else if (type == "GeqExprAST") {
-            return new EqExprAST(v);
+            return new GeqExprAST(v);
         } else if (type == "EqExprAST") {
-            return new NeqExprAST(v);
+            return new EqExprAST(v);
         } else if (type == "NeqExprAST") {
-            return new AndExprAST(v);
+            return new NeqExprAST(v);
         } else if (type == "AndExprAST") {
             return new AndExprAST(v);
         } else if (type == "OrExprAST") {
             return new OrExprAST(v);
+        } else if (type == "StartExprAST") {
+            return new StartExprAST(v);
+        } else if (type == "AssignExprAST") {
+            return new AssignExprAST(v);
+        } else if (type == "BlockExprAST") {
+            return new BlockExprAST(v);
+        } else if (type == "IfExprAST") {
+            return new IfExprAST(v);
+        } else if (type == "WhileExprAST") {
+            return new WhileExprAST(v);
+        } else if (type == "PrintAST") {
+            return new PrintAST(v);
+        } else if (type == "InputAST") {
+            return new InputAST(v);
         } else {
             return nullptr;
         }

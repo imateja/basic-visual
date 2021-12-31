@@ -76,6 +76,7 @@ private:
     void setupConnections();
     void positionElement(InstructionExprAST* elem, qint32 factor);
     inline ExprAST* stagedItem();
+    void initMainBlock();
 
 public slots:
     void updateScene();

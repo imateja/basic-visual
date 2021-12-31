@@ -421,7 +421,7 @@ IfExprAST::IfExprAST(const QVariant& v)
     : IfExprAST(
           ExprAST::makeFromVariant(v.toMap().value("cond")),
           dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(v.toMap().value("then"))),
-          dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(v.toMap().value("then")))
+          dynamic_cast<BlockExprAST*>(ExprAST::makeFromVariant(v.toMap().value("else")))
           )
 {
 }
