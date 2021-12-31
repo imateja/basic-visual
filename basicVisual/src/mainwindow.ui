@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1715</width>
+    <width>1054</width>
     <height>620</height>
    </rect>
   </property>
@@ -162,7 +162,7 @@
          <widget class="QPushButton" name="minusBtn">
           <property name="geometry">
            <rect>
-            <x>100</x>
+            <x>90</x>
             <y>30</y>
             <width>50</width>
             <height>25</height>
@@ -188,7 +188,7 @@
          <widget class="QPushButton" name="divBtn">
           <property name="geometry">
            <rect>
-            <x>100</x>
+            <x>90</x>
             <y>70</y>
             <width>51</width>
             <height>25</height>
@@ -201,9 +201,9 @@
          <widget class="QPushButton" name="varBtn">
           <property name="geometry">
            <rect>
-            <x>110</x>
+            <x>89</x>
             <y>350</y>
-            <width>40</width>
+            <width>51</width>
             <height>25</height>
            </rect>
           </property>
@@ -214,7 +214,7 @@
          <widget class="QPushButton" name="constBtn">
           <property name="geometry">
            <rect>
-            <x>110</x>
+            <x>90</x>
             <y>408</y>
             <width>50</width>
             <height>30</height>
@@ -240,7 +240,7 @@
          <widget class="QPushButton" name="lseqBtn">
           <property name="geometry">
            <rect>
-            <x>100</x>
+            <x>90</x>
             <y>107</y>
             <width>51</width>
             <height>25</height>
@@ -266,7 +266,7 @@
          <widget class="QPushButton" name="lsBtn">
           <property name="geometry">
            <rect>
-            <x>100</x>
+            <x>90</x>
             <y>150</y>
             <width>51</width>
             <height>25</height>
@@ -292,7 +292,7 @@
          <widget class="QPushButton" name="neqBtn">
           <property name="geometry">
            <rect>
-            <x>100</x>
+            <x>90</x>
             <y>190</y>
             <width>51</width>
             <height>25</height>
@@ -318,7 +318,7 @@
          <widget class="QPushButton" name="orBtn">
           <property name="geometry">
            <rect>
-            <x>100</x>
+            <x>90</x>
             <y>230</y>
             <width>51</width>
             <height>25</height>
@@ -346,7 +346,7 @@
            <rect>
             <x>10</x>
             <y>346</y>
-            <width>90</width>
+            <width>71</width>
             <height>31</height>
            </rect>
           </property>
@@ -356,7 +356,7 @@
            <rect>
             <x>10</x>
             <y>408</y>
-            <width>90</width>
+            <width>71</width>
             <height>31</height>
            </rect>
           </property>
@@ -399,7 +399,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1715</width>
+     <width>1054</width>
      <height>22</height>
     </rect>
    </property>
