@@ -1,7 +1,46 @@
 # Project basicVisual
 
-Vizuelni programski jezik i njegovo okruzenje poput Scratch-a.
-Prevođenje se može realizovati kompilacijom koristeći LLVM ili interpretacijom uz vizuelni prikaz međurezultata.
+Vizuelni programski jezik i njegovo okruženje poput Scratch-a.
+Prevođenje se može realizovati kompilacijom do objektnog fajla (`.o`) koristeći LLVM ili interpretacijom uz vizuelni prikaz međurezultata.
+Omogućeno je i čuvanje i učitavanje ranije pra
+
+
+
+## Korišćene biblioteke
+
+- Qt 6.2
+- llvm-12
+- Catch2
+
+
+
+## Instalacija potrebnih biblioteka
+
+- [Qt i Qt Creator](https://www.qt.io/download)
+
+- Preuzimanje llvm-12 biblioteke preko terminala pomoću komande: `sudo apt install llvm-12`
+
+- Preuzimanje programa **visualBasic** preko terminala pomoću komande: `git clone https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual`
+
+
+
+## Pokretanje programa
+
+#### Preko QtCreator-a
+
+- Pritisnuti dugme **Run** u donjem levom uglu ili `Ctrl + R` na tastaturi
+
+#### Uz pomoc skripta
+
+- Pozicionirati se u direkorijum `03-basicVisual`
+
+- Pokrenuti skript komandom `./run.sh`
+
+- Pozicionirati se u bin direktorijum komandom `cd bin`
+
+- Pokrenuti program komandom `./basicVisual`
+
+
 
 ## Developers
 
@@ -11,7 +50,8 @@ Prevođenje se može realizovati kompilacijom koristeći LLVM ili interpretacijo
 - [Ivan Dobrić, 119/2018](https://gitlab.com/ivandobric)
 - [Mateja Ivančević, 184/2018](https://gitlab.com/mathclass)
 
-## Wiki
+
+
 ### Nedeljni izvestaji
 - [Prva nedelja, 11.11.2021 - 21.11.2021](https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual/-/wikis/home/Nedeljni_izvestaji/Prva-nedelja)
 
