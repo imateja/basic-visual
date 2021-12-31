@@ -66,6 +66,7 @@ private:
     void onActionExit();
     void onActionRun();
     void onActionDebug();
+    void onActionBuild();
     Ui::MainWindow *ui;
     mainGraphicsScene *_mainGraphicsScene;
     QVector<Instruction*> _instructions;

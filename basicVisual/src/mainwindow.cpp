@@ -10,6 +10,7 @@
 #include <mainwindow.hpp>
 #include <exprtree.hpp>
 #include <interpret.hpp>
+#include <compile.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -385,6 +386,7 @@ void MainWindow::setupActions()
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::onActionExit);
     connect(ui->actionRun, &QAction::triggered, this, &MainWindow::onActionRun);
     connect(ui->actionDebug, &QAction::triggered, this, &MainWindow::onActionDebug);
+    connect(ui->actionBuild, &QAction::triggered, this, &MainWindow::onActionBuild);
 }
 //TODO:other actions
 void MainWindow::onActionOpen()
@@ -461,6 +463,24 @@ void MainWindow::onActionDebug()
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     connect(worker, SIGNAL(finished()), ui->nextBtn, SLOT(hide));
     thread->start();
+}
+
+void MainWindow::onActionBuild()
+{
+    QString fileName = QFileDialog::getSaveFileName(
+            this,
+            tr("Save Visual"), ".",
+            tr("Visual (*.ll)"));
+
+    Compile::InitializeModuleAndPassManager();
+    State::Domains().clear();
+    auto res = Compile{mainBlock}.getValue();
+
+    if(res.isEmpty()){
+        Compile::compile(fileName);
+    }
+
+    catchResult(res);
 }
 
 

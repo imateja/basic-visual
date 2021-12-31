@@ -154,6 +154,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
     void updateChildren() final;
+    inline bool isEmpty() const {return expr_ == nullptr;}
+
 
     ExprAST* expr_;
 };
