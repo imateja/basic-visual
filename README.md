@@ -2,7 +2,6 @@
 
 Vizuelni programski jezik i njegovo okruženje poput Scratch-a.
 Prevođenje se može realizovati kompilacijom do objektnog fajla (`.o`) koristeći LLVM ili interpretacijom uz vizuelni prikaz međurezultata.
-Omogućeno je i čuvanje i učitavanje ranije pra
 
 
 
