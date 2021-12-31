@@ -259,7 +259,7 @@ public:
     NotExprAST(ExprAST *operand = nullptr)
         :UnaryExprAST(operand)
     {
-        op_ = QString("-");
+        op_ = QString("!");
     }
     NotExprAST(const QVariant& v)
         :UnaryExprAST(v)
