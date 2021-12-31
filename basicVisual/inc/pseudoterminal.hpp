@@ -17,6 +17,9 @@ public:
 
 private:
     Ui::PseudoTerminal *ui;
+
+public slots:
+    void addLine(QString);
 };
 
 #endif // PSEUDOTERMINAL_H

@@ -10,6 +10,7 @@
 #include <mainwindow.hpp>
 #include <exprtree.hpp>
 #include <interpret.hpp>
+#include <pseudoterminal.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -436,6 +437,8 @@ void MainWindow::onActionRun()
 {
     State::Domains().clear();
     Interpret::steps = false;
+    auto terminal = new PseudoTerminal(this);
+    terminal->show();
     QThread* thread = new QThread;
     Worker* worker = new Worker(mainBlock);
     worker->moveToThread(thread);
@@ -443,6 +446,7 @@ void MainWindow::onActionRun()
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
     connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    connect(worker, SIGNAL(sendPrintText(QString)), terminal, SLOT(addLine(QString)));
     connect(worker, SIGNAL(sendResult(QString)), this, SLOT(catchResult(QString)));
     thread->start();
 }
@@ -451,6 +455,7 @@ void MainWindow::onActionDebug()
 {
     State::Domains().clear();
     ui->nextBtn->show();
+    auto terminal = new PseudoTerminal(this);
     Interpret::steps = true;
     QThread* thread = new QThread;
     Worker* worker = new Worker(mainBlock);

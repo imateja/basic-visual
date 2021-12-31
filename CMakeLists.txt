@@ -59,7 +59,7 @@ set(PROJECT_SOURCES
         ast/src/exprtree.cpp
         ast/src/serializer.cpp
         #tests/test_ast.cpp
-		#tests/catch.cpp
+	#tests/catch.cpp
 )
 
 set(PROJECT_HEADERS
@@ -113,21 +113,4 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(basicVisual)
 endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ast/inc basicVisual/inc)
-
-conan_cmake_configure(REQUIRES Catch2/2.6.0@catchorg/stable
-                      GENERATORS cmake_find_package)
-
-conan_cmake_autodetect(settings)
-
-conan_cmake_install(PATH_OR_REFERENCE .
-                    BUILD missing
-                    REMOTE conancenter
-                    SETTINGS ${settings})
-
-find_package(Catch2)
-
-add_executable(tests tests/test_ast.cpp)
-target_link_libraries(tests Catch2)
-
-
+target_include_directories(${PROJECT_NAME} PUBLIC ast/inc basicVisual/inc tests/)

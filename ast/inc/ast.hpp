@@ -136,6 +136,7 @@ public:
         color_= QColor::fromRgb(128,0,0);
     }
     PlaceholderExprAST(const QVariant& v);
+
     void setExpr(ExprAST* expr){
         expr_ = expr;
         expr_->setParentItem(this);

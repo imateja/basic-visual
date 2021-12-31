@@ -10,6 +10,7 @@ int Interpret::doubleTypeId = QVariant(static_cast<double>(0.0f)).typeId();
 int Interpret::boolTypeId = QVariant(static_cast<bool>(true)).typeId();
 int Interpret::qstringTypeId = QVariant(static_cast<QString>("")).typeId();
 double Interpret::eps = 0.000001;
+Worker* Interpret::worker = nullptr;
 
 void Interpret::VisitPlaceholderExprAST(PlaceholderExprAST& obj) {
     obj.errorFound = false;
@@ -482,15 +483,36 @@ void Interpret::VisitFunctionExprAST(FunctionExprAST& obj) {
     value_ = Interpret(obj.getBody()).value_;
 }
 
-void Interpret::VisitPrintAST(PrintAST& obj) {}
+
+
+void Interpret::VisitPrintAST(PrintAST& obj) {
+    value_ = Interpret(obj.getExpr()).value_;
+    if(value_.typeId() == qstringTypeId){
+        worker->print(value_.toString());
+        return;
+    }
+    if(value_.isNull()){
+        value_ = QString("Print :: Invalid print.");
+        return;
+    }
+
+    worker->print(value_.toString());
+    value_ = {};
+}
 
 inline QString Interpret::getValue(){
     return value_.typeId() == qstringTypeId? value_.toString(): "";
 }
 
+void Worker::print(QString txt){
+    emit sendPrintText(txt);
+}
+
 void Worker::process() {
-   // Domains().clear();
+    State::Domains().clear();
+    Interpret::worker = this;
     auto res = Interpret{mainBlock_}.getValue();
     emit sendResult(res);
     emit finished();
 }
+
