@@ -23,6 +23,9 @@ public slots:
     void input();
     void changeBtnSettings(bool);
 
+signals:
+    void killInterpret();
 };
+
 
 #endif // PSEUDOTERMINAL_H

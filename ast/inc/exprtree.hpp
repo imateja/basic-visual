@@ -16,12 +16,14 @@ class InstructionExprAST : public ExprAST
 {
 public:
     InstructionExprAST(QGraphicsItem* parent = nullptr)
-      :ExprAST(parent)
+      :ExprAST(parent), isCurrent(false)
     {}
     ~InstructionExprAST(){}
     void deleteMe() override;
     virtual ExprAST* getEditableExpr() = 0;
     inline Priority getPriority() const final {return Priority::INSTRUCTION;}
+    QRectF boundingRect() const override;
+    bool isCurrent;
 };
 
 class StartExprAST : public InstructionExprAST
@@ -134,7 +136,7 @@ public:
         connect(else_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(else_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 
-        color_= QColor::fromRgb(128,128,0);
+        color_= QColor::fromRgb(60,128,0);
     }
     IfExprAST(const QVariant&);
     ~IfExprAST();
@@ -175,7 +177,7 @@ public:
         connect(body_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(body_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
 
-        color_= QColor::fromRgb(60,60,0);
+        color_= QColor::fromRgb(120,120,0);
     }
     WhileExprAST(const QVariant&);
     ~WhileExprAST();

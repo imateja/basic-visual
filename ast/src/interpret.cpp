@@ -406,6 +406,7 @@ void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
     QVector<InstructionExprAST*> b = obj.getBody();
     auto begin = b.begin();
     auto end = b.end();
+    worker->current = *begin;
     (*begin)->isCurrent = true;
     auto prev = begin;
     auto instrValue = Interpret{(*begin)}.value_;
@@ -418,6 +419,7 @@ void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
                 Interpret::mutex_.lock();
                 qDebug() << (*begin) << "\n";
                 (*begin)->isCurrent = true;
+                worker->current = *begin;
                 (*prev)->isCurrent = false;
             }
             auto instrValue = Interpret{(*begin)}.value_;
@@ -433,25 +435,6 @@ void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
 
     State::Domains().removeCurrentDomain();
 }
-
-//void Interpret::VisitBlockExprAST(BlockExprAST& obj) {
-//    value_ = QVariant();
-//    State::Domains().createNewDomain();
-//    for(auto instr : obj.getBody()){
-//        if(Interpret::steps){
-//            instr->isCurrent = true;
-//            Interpret::mutex_.lock();
-//        }
-//        auto instrValue = Interpret{(instr)}.value_;
-//        if (instrValue.typeId() == qstringTypeId) {
-//            value_ = instrValue;
-//            break;
-//        }
-//        instr->isCurrent = false;
-//    }
-
-//    State::Domains().removeCurrentDomain();
-//}
 
 
 
@@ -551,7 +534,6 @@ void Worker::print(QString txt){
 }
 
 void Worker::process() {
-    State::Domains().clear();
     Interpret::worker = this;
     auto res = Interpret{mainBlock_}.getValue();
     emit sendResult(res);
@@ -562,3 +544,8 @@ void Worker::btnsettings(bool enabled) {
     emit changeButtonSettings(enabled);
 }
 
+void Worker::kill(){
+    State::Domains().clear();
+    current->isCurrent = false;
+    emit finished();
+}

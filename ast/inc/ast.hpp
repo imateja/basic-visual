@@ -85,7 +85,7 @@ class ExprAST : public QGraphicsObject, public Serializable
     Q_OBJECT
 public:
     ExprAST(QGraphicsItem* parent = nullptr)
-        : QGraphicsObject(parent), errorFound(false), isCurrent(false)
+        : QGraphicsObject(parent), errorFound(false)
     {
         setFlags(GraphicsItemFlag::ItemIsSelectable);
     }
@@ -108,11 +108,9 @@ public:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    QRectF boundingRect() const override;
     virtual void updateChildren() {};
 
     bool errorFound;
-    bool isCurrent;
     static float gap;
     QBrush setBrush();
 

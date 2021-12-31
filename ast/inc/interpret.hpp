@@ -71,10 +71,11 @@ public:
 
     void print(QString);
     void btnsettings(bool);
-
+    InstructionExprAST* current;
 
 public slots:
     void process();
+    void kill();
 
 signals:
     void finished();
@@ -84,6 +85,7 @@ signals:
 
 private:
     BlockExprAST* mainBlock_;
+
 };
 
 #endif // INTERPRET_H

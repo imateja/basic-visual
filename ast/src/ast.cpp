@@ -262,16 +262,6 @@ void ExprAST::mousePressEvent(QGraphicsSceneMouseEvent *event)
     emit updateSelection();
 }
 
-QRectF ExprAST::boundingRect() const
-{
-    float w=150.0f;
-    float h=80.0f;
-    return QRect(-w/2,-h/2,w,h);
-}
-//QRectF StartExprAST::boundingRect() const
-//{
-//    return QRect(-w/2,-h/2, w,h-30);
-//}
 
 //------------ STRINGIFY ------------
 QString PlaceholderExprAST::stringify() const {
@@ -311,7 +301,8 @@ QBrush ExprAST::setBrush() {
         brush.setColor(Qt::green);
         brush.setStyle(Qt::Dense1Pattern);
     }
-    if(Interpret::steps && this->isCurrent){
+    if(Interpret::steps)
+        if((dynamic_cast<InstructionExprAST*>(this))->isCurrent){
         brush.setColor(Qt::yellow);
         brush.setStyle(Qt::Dense2Pattern);
     }
@@ -392,7 +383,7 @@ QRectF UnaryExprAST::boundingRect() const{
     float opr = 60.0f;
 
     w += operand_->getWidth() + 2 * gap;
-    h += operand_->getHeight() + gap*2 + opr;
+    h += operand_->getHeight() + gap*3 + opr;
     return QRect(-w/2,-h/2,w,h);
 }
 void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
@@ -411,9 +402,11 @@ void UnaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
-    operand_->setPos(0, -br.height()/2 +2*gap +opcircle_.height()+ operand_->getHeight()/2);
-    painter->setPen(Qt::black);
-    painter->drawLine(0,-br.height()/2+opr,0, -br.height()/2 +gap*2 +opcircle_.height());
+    operand_->setPos(0, -br.height()/2 +3*gap +opcircle_.height()+ operand_->getHeight()/2);
+    QPen pen = QPen(Qt::black);
+    pen.setWidth(4);
+    painter->setPen(pen);
+    painter->drawLine(0,-br.height()/2+opr,0, -br.height()/2 +gap*3 +opcircle_.height());
     emit ShouldUpdateScene();
 }
 
@@ -425,7 +418,7 @@ QRectF BinaryExprAST::boundingRect() const
 
     w += left_->getWidth() + 100.0f + right_->getWidth();
     h += left_->getHeight() > right_->getHeight() ? left_->getHeight() : right_->getHeight();
-    h+= gap + opr;
+    h+= gap*2 + opr;
     return QRect(-w/2,-h/2,w,h);
 }
 
@@ -444,11 +437,13 @@ void BinaryExprAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setFont(QFont("Times New Roman", 18));
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(op_));
 
-    left_->setPos(-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ left_->getHeight()/2);
-    right_->setPos(br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap +opcircle_.height()+ right_->getHeight()/2);
-    painter->setPen(Qt::black);
-    painter->drawLine(0,-br.height()/2+opr,-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap +opcircle_.height());
-    painter->drawLine(0,-br.height()/2+opr,br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap +opcircle_.height());
+    left_->setPos(-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap*2 +opcircle_.height()+ left_->getHeight()/2);
+    right_->setPos(br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap*2 +opcircle_.height()+ right_->getHeight()/2);
+    QPen pen = QPen(Qt::black);
+    pen.setWidth(4);
+    painter->setPen(pen);
+    painter->drawLine(0,-br.height()/2+opr,-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap*2 +opcircle_.height());
+    painter->drawLine(0,-br.height()/2+opr,br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap*2 +opcircle_.height());
     emit ShouldUpdateScene();
 }
 
