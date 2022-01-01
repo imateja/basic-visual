@@ -153,10 +153,12 @@ void Compile::VisitVariableExprAST(VariableAST& obj) {
     auto var = map.value("value").value<AllocaInst*>();
     auto type = map.value("type").value<MyType>();
     Value* value;
-    if(type == MyType::DOUBLE_T)
+    if(type == MyType::DOUBLE_T) {
         value = Builder.CreateLoad(Type::getDoubleTy(TheContext), var, name.toStdString().c_str());
-    else
+	}
+    else if (type == MyType::BOOL_T) {
         value = Builder.CreateLoad(Type::getInt1Ty(TheContext), var, name.toStdString().c_str());
+	}
 
     map.clear();
     map.insert("value", QVariant::fromValue(value));
