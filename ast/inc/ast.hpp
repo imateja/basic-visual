@@ -107,20 +107,25 @@ public:
     bool errorFound;
     static float gap;
     QBrush setBrush();
-
+    inline QRectF boundingRect() const override final { return br;}
+    virtual void updateBr() = 0;
 signals:
     void selectItem(ExprAST* item);
     void updateSelection();
     void ShouldUpdateScene();
+    void updateBoundingRect();
 
 public slots:
     void propagateSelectItem(ExprAST* item);
     void propagateUpdateSelection();
     void propagateShouldUpdateScene();
+    void propagateUpdateBoundingRect();
 
 signals:
     void Moved();
     void signalSelected();
+protected:
+    QRectF br;
 };
 
 class PlaceholderAST final : public ExprAST
@@ -129,16 +134,11 @@ public:
     PlaceholderAST(){
         expr_ = nullptr;
         color_= QColor::fromRgb(112, 171, 175);
+        updateBr();
     }
     PlaceholderAST(const QVariant& v);
 
-    void setExpr(ExprAST* expr){
-        expr_ = expr;
-        expr_->setParentItem(this);
-        connect(expr_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
-        connect(expr_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
-        connect(expr_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
-    }
+    void setExpr(ExprAST* expr);
 
     ~PlaceholderAST();
 
@@ -151,12 +151,12 @@ public:
 
     void deleteMe() override {}
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    QRectF boundingRect() const override;
+
     void updateChildren() final;
     inline bool isEmpty() const {return expr_ == nullptr;}
     void clear() {expr_ = nullptr;}
     inline ExprAST* getExpr() const { return expr_; }
-
+    void updateBr() override;
 private:
     PlaceholderAST(const PlaceholderAST&) = delete;
     PlaceholderAST& operator=(const PlaceholderAST&) = delete;
@@ -180,7 +180,7 @@ public:
     QVariant toVariant() const override;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    QRectF boundingRect() const override;
+    void updateBr() override;
 private:
     double value_;
     ValueAST(const ValueAST&) = delete;
@@ -203,7 +203,7 @@ public:
     QString stringify() const final;
     QVariant toVariant() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    QRectF boundingRect() const override;
+    void updateBr() override;
 
 private:
     QString name_;
@@ -231,6 +231,7 @@ public:
         connect(operand_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
         connect(operand_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(operand_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+        connect(operand_, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
 
         color_ = QColor::fromRgb(175, 122, 109);
     }
@@ -240,9 +241,9 @@ public:
     inline ExprAST* getOperand() const { return operand_; }
     QString stringify() const final;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
-    QRectF boundingRect() const override;
-    void updateChildren() final;
 
+    void updateChildren() final;
+    void updateBr() override;
 protected:
     ExprAST* operand_;
 };
@@ -276,12 +277,13 @@ public:
         connect(left_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
         connect(left_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(left_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+        connect(left_, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
 
         right_->setParentItem(this);
         connect(right_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
         connect(right_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(right_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
-
+        connect(right_, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
         color_= QColor::fromRgb(175, 122, 109);
     }
     BinaryAST(const QVariant&);
@@ -293,9 +295,9 @@ public:
     QString stringify() const final;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
-    QRectF boundingRect() const override;
-    void updateChildren() final;
 
+    void updateChildren() final;
+    void updateBr() override;
 protected:
     ExprAST *left_, *right_;
 };

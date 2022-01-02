@@ -20,7 +20,7 @@ public:
     void deleteMe() override;
     virtual ExprAST* getEditableExpr() = 0;
     inline Priority getPriority() const final {return Priority::INSTRUCTION;}
-    QRectF boundingRect() const override;
+
     bool isCurrent;
 };
 
@@ -43,7 +43,7 @@ public:
     QVariant toVariant() const override;
     void deleteMe() override {}
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
+    void updateBr() override;
 private:
     StartAST(const StartAST&) = delete;
     StartAST& operator=(const StartAST&) = delete;
@@ -70,11 +70,11 @@ public:
     QString stringify() const final;
     QVariant toVariant() const override;
 
-    QRectF boundingRect() const override;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     QString instructionName_ = QString("Assign");
-
+    void updateBr() override;
 private:
     QString name_;
     ExprAST* expr_;
@@ -105,11 +105,11 @@ public:
     inline QVector<InstructionAST*> getBody() const {return body_;}
     QString stringify() const final;
     QVariant toVariant() const override;
-    QRectF boundingRect() const override;
+
     void deleteMe() override {} ;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
-
+    void updateBr() override;
 private:
     BlockAST(const BlockAST&) = delete;
     BlockAST& operator=(const BlockAST&) = delete;
@@ -129,11 +129,13 @@ public:
         connect(then_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
         connect(then_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(then_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+        connect(then_, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
 
         else_->setParentItem(this);
         connect(else_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
         connect(else_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(else_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+        connect(else_, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
 
         color_= QColor::fromRgb(156, 102, 21);
     }
@@ -151,12 +153,12 @@ public:
     QString stringify() const final;
     QVariant toVariant() const override;
 
-    QRectF boundingRect() const override;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     QString instructionName_ = QString("If");
     QRectF ifrectangle_;
-
+    void updateBr() override;
 private:
     IfAST(const IfAST&) = delete;
     IfAST& operator= (const IfAST&) = delete;
@@ -177,6 +179,7 @@ public:
         connect(body_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
         connect(body_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
         connect(body_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+        connect(body_, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
 
         color_= QColor::fromRgb(156, 102, 21);
     }
@@ -192,14 +195,14 @@ public:
     QString stringify() const final;
     QVariant toVariant() const override;
 
-    QRectF boundingRect() const override;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     QString instructionName_ = QString("While");
 
     QRectF whilerectangle_;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
-
+    void updateBr() override;
 private:
     ExprAST *cond_;
     BlockAST *body_;
@@ -226,9 +229,9 @@ public:
     inline ExprAST* getExpr() const {return expr_;}
     QString instructionName_ = QString("Print");
     ExprAST* getEditableExpr() override { return expr_; }
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void updateBr() override;
 private:
     ExprAST* expr_;
 
@@ -253,8 +256,9 @@ public:
     ~InputAST(){}
     QString instructionName_ = QString("Input");
     ExprAST* getEditableExpr() override { return nullptr; }
-    QRectF boundingRect() const override;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void updateBr() override;
 private:
     QString name_;
 };

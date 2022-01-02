@@ -58,11 +58,18 @@ void BlockAST::insert(InstructionAST* newinstr, InstructionAST* posinstr){
     connect(newinstr, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
     connect(newinstr, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
     connect(newinstr, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+    connect(newinstr, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
+
+    newinstr->updateBr();
+    updateBr();
+    propagateUpdateBoundingRect();
 }
 
 void BlockAST::remove(InstructionAST* instr){
     auto pos = body_.indexOf(instr);
     body_.remove(pos);
+    updateBr();
+    propagateUpdateBoundingRect();
 }
 
 IfAST::~IfAST(){
@@ -99,50 +106,50 @@ void WhileAST::updateChildren()
 
 // ---------------------- PAINT -----------------------
 
-QRectF InstructionAST::boundingRect() const
+void StartAST::updateBr()
 {
     float w = 120.0f;
     float h = 60.0f;
-    return QRect(-w/2, -h/2, w, h);
+    br = QRect(-w/2, -h/2, w, h);
 }
 
 void StartAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    auto br = boundingRect();
+
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
     const auto SquareText = QString("Start");
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    emit ShouldUpdateScene();
+
 }
 
-QRectF AssignAST::boundingRect() const
+void AssignAST::updateBr()
 {
     float w = 120.0f;
     float h = 60.0f;
     auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
     const auto fontrect=fm->boundingRect(stringify());
     w+=fontrect.width();
-    return QRectF(-w/2,-h/2,w,h);
+    br = QRectF(-w/2,-h/2,w,h);
 }
 
 void AssignAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    auto br = boundingRect();
+
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
     const auto SquareText = QString(instructionName_ + "\n" + stringify());
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    emit ShouldUpdateScene();
+
 }
 
-QRectF BlockAST::boundingRect() const
+void BlockAST::updateBr()
 {
     float w = 0.0f;
     float h = 0.0f;
@@ -156,21 +163,21 @@ QRectF BlockAST::boundingRect() const
     }
     h += gap;
     w += 2*gap;
-    return QRectF(-w/2, -h/2, w, h);
+    br = QRectF(-w/2, -h/2, w, h);
 }
 
 void BlockAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    auto br = boundingRect();
+
     painter->fillRect(br, color_);
     float currenth = -br.height() / 2+gap;
     for(auto elem : body_) {
         elem->setPos(0, currenth + elem->getHeight() / 2);
         currenth += elem->getHeight() + gap;
     }
-    emit ShouldUpdateScene();
+
 }
 
 void BlockAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -179,7 +186,7 @@ void BlockAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
-QRectF IfAST::boundingRect() const{
+void IfAST::updateBr() {
     float w=0.0f;
     float h=0.0f;
     float ifh = 60.0f;
@@ -193,7 +200,7 @@ QRectF IfAST::boundingRect() const{
     const auto fontrect = fm->boundingRect(stringify());
     w += fontrect.width() + 2*gap;
 
-    return QRectF(-w/2,-h/2, w, h);
+    br = QRectF(-w/2,-h/2, w, h);
 }
 
 void IfAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -201,7 +208,6 @@ void IfAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    QRectF br = boundingRect();
     float ifh = 60;
     painter->fillRect(br, QColor::fromRgb(101, 50, 57));
     painter->setPen(Qt::white);
@@ -232,10 +238,10 @@ void IfAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
                     elserect.height() + gap + else_->getHeight()/2
                 );
 
-    emit ShouldUpdateScene();
+
 }
 
-QRectF WhileAST::boundingRect() const
+void WhileAST::updateBr()
 {
     float w = 0.0f;
     float h = 0.0f;
@@ -246,7 +252,7 @@ QRectF WhileAST::boundingRect() const
     auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
     const auto fontrect=fm->boundingRect(stringify());
     w += fontrect.width();
-    return QRectF(-w/2,-h/2,w,h);
+    br = QRectF(-w/2,-h/2,w,h);
 }
 
 void WhileAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -254,7 +260,6 @@ void WhileAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    auto br = boundingRect();
     float whileh = 60;
     painter->fillRect(br, QColor::fromRgb(101, 50, 57));
     painter->setPen(Qt::white);
@@ -263,51 +268,51 @@ void WhileAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->fillRect(whilerectangle_,setBrush());
     painter->drawText(whilerectangle_, Qt::AlignHCenter | Qt::AlignVCenter, "While\n"+stringify());
     body_->setPos(0,-br.height()/2 + whilerectangle_.height() + 2*gap + body_->getHeight()/2);
-    emit ShouldUpdateScene();
+
 }
 
-QRectF PrintAST::boundingRect() const
+void PrintAST::updateBr()
 {
     float w = 120.0f;
     float h = 60.0f;
     auto fm = new QFontMetrics(QFont("Times", 10, QFont::Bold));
     const auto fontrect = fm->boundingRect(stringify());
     w += fontrect.width();
-    return QRectF(-w/2, -h/2, w, h);
+    br = QRectF(-w/2, -h/2, w, h);
 }
 
 void PrintAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    auto br = boundingRect();
+
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
     const auto SquareText = QString(instructionName_ +"\n"+stringify());
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    emit ShouldUpdateScene();
+
 }
-QRectF InputAST::boundingRect() const
+void InputAST::updateBr()
 {
     float w = 120.0f;
     float h = 60.0f;
     auto fm=new QFontMetrics(QFont("Times", 10, QFont::Bold));
     const auto fontrect=fm->boundingRect(stringify());
     w+=fontrect.width();
-    return QRectF(-w/2,-h/2,w,h);
+    br = QRectF(-w/2,-h/2,w,h);
 }
 
 void InputAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    auto br = boundingRect();
+
     painter->fillRect(br,setBrush());
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 15));
     const auto SquareText = QString(instructionName_+ "\n" + name_);
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    emit ShouldUpdateScene();
+
 }
 void WhileAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {

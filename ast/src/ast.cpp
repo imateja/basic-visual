@@ -81,7 +81,12 @@ void ExprAST::propagateUpdateSelection(){
 
 void ExprAST::propagateShouldUpdateScene(){
     update();
-    emit ShouldUpdateScene();
+
+}
+
+void ExprAST::propagateUpdateBoundingRect(){
+    updateBr();
+    emit updateBoundingRect();
 }
 
 void ExprAST::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -158,31 +163,41 @@ QBrush ExprAST::setBrush() {
     return brush;
 }
 
-QRectF PlaceholderAST::boundingRect() const{
+void PlaceholderAST::setExpr(ExprAST* expr){
+    expr_ = expr;
+    expr_->setParentItem(this);
+    connect(expr_, &ExprAST::selectItem, this, &ExprAST::propagateSelectItem);
+    connect(expr_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
+    connect(expr_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
+    connect(expr_, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
+    expr_->updateBr();
+    propagateUpdateBoundingRect();
+}
+
+void PlaceholderAST::updateBr(){
     float w=60;
     float h=60;
-    return expr_ ? expr_->boundingRect() : QRectF(-w/2,-h/2,w,h);
+    br = expr_ ? expr_->boundingRect() : QRectF(-w/2,-h/2,w,h);
 }
 
 void PlaceholderAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    auto br = boundingRect();
     if(expr_){
         expr_->setPos(0,0);
     } else {
         painter->fillRect(br,setBrush());
         painter->setPen(Qt::white);
         painter->setFont(QFont("Times New Roman", 18));
-        painter->drawText(boundingRect(), Qt::AlignHCenter | Qt::AlignVCenter, QString("[ ]"));   
+        painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, QString("[ ]"));
     }
-    emit ShouldUpdateScene();
+
 }
 
-QRectF ValueAST::boundingRect() const {
+void ValueAST::updateBr() {
     float w=60;
     float h=60;
-    return QRectF(-w/2,-h/2,w,h);
+    br = QRectF(-w/2,-h/2,w,h);
 }
 
 void ValueAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
@@ -190,43 +205,41 @@ void ValueAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    auto br = boundingRect();
     painter->fillRect(br, setBrush());
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 18));
     const auto SquareText = QString::number(value_);
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    emit ShouldUpdateScene();
+
 }
 
-QRectF VariableAST::boundingRect() const {
+void VariableAST::updateBr() {
     float w=60;
     float h=60;
-    return QRectF(-w/2,-h/2,w,h);
+    br =  QRectF(-w/2,-h/2,w,h);
 }
 
 void VariableAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    auto br = boundingRect();
     painter->fillRect(br, setBrush());
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 18));
 
     const auto SquareText = name_;
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-    emit ShouldUpdateScene();
+
 }
 
-QRectF UnaryAST::boundingRect() const{
+void UnaryAST::updateBr() {
     float w=0.0f;
     float h=0.0f;
     float opr = 60.0f;
 
     w += operand_->getWidth() + 2 * gap;
-    h += operand_->getHeight() + gap*3 + opr;
-    return QRect(-w/2,-h/2,w,h);
+    h += operand_->getHeight() + gap*2 + opr;
+    br = QRect(-w/2,-h/2,w,h);
 }
 
 void UnaryAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
@@ -234,26 +247,23 @@ void UnaryAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Q_UNUSED(widget)
 
     float opr = 60.0f;
-    auto br = boundingRect();
 
-    //painter->fillRect(br, color_);
     painter->setPen(Qt::white);
     painter->setFont(QFont("Times New Roman", 18));
-    //opcircle_ = QRect( -opr/2,-br.height()/2 + gap,opr,opr);
     opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
     center_ = QPointF(0, -br.height()/2+opr/2);
     painter->setBrush(setBrush());
     painter->drawEllipse(opcircle_);
     painter->drawText(opcircle_, Qt::AlignHCenter | Qt::AlignVCenter, QString(getOp()));
-    operand_->setPos(0, -br.height()/2 +3*gap + opcircle_.height()+ operand_->getHeight()/2);
+    operand_->setPos(0, -br.height()/2 +2*gap + opcircle_.height()+ operand_->getHeight()/2);
     QPen pen = QPen(Qt::black);
     pen.setWidth(4);
     painter->setPen(pen);
     painter->drawLine(0,-br.height()/2+opr,0, -br.height()/2 +gap*3 +opcircle_.height());
-    emit ShouldUpdateScene();
+
 }
 
-QRectF BinaryAST::boundingRect() const {
+void BinaryAST::updateBr() {
     float w=0.0f;
     float h=0.0f;
     float opr = 60.0f;
@@ -261,7 +271,7 @@ QRectF BinaryAST::boundingRect() const {
     w += left_->getWidth() + 100.0f + right_->getWidth();
     h += left_->getHeight() > right_->getHeight() ? left_->getHeight() : right_->getHeight();
     h+= gap*2 + opr;
-    return QRect(-w/2,-h/2,w,h);
+    br = QRect(-w/2,-h/2,w,h);
 }
 
 void BinaryAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
@@ -269,7 +279,6 @@ void BinaryAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(widget)
 
     float opr = 60.0f;
-    auto br = boundingRect();
 
     painter->setPen(Qt::white);
     opcircle_ = QRectF( -opr/2,-br.height()/2,opr,opr);
@@ -286,7 +295,7 @@ void BinaryAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setPen(pen);
     painter->drawLine(0,-br.height()/2+opr,-br.width()/2 +left_->getWidth()/2, -br.height()/2 +gap*2 +opcircle_.height());
     painter->drawLine(0,-br.height()/2+opr,br.width()/2 -right_->getWidth()/2, -br.height()/2 +gap*2 +opcircle_.height());
-    emit ShouldUpdateScene();
+
 }
 
 void BinaryAST::updateChildren() {
