@@ -108,7 +108,7 @@ public:
     static float gap;
     QBrush setBrush();
     inline QRectF boundingRect() const override final { return br;}
-    virtual void updateBr() = 0;
+
 signals:
     void selectItem(ExprAST* item);
     void updateSelection();
@@ -126,6 +126,7 @@ signals:
     void signalSelected();
 protected:
     QRectF br;
+    virtual void updateBr() = 0;
 };
 
 class PlaceholderAST final : public ExprAST
@@ -156,6 +157,7 @@ public:
     inline bool isEmpty() const {return expr_ == nullptr;}
     void clear() {expr_ = nullptr;}
     inline ExprAST* getExpr() const { return expr_; }
+protected:
     void updateBr() override;
 private:
     PlaceholderAST(const PlaceholderAST&) = delete;
@@ -180,6 +182,7 @@ public:
     QVariant toVariant() const override;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+protected:
     void updateBr() override;
 private:
     double value_;
@@ -203,6 +206,7 @@ public:
     QString stringify() const final;
     QVariant toVariant() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+protected:
     void updateBr() override;
 
 private:
@@ -243,8 +247,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
 
     void updateChildren() final;
-    void updateBr() override;
+
 protected:
+    void updateBr() override;
     ExprAST* operand_;
 };
 
@@ -297,8 +302,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) final;
 
     void updateChildren() final;
-    void updateBr() override;
+
 protected:
+    void updateBr() override;
     ExprAST *left_, *right_;
 };
 

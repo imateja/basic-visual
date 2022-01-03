@@ -43,6 +43,7 @@ public:
     QVariant toVariant() const override;
     void deleteMe() override {}
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+protected:
     void updateBr() override;
 private:
     StartAST(const StartAST&) = delete;
@@ -74,6 +75,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     QString instructionName_ = QString("Assign");
+protected:
     void updateBr() override;
 private:
     QString name_;
@@ -109,6 +111,7 @@ public:
     void deleteMe() override {} ;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
+protected:
     void updateBr() override;
 private:
     BlockAST(const BlockAST&) = delete;
@@ -158,6 +161,7 @@ public:
 
     QString instructionName_ = QString("If");
     QRectF ifrectangle_;
+protected:
     void updateBr() override;
 private:
     IfAST(const IfAST&) = delete;
@@ -202,6 +206,7 @@ public:
 
     QRectF whilerectangle_;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
+protected:
     void updateBr() override;
 private:
     ExprAST *cond_;
@@ -231,6 +236,7 @@ public:
     ExprAST* getEditableExpr() override { return expr_; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+protected:
     void updateBr() override;
 private:
     ExprAST* expr_;
@@ -258,6 +264,7 @@ public:
     ExprAST* getEditableExpr() override { return nullptr; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+protected:
     void updateBr() override;
 private:
     QString name_;

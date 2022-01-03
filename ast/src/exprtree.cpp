@@ -60,15 +60,12 @@ void BlockAST::insert(InstructionAST* newinstr, InstructionAST* posinstr){
     connect(newinstr, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
     connect(newinstr, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
 
-    newinstr->updateBr();
-    updateBr();
-    propagateUpdateBoundingRect();
+    newinstr->propagateUpdateBoundingRect();
 }
 
 void BlockAST::remove(InstructionAST* instr){
     auto pos = body_.indexOf(instr);
     body_.remove(pos);
-    updateBr();
     propagateUpdateBoundingRect();
 }
 

@@ -170,8 +170,7 @@ void PlaceholderAST::setExpr(ExprAST* expr){
     connect(expr_, &ExprAST::updateSelection, this, &ExprAST::propagateUpdateSelection);
     connect(expr_, &ExprAST::ShouldUpdateScene, this, &ExprAST::propagateShouldUpdateScene);
     connect(expr_, &ExprAST::updateBoundingRect, this, &ExprAST::propagateUpdateBoundingRect);
-    expr_->updateBr();
-    propagateUpdateBoundingRect();
+    expr_->propagateUpdateBoundingRect();
 }
 
 void PlaceholderAST::updateBr(){
