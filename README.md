@@ -19,7 +19,7 @@ Prevođenje se može realizovati kompilacijom do objektnog fajla (`.o`) koriste�
 
 - Preuzimanje llvm-12 biblioteke preko terminala pomoću komande: `sudo apt install llvm-12`
 
-- Preuzimanje programa **visualBasic** preko terminala pomoću komande: `git clone https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual`
+- Preuzimanje programa **basicVisual** preko terminala pomoću komande: `git clone https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2021-2022/03-basicVisual`
 
 
 
