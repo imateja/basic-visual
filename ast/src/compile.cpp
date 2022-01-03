@@ -22,7 +22,6 @@ Value* truePrintStr = nullptr;
 Value* falsePrintStr = nullptr;
 Value* doubleInputStr = nullptr;
 
-
 // ------ QVariantMap(Value*, TypeEnum);
 
 enum class MyType{
@@ -110,6 +109,7 @@ void Compile::compile(const QString& path){
 
 
         delete TheModule;
+        TheModule = nullptr;
     }
 }
 
