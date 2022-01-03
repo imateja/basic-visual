@@ -155,7 +155,7 @@ public:
 
     void updateChildren() final;
     inline bool isEmpty() const {return expr_ == nullptr;}
-    void clear() {expr_ = nullptr;}
+    void clear();
     inline ExprAST* getExpr() const { return expr_; }
 protected:
     void updateBr() override;

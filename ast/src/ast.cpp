@@ -326,6 +326,11 @@ void OperatorAST::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
+void PlaceholderAST::clear() {
+    expr_ = nullptr;
+    propagateUpdateBoundingRect();
+}
+
 void ExprAST::deleteMe() {
     auto parent = static_cast<PlaceholderAST*>(parentItem());
     parent->clear();
