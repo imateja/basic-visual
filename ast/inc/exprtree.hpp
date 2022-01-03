@@ -20,6 +20,7 @@ public:
     void deleteMe() override;
     virtual ExprAST* getEditableExpr() = 0;
     inline Priority getPriority() const final {return Priority::INSTRUCTION;}
+    void setIsCurrent(bool);
 
     bool isCurrent;
 };

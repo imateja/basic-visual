@@ -36,6 +36,11 @@ PrintAST::~PrintAST(){
     delete expr_;
 }
 
+void InstructionAST::setIsCurrent(bool val) {
+    isCurrent = val;
+    emit ShouldUpdateScene();
+}
+
 void BlockAST::updateChildren()
 {
     for(auto elem : body_){
@@ -120,7 +125,6 @@ void StartAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->setFont(QFont("Times New Roman", 15));
     const auto SquareText = QString("Start");
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
-
 }
 
 void AssignAST::updateBr()
@@ -144,6 +148,7 @@ void AssignAST::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     const auto SquareText = QString(instructionName_ + "\n" + stringify());
     painter->drawText(br, Qt::AlignHCenter | Qt::AlignVCenter, SquareText);
 
+    emit ShouldUpdateScene();
 }
 
 void BlockAST::updateBr()
