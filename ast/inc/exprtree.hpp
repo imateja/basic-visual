@@ -33,7 +33,7 @@ public:
     {
         color_= QColor::fromRgb(156, 102, 21);
     }
-    StartAST(const QVariant&) : StartAST() {}
+    explicit StartAST(const QVariant&) : StartAST() {}
 
     ~StartAST(){};
 
@@ -54,13 +54,13 @@ private:
 class AssignAST final : public InstructionAST
 {
 public:
-    AssignAST(QString name, ExprAST *expr = nullptr,QGraphicsItem* parent = nullptr)
+    explicit AssignAST(const QString& name, ExprAST *expr = nullptr,QGraphicsItem* parent = nullptr)
         : InstructionAST(parent), name_(name)
         , expr_(expr != nullptr ? expr : new PlaceholderAST)
     {
         color_ = QColor::fromRgb(156, 102, 21);
     }
-    AssignAST(const QVariant&);
+    explicit AssignAST(const QVariant&);
 
     ~AssignAST();
 
@@ -96,7 +96,7 @@ public:
         insert(start);
         color_= QColor::fromRgb(42, 71, 71);
     }
-    BlockAST(const QVariant&);
+    explicit BlockAST(const QVariant&);
 
     ~BlockAST();
 
@@ -143,7 +143,7 @@ public:
 
         color_= QColor::fromRgb(156, 102, 21);
     }
-    IfAST(const QVariant&);
+    explicit IfAST(const QVariant&);
 
     ~IfAST();
 
@@ -188,7 +188,7 @@ public:
 
         color_= QColor::fromRgb(156, 102, 21);
     }
-    WhileAST(const QVariant&);
+    explicit WhileAST(const QVariant&);
 
     ~WhileAST();
 
@@ -224,7 +224,7 @@ public:
     {
         color_= QColor::fromRgb(156, 102, 21);
     }
-    PrintAST(const QVariant&);
+    explicit PrintAST(const QVariant&);
 
     ~PrintAST();
 
@@ -249,12 +249,12 @@ private:
 class InputAST final : public InstructionAST
 {
 public:
-    InputAST(QString name,QGraphicsItem* parent = nullptr)
+    explicit InputAST(const QString& name,QGraphicsItem* parent = nullptr)
         :name_(name),InstructionAST(parent)
     {
         color_= QColor::fromRgb(156, 102, 21);
     }
-    InputAST(const QVariant&);
+    explicit InputAST(const QVariant&);
     void AcceptVisit(VisitorAST&) override;
     void updateChildren() final {}
     QString stringify() const final;
