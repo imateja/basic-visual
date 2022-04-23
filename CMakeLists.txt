@@ -11,6 +11,20 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(CMAKE_CXX_FLAGS "-Wall -Wextra -O0 -g -Wno-reorder -Wno-unused-parameter -Wno-comment")
+    message("-- Debug build.")
+elseif(CMAKE_BUILD_TYPE MATCHES Test)
+    set(CMAKE_CXX_FLAGS_RELEASE "-O0 -g -Wno-reorder -Wno-unused-parameter -Wno-comment")
+    message("-- Test build.")
+elseif(CMAKE_BUILD_TYPE MATCHES Release)
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wno-reorder -Wno-unused-parameter -Wno-comment")
+    message("-- Release build.")
+else()
+    message("-- Some unknown build type.")
+endif()
+
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
@@ -22,55 +36,12 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 
-set(PROJECT_SOURCES
-        basicVisual/src/mainwindow.ui
-        basicVisual/src/pseudoterminal.ui
-        basicVisual/src/main.cpp
-        basicVisual/src/mainwindow.cpp
-        basicVisual/src/maingraphicsscene.cpp
-        basicVisual/src/pseudoterminal.cpp
-        ast/src/ast.cpp
-        ast/src/state.cpp
-        ast/src/interpret.cpp
-        ast/src/compile.cpp
-        ast/src/exprtree.cpp
-        ast/src/serializer.cpp
-        #tests/test_ast.cpp
-        #tests/catch.cpp
-)
+add_subdirectory(ast)
 
-set(PROJECT_HEADERS
-        basicVisual/inc/mainwindow.hpp
-        basicVisual/inc/maingraphicsscene.hpp
-        basicVisual/inc/pseudoterminal.hpp
-        ast/inc/ast.hpp
-        ast/inc/state.hpp
-        ast/inc/interpret.hpp
-        ast/inc/compile.hpp
-        ast/inc/exprtree.hpp
-        ast/inc/serializable.hpp
-        ast/inc/serializer.hpp
-        #tests/catch.hpp
-)
-
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(basicVisual
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-        ${PROJECT_HEADERS}
-    )
+if(NOT CMAKE_BUILD_TYPE MATCHES Test)
+    add_subdirectory(basicVisual)
 endif()
 
-target_link_libraries(basicVisual PRIVATE Qt${QT_VERSION_MAJOR}::Widgets LLVM)
-
-set_target_properties(basicVisual PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-)
-
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(basicVisual)
+if(CMAKE_BUILD_TYPE MATCHES Debug OR CMAKE_BUILD_TYPE MATCHES Test)
+    add_subdirectory(tests)
 endif()
-
-target_include_directories(${PROJECT_NAME} PUBLIC ast/inc basicVisual/inc tests/)

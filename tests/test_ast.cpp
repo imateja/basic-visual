@@ -35,7 +35,7 @@ TEST_CASE("ValueAST testing constructor with different values", "[class][constru
         double expectedResult = 6.25;
         Interpret *i = new Interpret(input);
 
-        REQUIRE(i->getValue().toDouble() == 6.25);
+        REQUIRE(i->getValue().toDouble() == expectedResult);
     }
 }
 
@@ -72,7 +72,7 @@ TEST_CASE("VariableAST", "[VariableAST][Constructor]")
         double expectedResult = 6.25;
         Interpret *i = new Interpret(input);
 
-        REQUIRE(i->getValue().toDouble() == 6.25);
+        REQUIRE(i->getValue().toDouble() == expectedResult);
     }
 }
 
@@ -81,7 +81,7 @@ TEST_CASE("Testing PlaceholderAST constructor","[PlaceholderAST][constructor]")
     SECTION("For PlaceholderAST empty constructor expr_ should be nullptr")
     {
         PlaceholderAST placeholder = PlaceholderAST();
-        REQUIRE(placeholder.expr_ == nullptr);
+        REQUIRE(placeholder.getExpr() == nullptr);
     }
 
     SECTION("For empty PlaceholderAST stringify method should return []")
@@ -815,7 +815,8 @@ TEST_CASE("BlockAST", "[class][ValueAST]"){
 
     }
 
-    SECTION("Given BlockAST instance with more than one instruction, interpreting that block will result in empty QVariant");
+    SECTION("Given BlockAST instance with more than one instruction, interpreting that block will result in empty QVariant")
+            ;
     {
         QString name = "test";
         AssignAST* assign = new AssignAST(name,new ValueAST(10.0));
@@ -831,7 +832,8 @@ TEST_CASE("BlockAST", "[class][ValueAST]"){
 
     }
 
-    SECTION("Given BlockAST instance with more than one instruction, interpreting that block will result in empty QVariant");
+    SECTION("Given BlockAST instance with more than one instruction, interpreting that block will result in empty QVariant")
+            ;
     {
         State::Domains().createNewDomain();
         QString name = "test";
