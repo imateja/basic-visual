@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete _mainGraphicsScene;
     Interpret::mutex_.unlock();
     delete ui;
 }
