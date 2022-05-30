@@ -110,6 +110,10 @@ void Compile::compile(const QString& path){
 
         delete TheModule;
         TheModule = nullptr;
+        doublePrintStr = nullptr;
+        truePrintStr = nullptr;
+        falsePrintStr = nullptr;
+        doubleInputStr = nullptr;
     }
 }
 
@@ -772,7 +776,7 @@ void Compile::VisitPrintAST(PrintAST& obj) {
         return;
     }
 
-    auto* vExpr = exprMap.value("value").value<Value*>();
+    auto vExpr = exprMap.value("value").value<Value*>();
     auto typeExpr = exprMap.value("type").value<MyType>();
 
     Function* printFunction = TheModule->getFunction("printf");

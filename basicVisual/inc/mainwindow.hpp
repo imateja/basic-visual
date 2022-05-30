@@ -71,7 +71,6 @@ private:
     Ui::MainWindow *ui;
     mainGraphicsScene *_mainGraphicsScene;
     QVector<Instruction*> _instructions;
-    bool isAlreadyCompiled;
     void setupActions();
     void setupConnections();
     inline ExprAST* stagedItem();

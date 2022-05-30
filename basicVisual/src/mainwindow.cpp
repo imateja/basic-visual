@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , _mainGraphicsScene(new mainGraphicsScene())
-    , isAlreadyCompiled(false)
 {
     ui->setupUi(this);
     factor=0;
@@ -483,29 +482,23 @@ void MainWindow::onActionDebug()
 
 void MainWindow::onActionBuild()
 {
-    if (!isAlreadyCompiled) {
-        isAlreadyCompiled = true;
-        QString fileName = QFileDialog::getSaveFileName(
-                this,
-                tr("Save Visual"), ".",
-                tr("Object File (*.o)"));
-        if(!fileName.endsWith(".o"))
-        {
-            fileName.append(".o");
-        }
-
-        Compile::InitializeModuleAndPassManager();
-        State::Domains().clear();
-        auto res = Compile{mainBlock}.getValue();
-
-        if(res.isEmpty()){
-            Compile::compile(fileName);
-        }
-
-        catchResult(res);
+    QString fileName = QFileDialog::getSaveFileName(
+            this,
+            tr("Save Visual"), ".",
+            tr("Object File (*.o)"));
+    if(!fileName.endsWith(".o"))
+    {
+        fileName.append(".o");
     }
-    else {
-        catchResult("Cannot compile more than once.");
+
+    Compile::InitializeModuleAndPassManager();
+    State::Domains().clear();
+    auto res = Compile{mainBlock}.getValue();
+
+    if(res.isEmpty()){
+        Compile::compile(fileName);
     }
+
+    catchResult(res);
 }
 
