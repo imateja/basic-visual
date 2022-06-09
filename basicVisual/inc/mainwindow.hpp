@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QMutex>
+#include <QRegularExpression>
 #include <exprtree.hpp>
 #include <maingraphicsscene.hpp>
 #include <pseudoterminal.hpp>
@@ -25,6 +26,7 @@ public:
     BlockAST* mainBlock;
     ExprAST* exprItem;
     qint32 factor;
+
 
 signals:
     void newSquareOnGV(InstructionAST*);
@@ -75,6 +77,7 @@ private:
     void setupConnections();
     inline ExprAST* stagedItem();
     void initMainBlock();
+    static QRegularExpression re;
 
 public slots:
     void updateScene();

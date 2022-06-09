@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainGV->viewport()->installEventFilter(this);
 }
 
+QRegularExpression MainWindow::re = QRegularExpression(("^[a-zA-Z_][a-zA-Z0-9_]*$"));
+
 MainWindow::~MainWindow()
 {
     delete _mainGraphicsScene;
@@ -148,7 +150,6 @@ void MainWindow::addInstruction(InstructionAST* newElement){
 void MainWindow::addAssign()
 {
     auto var = ui->assignVarName->text();
-    QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
     if (re.match(var).hasMatch()) {
         auto newElement = new AssignAST(var);
         addInstruction(newElement);
@@ -162,7 +163,6 @@ void MainWindow::addAssign()
 
 void MainWindow::addInput(){
     auto var = ui->inputVarName->text();
-    QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
     if (re.match(var).hasMatch()) {
         auto newElement = new InputAST(var);
         addInstruction(newElement);
@@ -288,7 +288,6 @@ void MainWindow::addNeq()
 void MainWindow::addVar()
 {
     auto var = ui->varTF->toPlainText();
-    QRegularExpression re("^[a-zA-Z_][a-zA-Z0-9_]*$");
     if (re.match(var).hasMatch()) {
         auto elem = new VariableAST(var);
         addExpr(elem);
