@@ -445,8 +445,8 @@ void MainWindow::onActionRun()
     Interpret::steps = false;
     auto terminal = new PseudoTerminal(this);
     terminal->show();
-    QThread* thread = new QThread;
-    Worker* worker = new Worker(mainBlock);
+    auto* thread = new QThread;
+    auto* worker = new Worker(mainBlock);
     worker->moveToThread(thread);
     connect(thread, SIGNAL(started()), worker, SLOT(process()));
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
@@ -465,8 +465,8 @@ void MainWindow::onActionDebug()
     Interpret::steps = true;
     auto terminal = new PseudoTerminal(this);
     terminal->show();
-    QThread* thread = new QThread;
-    Worker* worker = new Worker(mainBlock);
+    auto* thread = new QThread;
+    auto* worker = new Worker(mainBlock);
     worker->moveToThread(thread);
     connect(thread, SIGNAL(started()), worker, SLOT(process()));
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()));

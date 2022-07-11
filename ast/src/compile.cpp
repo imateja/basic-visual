@@ -118,9 +118,9 @@ AllocaInst* CreateEntryBlockAlloca(Function *f, QString s, MyType type){
 
     switch (type) {
     case MyType::DOUBLE_T:
-        return TmpBuilder.CreateAlloca(Type::getDoubleTy(TheContext), 0, s.toStdString().c_str());
+        return TmpBuilder.CreateAlloca(Type::getDoubleTy(TheContext), nullptr, s.toStdString().c_str());
     case MyType::BOOL_T:
-        return TmpBuilder.CreateAlloca(Type::getInt1Ty(TheContext), 0, s.toStdString().c_str());
+        return TmpBuilder.CreateAlloca(Type::getInt1Ty(TheContext), nullptr, s.toStdString().c_str());
     }
     return nullptr;
 }
@@ -772,8 +772,8 @@ void Compile::VisitPrintAST(PrintAST& obj) {
         return;
     }
 
-    Value* vExpr = exprMap.value("value").value<Value*>();
-    MyType typeExpr = exprMap.value("type").value<MyType>();
+    auto* vExpr = exprMap.value("value").value<Value*>();
+    auto typeExpr = exprMap.value("type").value<MyType>();
 
     Function* printFunction = TheModule->getFunction("printf");
     if(printFunction == nullptr){
