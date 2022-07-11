@@ -1,0 +1,180 @@
+Enabled checks:
+    clang-analyzer-apiModeling.StdCLibraryFunctions
+    clang-analyzer-apiModeling.TrustNonnull
+    clang-analyzer-apiModeling.google.GTest
+    clang-analyzer-apiModeling.llvm.CastValue
+    clang-analyzer-apiModeling.llvm.ReturnValue
+    clang-analyzer-core.CallAndMessage
+    clang-analyzer-core.DivideZero
+    clang-analyzer-core.DynamicTypePropagation
+    clang-analyzer-core.NonNullParamChecker
+    clang-analyzer-core.NonnilStringConstants
+    clang-analyzer-core.NullDereference
+    clang-analyzer-core.StackAddrEscapeBase
+    clang-analyzer-core.StackAddressEscape
+    clang-analyzer-core.UndefinedBinaryOperatorResult
+    clang-analyzer-core.VLASize
+    clang-analyzer-core.builtin.BuiltinFunctions
+    clang-analyzer-core.builtin.NoReturnFunctions
+    clang-analyzer-core.uninitialized.ArraySubscript
+    clang-analyzer-core.uninitialized.Assign
+    clang-analyzer-core.uninitialized.Branch
+    clang-analyzer-core.uninitialized.CapturedBlockVariable
+    clang-analyzer-core.uninitialized.UndefReturn
+    clang-analyzer-cplusplus.InnerPointer
+    clang-analyzer-cplusplus.Move
+    clang-analyzer-cplusplus.NewDelete
+    clang-analyzer-cplusplus.NewDeleteLeaks
+    clang-analyzer-cplusplus.PureVirtualCall
+    clang-analyzer-cplusplus.SelfAssignment
+    clang-analyzer-cplusplus.SmartPtr
+    clang-analyzer-cplusplus.VirtualCallModeling
+    clang-analyzer-deadcode.DeadStores
+    clang-analyzer-fuchsia.HandleChecker
+    clang-analyzer-nullability.NullPassedToNonnull
+    clang-analyzer-nullability.NullReturnedFromNonnull
+    clang-analyzer-nullability.NullabilityBase
+    clang-analyzer-nullability.NullableDereferenced
+    clang-analyzer-nullability.NullablePassedToNonnull
+    clang-analyzer-nullability.NullableReturnedFromNonnull
+    clang-analyzer-optin.cplusplus.UninitializedObject
+    clang-analyzer-optin.cplusplus.VirtualCall
+    clang-analyzer-optin.mpi.MPI-Checker
+    clang-analyzer-optin.osx.OSObjectCStyleCast
+    clang-analyzer-optin.osx.cocoa.localizability.EmptyLocalizationContextChecker
+    clang-analyzer-optin.osx.cocoa.localizability.NonLocalizedStringChecker
+    clang-analyzer-optin.performance.GCDAntipattern
+    clang-analyzer-optin.performance.Padding
+    clang-analyzer-optin.portability.UnixAPI
+    clang-analyzer-osx.API
+    clang-analyzer-osx.MIG
+    clang-analyzer-osx.NSOrCFErrorDerefChecker
+    clang-analyzer-osx.NumberObjectConversion
+    clang-analyzer-osx.OSObjectRetainCount
+    clang-analyzer-osx.ObjCProperty
+    clang-analyzer-osx.SecKeychainAPI
+    clang-analyzer-osx.cocoa.AtSync
+    clang-analyzer-osx.cocoa.AutoreleaseWrite
+    clang-analyzer-osx.cocoa.ClassRelease
+    clang-analyzer-osx.cocoa.Dealloc
+    clang-analyzer-osx.cocoa.IncompatibleMethodTypes
+    clang-analyzer-osx.cocoa.Loops
+    clang-analyzer-osx.cocoa.MissingSuperCall
+    clang-analyzer-osx.cocoa.NSAutoreleasePool
+    clang-analyzer-osx.cocoa.NSError
+    clang-analyzer-osx.cocoa.NilArg
+    clang-analyzer-osx.cocoa.NonNilReturnValue
+    clang-analyzer-osx.cocoa.ObjCGenerics
+    clang-analyzer-osx.cocoa.RetainCount
+    clang-analyzer-osx.cocoa.RetainCountBase
+    clang-analyzer-osx.cocoa.RunLoopAutoreleaseLeak
+    clang-analyzer-osx.cocoa.SelfInit
+    clang-analyzer-osx.cocoa.SuperDealloc
+    clang-analyzer-osx.cocoa.UnusedIvars
+    clang-analyzer-osx.cocoa.VariadicMethodTypes
+    clang-analyzer-osx.coreFoundation.CFError
+    clang-analyzer-osx.coreFoundation.CFNumber
+    clang-analyzer-osx.coreFoundation.CFRetainRelease
+    clang-analyzer-osx.coreFoundation.containers.OutOfBounds
+    clang-analyzer-osx.coreFoundation.containers.PointerSizedValues
+    clang-analyzer-security.FloatLoopCounter
+    clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
+    clang-analyzer-security.insecureAPI.SecuritySyntaxChecker
+    clang-analyzer-security.insecureAPI.UncheckedReturn
+    clang-analyzer-security.insecureAPI.bcmp
+    clang-analyzer-security.insecureAPI.bcopy
+    clang-analyzer-security.insecureAPI.bzero
+    clang-analyzer-security.insecureAPI.decodeValueOfObjCType
+    clang-analyzer-security.insecureAPI.getpw
+    clang-analyzer-security.insecureAPI.gets
+    clang-analyzer-security.insecureAPI.mkstemp
+    clang-analyzer-security.insecureAPI.mktemp
+    clang-analyzer-security.insecureAPI.rand
+    clang-analyzer-security.insecureAPI.strcpy
+    clang-analyzer-security.insecureAPI.vfork
+    clang-analyzer-unix.API
+    clang-analyzer-unix.DynamicMemoryModeling
+    clang-analyzer-unix.Malloc
+    clang-analyzer-unix.MallocSizeof
+    clang-analyzer-unix.MismatchedDeallocator
+    clang-analyzer-unix.Vfork
+    clang-analyzer-unix.cstring.BadSizeArg
+    clang-analyzer-unix.cstring.CStringModeling
+    clang-analyzer-unix.cstring.NullArg
+    clang-analyzer-valist.CopyToSelf
+    clang-analyzer-valist.Uninitialized
+    clang-analyzer-valist.Unterminated
+    clang-analyzer-valist.ValistBase
+    modernize-avoid-bind
+    modernize-concat-nested-namespaces
+    modernize-deprecated-headers
+    modernize-deprecated-ios-base-aliases
+    modernize-loop-convert
+    modernize-make-shared
+    modernize-make-unique
+    modernize-pass-by-value
+    modernize-raw-string-literal
+    modernize-redundant-void-arg
+    modernize-replace-auto-ptr
+    modernize-replace-random-shuffle
+    modernize-return-braced-init-list
+    modernize-shrink-to-fit
+    modernize-unary-static-assert
+    modernize-use-auto
+    modernize-use-bool-literals
+    modernize-use-default-member-init
+    modernize-use-emplace
+    modernize-use-equals-default
+    modernize-use-equals-delete
+    modernize-use-noexcept
+    modernize-use-nullptr
+    modernize-use-override
+    modernize-use-transparent-functors
+    modernize-use-uncaught-exceptions
+    modernize-use-using
+
+clang-apply-replacements version 10.0.0
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmpc4yqevmo.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmplgebc8ch.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmpmg0d5tzb.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmp6mgx_2mx.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/state.cpp
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmpzxlkvqx7.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmphtmur31i.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/ast.cpp
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmp7_pvbw_o.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp
+/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp:448:5: warning: use auto when initializing with new to avoid duplicating the type name [modernize-use-auto]
+    QThread* thread = new QThread;
+    ^~~~~~~
+    auto
+/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp:449:5: warning: use auto when initializing with new to avoid duplicating the type name [modernize-use-auto]
+    Worker* worker = new Worker(mainBlock);
+    ^~~~~~
+    auto
+/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp:468:5: warning: use auto when initializing with new to avoid duplicating the type name [modernize-use-auto]
+    QThread* thread = new QThread;
+    ^~~~~~~
+    auto
+/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp:469:5: warning: use auto when initializing with new to avoid duplicating the type name [modernize-use-auto]
+    Worker* worker = new Worker(mainBlock);
+    ^~~~~~
+    auto
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmpoja81pye.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmp_269cwd2.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmpn0tobjri.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp
+clang-tidy-10 -checks=modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,-modernize-avoid-c-arrays -export-fixes /tmp/tmplyh6ku71/tmpnai14uib.yaml -p=/home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp
+/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp:121:71: warning: use nullptr [modernize-use-nullptr]
+        return TmpBuilder.CreateAlloca(Type::getDoubleTy(TheContext), 0, s.toStdString().c_str());
+                                                                      ^
+                                                                      nullptr
+/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp:123:69: warning: use nullptr [modernize-use-nullptr]
+        return TmpBuilder.CreateAlloca(Type::getInt1Ty(TheContext), 0, s.toStdString().c_str());
+                                                                    ^
+                                                                    nullptr
+/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp:775:5: warning: use auto when initializing with a template cast to avoid duplicating the type name [modernize-use-auto]
+    Value* vExpr = exprMap.value("value").value<Value*>();
+    ^~~~~
+    auto
+/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp:776:5: warning: use auto when initializing with a template cast to avoid duplicating the type name [modernize-use-auto]
+    MyType typeExpr = exprMap.value("type").value<MyType>();
+    ^~~~~~
+    auto
+Applying fixes ...
