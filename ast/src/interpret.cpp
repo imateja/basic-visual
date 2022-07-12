@@ -558,7 +558,7 @@ void Interpret::VisitInputAST(InputAST& obj){
     }
 }
 
-QString Interpret::getErrorMsg() {
+auto Interpret::getErrorMsg() -> QString {
     return value_.typeId() == qstringTypeId? value_.toString(): "";
 }
 

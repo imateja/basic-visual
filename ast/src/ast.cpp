@@ -114,24 +114,24 @@ void ExprAST::mousePressEvent(QGraphicsSceneMouseEvent *event)
 }
 
 //------------ STRINGIFY ------------
-QString PlaceholderAST::stringify() const {
+auto PlaceholderAST::stringify() const -> QString {
     return expr_? expr_->stringify() : "[]";
 }
 
-QString ValueAST::stringify() const {
+auto ValueAST::stringify() const -> QString {
     return QString::number(value_);
 }
 
-QString VariableAST::stringify() const {
+auto VariableAST::stringify() const -> QString {
     return name_;
 }
 
-QString UnaryAST::stringify() const {
+auto UnaryAST::stringify() const -> QString {
     QString op = operand_->stringify();
     return operand_->getPriority() > getPriority() ? getOp() + "(" + op + ")" : getOp() + op;
 }
 
-QString BinaryAST::stringify() const {
+auto BinaryAST::stringify() const -> QString {
     QString l = left_->stringify();
     QString r = right_->stringify();
     QString retVal;
@@ -141,7 +141,7 @@ QString BinaryAST::stringify() const {
     return retVal;
 }
 
-QBrush ExprAST::setBrush() {
+auto ExprAST::setBrush() -> QBrush {
     QBrush brush = QBrush(color_);
 
     if(Interpret::steps){
@@ -316,7 +316,7 @@ void PlaceholderAST::updateChildren() {
     }
 }
 
-inline bool isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition) {
+inline auto isInCircle(QPointF center, QRectF opcircle, QPointF mousePosition) -> bool {
     return pow(center.x()-mousePosition.x(),2) + pow(center.y()-mousePosition.y(),2) <= pow(opcircle.height()/2,2);
 }
 
@@ -341,7 +341,7 @@ void ExprAST::deleteMe() {
 
 //--------------------toVariant--------------------
 
-QVariant PlaceholderAST::toVariant() const
+auto PlaceholderAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "PlaceholderExprAST");
@@ -352,7 +352,7 @@ QVariant PlaceholderAST::toVariant() const
     return map;
 }
 
-QVariant ValueAST::toVariant() const
+auto ValueAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "ValueExprAST");
@@ -360,7 +360,7 @@ QVariant ValueAST::toVariant() const
     return map;
 }
 
-QVariant VariableAST::toVariant() const
+auto VariableAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "VariableExprAST");
@@ -368,7 +368,7 @@ QVariant VariableAST::toVariant() const
     return map;
 }
 
-QVariant NotAST::toVariant() const
+auto NotAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "NotExprAST");
@@ -376,7 +376,7 @@ QVariant NotAST::toVariant() const
     return map;
 }
 
-QVariant MulAST::toVariant() const
+auto MulAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "MulExprAST");
@@ -385,7 +385,7 @@ QVariant MulAST::toVariant() const
     return map;
 }
 
-QVariant DivAST::toVariant() const
+auto DivAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "DivExprAST");
@@ -394,7 +394,7 @@ QVariant DivAST::toVariant() const
     return map;
 }
 
-QVariant AddAST::toVariant() const
+auto AddAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "AddExprAST");
@@ -403,7 +403,7 @@ QVariant AddAST::toVariant() const
     return map;
 }
 
-QVariant SubAST::toVariant() const
+auto SubAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "SubExprAST");
@@ -412,7 +412,7 @@ QVariant SubAST::toVariant() const
     return map;
 }
 
-QVariant LtAST::toVariant() const
+auto LtAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "LtExprAST");
@@ -421,7 +421,7 @@ QVariant LtAST::toVariant() const
     return map;
 }
 
-QVariant LeqAST::toVariant() const
+auto LeqAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "LeqExprAST");
@@ -430,7 +430,7 @@ QVariant LeqAST::toVariant() const
     return map;
 }
 
-QVariant GtAST::toVariant() const
+auto GtAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "GtExprAST");
@@ -439,7 +439,7 @@ QVariant GtAST::toVariant() const
     return map;
 }
 
-QVariant GeqAST::toVariant() const
+auto GeqAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "GeqExprAST");
@@ -448,7 +448,7 @@ QVariant GeqAST::toVariant() const
     return map;
 }
 
-QVariant EqAST::toVariant() const
+auto EqAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "EqExprAST");
@@ -458,7 +458,7 @@ QVariant EqAST::toVariant() const
 }
 
 
-QVariant NeqAST::toVariant() const
+auto NeqAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "NeqExprAST");
@@ -467,7 +467,7 @@ QVariant NeqAST::toVariant() const
     return map;
 }
 
-QVariant AndAST::toVariant() const
+auto AndAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "AndExprAST");
@@ -476,7 +476,7 @@ QVariant AndAST::toVariant() const
     return map;
 }
 
-QVariant OrAST::toVariant() const
+auto OrAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "OrExprAST");
@@ -487,7 +487,7 @@ QVariant OrAST::toVariant() const
 
 //---------------------------------------------------------------
 
-ExprAST* ExprAST::makeFromVariant(const QVariant& v){
+auto ExprAST::makeFromVariant(const QVariant& v) -> ExprAST*{
         QVariantMap m = v.toMap();
         if(m.empty())
         {

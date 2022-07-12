@@ -12,7 +12,7 @@ void Serializer::save(const Serializable& serializable, const QString& filepath)
     file.close();
 }
 
-QVariant Serializer::load(const QString& filepath)
+auto Serializer::load(const QString& filepath) -> QVariant
 {
     QFile file(filepath);
     file.open(QFile::ReadOnly);

@@ -61,12 +61,12 @@ void MainWindow::position()
     centerItem->setPos(sceneCenter.x(), sceneCenter.y());
 }
 
-ExprAST* MainWindow::stagedItem()
+auto MainWindow::stagedItem() -> ExprAST*
 {
     return exprItem == nullptr ? mainBlock : exprItem;
 }
 
-bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+auto MainWindow::eventFilter(QObject *watched, QEvent *event) -> bool
 {
     if (watched == ui->mainGV->viewport()) {
         if (event->type() == QEvent::Resize) {

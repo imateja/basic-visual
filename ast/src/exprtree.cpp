@@ -332,24 +332,24 @@ void InstructionAST::deleteMe()
 
 //------------ STRINGIFY ------------
 
-QString StartAST::stringify() const { return {}; }
-QString AssignAST::stringify() const { return name_ + " = " + expr_->stringify(); }
-QString BlockAST::stringify() const { return {}; }
-QString IfAST::stringify() const { return cond_->stringify(); }
-QString WhileAST::stringify() const { return cond_->stringify(); }
-QString PrintAST::stringify() const { return expr_->stringify(); }
-QString InputAST::stringify() const { return {}; }
+auto StartAST::stringify() const -> QString { return {}; }
+auto AssignAST::stringify() const -> QString { return name_ + " = " + expr_->stringify(); }
+auto BlockAST::stringify() const -> QString { return {}; }
+auto IfAST::stringify() const -> QString { return cond_->stringify(); }
+auto WhileAST::stringify() const -> QString { return cond_->stringify(); }
+auto PrintAST::stringify() const -> QString { return expr_->stringify(); }
+auto InputAST::stringify() const -> QString { return {}; }
 
 //------------------ toVariant -------------------
 
-QVariant StartAST::toVariant() const
+auto StartAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "StartExprAST");
     return map;
 }
 
-QVariant AssignAST::toVariant() const
+auto AssignAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "AssignExprAST");
@@ -358,7 +358,7 @@ QVariant AssignAST::toVariant() const
     return map;
 }
 
-QVariant BlockAST::toVariant() const
+auto BlockAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "BlockExprAST");
@@ -370,7 +370,7 @@ QVariant BlockAST::toVariant() const
     return map;
 }
 
-QVariant IfAST::toVariant() const
+auto IfAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "IfExprAST");
@@ -380,7 +380,7 @@ QVariant IfAST::toVariant() const
     return map;
 }
 
-QVariant WhileAST::toVariant() const
+auto WhileAST::toVariant() const -> QVariant
 {
     QVariantMap map;
     map.insert("type", "WhileExprAST");
@@ -389,14 +389,14 @@ QVariant WhileAST::toVariant() const
     return map;
 }
 
-QVariant PrintAST::toVariant() const {
+auto PrintAST::toVariant() const -> QVariant {
     QVariantMap map;
     map.insert("type", "PrintAST");
     map.insert("expr", expr_->toVariant());
     return map;
 }
 
-QVariant InputAST::toVariant() const {
+auto InputAST::toVariant() const -> QVariant {
     QVariantMap map;
     map.insert("type", "InputAST");
     map.insert("name", name_);

@@ -24,7 +24,7 @@ void State::assignValue(const QString& variable, QVariant value)
     domains_.back().insert(variable, value);
 }
 
-QHash<QString, QVariant> State::getCurrentDomain()
+auto State::getCurrentDomain() -> QHash<QString, QVariant>
 {
     if (domains_.empty()) {
         State::Domains().createNewDomain();
@@ -32,7 +32,7 @@ QHash<QString, QVariant> State::getCurrentDomain()
     return domains_.back();
 }
 
-QVariant State::getValue(const QString& variable)
+auto State::getValue(const QString& variable) -> QVariant
 {
     for (auto rit = domains_.rbegin(); rit != domains_.rend(); rit++) {
         if ((*rit).find(variable) != (*rit).end()) {

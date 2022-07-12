@@ -29,7 +29,7 @@ enum class MyType{
     BOOL_T
 };
 
-QString Compile::getValue() const{
+auto Compile::getValue() const -> QString{
     return value_.typeId() == QVariant(QString("")).typeId()? value_.toString(): "";
 }
 
@@ -113,7 +113,7 @@ void Compile::compile(const QString& path){
     }
 }
 
-AllocaInst* CreateEntryBlockAlloca(Function *f, QString s, MyType type){
+auto CreateEntryBlockAlloca(Function *f, QString s, MyType type) -> AllocaInst*{
     IRBuilder<> TmpBuilder(&(f->getEntryBlock()), f->getEntryBlock().begin());
 
     switch (type) {
