@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/yazecchi/Qt/6.2.2/gcc_64/lib/cmake/Qt6/config.tests/static_link_order/main.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/config.tests/static_link_order/CMakeFiles/static_link_order_test.dir/main.cpp.o"
+  "/opt/Qt/6.2.1/gcc_64/lib/cmake/Qt6/config.tests/static_link_order/main.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/config.tests/static_link_order/CMakeFiles/static_link_order_test.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -14,7 +14,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/build/config.tests/static_link_order/CMakeFiles/staticLib.dir/DependInfo.cmake"
+  "/home/mateja/Desktop/uzas/03-basicVisual/build/config.tests/static_link_order/CMakeFiles/staticLib.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

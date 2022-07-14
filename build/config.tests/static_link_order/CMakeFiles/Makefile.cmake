@@ -7,9 +7,9 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/3.16.3/CMakeSystem.cmake"
-  "/home/yazecchi/Qt/6.2.2/gcc_64/lib/cmake/Qt6/config.tests/static_link_order/CMakeLists.txt"
+  "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
+  "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/3.16.3/CMakeSystem.cmake"
+  "/opt/Qt/6.2.1/gcc_64/lib/cmake/Qt6/config.tests/static_link_order/CMakeLists.txt"
   "/usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake"
   "/usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake"

@@ -1,66 +1,66 @@
 {
-	"BUILD_DIR" : "/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen",
-	"CMAKE_BINARY_DIR" : "/home/yazecchi/Desktop/uzas/03-basicVisual/build",
-	"CMAKE_CURRENT_BINARY_DIR" : "/home/yazecchi/Desktop/uzas/03-basicVisual/build",
-	"CMAKE_CURRENT_SOURCE_DIR" : "/home/yazecchi/Desktop/uzas/03-basicVisual",
+	"BUILD_DIR" : "/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen",
+	"CMAKE_BINARY_DIR" : "/home/mateja/Desktop/uzas/03-basicVisual/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/mateja/Desktop/uzas/03-basicVisual/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/mateja/Desktop/uzas/03-basicVisual",
 	"CMAKE_EXECUTABLE" : "/usr/bin/cmake",
-	"CMAKE_SOURCE_DIR" : "/home/yazecchi/Desktop/uzas/03-basicVisual",
+	"CMAKE_SOURCE_DIR" : "/home/mateja/Desktop/uzas/03-basicVisual",
 	"HEADERS" : 
 	[
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/inc/ast.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/ast/inc/ast.hpp",
 			"MU",
 			"ANCIT3PEKP/moc_ast.cpp"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/inc/compile.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/ast/inc/compile.hpp",
 			"MU",
 			"ANCIT3PEKP/moc_compile.cpp"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/inc/exprtree.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/ast/inc/exprtree.hpp",
 			"MU",
 			"ANCIT3PEKP/moc_exprtree.cpp"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/inc/interpret.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/ast/inc/interpret.hpp",
 			"MU",
 			"ANCIT3PEKP/moc_interpret.cpp"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/inc/serializable.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/ast/inc/serializable.hpp",
 			"MU",
 			"ANCIT3PEKP/moc_serializable.cpp"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/inc/serializer.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/ast/inc/serializer.hpp",
 			"MU",
 			"ANCIT3PEKP/moc_serializer.cpp"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/inc/state.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/ast/inc/state.hpp",
 			"MU",
 			"ANCIT3PEKP/moc_state.cpp"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/inc/maingraphicsscene.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/inc/maingraphicsscene.hpp",
 			"MU",
 			"WUG3Z3JFYW/moc_maingraphicsscene.cpp"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/inc/mainwindow.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/inc/mainwindow.hpp",
 			"MU",
 			"WUG3Z3JFYW/moc_mainwindow.cpp"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/inc/pseudoterminal.hpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/inc/pseudoterminal.hpp",
 			"MU",
 			"WUG3Z3JFYW/moc_pseudoterminal.cpp"
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
-	"INCLUDE_DIR" : "/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/include",
-	"MOC_COMPILATION_FILE" : "/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp",
+	"INCLUDE_DIR" : "/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp",
 	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_GUI_LIB", "QT_NO_DEBUG", "QT_WIDGETS_LIB" ],
 	"MOC_DEPEND_FILTERS" : 
 	[
@@ -71,22 +71,22 @@
 	],
 	"MOC_INCLUDES" : 
 	[
-		"/home/yazecchi/Desktop/uzas/03-basicVisual/build",
-		"/home/yazecchi/Desktop/uzas/03-basicVisual",
+		"/home/mateja/Desktop/uzas/03-basicVisual/build",
+		"/home/mateja/Desktop/uzas/03-basicVisual",
 		"/usr/lib/llvm-12/include",
-		"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/inc",
-		"/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/inc",
-		"/home/yazecchi/Desktop/uzas/03-basicVisual/tests",
-		"/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore",
-		"/home/yazecchi/Qt/6.2.2/gcc_64/include",
-		"/home/yazecchi/Qt/6.2.2/gcc_64/mkspecs/linux-g++",
-		"/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets",
-		"/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui",
+		"/home/mateja/Desktop/uzas/03-basicVisual/ast/inc",
+		"/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/inc",
+		"/home/mateja/Desktop/uzas/03-basicVisual/tests",
+		"/opt/Qt/6.2.1/gcc_64/include/QtCore",
+		"/opt/Qt/6.2.1/gcc_64/include",
+		"/opt/Qt/6.2.1/gcc_64/mkspecs/linux-g++",
+		"/opt/Qt/6.2.1/gcc_64/include/QtWidgets",
+		"/opt/Qt/6.2.1/gcc_64/include/QtGui",
 		"/usr/include",
-		"/usr/include/c++/9",
-		"/usr/include/x86_64-linux-gnu/c++/9",
-		"/usr/include/c++/9/backward",
-		"/usr/lib/gcc/x86_64-linux-gnu/9/include",
+		"/usr/include/c++/10",
+		"/usr/include/x86_64-linux-gnu/c++/10",
+		"/usr/include/c++/10/backward",
+		"/usr/lib/gcc/x86_64-linux-gnu/10/include",
 		"/usr/local/include",
 		"/usr/include/x86_64-linux-gnu"
 	],
@@ -101,50 +101,44 @@
 		"-c",
 		"/usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp"
 	],
-	"MOC_PREDEFS_FILE" : "/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/moc_predefs.h",
+	"MOC_PREDEFS_FILE" : "/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : [],
 	"MULTI_CONFIG" : false,
-	"PARALLEL" : 4,
-	"PARSE_CACHE_FILE" : "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual_autogen.dir/ParseCache.txt",
-	"QT_MOC_EXECUTABLE" : "/home/yazecchi/Qt/6.2.2/gcc_64/./libexec/moc",
-	"QT_UIC_EXECUTABLE" : "/home/yazecchi/Qt/6.2.2/gcc_64/./libexec/uic",
+	"PARALLEL" : 6,
+	"PARSE_CACHE_FILE" : "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/opt/Qt/6.2.1/gcc_64/./libexec/moc",
+	"QT_UIC_EXECUTABLE" : "/opt/Qt/6.2.1/gcc_64/./libexec/uic",
 	"QT_VERSION_MAJOR" : 6,
-	"SETTINGS_FILE" : "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual_autogen.dir/AutogenUsed.txt",
+	"SETTINGS_FILE" : "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/ast.cpp", "MU" ],
+		[ "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/ast.cpp", "MU" ],
+		[ "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/compile.cpp", "MU" ],
+		[ "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp", "MU" ],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp",
 			"MU"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp",
+			"MU"
+		],
+		[ "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/state.cpp", "MU" ],
+		[
+			"/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp",
 			"MU"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp",
 			"MU"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp",
-			"MU"
-		],
-		[ "/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/state.cpp", "MU" ],
-		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp",
 			"MU"
 		],
 		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp",
-			"MU"
-		],
-		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp",
-			"MU"
-		],
-		[
-			"/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp",
+			"/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp",
 			"MU"
 		]
 	],

@@ -1,4 +1,4 @@
-# Install script for directory: /home/yazecchi/Qt/6.2.2/gcc_64/lib/cmake/Qt6/config.tests/static_link_order
+# Install script for directory: /opt/Qt/6.2.1/gcc_64/lib/cmake/Qt6/config.tests/static_link_order
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/yazecchi/Desktop/uzas/03-basicVisual/build/config.tests/static_link_order/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mateja/Desktop/uzas/03-basicVisual/build/config.tests/static_link_order/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

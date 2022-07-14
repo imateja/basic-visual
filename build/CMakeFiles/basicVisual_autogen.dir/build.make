@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/yazecchi/Desktop/uzas/03-basicVisual
+CMAKE_SOURCE_DIR = /home/mateja/Desktop/uzas/03-basicVisual
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/yazecchi/Desktop/uzas/03-basicVisual/build
+CMAKE_BINARY_DIR = /home/mateja/Desktop/uzas/03-basicVisual/build
 
 # Utility rule file for basicVisual_autogen.
 
@@ -54,8 +54,8 @@ CMAKE_BINARY_DIR = /home/yazecchi/Desktop/uzas/03-basicVisual/build
 include CMakeFiles/basicVisual_autogen.dir/progress.make
 
 CMakeFiles/basicVisual_autogen:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target basicVisual"
-	/usr/bin/cmake -E cmake_autogen /home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual_autogen.dir/AutogenInfo.json ""
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target basicVisual"
+	/usr/bin/cmake -E cmake_autogen /home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual_autogen.dir/AutogenInfo.json Release
 
 basicVisual_autogen: CMakeFiles/basicVisual_autogen
 basicVisual_autogen: CMakeFiles/basicVisual_autogen.dir/build.make
@@ -72,6 +72,6 @@ CMakeFiles/basicVisual_autogen.dir/clean:
 .PHONY : CMakeFiles/basicVisual_autogen.dir/clean
 
 CMakeFiles/basicVisual_autogen.dir/depend:
-	cd /home/yazecchi/Desktop/uzas/03-basicVisual/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yazecchi/Desktop/uzas/03-basicVisual /home/yazecchi/Desktop/uzas/03-basicVisual /home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual_autogen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mateja/Desktop/uzas/03-basicVisual/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mateja/Desktop/uzas/03-basicVisual /home/mateja/Desktop/uzas/03-basicVisual /home/mateja/Desktop/uzas/03-basicVisual/build /home/mateja/Desktop/uzas/03-basicVisual/build /home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual_autogen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/basicVisual_autogen.dir/depend
 

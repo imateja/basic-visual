@@ -122,7 +122,7 @@ pseudoterminal.hpp
 QDialog
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/ast.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/ast/src/ast.cpp
 QFontMetrics
 -
 ast.hpp
@@ -130,7 +130,7 @@ ast.hpp
 interpret.hpp
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/ast/src/compile.cpp
 vector
 -
 QFile
@@ -156,11 +156,11 @@ llvm/Target/TargetMachine.h
 llvm/Target/TargetOptions.h
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp
 exprtree.hpp
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp
 QtMath
 -
 QMessageBox
@@ -170,7 +170,7 @@ interpret.hpp
 state.hpp
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp
 QJsonDocument
 -
 QFile
@@ -180,23 +180,23 @@ serializer.hpp
 ast.hpp
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/state.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/ast/src/state.cpp
 state.hpp
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp
 QApplication
 -
 mainwindow.hpp
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp
 maingraphicsscene.hpp
 -
 exprtree.hpp
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp
 QMessageBox
 -
 QInputDialog
@@ -214,7 +214,7 @@ QRegularExpression
 QThread
 -
 ./ui_mainwindow.h
-/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/ui_mainwindow.h
+/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/ui_mainwindow.h
 mainwindow.hpp
 -
 exprtree.hpp
@@ -228,125 +228,125 @@ pseudoterminal.hpp
 serializer.hpp
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp
 pseudoterminal.hpp
 -
 ui_pseudoterminal.h
-/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/ui_pseudoterminal.h
+/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/ui_pseudoterminal.h
 interpret.hpp
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/moc_ast.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/moc_ast.cpp
 memory
 -
 ast/inc/ast.hpp
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/ast/inc/ast.hpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/ast/inc/ast.hpp
 QtCore/qbytearray.h
 -
 QtCore/qmetatype.h
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/moc_interpret.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/moc_interpret.cpp
 memory
 -
 ast/inc/interpret.hpp
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/ast/inc/interpret.hpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/ast/inc/interpret.hpp
 QtCore/qbytearray.h
 -
 QtCore/qmetatype.h
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/moc_mainwindow.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/moc_mainwindow.cpp
 memory
 -
 basicVisual/inc/mainwindow.hpp
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/basicVisual/inc/mainwindow.hpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/basicVisual/inc/mainwindow.hpp
 QtCore/qbytearray.h
 -
 QtCore/qmetatype.h
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/moc_pseudoterminal.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/moc_pseudoterminal.cpp
 memory
 -
 basicVisual/inc/pseudoterminal.hpp
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/basicVisual/inc/pseudoterminal.hpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/basicVisual/inc/pseudoterminal.hpp
 QtCore/qbytearray.h
 -
 QtCore/qmetatype.h
 -
 
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp
 ANCIT3PEKP/moc_ast.cpp
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/moc_ast.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/moc_ast.cpp
 ANCIT3PEKP/moc_interpret.cpp
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/moc_interpret.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/ANCIT3PEKP/moc_interpret.cpp
 WUG3Z3JFYW/moc_mainwindow.cpp
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/moc_mainwindow.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/moc_mainwindow.cpp
 WUG3Z3JFYW/moc_pseudoterminal.cpp
-/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/moc_pseudoterminal.cpp
+/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/WUG3Z3JFYW/moc_pseudoterminal.cpp
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QFile
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QFile
 qfile.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qfile.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qfile.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QHash
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QHash
 qhash.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qhash.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qhash.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QJsonDocument
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QJsonDocument
 qjsondocument.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qjsondocument.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qjsondocument.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QList
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QList
 qlist.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qlist.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qlist.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QMutex
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QMutex
 qmutex.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qmutex.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qmutex.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QObject
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QObject
 qobject.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qobject.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qobject.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QRect
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QRect
 qrect.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qrect.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qrect.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QRegularExpression
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QRegularExpression
 qregularexpression.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qregularexpression.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qregularexpression.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QSize
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QSize
 qsize.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qsize.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qsize.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QSizeF
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QSizeF
 qsize.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qsize.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qsize.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QString
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QString
 qstring.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstring.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstring.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QThread
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QThread
 qthread.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qthread.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qthread.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QVariant
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QVariant
 qvariant.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qvariant.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qvariant.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QVector
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QVector
 qvector.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qvector.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qvector.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/QtMath
+/opt/Qt/6.2.1/gcc_64/include/QtCore/QtMath
 qmath.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qmath.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qmath.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qalgorithms.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qalgorithms.h
 QtCore/qglobal.h
 -
 bit
@@ -354,7 +354,7 @@ bit
 intrin.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qanystringview.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qanystringview.h
 QtCore/qstringview.h
 -
 QtCore/qutf8stringview.h
@@ -364,7 +364,11 @@ compare
 limits
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qarraydata.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qapplicationpermission.h
+QtCore/qglobal.h
+-
+
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qarraydata.h
 QtCore/qpair.h
 -
 QtCore/qatomic.h
@@ -372,7 +376,7 @@ QtCore/qatomic.h
 string.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qarraydataops.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qarraydataops.h
 QtCore/qarraydata.h
 -
 QtCore/qcontainertools_impl.h
@@ -392,29 +396,29 @@ tuple
 type_traits
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qarraydatapointer.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qarraydatapointer.h
 QtCore/qarraydataops.h
 -
 QtCore/qcontainertools_impl.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qatomic.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qatomic.h
 QtCore/qglobal.h
 -
 QtCore/qbasicatomic.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qatomic_bootstrap.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qatomic_bootstrap.h
 QtCore/qgenericatomic.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qatomic_cxx11.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qatomic_cxx11.h
 QtCore/qgenericatomic.h
 -
 atomic
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qbasicatomic.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qbasicatomic.h
 QtCore/qglobal.h
 -
 QtCore/qatomic_bootstrap.h
@@ -422,13 +426,7 @@ QtCore/qatomic_bootstrap.h
 QtCore/qatomic_cxx11.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qbindingstorage.h
-QtCore/qglobal.h
--
-QtCore/qnamespace.h
--
-
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qbytearray.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qbytearray.h
 QtCore/qrefcount.h
 -
 QtCore/qnamespace.h
@@ -454,7 +452,7 @@ string
 iterator
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qbytearrayalgorithms.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qbytearrayalgorithms.h
 QtCore/qnamespace.h
 -
 string.h
@@ -462,21 +460,19 @@ string.h
 stdarg.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qbytearraylist.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qbytearraylist.h
 QtCore/qlist.h
 -
 QtCore/qbytearray.h
 -
-limits
--
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qbytearrayview.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qbytearrayview.h
 QtCore/qbytearrayalgorithms.h
 -
 string
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcalendar.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcalendar.h
 limits
 -
 QtCore/qglobal.h
@@ -488,7 +484,7 @@ QtCore/qstring.h
 QtCore/qstringview.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcborcommon.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcborcommon.h
 QtCore/qobjectdefs.h
 -
 QtCore/qmetatype.h
@@ -496,7 +492,7 @@ QtCore/qmetatype.h
 QtCore/qdebug.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcborvalue.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcborvalue.h
 QtCore/qbytearray.h
 -
 QtCore/qdatetime.h
@@ -518,7 +514,7 @@ QtCore/qvariant.h
 compare
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qchar.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qchar.h
 QtCore/qglobal.h
 -
 functional
@@ -526,33 +522,33 @@ functional
 QtCore/qstringview.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcompare.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcompare.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcompilerdetection.h
-QtCore/qglobal.h
--
-utility
--
-
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qconfig-bootstrapped.h
-
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qconfig.h
-
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcontainerfwd.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcompilerdetection.h
 QtCore/qglobal.h
 -
 utility
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcontainerinfo.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qconfig-bootstrapped.h
+
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qconfig.h
+
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcontainerfwd.h
+QtCore/qglobal.h
+-
+utility
+-
+
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcontainerinfo.h
 QtCore/qglobal.h
 -
 type_traits
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcontainertools_impl.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcontainertools_impl.h
 QtCore/qglobal.h
 -
 QtCore/qtypeinfo.h
@@ -566,7 +562,7 @@ memory
 algorithm
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcontiguouscache.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcontiguouscache.h
 QtCore/qatomic.h
 -
 limits.h
@@ -574,7 +570,7 @@ limits.h
 new
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcoreapplication.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcoreapplication.h
 QtCore/qglobal.h
 -
 QtCore/qstring.h
@@ -582,6 +578,10 @@ QtCore/qstring.h
 QtCore/qcoreevent.h
 -
 QtCore/qeventloop.h
+-
+QtCore/qfuture.h
+-
+QtCore/qapplicationpermission.h
 -
 QtCore/qobject.h
 -
@@ -594,7 +594,7 @@ QtCore/qdebug.h
 QtCore/qcoreapplication_platform.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcoreapplication_platform.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcoreapplication_platform.h
 QtCore/qglobal.h
 -
 QtCore/qnativeinterface.h
@@ -606,7 +606,7 @@ QtCore/qfuture.h
 QtCore/qvariant.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qcoreevent.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qcoreevent.h
 QtCore/qnamespace.h
 -
 QtCore/qbytearray.h
@@ -614,7 +614,7 @@ QtCore/qbytearray.h
 QtCore/qobjectdefs.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qdatastream.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qdatastream.h
 QtCore/qscopedpointer.h
 -
 QtCore/qiodevicebase.h
@@ -624,7 +624,7 @@ QtCore/qcontainerfwd.h
 QtCore/qnamespace.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qdatetime.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qdatetime.h
 QtCore/qstring.h
 -
 QtCore/qnamespace.h
@@ -636,7 +636,7 @@ QtCore/qcalendar.h
 limits
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qdeadlinetimer.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qdeadlinetimer.h
 QtCore/qelapsedtimer.h
 -
 QtCore/qmetatype.h
@@ -650,7 +650,7 @@ limits
 chrono
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qdebug.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qdebug.h
 QtCore/qalgorithms.h
 -
 QtCore/qhash.h
@@ -678,7 +678,7 @@ map
 utility
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qdir.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qdir.h
 QtCore/qstring.h
 -
 QtCore/qfile.h
@@ -690,15 +690,15 @@ QtCore/qstringlist.h
 QtCore/qshareddata.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qelapsedtimer.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qelapsedtimer.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qeventloop.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qeventloop.h
 QtCore/qobject.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qexception.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qexception.h
 QtCore/qatomic.h
 -
 QtCore/qshareddata.h
@@ -706,7 +706,7 @@ QtCore/qshareddata.h
 exception
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qfile.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qfile.h
 QtCore/qfiledevice.h
 -
 QtCore/qstring.h
@@ -716,13 +716,13 @@ stdio.h
 filesystem
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qfiledevice.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qfiledevice.h
 QtCore/qiodevice.h
 -
 QtCore/qstring.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qfileinfo.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qfileinfo.h
 QtCore/qfile.h
 -
 QtCore/qlist.h
@@ -734,13 +734,13 @@ QtCore/qmetatype.h
 QtCore/qdatetime.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qflags.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qflags.h
 QtCore/qglobal.h
 -
 initializer_list
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qfuture.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qfuture.h
 QtCore/qglobal.h
 -
 QtCore/qfutureinterface.h
@@ -752,7 +752,7 @@ QtCore/qfuture_impl.h
 type_traits
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qfuture_impl.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qfuture_impl.h
 QtCore/qglobal.h
 -
 QtCore/qfutureinterface.h
@@ -764,7 +764,7 @@ QtCore/qexception.h
 QtCore/qpointer.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qfutureinterface.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qfutureinterface.h
 QtCore/qmutex.h
 -
 QtCore/qresultstore.h
@@ -774,13 +774,13 @@ exception
 utility
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qgenericatomic.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qgenericatomic.h
 QtCore/qglobal.h
 -
 QtCore/qtypeinfo.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qglobal.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qglobal.h
 type_traits
 -
 cstddef
@@ -824,7 +824,7 @@ QtCore/qnumeric.h
 QtCore/qversiontagging.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qglobalstatic.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qglobalstatic.h
 QtCore/qglobal.h
 -
 QtCore/qatomic.h
@@ -832,7 +832,7 @@ QtCore/qatomic.h
 type_traits
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qhash.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qhash.h
 QtCore/qcontainertools_impl.h
 -
 QtCore/qhashfunctions.h
@@ -850,7 +850,7 @@ initializer_list
 functional
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qhashfunctions.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qhashfunctions.h
 QtCore/qstring.h
 -
 QtCore/qpair.h
@@ -860,7 +860,7 @@ numeric
 functional
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qiodevice.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qiodevice.h
 QtCore/qglobal.h
 -
 QtCore/qiodevicebase.h
@@ -874,11 +874,11 @@ QtCore/qscopedpointer.h
 QtCore/qstring.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qiodevicebase.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qiodevicebase.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qiterable.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qiterable.h
 QtCore/qglobal.h
 -
 QtCore/qtypeinfo.h
@@ -888,11 +888,11 @@ QtCore/qmetacontainer.h
 QtCore/qtaggedpointer.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qiterator.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qiterator.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qjsondocument.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qjsondocument.h
 QtCore/qjsonvalue.h
 -
 QtCore/qscopedpointer.h
@@ -900,7 +900,7 @@ QtCore/qscopedpointer.h
 memory
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qjsonvalue.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qjsonvalue.h
 QtCore/qglobal.h
 -
 QtCore/qstring.h
@@ -910,11 +910,11 @@ QtCore/qshareddata.h
 QtCore/qcborvalue.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qline.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qline.h
 QtCore/qpoint.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qlist.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qlist.h
 QtCore/qarraydatapointer.h
 -
 QtCore/qnamespace.h
@@ -938,7 +938,7 @@ QtCore/qbytearraylist.h
 QtCore/qstringlist.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qlocale.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qlocale.h
 QtCore/qvariant.h
 -
 QtCore/qstring.h
@@ -948,17 +948,17 @@ QtCore/qobjectdefs.h
 QtCore/qshareddata.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qlogging.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qlogging.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qloggingcategory.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qloggingcategory.h
 QtCore/qglobal.h
 -
 QtCore/qdebug.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qmap.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qmap.h
 QtCore/qiterator.h
 -
 QtCore/qlist.h
@@ -980,11 +980,11 @@ map
 algorithm
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qmargins.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qmargins.h
 QtCore/qnamespace.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qmath.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qmath.h
 QtCore/qglobal.h
 -
 QtCore/qalgorithms.h
@@ -994,7 +994,7 @@ bit
 cmath
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qmetacontainer.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qmetacontainer.h
 QtCore/qcontainerinfo.h
 -
 QtCore/qflags.h
@@ -1002,7 +1002,7 @@ QtCore/qflags.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qmetatype.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qmetatype.h
 QtCore/qglobal.h
 -
 QtCore/qatomic.h
@@ -1036,7 +1036,7 @@ map
 functional
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qmutex.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qmutex.h
 QtCore/qglobal.h
 -
 QtCore/qatomic.h
@@ -1048,19 +1048,19 @@ chrono
 limits
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qnamespace.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qnamespace.h
 QtCore/qglobal.h
 -
 QtCore/qtmetamacros.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qnativeinterface.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qnativeinterface.h
 QtCore/qglobal.h
 -
 QtCore/qloggingcategory.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qnumeric.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qnumeric.h
 QtCore/qglobal.h
 -
 cmath
@@ -1076,7 +1076,7 @@ float.h
 arm64_ghs.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qobject.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qobject.h
 QtCore/qobjectdefs.h
 -
 QtCore/qstring.h
@@ -1098,9 +1098,9 @@ QtCore/qproperty.h
 chrono
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qobject_impl.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qobject_impl.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qobjectdefs.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qobjectdefs.h
 QtCore/qnamespace.h
 -
 QtCore/qobjectdefs_impl.h
@@ -1108,36 +1108,34 @@ QtCore/qobjectdefs_impl.h
 QtCore/qtmetamacros.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qobjectdefs_impl.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qobjectdefs_impl.h
 QtCore/qnamespace.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qpair.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qpair.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qpoint.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qpoint.h
 QtCore/qnamespace.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qpointer.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qpointer.h
 QtCore/qsharedpointer.h
 -
 QtCore/qtypeinfo.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qprocessordetection.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qprocessordetection.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qproperty.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qproperty.h
 QtCore/qglobal.h
 -
 QtCore/qshareddata.h
 -
 QtCore/qstring.h
--
-QtCore/qbindingstorage.h
 -
 type_traits
 -
@@ -1148,7 +1146,7 @@ source_location
 experimental/source_location
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qpropertyprivate.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qpropertyprivate.h
 QtCore/qglobal.h
 -
 QtCore/qtaggedpointer.h
@@ -1158,7 +1156,7 @@ QtCore/qmetatype.h
 functional
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qrect.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qrect.h
 QtCore/qhashfunctions.h
 -
 QtCore/qmargins.h
@@ -1168,11 +1166,11 @@ QtCore/qsize.h
 QtCore/qpoint.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qrefcount.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qrefcount.h
 QtCore/qatomic.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qregularexpression.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qregularexpression.h
 QtCore/qglobal.h
 -
 QtCore/qstring.h
@@ -1186,7 +1184,7 @@ QtCore/qvariant.h
 iterator
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qresultstore.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qresultstore.h
 QtCore/qmap.h
 -
 QtCore/qdebug.h
@@ -1194,19 +1192,19 @@ QtCore/qdebug.h
 utility
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qrunnable.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qrunnable.h
 QtCore/qglobal.h
 -
 functional
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qscopedpointer.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qscopedpointer.h
 QtCore/qglobal.h
 -
 stdlib.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qscopeguard.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qscopeguard.h
 QtCore/qglobal.h
 -
 type_traits
@@ -1214,7 +1212,7 @@ type_traits
 utility
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qset.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qset.h
 QtCore/qhash.h
 -
 QtCore/qcontainertools_impl.h
@@ -1224,7 +1222,7 @@ initializer_list
 iterator
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qshareddata.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qshareddata.h
 QtCore/qglobal.h
 -
 QtCore/qatomic.h
@@ -1234,13 +1232,13 @@ QtCore/qhashfunctions.h
 functional
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qshareddata_impl.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qshareddata_impl.h
 QtCore/qglobal.h
 -
 QtCore/qshareddata.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qsharedpointer.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qsharedpointer.h
 QtCore/qglobal.h
 -
 QtCore/qatomic.h
@@ -1252,7 +1250,7 @@ QtCore/qsharedpointer_impl.h
 memory
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qsharedpointer_impl.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qsharedpointer_impl.h
 new
 -
 QtCore/qatomic.h
@@ -1264,7 +1262,7 @@ QtCore/qhashfunctions.h
 memory
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qsize.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qsize.h
 QtCore/qnamespace.h
 -
 QtCore/qhashfunctions.h
@@ -1272,7 +1270,7 @@ QtCore/qhashfunctions.h
 QtCore/qmargins.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstring.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstring.h
 QtCore/qchar.h
 -
 QtCore/qbytearray.h
@@ -1298,13 +1296,13 @@ stdarg.h
 QtCore/qstringbuilder.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstringalgorithms.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstringalgorithms.h
 QtCore/qnamespace.h
 -
 QtCore/qcontainerfwd.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstringbuilder.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstringbuilder.h
 QtCore/qstring.h
 -
 QtCore/qbytearray.h
@@ -1312,7 +1310,7 @@ QtCore/qbytearray.h
 string.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstringconverter.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstringconverter.h
 QtCore/qstring.h
 -
 QtCore/qstringbuilder.h
@@ -1320,7 +1318,7 @@ QtCore/qstringbuilder.h
 optional
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstringlist.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstringlist.h
 QtCore/qlist.h
 -
 QtCore/qalgorithms.h
@@ -1332,19 +1330,19 @@ QtCore/qstring.h
 QtCore/qstringmatcher.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstringliteral.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstringliteral.h
 QtCore/qarraydata.h
 -
 QtCore/qarraydatapointer.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstringmatcher.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstringmatcher.h
 QtCore/qstring.h
 -
 QtCore/qstringview.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstringtokenizer.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstringtokenizer.h
 QtCore/qnamespace.h
 -
 QtCore/qcontainerfwd.h
@@ -1352,7 +1350,7 @@ QtCore/qcontainerfwd.h
 QtCore/qstringview.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qstringview.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qstringview.h
 QtCore/qchar.h
 -
 QtCore/qbytearray.h
@@ -1364,11 +1362,11 @@ QtCore/qstringalgorithms.h
 string
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qsysinfo.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qsysinfo.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qsystemdetection.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qsystemdetection.h
 QtCore/qglobal.h
 -
 TargetConditionals.h
@@ -1378,7 +1376,7 @@ Availability.h
 AvailabilityMacros.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qtaggedpointer.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qtaggedpointer.h
 QtCore/qglobal.h
 -
 QtCore/qalgorithms.h
@@ -1388,9 +1386,9 @@ QtCore/qmath.h
 QtCore/qtypeinfo.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qtcore-config.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qtcore-config.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qtextstream.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qtextstream.h
 QtCore/qiodevicebase.h
 -
 QtCore/qstring.h
@@ -1404,7 +1402,7 @@ QtCore/qstringconverter.h
 stdio.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qthread.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qthread.h
 QtCore/qobject.h
 -
 QtCore/qdeadlinetimer.h
@@ -1416,7 +1414,7 @@ functional
 intrin.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qthreadpool.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qthreadpool.h
 QtCore/qglobal.h
 -
 QtCore/qthread.h
@@ -1426,11 +1424,11 @@ QtCore/qrunnable.h
 functional
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qtmetamacros.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qtmetamacros.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qtypeinfo.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qtypeinfo.h
 QtCore/qglobal.h
 -
 QtCore/qcontainerfwd.h
@@ -1442,7 +1440,7 @@ optional
 tuple
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qurl.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qurl.h
 QtCore/qbytearray.h
 -
 QtCore/qobjectdefs.h
@@ -1456,7 +1454,7 @@ QtCore/qpair.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qutf8stringview.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qutf8stringview.h
 QtCore/qstringalgorithms.h
 -
 QtCore/qarraydata.h
@@ -1464,11 +1462,11 @@ QtCore/qarraydata.h
 string
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/quuid.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/quuid.h
 QtCore/qstring.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qvariant.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qvariant.h
 QtCore/qatomic.h
 -
 QtCore/qbytearray.h
@@ -1498,7 +1496,7 @@ type_traits
 variant
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qvarlengtharray.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qvarlengtharray.h
 QtCore/qcontainerfwd.h
 -
 QtCore/qglobal.h
@@ -1522,41 +1520,41 @@ string.h
 stdlib.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qvector.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qvector.h
 QtCore/qlist.h
 -
 QtCore/qcontainerfwd.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore/qversiontagging.h
+/opt/Qt/6.2.1/gcc_64/include/QtCore/qversiontagging.h
 QtCore/qglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/QAction
+/opt/Qt/6.2.1/gcc_64/include/QtGui/QAction
 qaction.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qaction.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qaction.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/QColor
+/opt/Qt/6.2.1/gcc_64/include/QtGui/QColor
 qcolor.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qcolor.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qcolor.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/QFont
+/opt/Qt/6.2.1/gcc_64/include/QtGui/QFont
 qfont.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qfont.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qfont.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/QFontMetrics
+/opt/Qt/6.2.1/gcc_64/include/QtGui/QFontMetrics
 qfontmetrics.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qfontmetrics.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qfontmetrics.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/QPainter
+/opt/Qt/6.2.1/gcc_64/include/QtGui/QPainter
 qpainter.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpainter.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpainter.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/QTransform
+/opt/Qt/6.2.1/gcc_64/include/QtGui/QTransform
 qtransform.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qtransform.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qtransform.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qaction.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qaction.h
 QtGui/qtguiglobal.h
 -
 QtGui/qkeysequence.h
@@ -1568,13 +1566,13 @@ QtCore/qstring.h
 QtCore/qvariant.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qbitmap.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qbitmap.h
 QtGui/qtguiglobal.h
 -
 QtGui/qpixmap.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qbrush.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qbrush.h
 QtGui/qtguiglobal.h
 -
 QtCore/qlist.h
@@ -1594,7 +1592,7 @@ QtGui/qpixmap.h
 QtGui/qtransform.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qcolor.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qcolor.h
 QtGui/qtguiglobal.h
 -
 QtGui/qrgb.h
@@ -1608,7 +1606,7 @@ QtGui/qrgba64.h
 limits.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qcursor.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qcursor.h
 QtGui/qtguiglobal.h
 -
 QtCore/qpoint.h
@@ -1618,7 +1616,7 @@ QtGui/qwindowdefs.h
 QtGui/qbitmap.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qevent.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qevent.h
 QtGui/qtguiglobal.h
 -
 QtCore/qcoreevent.h
@@ -1648,7 +1646,7 @@ QtGui/qwindowdefs.h
 QtGui/qkeysequence.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qeventpoint.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qeventpoint.h
 QtGui/qtguiglobal.h
 -
 QtGui/qvector2d.h
@@ -1660,7 +1658,7 @@ QtCore/qshareddata.h
 QtCore/qmetatype.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qfont.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qfont.h
 QtGui/qtguiglobal.h
 -
 QtGui/qwindowdefs.h
@@ -1670,7 +1668,7 @@ QtCore/qstring.h
 QtCore/qsharedpointer.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qfontinfo.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qfontinfo.h
 QtGui/qtguiglobal.h
 -
 QtGui/qfont.h
@@ -1678,7 +1676,7 @@ QtGui/qfont.h
 QtCore/qsharedpointer.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qfontmetrics.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qfontmetrics.h
 QtGui/qtguiglobal.h
 -
 QtGui/qfont.h
@@ -1688,7 +1686,7 @@ QtCore/qsharedpointer.h
 QtCore/qrect.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qguiapplication.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qguiapplication.h
 QtGui/qtguiglobal.h
 -
 QtCore/qcoreapplication.h
@@ -1706,7 +1704,7 @@ QtCore/qsize.h
 QtGui/qguiapplication_platform.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qguiapplication_platform.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qguiapplication_platform.h
 QtGui/qtguiglobal.h
 -
 QtCore/qnativeinterface.h
@@ -1714,7 +1712,7 @@ QtCore/qnativeinterface.h
 QtGui/qguiapplication.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qicon.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qicon.h
 QtGui/qtguiglobal.h
 -
 QtCore/qsize.h
@@ -1724,7 +1722,7 @@ QtCore/qlist.h
 QtGui/qpixmap.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qimage.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qimage.h
 QtGui/qtguiglobal.h
 -
 QtGui/qcolor.h
@@ -1748,7 +1746,7 @@ QtCore/qstring.h
 QtCore/qcontainerfwd.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qinputdevice.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qinputdevice.h
 QtGui/qtguiglobal.h
 -
 QtCore/qobject.h
@@ -1756,13 +1754,13 @@ QtCore/qobject.h
 QtGui/qscreen.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qinputmethod.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qinputmethod.h
 QtGui/qtguiglobal.h
 -
 QtCore/qobject.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qkeysequence.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qkeysequence.h
 QtGui/qtguiglobal.h
 -
 QtCore/qstring.h
@@ -1770,7 +1768,7 @@ QtCore/qstring.h
 QtCore/qobjectdefs.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpaintdevice.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpaintdevice.h
 QtGui/qtguiglobal.h
 -
 QtGui/qwindowdefs.h
@@ -1778,7 +1776,7 @@ QtGui/qwindowdefs.h
 QtCore/qrect.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpainter.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpainter.h
 QtGui/qtguiglobal.h
 -
 QtCore/qnamespace.h
@@ -1808,7 +1806,7 @@ QtGui/qfontinfo.h
 QtGui/qfontmetrics.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpainterpath.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpainterpath.h
 QtGui/qtguiglobal.h
 -
 QtGui/qtransform.h
@@ -1824,7 +1822,7 @@ QtCore/qrect.h
 QtCore/qshareddata.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpalette.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpalette.h
 QtGui/qtguiglobal.h
 -
 QtGui/qwindowdefs.h
@@ -1834,7 +1832,7 @@ QtGui/qcolor.h
 QtGui/qbrush.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpen.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpen.h
 QtGui/qtguiglobal.h
 -
 QtGui/qcolor.h
@@ -1842,7 +1840,7 @@ QtGui/qcolor.h
 QtGui/qbrush.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpicture.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpicture.h
 QtGui/qtguiglobal.h
 -
 QtCore/qiodevice.h
@@ -1854,11 +1852,11 @@ QtCore/qsharedpointer.h
 QtGui/qpaintdevice.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpixelformat.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpixelformat.h
 QtGui/qtguiglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpixmap.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpixmap.h
 QtGui/qtguiglobal.h
 -
 QtGui/qpaintdevice.h
@@ -1876,7 +1874,7 @@ QtGui/qimage.h
 QtGui/qtransform.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpointingdevice.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpointingdevice.h
 QtGui/qtguiglobal.h
 -
 QtCore/qobject.h
@@ -1884,7 +1882,7 @@ QtCore/qobject.h
 QtGui/qinputdevice.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qpolygon.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qpolygon.h
 QtGui/qtguiglobal.h
 -
 QtCore/qlist.h
@@ -1894,7 +1892,7 @@ QtCore/qpoint.h
 QtCore/qrect.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qregion.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qregion.h
 QtGui/qtguiglobal.h
 -
 QtCore/qatomic.h
@@ -1908,19 +1906,19 @@ QtCore/qcontainerfwd.h
 QtCore/qdatastream.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qrgb.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qrgb.h
 QtGui/qtguiglobal.h
 -
 QtCore/qprocessordetection.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qrgba64.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qrgba64.h
 QtGui/qtguiglobal.h
 -
 QtCore/qprocessordetection.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qscreen.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qscreen.h
 QtGui/qtguiglobal.h
 -
 QtCore/QList
@@ -1940,7 +1938,7 @@ QtCore/qnamespace.h
 QtCore/qnativeinterface.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qtextcursor.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qtextcursor.h
 QtGui/qtguiglobal.h
 -
 QtCore/qstring.h
@@ -1950,7 +1948,7 @@ QtCore/qshareddata.h
 QtGui/qtextformat.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qtextdocument.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qtextdocument.h
 QtGui/qtguiglobal.h
 -
 QtCore/qobject.h
@@ -1968,7 +1966,7 @@ QtCore/qurl.h
 QtCore/qcontainerfwd.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qtextformat.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qtextformat.h
 QtGui/qbrush.h
 -
 QtGui/qcolor.h
@@ -1988,7 +1986,7 @@ QtCore/qshareddata.h
 QtCore/qvariant.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qtextoption.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qtextoption.h
 QtGui/qtguiglobal.h
 -
 QtCore/qnamespace.h
@@ -1998,15 +1996,15 @@ QtCore/qchar.h
 QtCore/qmetatype.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qtgui-config.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qtgui-config.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qtguiglobal.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qtguiglobal.h
 QtCore/qglobal.h
 -
 QtGui/qtgui-config.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qtransform.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qtransform.h
 QtGui/qtguiglobal.h
 -
 QtGui/qpolygon.h
@@ -2022,11 +2020,11 @@ QtCore/qpoint.h
 QtCore/qrect.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qvector2d.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qvector2d.h
 QtGui/qvectornd.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qvectornd.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qvectornd.h
 QtGui/qtguiglobal.h
 -
 QtCore/qpoint.h
@@ -2036,7 +2034,7 @@ QtCore/qrect.h
 QtCore/qmath.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qwindowdefs.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qwindowdefs.h
 QtGui/qtguiglobal.h
 -
 QtCore/qobjectdefs.h
@@ -2048,111 +2046,111 @@ QtCore/qcontainerfwd.h
 QtGui/qwindowdefs_win.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui/qwindowdefs_win.h
+/opt/Qt/6.2.1/gcc_64/include/QtGui/qwindowdefs_win.h
 QtGui/qtguiglobal.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QAbstractScrollArea
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QAbstractScrollArea
 qabstractscrollarea.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qabstractscrollarea.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qabstractscrollarea.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QApplication
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QApplication
 qapplication.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qapplication.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qapplication.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QDialog
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QDialog
 qdialog.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qdialog.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qdialog.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QFileDialog
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QFileDialog
 qfiledialog.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qfiledialog.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qfiledialog.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QFormLayout
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QFormLayout
 qformlayout.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qformlayout.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qformlayout.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QGraphicsObject
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QGraphicsObject
 qgraphicsitem.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qgraphicsitem.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qgraphicsitem.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QGraphicsScene
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QGraphicsScene
 qgraphicsscene.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qgraphicsscene.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qgraphicsscene.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QGraphicsSceneMouseEvent
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QGraphicsSceneMouseEvent
 qgraphicssceneevent.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qgraphicssceneevent.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qgraphicssceneevent.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QGraphicsView
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QGraphicsView
 qgraphicsview.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qgraphicsview.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qgraphicsview.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QHBoxLayout
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QHBoxLayout
 qboxlayout.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qboxlayout.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qboxlayout.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QInputDialog
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QInputDialog
 qinputdialog.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qinputdialog.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qinputdialog.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QLabel
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QLabel
 qlabel.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qlabel.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qlabel.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QLayout
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QLayout
 qlayout.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qlayout.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qlayout.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QLineEdit
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QLineEdit
 qlineedit.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qlineedit.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qlineedit.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QMainWindow
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QMainWindow
 qmainwindow.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qmainwindow.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qmainwindow.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QMenu
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QMenu
 qmenu.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qmenu.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qmenu.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QMenuBar
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QMenuBar
 qmenubar.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qmenubar.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qmenubar.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QMessageBox
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QMessageBox
 qmessagebox.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qmessagebox.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qmessagebox.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QPushButton
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QPushButton
 qpushbutton.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qpushbutton.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qpushbutton.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QSpacerItem
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QSpacerItem
 qlayoutitem.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qlayoutitem.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qlayoutitem.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QStatusBar
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QStatusBar
 qstatusbar.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qstatusbar.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qstatusbar.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QTabWidget
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QTabWidget
 qtabwidget.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qtabwidget.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qtabwidget.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QTextEdit
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QTextEdit
 qtextedit.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qtextedit.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qtextedit.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QVBoxLayout
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QVBoxLayout
 qboxlayout.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qboxlayout.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qboxlayout.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/QWidget
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/QWidget
 qwidget.h
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qwidget.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qwidget.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qabstractbutton.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qabstractbutton.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtGui/qicon.h
@@ -2162,13 +2160,13 @@ QtGui/qkeysequence.h
 QtWidgets/qwidget.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qabstractscrollarea.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qabstractscrollarea.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qframe.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qapplication.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qapplication.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtCore/qcoreapplication.h
@@ -2184,7 +2182,7 @@ QtGui/qcursor.h
 QtGui/qguiapplication.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qboxlayout.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qboxlayout.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qlayout.h
@@ -2194,13 +2192,13 @@ QtWidgets/qwidget.h
 limits.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qdialog.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qdialog.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qwidget.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qfiledialog.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qfiledialog.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtCore/qdir.h
@@ -2214,19 +2212,19 @@ QtWidgets/qdialog.h
 functional
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qformlayout.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qformlayout.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/QLayout
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qframe.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qframe.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qwidget.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qgraphicsitem.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qgraphicsitem.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtCore/qobject.h
@@ -2242,7 +2240,7 @@ QtGui/qpainterpath.h
 QtGui/qpixmap.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qgraphicsscene.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qgraphicsscene.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtCore/qobject.h
@@ -2260,7 +2258,7 @@ QtGui/qtransform.h
 QtGui/qpen.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qgraphicssceneevent.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qgraphicssceneevent.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtCore/qcoreevent.h
@@ -2276,7 +2274,7 @@ QtGui/qpolygon.h
 QtCore/qset.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qgraphicsview.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qgraphicsview.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtCore/qmetatype.h
@@ -2288,7 +2286,7 @@ QtWidgets/qscrollarea.h
 QtWidgets/qgraphicsscene.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qgridlayout.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qgridlayout.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qlayout.h
@@ -2298,7 +2296,7 @@ QtWidgets/qwidget.h
 limits.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qinputdialog.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qinputdialog.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtCore/qstring.h
@@ -2308,7 +2306,7 @@ QtWidgets/qlineedit.h
 QtWidgets/qdialog.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qlabel.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qlabel.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qframe.h
@@ -2318,7 +2316,7 @@ QtGui/qpicture.h
 QtGui/qtextdocument.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qlayout.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qlayout.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtCore/qobject.h
@@ -2338,7 +2336,7 @@ QtWidgets/qboxlayout.h
 QtWidgets/qgridlayout.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qlayoutitem.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qlayoutitem.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qsizepolicy.h
@@ -2348,7 +2346,7 @@ QtCore/qrect.h
 limits.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qlineedit.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qlineedit.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qframe.h
@@ -2360,7 +2358,7 @@ QtCore/qstring.h
 QtCore/qmargins.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qmainwindow.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qmainwindow.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qwidget.h
@@ -2368,7 +2366,7 @@ QtWidgets/qwidget.h
 QtWidgets/qtabwidget.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qmenu.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qmenu.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qwidget.h
@@ -2380,31 +2378,31 @@ QtGui/qicon.h
 QtGui/qaction.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qmenubar.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qmenubar.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qmenu.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qmessagebox.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qmessagebox.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qdialog.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qpushbutton.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qpushbutton.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qabstractbutton.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qscrollarea.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qscrollarea.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qabstractscrollarea.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qsizepolicy.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qsizepolicy.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtCore/qobject.h
@@ -2412,13 +2410,13 @@ QtCore/qobject.h
 QtCore/qalgorithms.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qstatusbar.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qstatusbar.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qwidget.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qtabwidget.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qtabwidget.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qwidget.h
@@ -2426,7 +2424,7 @@ QtWidgets/qwidget.h
 QtGui/qicon.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qtextedit.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qtextedit.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qabstractscrollarea.h
@@ -2440,15 +2438,15 @@ QtGui/qtextcursor.h
 QtGui/qtextformat.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qtwidgets-config.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qtwidgets-config.h
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h
 QtGui/qtguiglobal.h
 -
 QtWidgets/qtwidgets-config.h
 -
 
-/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets/qwidget.h
+/opt/Qt/6.2.1/gcc_64/include/QtWidgets/qwidget.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtGui/qwindowdefs.h

@@ -4,17 +4,17 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/ast.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/ast.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/compile.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/state.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/state.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.o"
-  "/home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp" "/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/ast.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/ast.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/compile.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/compile.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/ast/src/state.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/ast/src/state.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.o"
+  "/home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp" "/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -35,11 +35,11 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../ast/inc"
   "../basicVisual/inc"
   "../tests"
-  "/home/yazecchi/Qt/6.2.2/gcc_64/include/QtCore"
-  "/home/yazecchi/Qt/6.2.2/gcc_64/include"
-  "/home/yazecchi/Qt/6.2.2/gcc_64/mkspecs/linux-g++"
-  "/home/yazecchi/Qt/6.2.2/gcc_64/include/QtWidgets"
-  "/home/yazecchi/Qt/6.2.2/gcc_64/include/QtGui"
+  "/opt/Qt/6.2.1/gcc_64/include/QtCore"
+  "/opt/Qt/6.2.1/gcc_64/include"
+  "/opt/Qt/6.2.1/gcc_64/mkspecs/linux-g++"
+  "/opt/Qt/6.2.1/gcc_64/include/QtWidgets"
+  "/opt/Qt/6.2.1/gcc_64/include/QtGui"
   )
 
 # Targets to which this target links.

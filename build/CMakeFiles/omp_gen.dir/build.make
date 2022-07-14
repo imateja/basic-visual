@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/yazecchi/Desktop/uzas/03-basicVisual
+CMAKE_SOURCE_DIR = /home/mateja/Desktop/uzas/03-basicVisual
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/yazecchi/Desktop/uzas/03-basicVisual/build
+CMAKE_BINARY_DIR = /home/mateja/Desktop/uzas/03-basicVisual/build
 
 # Utility rule file for omp_gen.
 
@@ -67,6 +67,6 @@ CMakeFiles/omp_gen.dir/clean:
 .PHONY : CMakeFiles/omp_gen.dir/clean
 
 CMakeFiles/omp_gen.dir/depend:
-	cd /home/yazecchi/Desktop/uzas/03-basicVisual/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yazecchi/Desktop/uzas/03-basicVisual /home/yazecchi/Desktop/uzas/03-basicVisual /home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/omp_gen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mateja/Desktop/uzas/03-basicVisual/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mateja/Desktop/uzas/03-basicVisual /home/mateja/Desktop/uzas/03-basicVisual /home/mateja/Desktop/uzas/03-basicVisual/build /home/mateja/Desktop/uzas/03-basicVisual/build /home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/omp_gen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/omp_gen.dir/depend
 

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/yazecchi/Desktop/uzas/03-basicVisual
+CMAKE_SOURCE_DIR = /home/mateja/Desktop/uzas/03-basicVisual
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/yazecchi/Desktop/uzas/03-basicVisual/build
+CMAKE_BINARY_DIR = /home/mateja/Desktop/uzas/03-basicVisual/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/basicVisual.dir/depend.make
@@ -59,146 +59,146 @@ include CMakeFiles/basicVisual.dir/flags.make
 
 CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.o: basicVisual_autogen/mocs_compilation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp
 
 CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp > CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp > CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.i
 
 CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp -o CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/build/basicVisual_autogen/mocs_compilation.cpp -o CMakeFiles/basicVisual.dir/basicVisual_autogen/mocs_compilation.cpp.s
 
 CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.o: ../basicVisual/src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp
 
 CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp > CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp > CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.i
 
 CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp -o CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/main.cpp -o CMakeFiles/basicVisual.dir/basicVisual/src/main.cpp.s
 
 CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.o: ../basicVisual/src/mainwindow.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp
 
 CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp > CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp > CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.i
 
 CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp -o CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/mainwindow.cpp -o CMakeFiles/basicVisual.dir/basicVisual/src/mainwindow.cpp.s
 
 CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.o: ../basicVisual/src/maingraphicsscene.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp
 
 CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp > CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp > CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.i
 
 CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp -o CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/maingraphicsscene.cpp -o CMakeFiles/basicVisual.dir/basicVisual/src/maingraphicsscene.cpp.s
 
 CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.o: ../basicVisual/src/pseudoterminal.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp
 
 CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp > CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp > CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.i
 
 CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp -o CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/basicVisual/src/pseudoterminal.cpp -o CMakeFiles/basicVisual.dir/basicVisual/src/pseudoterminal.cpp.s
 
 CMakeFiles/basicVisual.dir/ast/src/ast.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/ast/src/ast.cpp.o: ../ast/src/ast.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/ast.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/ast.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/ast.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/ast.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/ast.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/ast/src/ast.cpp
 
 CMakeFiles/basicVisual.dir/ast/src/ast.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/ast/src/ast.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/ast.cpp > CMakeFiles/basicVisual.dir/ast/src/ast.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/ast/src/ast.cpp > CMakeFiles/basicVisual.dir/ast/src/ast.cpp.i
 
 CMakeFiles/basicVisual.dir/ast/src/ast.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/ast/src/ast.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/ast.cpp -o CMakeFiles/basicVisual.dir/ast/src/ast.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/ast/src/ast.cpp -o CMakeFiles/basicVisual.dir/ast/src/ast.cpp.s
 
 CMakeFiles/basicVisual.dir/ast/src/state.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/ast/src/state.cpp.o: ../ast/src/state.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/state.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/state.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/state.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/state.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/state.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/ast/src/state.cpp
 
 CMakeFiles/basicVisual.dir/ast/src/state.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/ast/src/state.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/state.cpp > CMakeFiles/basicVisual.dir/ast/src/state.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/ast/src/state.cpp > CMakeFiles/basicVisual.dir/ast/src/state.cpp.i
 
 CMakeFiles/basicVisual.dir/ast/src/state.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/ast/src/state.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/state.cpp -o CMakeFiles/basicVisual.dir/ast/src/state.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/ast/src/state.cpp -o CMakeFiles/basicVisual.dir/ast/src/state.cpp.s
 
 CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.o: ../ast/src/interpret.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp
 
 CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp > CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp > CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.i
 
 CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp -o CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/ast/src/interpret.cpp -o CMakeFiles/basicVisual.dir/ast/src/interpret.cpp.s
 
 CMakeFiles/basicVisual.dir/ast/src/compile.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/ast/src/compile.cpp.o: ../ast/src/compile.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/compile.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/compile.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/compile.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/compile.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/ast/src/compile.cpp
 
 CMakeFiles/basicVisual.dir/ast/src/compile.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/ast/src/compile.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp > CMakeFiles/basicVisual.dir/ast/src/compile.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/ast/src/compile.cpp > CMakeFiles/basicVisual.dir/ast/src/compile.cpp.i
 
 CMakeFiles/basicVisual.dir/ast/src/compile.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/ast/src/compile.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/compile.cpp -o CMakeFiles/basicVisual.dir/ast/src/compile.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/ast/src/compile.cpp -o CMakeFiles/basicVisual.dir/ast/src/compile.cpp.s
 
 CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.o: ../ast/src/exprtree.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp
 
 CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp > CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp > CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.i
 
 CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp -o CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/ast/src/exprtree.cpp -o CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.s
 
 CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.o: CMakeFiles/basicVisual.dir/flags.make
 CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.o: ../ast/src/serializer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.o -c /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.o -c /home/mateja/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp
 
 CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp > CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mateja/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp > CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.i
 
 CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yazecchi/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp -o CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mateja/Desktop/uzas/03-basicVisual/ast/src/serializer.cpp -o CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.s
 
 # Object files for target basicVisual
 basicVisual_OBJECTS = \
@@ -229,14 +229,14 @@ basicVisual: CMakeFiles/basicVisual.dir/ast/src/compile.cpp.o
 basicVisual: CMakeFiles/basicVisual.dir/ast/src/exprtree.cpp.o
 basicVisual: CMakeFiles/basicVisual.dir/ast/src/serializer.cpp.o
 basicVisual: CMakeFiles/basicVisual.dir/build.make
-basicVisual: /home/yazecchi/Qt/6.2.2/gcc_64/lib/libQt6Widgets.so.6.2.2
+basicVisual: /opt/Qt/6.2.1/gcc_64/lib/libQt6Widgets.so.6.2.1
 basicVisual: /usr/lib/llvm-12/lib/libLLVM-12.so.1
-basicVisual: /home/yazecchi/Qt/6.2.2/gcc_64/lib/libQt6Gui.so.6.2.2
-basicVisual: /home/yazecchi/Qt/6.2.2/gcc_64/lib/libQt6Core.so.6.2.2
+basicVisual: /opt/Qt/6.2.1/gcc_64/lib/libQt6Gui.so.6.2.1
+basicVisual: /opt/Qt/6.2.1/gcc_64/lib/libQt6Core.so.6.2.1
 basicVisual: /usr/lib/x86_64-linux-gnu/libGLX.so
 basicVisual: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 basicVisual: CMakeFiles/basicVisual.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable basicVisual"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable basicVisual"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/basicVisual.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -249,6 +249,6 @@ CMakeFiles/basicVisual.dir/clean:
 .PHONY : CMakeFiles/basicVisual.dir/clean
 
 CMakeFiles/basicVisual.dir/depend:
-	cd /home/yazecchi/Desktop/uzas/03-basicVisual/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yazecchi/Desktop/uzas/03-basicVisual /home/yazecchi/Desktop/uzas/03-basicVisual /home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/build /home/yazecchi/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mateja/Desktop/uzas/03-basicVisual/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mateja/Desktop/uzas/03-basicVisual /home/mateja/Desktop/uzas/03-basicVisual /home/mateja/Desktop/uzas/03-basicVisual/build /home/mateja/Desktop/uzas/03-basicVisual/build /home/mateja/Desktop/uzas/03-basicVisual/build/CMakeFiles/basicVisual.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/basicVisual.dir/depend
 
