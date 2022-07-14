@@ -1,8 +1,0 @@
-[sort:QFileDialog usage]
-ubuntu
-b2qt
-[specialFiles]
-b2qt
-# QTBUG-87427
-[specialFiles]
-android
