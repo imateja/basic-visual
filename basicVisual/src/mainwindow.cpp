@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , _mainGraphicsScene(new mainGraphicsScene())
-    , isAlreadyCompiled(false)
 {
     ui->setupUi(this);
     factor=0;
@@ -483,8 +482,6 @@ void MainWindow::onActionDebug()
 
 void MainWindow::onActionBuild()
 {
-    if (!isAlreadyCompiled) {
-        isAlreadyCompiled = true;
         QString fileName = QFileDialog::getSaveFileName(
                 this,
                 tr("Save Visual"), ".",
@@ -503,9 +500,5 @@ void MainWindow::onActionBuild()
         }
 
         catchResult(res);
-    }
-    else {
-        catchResult("Cannot compile more than once.");
-    }
 }
 

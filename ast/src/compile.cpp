@@ -110,6 +110,10 @@ void Compile::compile(const QString& path){
 
         delete TheModule;
         TheModule = nullptr;
+        doublePrintStr = nullptr;
+        truePrintStr = nullptr;
+        falsePrintStr = nullptr;
+        doubleInputStr = nullptr;
     }
 }
 
